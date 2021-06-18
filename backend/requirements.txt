@@ -1,0 +1,12 @@
+numpy
+scipy
+pandas
+requests
+elasticsearch
+elasticsearch_dsl
+fastapi
+pytz
+scikit-learn
+sentence-transformers
+airtable-python-wrapper
+stripe

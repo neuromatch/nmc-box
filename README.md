@@ -11,6 +11,7 @@ open-source multiple aspects for other organizers.
 * Recommendation engine
 * Mind matching (run separately to produce output)
 * Schedule optimization (TBA)
+* Payment using Stripe
 
 ## Structure
 
