@@ -1,14 +1,13 @@
 name: Neuromatch Conference
 current_edition: 2020-3
 subtitle: A conference made for the whole neuroscience community
-description: '
-  Based on the successful mind-matching session at the Cognitive
-  Computational Neuroscience (CCN) conference and previous Neuromatch
-  conference with more than 6k attendees, we decided to create an online
-  unconference for all neuroscientists. We are building a better online
-  experience for neuroscience conferences by making them more open,
-  inclusive, and democratic.
-'
+description: " Based on the successful mind-matching session at the Cognitive\
+  \ Computational Neuroscience (CCN) conference and previous Neuromatch\
+  \ conference with more than 6k attendees, we decided to create an online\
+  \ unconference for all neuroscientists. We are building a better online\
+  \ experience for neuroscience conferences by making them more open,\
+  \ inclusive, and democratic.
+"
 
 # Theme can be selected between light or dark, and accent control color
 theme: dark
