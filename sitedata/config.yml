@@ -1,0 +1,51 @@
+name: Neuromatch Conference
+current_edition: 2020-3
+subtitle: A conference made for the whole neuroscience community
+description: '
+  Based on the successful mind-matching session at the Cognitive
+  Computational Neuroscience (CCN) conference and previous Neuromatch
+  conference with more than 6k attendees, we decided to create an online
+  unconference for all neuroscientists. We are building a better online
+  experience for neuroscience conferences by making them more open,
+  inclusive, and democratic.
+'
+
+# Allow blind voting period where users can vote in a given period
+blind_vote:
+  use_blind_vote: False
+  blind_vote_start:
+  blind_vote_stop:
+
+# The front page will render according to the current edition
+editions:
+  2020-1:
+    page_title: 'neuromatch 1.0'
+    registration_date: Anytime before March 30, 2020
+    submission_date: March 25, 2020
+    main_conference: March 30 - April 1, 2020
+    twitter_hashtag: neuromatch
+
+  2020-2:
+    page_title: 'neuromatch 2.0'
+    registration_date: Anytime before October 30, 2020
+    submission_date: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
+    main_conference: October 26 - 30, 2020
+    twitter_hashtag: neuromatch
+
+  2020-3:
+    page_title: 'neuromatch 3.0'
+    registration_date: Anytime before October 30, 2020
+    submission_date: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
+    main_conference: October 26 - 30, 2020
+    twitter_hashtag: nmc3
+
+# if ``use_airtable`` is True, read data directly from Airtable otherwise assume CSV or JSON
+airtable:
+  2020-1:
+    use_airtable: False
+  2020-2:
+    use_airtable: False
+  2020-3:
+    use_airtable: False
+    id: "appxxxxxxx"
+    key: "keyxxxxxxx"

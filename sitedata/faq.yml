@@ -1,0 +1,101 @@
+- answer: "Unfortunately that's not something we are able to do at this point, though\
+    \ we are always looking for ways to innovate.  \n"
+  question: Will these abstracts be published in any kind of journal?
+  tag: submission
+- answer: We will put on your matches in https://neuromatch.io/your-matches if you
+    sign up for it. You will see the list around 3 days after the registration ends
+    (~ October 28, 2020). You are responsible of contacting your match partners.
+  question: If I sign up for mind-matching, when will I know my partners?
+  tag: registration
+- answer: Credit cards are processed through the secure Stripe service; see https://stripe.com/docs/security/stripe
+    for information on encryption and security of financial information.
+  question: What level of security do you use for processing payments with credit
+    cards?
+  tag: other
+- answer: First, try to log in on your top-right if you are not logged-in yet. If
+    you still cannot see agenda or abstract browser, please contact us via email or
+    Twitter.
+  question: I cannot see agenda or abstract browser, what should I do?
+  tag: agenda
+- answer: You can register to Neuromatch conference on the top-right of the page using
+    your email, Google account, or Github account. We only ask you to provide basic
+    information for the registration. Please see https://neuromatch.io/instructions/how-to-register.
+  question: How can I register to Neuromatch 3.0?
+  tag: registration
+- answer: Yes ($25, waivable). You can pay the fee after registration at Payment page
+    located under your profile.
+  question: 'Does the conference have submission fee? '
+  tag: registration
+- answer: Yes, if you cannot pay the registration fee for any reason, then you do
+    not need to. When you register, you will encounter the option to "Pay" or "Waive".
+    Select waive and you will not be charged the fee.
+  question: Can the $25 registration fee be waived?
+  tag: registration
+- answer: Yes, when registering, the form can create new status (just type over the
+    form). Otherwise, you may identify yourself as "Other" in the "Academic Status"
+    section. Alternatively, if you're an undergraduate  student as well as as research
+    assistant, you may identify yourself as "Research Assistant".
+  question: I am an undergraduate student. Can I still register for the event?
+  tag: registration
+- answer: This will be around 3 days after the submissions (tentatively October 5,
+    2020). We will put your schedule on our site (TBD) for you to check. We will allow
+    you to swap your presentation time slot if it does not work best for you.
+  question: When will I know my schedule after I submit my abstract?
+  tag: submission
+- answer: We will send an email with the join details 3 days before your talk. Look
+    for an email from nmc@neuromatch.io. Please look in your spam folder as well.
+    If you cannot find this email, please email us at nmc@neuromatch.io and we will
+    forward you the information.
+  question: I am giving a talk. How can I join the zoom webinar?
+  tag: agenda
+- answer: Please log-in to neuromatch.io and put your name, email and type of data
+    you want to remove on https://neuromatch.io/data-removal/. We will check if the
+    data match and remove it from our database.
+  question: If I submit something on neuromatch.io (job, submission) and I want to
+    retract, how can I do it?
+  tag: submission
+- answer: You can send us an email directly to nmc@neuromatch.io or ask us via Twitter
+    @neuromatch. We will try to resolve your problem as fast as we can.
+  question: If I have very specific question, where can I ask the question?
+  tag: contact
+- answer: The cost for the conference is $25 but you can always sign a waiver form
+    if you are not from a well-funded lab. You don't have to prove us if you cannot
+    pay for the conference. However, if you can pay for the conference, it will help
+    us a lot to keep sustaining the neuromatch conference in the future.
+  question: How much do I need to pay for the conference?
+  tag: registration
+- answer: "If you think some references are absolutely crucial you may include them,\
+    \ but try to avoid using them in general.  The submission portal will not block\
+    \ you from submitting more than 300 words, so the references will not count against\
+    \ that limit.  \n"
+  question: Can I include references in my abstract and will they count against the
+    suggested word limit?
+  tag: submission
+- answer: "We will review abstracts only to the extent of verifying that they are\
+    \ scientific in some sense (i.e. not advertisements or otherwise off-target contributions)\
+    \ but there is no peer review in the traditional sense, or filtering for novelty/importance,\
+    \ etc. \n"
+  question: I heard that all talks are accepted, does this mean there is no review?
+  tag: submission
+- answer: 'Yes, please check out Theme E: Computation and Techniques'
+  question: Can I submit methodology or technique abstract?
+  tag: submission
+- answer: Yes! You do not need to submit an abstract to participate in Neuromatch
+    Conference
+  question: Can I register/attend if I am not submitting an abstract?
+  tag: registration
+- answer: You can register for the conference and check them out at https://neuromatch.io/agenda
+    and https://neuromatch.io/abstract-browser
+  question: Where can I find the agenda for the event?
+  tag: agenda
+- answer: We can help you find your way through our rapid help desk https://direct.lc.chat/12309816/
+  question: I can't access my zoom room and my presentation starts in 10 minutes!
+  tag: agenda
+- answer: 'We do not send an email confirmation, but you can just log back in and
+    view your abstract to make sure it was submitted.  You can edit the submission
+    up until the submission deadline elapses.    '
+  question: Will I receive an email confirmation that I have submitted an abstract?
+  tag: submission
+- answer: 'The last time zone on earth (UTC-12) '
+  question: On what time zones do submissions close?
+  tag: submission
