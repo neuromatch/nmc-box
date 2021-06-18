@@ -1,0 +1,15 @@
+# Config related to server
+
+# Elastic search
+host: "localhost"
+port: 9200
+
+# GRID dataset
+grid_path: ../grid-2019-12-10/grid.csv
+grid_index: grid
+
+# Loop for all editions
+editions:
+  2020-3:
+    path: ../agenda/agenda-2020-3.csv
+    paper_index: agenda-2020-3

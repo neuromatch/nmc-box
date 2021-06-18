@@ -8,6 +8,7 @@ recommendation_engine/
 # Created by https://www.gitignore.io/api/macos,reactnative
 
 # local data and private key
+embeddings/
 grid-*/
 elasticsearch-*/
 *.xml.gz
