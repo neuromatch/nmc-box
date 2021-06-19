@@ -13,3 +13,7 @@ editions:
   2020-3:
     path: ../agenda/agenda-2020-3.csv
     paper_index: agenda-2020-3
+
+  2020-2:
+    path: ../agenda/agenda-2020-2.csv
+    paper_index: agenda-2020-2

@@ -22,5 +22,5 @@ Index GRID and submission
 
 ``` sh
 bash serve_elasticsearch.sh
-python elasticsearch.py --grid --submission
+python elasticsearch.py
 ```

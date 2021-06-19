@@ -175,6 +175,7 @@ def index_submission():
         )
         submissions = submission_df.to_dict(orient="records")
         helpers.bulk(es, generate_rows(submissions))
+    print('Done indexing submissions')
 
 
 if __name__ == '__main__':
