@@ -1,10 +1,20 @@
-# Transform text to embeddings using 
-# Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
+"""
+Transform text to embeddings using 
+Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
+
+Usage:
+    python embeddings.py
+
+Options:
+    -h --help       Show this screen
+    --version       Show version
+    -o --option     Embedding option, can be ``lsa`` or ``sent_embed``, default ``lsa``
+"""
 import os
 import os.path as op
 import json
 from glob import glob
-import itertools
+from docopt import docopt
 
 import joblib
 import numpy as np

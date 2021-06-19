@@ -179,8 +179,5 @@ def index_submission():
 
 
 if __name__ == '__main__':
-    # index GRID database
-    index_grid()
-
-    # index submissions
-    index_submission()
+    index_grid()  # index GRID database
+    index_submission()  # index submissions
