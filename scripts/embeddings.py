@@ -4,6 +4,8 @@ import os
 import os.path as op
 import json
 from glob import glob
+import itertools
+
 import joblib
 import numpy as np
 import pandas as pd
@@ -14,6 +16,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 
+
 def preprocess(text):
     """
     Function to preprocess text
@@ -23,15 +26,26 @@ def preprocess(text):
     return text.lower()
 
 
-def calculate_embeddings(df, option="lsa"):
+def calculate_embeddings(df, option="lsa", n_papers=10):
     """Calculates embeddings from a given dataframe
     assume dataframe has title and abstract in the columns
+
+    option: str, if ``lsa`` use Latent Semantic Analysis
+        if ``sent_embed`` use Specter from AllenAI
+    n_papers: int, default 10
+        Group papers into smaller list for embedding computations
+        Larger one takes too long on regular laptop
     """
     if option == "sent_embed":
         print("Download model and produce embedding")
         model = SentenceTransformer("allenai-specter")
         papers = list(df["title"] + "[SEP]" + df["abstract"])
-        embeddings = model.encode(papers, convert_to_tensor=True)
+        # group papers
+        papers_embedding = []
+        group_papers = [papers[i:i+n_papers] for i in range(0, len(papers), n_papers)]
+        for g in tqdm(group_papers):
+            embeddings = model.encode(g, convert_to_numpy=True)
+            papers_embedding.extend(embeddings)
         paper_embeddings = [
             {"submission_id": pid, "embedding": list(embedding)}
             for pid, embedding in zip(df.submission_id, embeddings)
