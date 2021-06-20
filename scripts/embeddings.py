@@ -29,6 +29,8 @@ from sklearn.neighbors import NearestNeighbors
 
 MAX_BATCH_SIZE = 16
 EMBEDDING_OPTION = "sent_embed"
+print("Download model and produce embedding\n")
+model = SentenceTransformer("allenai-specter")
 
 
 def chunks(lst, chunk_size=MAX_BATCH_SIZE):
@@ -60,8 +62,6 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
         Larger one takes too long on regular laptop
     """
     if option == "sent_embed":
-        print("Download model and produce embedding\n")
-        model = SentenceTransformer("allenai-specter")
         papers = list(df["title"] + "[SEP]" + df["abstract"])
         # group papers
         papers_embedding = []
@@ -69,7 +69,7 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
             embeddings = model.encode(g, convert_to_numpy=True)
             papers_embedding.extend(embeddings)
         paper_embeddings = [
-            {"submission_id": pid, "embedding": list(embedding)}
+            {"submission_id": pid, "embedding": list(embedding.astype(float))}
             for pid, embedding in zip(df.submission_id, embeddings)
         ]
     elif option == "lsa":
