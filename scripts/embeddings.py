@@ -20,7 +20,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModel
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
@@ -30,7 +30,8 @@ from sklearn.neighbors import NearestNeighbors
 MAX_BATCH_SIZE = 16
 EMBEDDING_OPTION = "sent_embed"
 print("Download model and produce embedding\n")
-model = SentenceTransformer("allenai-specter")
+tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
+model = AutoModel.from_pretrained('allenai/specter')
 
 
 def chunks(lst, chunk_size=MAX_BATCH_SIZE):
@@ -64,13 +65,18 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
     if option == "sent_embed":
         papers = list(df["title"] + "[SEP]" + df["abstract"])
         # group papers
-        papers_embedding = []
+        embeddings = []
         for g in tqdm(chunks(papers)):
-            embeddings = model.encode(g, convert_to_numpy=True)
-            papers_embedding.extend(embeddings)
+            inputs = tokenizer(g, padding=True,
+                               truncation=True,
+                               return_tensors="pt",
+                               max_length=512)
+            result = model(**inputs)
+            embeddings.extend(result.last_hidden_state[:, 0, :])
+        embeddings = [emb.tolist() for emb in embeddings]
         paper_embeddings = [
-            {"submission_id": pid, "embedding": list(embedding.astype(float))}
-            for pid, embedding in zip(df.submission_id, embeddings)
+            {"submission_id": pid, "embedding": embedding}
+            for pid, embedding in zip(df.submission_id, papers_embedding)
         ]
     elif option == "lsa":
         tfidf_model = TfidfVectorizer(
