@@ -76,7 +76,7 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
         embeddings = [emb.tolist() for emb in embeddings]
         paper_embeddings = [
             {"submission_id": pid, "embedding": embedding}
-            for pid, embedding in zip(df.submission_id, papers_embedding)
+            for pid, embedding in zip(df.submission_id, embeddings)
         ]
     elif option == "lsa":
         tfidf_model = TfidfVectorizer(
