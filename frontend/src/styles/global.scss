@@ -1,3 +1,75 @@
+// -- import fonts from Google Fonts
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap");
+
+// -- variables/constants
+// fonts
+$header-font: "Nunito";
+$body-font: "Open Sans";
+$fallback-mac-font: "Helvetica";
+$fallback-font: sans-serif;
+// media breakpoints
+$media-extra-small: 576;
+$media-small: 768;
+$media-medium: 992;
+$media-large: 1200;
+$media-extra-large: 1200;
+
+// -- normalize
+html,
+body {
+  font-family: $body-font, $fallback-mac-font, $fallback-font;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $header-font;
+  }
+
+  margin: 0;
+  padding: 0;
+}
+
+// -- global-style
+// TODO: how should I define dark/light theme colors?
+// using sass variables seem to be more handy
+// - but need to check how to toggle
+
+html,
+body {
+  // custom scroll
+  /* width */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+// width and margin-left can be overwritten inline
+// margin-left = width / 2 (unit is vw)
+.grow-over-parent-padding {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -(100/2) vw;
+}
+
 // ---- TBC
 // $font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
 //   Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
