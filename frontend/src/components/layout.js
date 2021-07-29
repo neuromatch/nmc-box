@@ -91,10 +91,6 @@ const Layout = ({
                 text: 'How to submit',
                 onClick: '/instructions/how-to-submit',
               },
-              {
-                text: 'How to post job',
-                onClick: '/instructions/how-to-post-job',
-              },
             ]}
           >
             Instructions
@@ -113,25 +109,6 @@ const Layout = ({
             ]}
           >
             Agenda
-          </DropdownButton>
-          <DropdownButton
-            noButtonBorder
-            dropdownContent={[
-              {
-                text: 'Job Poster',
-                onClick: '/jobs/job-poster',
-              },
-              {
-                text: 'Job Seeker',
-                onClick: '/jobs/job-seeker',
-              },
-              {
-                text: 'Job Board',
-                onClick: '/jobs/job-board',
-              },
-            ]}
-          >
-            Jobs
           </DropdownButton>
           <DropdownButton
             noButtonBorder
@@ -171,22 +148,6 @@ const Layout = ({
                           text: 'Submission',
                           onClick: '/abstract-submission',
                         },
-                        // {
-                        //   text: 'Payment',
-                        //   onClick: '/payment',
-                        // },
-                        {
-                          text: 'All attendees',
-                          onClick: '/all-attendees',
-                        },
-                        {
-                          text: 'Your matches',
-                          onClick: '/your-matches',
-                        },
-                        // {
-                        //   text: 'Feedback',
-                        //   onClick: '/feedback',
-                        // },
                         {
                           text: 'Logout',
                           onClick: () => confirmPromise('Are you sure to log out?')
@@ -248,46 +209,4 @@ Layout.defaultProps = {
   hideFooter: false,
 };
 
-const AcademyLayout = ({ children }) => (
-  <>
-    <SEO />
-    <FixHorizontalScroll />
-    <CookieBanner />
-    <StickyFooterWrapper>
-      <AcademyNavbar>
-        <StyledLink to="/academy/volunteer">
-          Volunteer
-        </StyledLink>
-
-        <StyledA href="https://github.com/NeuromatchAcademy/course-content#course-outline">
-          Syllabus
-        </StyledA>
-
-        <StyledLink to="/academy/faq">
-          FAQ
-        </StyledLink>
-
-        <StyledLink to="/academy/about">
-          About
-        </StyledLink>
-      </AcademyNavbar>
-
-      <Container>
-        {children}
-      </Container>
-
-      <Footer />
-    </StickyFooterWrapper>
-  </>
-);
-
-AcademyLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-AcademyLayout.defaultProps = {
-  children: null,
-};
-
 export default Layout;
-export { AcademyLayout };

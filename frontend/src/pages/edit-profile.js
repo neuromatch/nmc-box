@@ -4,6 +4,8 @@ import LoadingView from '../components/BaseComponents/LoadingView';
 import RegisterForm, { originEnum } from '../components/FormComponents/RegisterForm';
 import useValidateRegistration from '../hooks/useValidateRegistration';
 
+// rename this page to /profile
+
 export default () => {
   const {
     isRegistered, isLoggedIn, prevUserData, isFormerUser,
