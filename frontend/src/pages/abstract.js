@@ -7,6 +7,11 @@ import useQueryParams from '../hooks/useQueryParams';
 import useTimezone from '../hooks/useTimezone';
 import { Mixins } from '../utils/ui';
 
+// TODO: include in abstract/
+// neuromatch.io/abstract -> display abstract browser
+// neuromatch.io/submission -> submission page
+// neuromatch.io/abstract?abstractId -> display abstract details (the same with the popup)
+
 // -- COMPONENTS
 const GlobalStyle = createGlobalStyle`
   body {

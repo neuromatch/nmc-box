@@ -3,22 +3,22 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import StarScore from '../components/FormComponents/StarScore';
+import StarScore from '../../src/components/FormComponents/StarScore';
 import {
   CheckboxBlock,
   InputBlock,
   StarScoreBlock,
   FormWrapper,
   UncontrolledCheckbox,
-} from '../components/FormComponents/StyledFormComponents';
-import Layout from '../components/layout';
-import { useAuthenFetchPost } from '../hooks/useFetch';
-import useFirebaseWrapper from '../hooks/useFirebaseWrapper';
-import Toast, { toastTypes } from '../components/BaseComponents/Toast';
-import LoadingView from '../components/BaseComponents/LoadingView';
-import { ButtonsContainer, FormButton } from '../components/BaseComponents/Buttons';
+} from '../../src/components/FormComponents/StyledFormComponents';
+import Layout from '../../src/components/layout';
+import { useAuthenFetchPost } from '../../src/hooks/useFetch';
+import useFirebaseWrapper from '../../src/hooks/useFirebaseWrapper';
+import Toast, { toastTypes } from '../../src/components/BaseComponents/Toast';
+import LoadingView from '../../src/components/BaseComponents/LoadingView';
+import { ButtonsContainer, FormButton } from '../../src/components/BaseComponents/Buttons';
 // import { generateFakeMatchPartners } from '../utils/fake';
-import Card from '../components/BaseComponents/Card';
+import Card from '../../src/components/BaseComponents/Card';
 
 const BoldText = styled.span`
   font-weight: bold;
