@@ -56,7 +56,7 @@ function generateFakeMatches(numOfMatches) {
   };
 }
 
-export {
+export default {
   createArrayWithNumbers,
   generateFakeAbstracts,
   generateFakeMatchPartners,
