@@ -7,22 +7,27 @@
 // warning -> warn
 // agenda colors may need handpick -> how to deal with dark/light mode?
 
-const createColorObject = ({
-  primary,
-  secondary,
-  accent,
-  succeed,
-  danger,
-  info,
-  warning,
-}) => ({
-  background: primary,
-  text: secondary,
-  border: secondary,
-  link: accent,
-});
+const colors = {
+  light: {
+    primary: '',
+    secondary: '',
+    accent: '',
+    disabled: '',
+    succeed: '',
+    danger: '',
+    info: '',
+    warning: '',
+  },
+  dark: {
+    primary: '',
+    secondary: '',
+    accent: '',
+    disabled: '',
+    succeed: '',
+    danger: '',
+    info: '',
+    warning: '',
+  },
+};
 
-// need color function to calculate contrast and tone-shift color
-
-const lightColors = createColorObject();
-const darkColors = createColorObject();
+export default colors;
