@@ -30,7 +30,6 @@ import {
 import { faCalendarPlus, faClock, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon as Fa } from '@fortawesome/react-fontawesome';
-import 'rc-pagination/assets/index.css';
 
 function initFontAwesome() {
   const icons = [
