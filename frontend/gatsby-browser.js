@@ -1,5 +1,3 @@
-import './src/styles/global.scss';
-
 // ---- TBC
 // import React from 'react';
 

@@ -5,7 +5,7 @@ import LoadingView from '../components/BaseComponents/LoadingView';
 import Layout from '../components/layout';
 import useQueryParams from '../hooks/useQueryParams';
 import useTimezone from '../hooks/useTimezone';
-import { Mixins } from '../utils/ui';
+import { basedStyles } from '../styles';
 
 // TODO: include in abstract/
 // neuromatch.io/abstract -> display abstract browser
@@ -15,7 +15,7 @@ import { Mixins } from '../utils/ui';
 // -- COMPONENTS
 const GlobalStyle = createGlobalStyle`
   body {
-    ${Mixins.customScroll()}
+    ${basedStyles.scrollStyle}
   }
 `;
 

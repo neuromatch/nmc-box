@@ -16,7 +16,7 @@ import Layout from '../../components/layout';
 import { useAuthenFetchGet } from '../../hooks/useFetch';
 import useValidateRegistration from '../../hooks/useValidateRegistration';
 import Fa from '../../utils/fontawesome';
-import { media, Mixins } from '../../utils/ui';
+import { media, basedStyles, growOverParentPadding } from '../../styles';
 import AbstractModal from './components/AbstractModal';
 import AbstractVirtualizedList from './components/AbstractVirtualizedList';
 import LoadingView from '../../components/BaseComponents/LoadingView';
@@ -109,7 +109,7 @@ const utcEndTime = moment.utc(timeBoundary[1]);
 // -- COMPONENTS
 const GlobalStyle = createGlobalStyle`
   body {
-    ${Mixins.customScroll()}
+    ${basedStyles.scrollStyle}
   }
 `;
 
@@ -124,7 +124,7 @@ const ListContainer = styled.div`
   }
 
   ${media.extraSmall`
-    ${Mixins.growOverParentPadding(99)}
+    ${growOverParentPadding(99)}
   `}
 `;
 

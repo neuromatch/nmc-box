@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Mixins, media } from '../../utils/ui';
+import { media, growOverParentPadding } from '../../styles';
 
 const Card = styled.div`
   /* center the whole form wrapper card */
@@ -24,7 +24,7 @@ const Card = styled.div`
 
   /* grow full width in mobile screen */
   ${media.extraSmall`
-    ${Mixins.growOverParentPadding(98)}
+    ${growOverParentPadding(98)}
 
     padding: 1em 0.5em;
   `}

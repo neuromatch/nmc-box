@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import TimezonePicker from '../../../components/TimezonePicker';
 import useTimezone from '../../../hooks/useTimezone';
-import { media } from '../../../utils/ui';
+import { media } from '../../../styles';
 
 // -- FUNCTIONS
 const timezoneParser = (dtStr, tz) => moment.tz(
@@ -14,6 +14,7 @@ const timezoneParser = (dtStr, tz) => moment.tz(
 );
 
 // -- CONSTANTS
+// TODO: this is supposed to be set in either gatsby-config or some yaml file
 const datesOptions = [
   'October 25, 2020',
   'October 26, 2020',

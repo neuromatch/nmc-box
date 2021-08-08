@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useGlobalFilter, useSortBy, useTable } from 'react-table';
 import styled from 'styled-components';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 import { ToggleLineButton } from '../BaseComponents/Buttons';
 
 const SortFilterBlock = styled.div`

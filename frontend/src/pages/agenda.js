@@ -14,7 +14,7 @@ import useSiteMetadata from '../hooks/gql/useSiteMetadata';
 import { fetchGet, useFetchGet } from '../hooks/useFetch';
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from '../utils/fontawesome';
-import { media, Mixins } from '../utils/ui';
+import { media, growOverParentPadding } from '../styles';
 import { AgendaInADay, StyledTable } from '../components/AgendaComponents';
 import AbstractModal from './abstract-browser/components/AbstractModal';
 
@@ -112,7 +112,7 @@ const BigCalendarContainer = styled.div`
     }
   }
 
-  ${Mixins.growOverParentPadding(96)}
+  ${growOverParentPadding(96)}
 `;
 
 // handle convert datatime

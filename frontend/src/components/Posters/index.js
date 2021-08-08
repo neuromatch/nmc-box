@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import useFirebaseWrapper from '../../hooks/useFirebaseWrapper';
 import Fa from '../../utils/fontawesome';
-import { Mixins } from '../../utils/ui';
+import { growOverParentPadding } from '../../styles';
 import { ButtonsContainer, FormButton } from '../BaseComponents/Buttons';
 import { ControlSelect } from '../FormComponents/SelectWrapper';
 
@@ -45,7 +45,7 @@ const PosterStyledWrapper = styled.div`
 
   /* area to render posters grows beyond parent container */
   .poster-area {
-    ${Mixins.growOverParentPadding(98)}
+    ${growOverParentPadding(98)}
 
     /* we use flex wrap + fixed poster width to control layout of the page */
     display: flex;

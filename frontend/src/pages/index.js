@@ -11,7 +11,7 @@ import Layout from '../components/layout';
 import useSiteMetadata from '../hooks/gql/useSiteMetadata';
 import useProgramCommitteesData from '../hooks/gql/useProgramCommitteesData';
 import Fa from '../utils/fontawesome';
-import { media, Mixins } from '../utils/ui';
+import { media, growOverParentPadding } from '../styles';
 
 // -- CONSTANTS
 const goals = [
@@ -132,7 +132,7 @@ const GoalBlock = styled.div`
   background-color: #333;
 
   /* grow full width */
-  ${Mixins.growOverParentPadding(100)}
+  ${growOverParentPadding(100)}
 `;
 
 const GoalsArray = styled.div`

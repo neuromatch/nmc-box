@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Fa from '../../../utils/fontawesome';
-import { decodeBase64 } from '../../../utils';
+import { common } from '../../../utils';
 
 // -- CONSTANTS
 const starColor = {
@@ -249,7 +249,7 @@ const AbstractListItem = ({
 
                       const isClient = typeof window === 'object';
                       if (isClient) {
-                        window.open(decodeBase64(data?.zoom_url));
+                        window.open(common.decodeBase64(data?.zoom_url));
                       }
                     }}
                   >

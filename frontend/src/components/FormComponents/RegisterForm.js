@@ -31,9 +31,8 @@ import {
 } from '../BaseComponents/Buttons';
 import {
   confirmPromise,
-  deserializeSelectedDatetime,
-  selectConverter,
-  serializeSelectedDatetime,
+  timePickerHelpers,
+  reactSelectHelpers,
 } from '../../utils';
 import AvailableTimePicker, {
   datesOptions,
@@ -228,34 +227,34 @@ const RegisterForm = ({ prevUserData, origin }) => {
           case 'institution':
             setValue(
               'institutionSelect',
-              selectConverter.saveFormatToOptions(val),
+              reactSelectHelpers.saveFormatToOptions(val),
             );
             break;
           case 'gender_status':
             setValue(
               'genderStatusSelect',
-              selectConverter.saveFormatToOptions(val),
+              reactSelectHelpers.saveFormatToOptions(val),
             );
             break;
           case 'academic_status':
             setValue(
               'academicStatusSelect',
-              selectConverter.saveFormatToOptions(val),
+              reactSelectHelpers.saveFormatToOptions(val),
             );
             break;
           case 'meeting_platform':
             setValue(
               'meetingPlatformSelect',
-              selectConverter.saveFormatToOptions(val),
+              reactSelectHelpers.saveFormatToOptions(val),
             );
             break;
           case 'coi':
-            setValue('coiSelect', selectConverter.saveFormatToOptions(val));
+            setValue('coiSelect', reactSelectHelpers.saveFormatToOptions(val));
             break;
           case 'available_dt':
             setValue(
               'availableDatetimePicker',
-              deserializeSelectedDatetime(val),
+              timePickerHelpers.deserializeSelectedDatetime(val),
             );
             break;
           case 'public':
@@ -346,17 +345,17 @@ const RegisterForm = ({ prevUserData, origin }) => {
 
     const preparedPayload = {
       ...rest,
-      gender_status: selectConverter.optionsToSaveFormat(genderStatusSelect),
+      gender_status: reactSelectHelpers.optionsToSaveFormat(genderStatusSelect),
       institution: !isPublic
-        ? selectConverter.optionsToSaveFormat(institutionSelect)
+        ? reactSelectHelpers.optionsToSaveFormat(institutionSelect)
         : '',
       academic_status: !isPublic
-        ? selectConverter.optionsToSaveFormat(
+        ? reactSelectHelpers.optionsToSaveFormat(
           academicStatusSelect,
         )
         : '',
       meeting_platform: !isPublic
-        ? selectConverter.optionsToSaveFormat(
+        ? reactSelectHelpers.optionsToSaveFormat(
           meetingPlatformSelect,
         )
         : [],
@@ -364,10 +363,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
         ? abstracts.every((x) => x === '') ? [] : abstracts
         : [],
       coi: !isPublic
-        ? selectConverter.optionsToSaveFormat(coiSelect)
+        ? reactSelectHelpers.optionsToSaveFormat(coiSelect)
         : [],
       available_dt: !isPublic
-        ? serializeSelectedDatetime(availableDatetimePicker)
+        ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
         : '',
     };
 

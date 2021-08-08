@@ -4,7 +4,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import styled, { createGlobalStyle } from 'styled-components';
 import useFirebaseWrapper from '../../hooks/useFirebaseWrapper';
 import Fa from '../../utils/fontawesome';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 
 const LockScrollStyle = createGlobalStyle`
   html, body {
