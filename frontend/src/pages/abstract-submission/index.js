@@ -26,7 +26,7 @@ import useSfnTopicsData from '../../hooks/gql/useSfnTopicsData';
 import useValidateRegistration from '../../hooks/useValidateRegistration';
 import { media } from '../../styles';
 import { useAuthenFetchGet } from '../../hooks/useFetch';
-import { deserializeSelectedDatetime, selectConverter, serializeSelectedDatetime } from '../../utils';
+import { reactSelectHelpers, timePickerHelpers } from '../../utils';
 import useSiteMetadata from '../../hooks/gql/useSiteMetadata';
 import AvailableTimePicker from './components/AvailableTimePicker';
 
@@ -131,16 +131,20 @@ export default () => {
       // select components have to wait them rendered before setValue
       timeoutRef = setTimeout(() => {
         setValue([
-          { talkFormatSelect: selectConverter.saveFormatToOptions(currentSubmission?.talk_format) },
-          { theme: selectConverter.saveFormatToOptions(currentSubmission?.theme) },
-          { topic: selectConverter.saveFormatToOptions(currentSubmission?.topic) },
+          {
+            talkFormatSelect: reactSelectHelpers
+              .saveFormatToOptions(currentSubmission?.talk_format),
+          },
+          { theme: reactSelectHelpers.saveFormatToOptions(currentSubmission?.theme) },
+          { topic: reactSelectHelpers.saveFormatToOptions(currentSubmission?.topic) },
         ]);
       }, 2500);
 
       // the rest don't need to wait
       setValue([
         {
-          availableDatetimePicker: deserializeSelectedDatetime(currentSubmission?.available_dt),
+          availableDatetimePicker: timePickerHelpers
+            .deserializeSelectedDatetime(currentSubmission?.available_dt),
         },
         { coauthors: currentSubmission?.coauthors },
         { title: currentSubmission?.title },
@@ -217,9 +221,9 @@ export default () => {
         fullname: prevUserData.fullname,
         email: prevUserData.email,
         institution: prevUserData.institution,
-        talk_format: selectConverter.optionsToSaveFormat(talkFormatSelect),
-        theme: selectConverter.optionsToSaveFormat(theme),
-        available_dt: serializeSelectedDatetime(availableDatetimePicker),
+        talk_format: reactSelectHelpers.optionsToSaveFormat(talkFormatSelect),
+        theme: reactSelectHelpers.optionsToSaveFormat(theme),
+        available_dt: timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker),
         ...restData,
       },
     };

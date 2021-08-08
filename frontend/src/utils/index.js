@@ -1,43 +1,27 @@
+import check from './check';
 import color from './color';
+import common from './common';
+import confirmPromise from './confirmPromise';
+import downloadFile from './downloadFile';
 import fake from './fake';
 import Fa, { initFontAwesome } from './fontawesome';
-import IO from './IO';
 import logger from './logger';
-import misc from './misc';
+import reactSelectHelpers from './reactSelectHelpers';
+import timePickerHelpers from './timePickerHelpers';
 import typography, { rhythm } from './typography';
 
-const {
-  Datetime, Key, getRandomColorFromText, isMobile, confirmPromise,
-  selectConverter, serializeSelectedDatetime, deserializeSelectedDatetime,
-  encodeBase64, decodeBase64,
-} = misc;
-
-const {
-  createArrayWithNumbers,
-  generateFakeAbstracts,
-  generateFakeMatchPartners,
-  generateFakePosters,
-  generateFakeMatches,
-} = fake;
-
 export {
+  check,
   color,
-  // fake
-  createArrayWithNumbers,
-  generateFakeAbstracts,
-  generateFakeMatchPartners,
-  generateFakePosters,
-  generateFakeMatches,
-  // endfake
+  common,
+  confirmPromise,
+  downloadFile,
+  fake,
   Fa,
   initFontAwesome,
-  IO,
   logger,
-  // misc
-  Datetime, Key, getRandomColorFromText, isMobile, confirmPromise,
-  selectConverter, serializeSelectedDatetime, deserializeSelectedDatetime,
-  encodeBase64, decodeBase64,
-  // endmisc
+  reactSelectHelpers,
+  timePickerHelpers,
   typography,
   rhythm,
 };

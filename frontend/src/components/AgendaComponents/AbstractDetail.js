@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { media, basedStyles } from '../../styles';
 import Fa from '../../utils/fontawesome';
-import { decodeBase64 } from '../../utils';
+import { common } from '../../utils';
 // import RequiredAuthFragment from '../RequiredAuthFragment';
 
 // -- CONSTANTS
@@ -329,7 +329,7 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
                     onClick={() => {
                       const isClient = typeof window === 'object';
                       if (isClient) {
-                        window.open(decodeBase64(zoomUrl));
+                        window.open(common.decodeBase64(zoomUrl));
                       }
                     }}
                   >

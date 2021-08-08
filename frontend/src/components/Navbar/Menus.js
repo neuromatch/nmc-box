@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
-import { Key } from '../../utils';
 import { media } from '../../styles';
 
 // variables
@@ -124,12 +123,12 @@ const Menus = ({ items, hidden }) => {
       {
         Array.isArray(items)
           ? items.map((item) => (
-            <NavItem key={Key.getShortKey()}>
+            <NavItem key={item?.props?.children || `now-loading-${Math.random()}`}>
               {item}
             </NavItem>
           ))
           : (
-            <NavItem key={Key.getShortKey()}>
+            <NavItem key={items?.props?.children || `now-loading-${Math.random()}`}>
               {items}
             </NavItem>
           )

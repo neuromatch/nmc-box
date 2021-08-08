@@ -14,6 +14,7 @@ const timezoneParser = (dtStr, tz) => moment.tz(
 );
 
 // -- CONSTANTS
+// TODO: this is supposed to be set in either gatsby-config or some yaml file
 const datesOptions = [
   'October 25, 2020',
   'October 26, 2020',
