@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Burger from '../BaseComponents/BurgerMenu';
 import { NavContainer } from '../BaseComponents/container';
 import Menus from './Menus';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 
 // get logo image using require
 // const logo = require('../../images/bluenex-avatar.jpg');

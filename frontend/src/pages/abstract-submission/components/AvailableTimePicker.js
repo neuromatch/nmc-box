@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import TimezonePicker from '../../../components/TimezonePicker';
 import useTimezone from '../../../hooks/useTimezone';
-import { media } from '../../../utils/ui';
+import { media } from '../../../styles';
 
 // -- FUNCTIONS
 const timezoneParser = (dtStr, tz) => moment.tz(

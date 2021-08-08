@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import moment from 'moment-timezone';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { media, Mixins } from '../../utils/ui';
+import { media, basedStyles } from '../../styles';
 import Fa from '../../utils/fontawesome';
 import { decodeBase64 } from '../../utils';
 // import RequiredAuthFragment from '../RequiredAuthFragment';
@@ -176,7 +176,7 @@ const ContentContainer = styled.div`
     max-height: 40vh;
   `}
 
-  ${Mixins.customScroll}
+  ${basedStyles.scrollStyle}
 `;
 
 // -- MAIN

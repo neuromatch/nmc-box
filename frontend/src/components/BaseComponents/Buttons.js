@@ -4,7 +4,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import useComponentVisible from '../../hooks/useComponentVisible';
 import Fa from '../../utils/fontawesome';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 
 // -- declare base styles
 const commonButtonStyle = css`

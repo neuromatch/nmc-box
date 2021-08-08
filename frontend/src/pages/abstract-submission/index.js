@@ -24,7 +24,7 @@ import {
 import Layout from '../../components/layout';
 import useSfnTopicsData from '../../hooks/gql/useSfnTopicsData';
 import useValidateRegistration from '../../hooks/useValidateRegistration';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 import { useAuthenFetchGet } from '../../hooks/useFetch';
 import { deserializeSelectedDatetime, selectConverter, serializeSelectedDatetime } from '../../utils';
 import useSiteMetadata from '../../hooks/gql/useSiteMetadata';

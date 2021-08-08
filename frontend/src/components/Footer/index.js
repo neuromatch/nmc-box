@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 
 const StyledFooter = styled.div`
   height: 5.5em;

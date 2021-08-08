@@ -2,7 +2,7 @@ import React from 'react';
 import HashLoader from 'react-spinners/HashLoader';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 
 const Container = styled.div`
   flex: 1;

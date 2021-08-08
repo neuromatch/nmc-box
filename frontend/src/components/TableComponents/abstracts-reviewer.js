@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTable, useSortBy, useGlobalFilter } from 'react-table';
-import { media, Mixins } from '../../utils/ui';
+import { media, basedStyles, growOverParentPadding } from '../../styles';
 import { ToggleLineButton, ButtonWithLinkStyle } from '../BaseComponents/Buttons';
 
 const SortFilterBlock = styled.div`
@@ -73,9 +73,9 @@ FilterButton.defaultProps = {
 
 const TableContainer = styled.div`
   ${media.small`
-    ${Mixins.growOverParentPadding(96)}
+    ${growOverParentPadding(96)}
   `}
-  ${Mixins.customScroll()}
+  ${basedStyles.scrollStyle}
 
   display: block;
   overflow: auto;

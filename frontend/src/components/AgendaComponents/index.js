@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Fa from '../../utils/fontawesome';
-import { media, Mixins } from '../../utils/ui';
+import { media, growOverParentPadding } from '../../styles';
 import RequiredAuthFragment from '../RequiredAuthFragment';
 
 // -- FUNCTIONS
@@ -22,7 +22,7 @@ const StyledTable = styled.table`
     overflow-x: scroll;
 
     /* grow over parent's padding in small screen */
-    ${Mixins.growOverParentPadding(96)}
+    ${growOverParentPadding(96)}
   `}
 
   th {

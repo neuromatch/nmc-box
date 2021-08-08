@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 import { rhythm } from '../../utils/typography';
 
 const bsContainerWidth = {

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import Fa from '../../utils/fontawesome';
-import { media } from '../../utils/ui';
+import { media } from '../../styles';
 import Card from '../BaseComponents/Card';
 import { UncontrolledCheckbox, ControlledCheckbox } from './StyledCheckbox';
 import StyledInputRange from './StyledInputRange';
