@@ -20,11 +20,27 @@ import joblib
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModel
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
+
+
+MAX_BATCH_SIZE = 16
+EMBEDDING_OPTION = "sent_embed"
+print("Download model and produce embedding\n")
+tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
+model = AutoModel.from_pretrained('allenai/specter')
+
+
+def chunks(lst, chunk_size=MAX_BATCH_SIZE):
+    """
+    Splits a longer list to respect batch size
+    ref: https://github.com/allenai/paper-embedding-public-apis
+    """
+    for i in range(0, len(lst), chunk_size):
+        yield lst[i : i + chunk_size]
 
 
 def preprocess(text):
@@ -47,17 +63,19 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
         Larger one takes too long on regular laptop
     """
     if option == "sent_embed":
-        print("Download model and produce embedding")
-        model = SentenceTransformer("allenai-specter")
         papers = list(df["title"] + "[SEP]" + df["abstract"])
         # group papers
-        papers_embedding = []
-        group_papers = [papers[i:i+n_papers] for i in range(0, len(papers), n_papers)]
-        for g in tqdm(group_papers):
-            embeddings = model.encode(g, convert_to_numpy=True)
-            papers_embedding.extend(embeddings)
+        embeddings = []
+        for g in tqdm(chunks(papers)):
+            inputs = tokenizer(g, padding=True,
+                               truncation=True,
+                               return_tensors="pt",
+                               max_length=512)
+            result = model(**inputs)
+            embeddings.extend(result.last_hidden_state[:, 0, :])
+        embeddings = [emb.tolist() for emb in embeddings]
         paper_embeddings = [
-            {"submission_id": pid, "embedding": list(embedding)}
+            {"submission_id": pid, "embedding": embedding}
             for pid, embedding in zip(df.submission_id, embeddings)
         ]
     elif option == "lsa":
@@ -90,6 +108,7 @@ if __name__ == "__main__":
         os.makedirs(save_path)
     paths = glob(op.join("..", "sitedata", "agenda", "*.csv")) + glob(op.join("..", "sitedata", "agenda", "*.json"))
     for path in tqdm(paths):
+        print(f"Calculate embeddings for {path}\n")
         basename = op.basename(path).split('.')[0]
 
         if path.lower().endswith(".json"):
@@ -100,7 +119,7 @@ if __name__ == "__main__":
             df = pd.read_csv(path).fillna("")
 
         # calculate embeddings, save in JSON with the same basename
-        paper_embeddings = calculate_embeddings(df, option="lsa")
+        paper_embeddings = calculate_embeddings(df, option=EMBEDDING_OPTION)
         json.dump(paper_embeddings, open(op.join(save_path, basename + '.json'), "w"))
 
         # nearest neighbors, save in joblib with the same basename
