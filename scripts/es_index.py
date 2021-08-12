@@ -1,14 +1,20 @@
+"""
+Elasticsearch ingestion
+
+Usage:
+    python elasticsearch.py
+"""
 import yaml
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import pandas as pd
 from elasticsearch import Elasticsearch, helpers
 
-with open("../sitedata/server.yml") as f:
-    server_config = yaml.load(f, Loader=yaml.FullLoader)
+with open("es_config.yml") as f:
+    es_config = yaml.load(f, Loader=yaml.FullLoader)
 
 es = Elasticsearch([{
-    'host': server_config["host"],
-    'port': server_config["port"]
+    'host': es_config["host"],
+    'port': es_config["port"]
 }])
 
 settings_affiliation = {
@@ -126,10 +132,15 @@ settings_submission = {
 }
 
 
-def generate_rows(rows, row_type="affiliation", id="ID"):
+def generate_rows(rows: list, index: str = "grid", row_type: str = "affiliation", id: str = "ID", keys: list = None):
+    """
+    Generate dictionary to ingest to Elasticsearch.
+    """
     for _, row in enumerate(rows):
+        if isinstance(keys, list):
+            row = {k: str(v) for k, v in row.items() if k in keys}
         yield {
-            '_index': server_config["grid_index"],
+            '_index': index,
             '_type': row_type,
             '_id': row[id],
             '_source': row
@@ -140,18 +151,18 @@ def index_grid():
     """
     Index GRID affiliations to elasticsearch index
     """
-    grid_df = pd.read_csv(server_config["grid_path"]).fillna('')
+    grid_df = pd.read_csv(es_config["grid_path"]).fillna('')
     affiliations = grid_df.to_dict(orient='records')
 
     es.indices.delete(
-        index=server_config["grid_index"],
+        index=es_config["grid_index"],
         ignore=[400, 404]
     )
 
-    grid_df = pd.read_csv(server_config["grid"]).fillna('')
+    grid_df = pd.read_csv(es_config["grid_path"]).fillna('')
     affiliations = grid_df.to_dict(orient='records')
     es.indices.create(
-        index=server_config["grid_index"],
+        index=es_config["grid_index"],
         body=settings_affiliation,
         include_type_name=True
     )
@@ -159,10 +170,11 @@ def index_grid():
     print('Done indexing GRID affiliations')
 
 
-def index_submission():
-    """Index all submissions listed in server.yml
+def index_submissions():
     """
-    for k, v in server_config["editions"].items():
+    Index all submissions listed in es_config.yml
+    """
+    for _, v in tqdm(es_config["editions"].items()):
         submission_df = pd.read_csv(v["path"]).fillna("")
         es.indices.delete(
             index=v["paper_index"],
@@ -174,10 +186,18 @@ def index_submission():
             include_type_name=True
         )
         submissions = submission_df.to_dict(orient="records")
-        helpers.bulk(es, generate_rows(submissions))
-    print('Done indexing submissions')
+        helpers.bulk(
+            es,
+            generate_rows(
+                submissions,
+                index=v["paper_index"],
+                row_type="submission",
+                id="submission_id",
+            )
+        )
+        print(f'Done indexing submissions to {v["paper_index"]}')
 
 
 if __name__ == '__main__':
     index_grid()  # index GRID database
-    index_submission()  # index submissions
+    index_submissions()  # index submissions

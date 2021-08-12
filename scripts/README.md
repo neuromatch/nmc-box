@@ -9,11 +9,11 @@ Make sure `server.yml` has correct paths to downloaded GRID files.
 
 ## Embeddings
 
-First run `embeddings.py` to transform agenda to
+First run `embeddings.py` to generate agenda to
 embedding for our recommendation engine.
 
 ``` sh
-python embeddings.py
+python embeddings.py --option=sent_embed # or lsa
 ```
 
 ## Elastic Search
@@ -22,5 +22,5 @@ Index GRID and submission
 
 ``` sh
 bash serve_elasticsearch.sh
-python elasticsearch.py
+python es_index.py
 ```

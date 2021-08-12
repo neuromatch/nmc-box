@@ -11,3 +11,5 @@ sentence-transformers
 airtable-python-wrapper
 stripe
 docopt
+transformers
+pyairtable

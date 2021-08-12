@@ -1,0 +1,24 @@
+# Config related to ElasticSearch
+
+# Elastic search
+host: "localhost"
+port: 9200
+
+# path to GRID CSV file and index name for GRID
+# Download GRID from https://www.grid.ac/downloads
+grid_path: grid-2021-06-15/grid.csv
+grid_index: grid
+
+# Path to file and index name for ElasticSearch 
+editions:
+  2020-3:
+    path: ../sitedata/agenda/agenda-2020-3.csv
+    paper_index: agenda-2020-3
+
+  2020-2:
+    path: ../sitedata/agenda/agenda-2020-2.csv
+    paper_index: agenda-2020-2
+
+  2020-1:
+    path: ../sitedata/agenda/agenda-2020-1.csv
+    paper_index: agenda-2020-1
