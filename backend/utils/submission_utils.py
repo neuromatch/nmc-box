@@ -29,7 +29,7 @@ def convert_es_responses_to_list(search_responses: list):
     return submissions
 
 
-def query(q: str,  n_results: int = 10, index: str = "grid", fields: list = []):
+def query(q: Optional[str] = None, n_results: int = 10, index: str = "grid", fields: list = []):
     """
     Query string from a given index
     
@@ -39,15 +39,19 @@ def query(q: str,  n_results: int = 10, index: str = "grid", fields: list = []):
     fields: search fields
     """
     es_search = Search(using=es, index=index)
-    if n_results is None:
-        n_results = es_search.count()
-    responses = es_search.query(
-        "multi_match",
-        query=q,
-        fields=fields
-    )
-    search_responses = responses[0:n_results].execute()
-    search_responses = search_responses.to_dict()['hits']['hits']
+    if q is None:
+        search_responses = [hit.to_dict() for hit in es_search.scan()]
+    else:
+        if n_results is None:
+            n_results = es_search.count()
+        responses = es_search.query(
+            "multi_match",
+            query=q,
+            fields=fields
+        )
+        search_responses = responses[0:n_results].execute()
+        search_responses = search_responses.to_dict()['hits']['hits']
+        search_responses = convert_es_responses_to_list(search_responses)
     return search_responses
 
 
@@ -70,7 +74,7 @@ def query_affiliations(
 
 
 def query_abstracts(
-    q: str = "Neuron",
+    q: Optional[str] = None,
     n_results: int = 10,
     index: str = "agenda-2020-1",
     fields: list = ["title^2", "abstract", "fullname", "institution"]
@@ -84,8 +88,7 @@ def query_abstracts(
     fields: list, list of fields that are included in the search
     """
     responses = query(q, n_results, index, fields)
-    output_responses = convert_es_responses_to_list(responses)
-    return output_responses
+    return responses
 
 
 def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):

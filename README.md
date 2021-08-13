@@ -1,18 +1,16 @@
 # Neuromatch Conference in a Box
 
-Without technology backbone, making a conference is probably hard for many organizers.
+Making an online conference requires some technologies backbone to run it.
 In 2020, we built [Neuromatch conferences (NMCs)](https://neuromatch.io/conference/)
-which allow organizers to automate many aspects of the conference. Here, we try to
-open-source most of our implementations so that other organizers can adapt or
-use.
-
-
+which allow organizers to automate many aspects of the conference and incorporate
+ML algorithms to the workflow. Here, we open-source most of our implementations
+at NMC so that online organizers can adapt to make the better one in the future.
 
 ## Project Structure (TBA)
 
 * Scripts - for generating information
-* Frontend using ReactJS
-* Backend using Python
+* Frontend using [ReactJS]()
+* Backend using Python and [FastAPI](https://fastapi.tiangolo.com/)
 
 ## Components
 
@@ -85,7 +83,9 @@ We set up Airtable base which you can view here (TBD).
 
 ## Citations
 
-If you use or refer to NMC workflow, please cite our published articles on TICS and eLife
+If you use or refer to NMC workflow, please cite our published articles on
+[TICS](https://www.sciencedirect.com/science/article/pii/S1364661321000097) and
+[eLife](https://elifesciences.org/articles/57892) below:
 
 ```
 @article{achakulvisut2021towards,

@@ -95,7 +95,8 @@ def generate_recommendations(
 
     if abstract_info:
         recommend_abstracts = [
-            get_abstract(index, id=idx) for idx in recommend_indices
+            get_abstract(index, id=idx)
+            for idx in recommend_indices
             if get_abstract(index, id=idx) is not None
         ]
         return recommend_abstracts
