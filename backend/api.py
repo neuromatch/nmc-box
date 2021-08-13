@@ -3,7 +3,6 @@ import os.path as op
 import json
 import yaml
 from glob import glob
-from tqdm.auto import tqdm
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='.backend.env') # setting all credentials here
@@ -11,10 +10,7 @@ load_dotenv(dotenv_path='.backend.env') # setting all credentials here
 # import utils as a library
 import utils
 
-from datetime import datetime
-from dateutil.parser import parse
-from pytz import timezone
-
+import joblib
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
 
@@ -34,6 +30,20 @@ es = Elasticsearch([{
     'port': es_config["port"]
 }])
 
+# loading model and embeddings
+model_paths = glob("../sitedata/embeddings/*.joblib")
+embedding_paths = glob("../sitedata/embeddings/*.json")
+if len(model_paths) > 0:
+    nbrs_models = {
+        op.basename(path).split('.')[0]: joblib.load(path)
+        for path in model_paths
+    }
+if len(embedding_paths) > 0:
+    embeddings = {
+        op.basename(path).split('.')[0]: json.load(open(path, 'r'))
+        for path in glob("../sitedata/embeddings/*.joblib")
+    }
+
 
 app = FastAPI()
 app.add_middleware(
@@ -52,11 +62,7 @@ HTTP_REQUEST = Request()
 # profile
 @app.get("/api/affiliation")
 async def get_affiliations(q: Optional[str] = None, n_results: Optional[int] = 10):
-    """Query affiliation from ElasticSearch
-
-    API
-    ===
-    >>> http://localhost:8000/api/affiliation?q=University%20of%20Pennsylvania
+    """Query affiliation listed in GRID database from ElasticSearch
     """
     if n_results is None:
         n_results = 10
@@ -102,7 +108,10 @@ async def update_user():
 async def get_abstracts(
     edition: str,
     q: Optional[str] = None,
-    view: Optional[str] = None,
+    view: Optional[str] = "default",
+    starttime: Optional[str] = None,
+    endtime: Optional[str] = None,
+    sort: bool = False,
     skip: int = 0,
     limit: int = 40
 ):
@@ -112,31 +121,121 @@ async def get_abstracts(
     edition: str, such as 2020-1, 2020-2, 2020-3
     q: Optional[str], query string
     view: Optional[str], can be "default" | "your-votes" | "recommendations" | "personalized"
+    skip: int = 0, skip parameter
+    limit: int = 40, limit parameter
     """
-    total_submission = Search(using=es, index=f"agenda-{edition}").count()
+    es_search = Search(using=es, index=f"agenda-{edition}")
+    n_submissions = es_search.count()
     page_size = limit # set page size to equal to limit
     current_page = int(skip / page_size) + 1
-    total_page = int(total_submission / page_size) + 1
+    n_page = int(n_submissions / page_size) + 1
+    starttime = utils.convert_utc(starttime)
+    endtime = utils.convert_utc(endtime)
 
-    if q is None and skip is None and limit is None:
-        n_results = Search(using=es, index=edition).count()
-        queries = utils.query_abstracts(q, n_results=n_results, index=f"agenda-{edition}")
-        return JSONResponse(content={"data": queries})
-    elif isinstance(q, str) and skip is None and limit is None:
-        queries = utils.query_abstracts(q, index=f"agenda-{edition}")
-    else:
-        queries = []
-    
-    return JSONResponse(
-        content={
+    if current_page > n_page:
+        return JSONResponse(content={
             "meta": {
                 "currentPage": current_page,
-                "totalPage": total_page,
+                "totalPage": n_page,
                 "pageSize": page_size
             },
-            "data": queries
-        }
-    )
+            "data": []
+        })
+
+    if view == "default":
+        responses = utils.query_abstracts(q, index=f"agenda-{edition}") # get all responses
+        submissions = utils.filter_startend_time(responses, starttime, endtime) # filter by start, end time
+
+        return JSONResponse(content={
+            "meta": {
+                "currentPage": current_page,
+                "totalPage": n_page,
+                "pageSize": page_size
+            },
+            "links": {
+                "current": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&sort={sort}&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&sort={sort}&skip={skip + page_size}&limit={page_size}"
+            },
+            "data": submissions[skip: skip + limit]
+        })
+    elif view == "your-votes":
+        # TODOs: get votes for generating votes
+        submission_ids = []
+        submissions = [
+            utils.get_abstract(index=f"agenda-{edition}", id=idx)
+            for idx in submission_ids
+        ]
+        return JSONResponse(content={
+            "meta": {
+                "currentPage": int(skip / page_size) + 1,
+                "totalPage": int(len(submissions) / page_size) + 1,
+                "pageSize": page_size
+            },
+            "links": {
+                "current": f"/api/abstract/{edition}?view={view}&sort={sort}&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view={view}&sort={sort}&skip={skip + page_size}&limit={page_size}"
+            },
+            "data": []
+        })
+    elif view == "recommendations":
+        # TODOs: get votes for generating recommendations
+        submission_ids = []
+        submissions = utils.generate_recommendations(
+            submission_ids,
+            data=embeddings,
+            index=f"agenda-{edition}",
+            nbrs_model=nbrs_models[f"agenda-{edition}"],
+            exploration=False,
+            abstract_info=True
+        )
+        submissions = utils.filter_startend_time(submissions, starttime, endtime)
+        return JSONResponse(content={
+            "meta": {
+                "currentPage": int(skip / page_size) + 1,
+                "totalPage": int(len(submissions) / page_size) + 1,
+                "pageSize": page_size
+            },
+            "links": {
+                "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}"
+            },
+            "data": submissions[skip:skip + limit] if len(submissions) > 0 else []
+        })
+    elif view == "personalized":
+        # TODOs: get votes for generating personalized recommendation
+        submission_ids = []
+        submissions = utils.generate_personalized_recommendations(
+            submission_ids,
+            data=embeddings,
+            index=f"agenda-{edition}",
+            nbrs_model=nbrs_models[f"agenda-{edition}"]
+        )
+        submissions = utils.filter_startend_time(submissions, starttime, endtime)
+        return JSONResponse(content={
+            "meta": {
+                "currentPage": int(skip / page_size) + 1,
+                "totalPage": int(len(submissions) / page_size) + 1,
+                "pageSize": page_size
+            },
+            "links": {
+                "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}"
+            },
+            "data": submissions[skip:skip + limit] if len(submissions) > 0 else []
+        })
+    else:
+        return JSONResponse(content={
+            "meta": {
+                "currentPage": current_page,
+                "totalPage": n_page,
+                "pageSize": page_size
+            },
+            "links": {
+                "current": f"/api/abstract/{edition}/default?view=default&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}/default?view=default&skip={skip + page_size}&limit={page_size}"
+            },
+            "data": []
+        })
 
 
 @app.get("/api/abstract/{edition}/{submission_id}")

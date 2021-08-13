@@ -61,6 +61,9 @@ def generate_recommendations(
     >>> data = {op.basename(f).split('.')[0]: json.load(open(f, "r")) for f in embedding_files}
     >>> generate_recommendations([1], data, "agenda-2020-1", nbrs_model, abstract_info=True)
     """
+    if len(submission_ids) == 0:
+        return []
+
     idx_mapping =  {r["submission_id"]: r["embedding"] for r in data[index]}  # submission to embedding
     idx_subid_mapping = {i: r["submission_id"] for i, r in enumerate(data[index])} # idx to submission
     # only use submissions id that exist in keys
@@ -125,6 +128,9 @@ def generate_personalized_recommendations(
     >>> data = {op.basename(f).split('.')[0]: json.load(open(f, "r")) for f in embedding_files}
     >>> generate_personalized_recommendations([1], data, "agenda-2020-1", nbrs_model, abstract_info=True)
     """
+    if len(submission_ids) == 0:
+        return []
+
     rec_submissions = generate_recommendations(submission_ids, data, index, nbrs_model, n_recommend=None, abstract_info=True)
     rec_submissions_df = pd.DataFrame(rec_submissions)
     rec_submissions_df["starttime_sort"] = pd.to_datetime(rec_submissions_df.starttime)

@@ -15,6 +15,15 @@ es = Elasticsearch([
 ])
 
 
+def convert_utc(dt: str):
+    """Convert datetime in string to UTC"""
+    utc = timezone('UTC')
+    dt = pd.to_datetime(dt)
+    if dt.tzinfo is None:
+        dt = utc.localize(dt)
+    return dt
+
+
 def convert_es_responses_to_list(search_responses: list):
     """
     Convert responses from ElasticSearch to list.
@@ -29,7 +38,7 @@ def convert_es_responses_to_list(search_responses: list):
     return submissions
 
 
-def query(q: Optional[str] = None, n_results: int = 10, index: str = "grid", fields: list = []):
+def query(q: Optional[str] = None, n_results: Optional[int] = None, index: str = "grid", fields: list = []):
     """
     Query string from a given index
     
@@ -39,7 +48,7 @@ def query(q: Optional[str] = None, n_results: int = 10, index: str = "grid", fie
     fields: search fields
     """
     es_search = Search(using=es, index=index)
-    if q is None:
+    if q is None or q.strip() == "":
         search_responses = [hit.to_dict() for hit in es_search.scan()]
     else:
         if n_results is None:
@@ -75,7 +84,7 @@ def query_affiliations(
 
 def query_abstracts(
     q: Optional[str] = None,
-    n_results: int = 10,
+    n_results: Optional[int] = None,
     index: str = "agenda-2020-1",
     fields: list = ["title^2", "abstract", "fullname", "institution"]
 ):
@@ -100,7 +109,6 @@ def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
         2020-10-26 10:00:00, 2020-10-26 10:00:00+00:00
         assuming that starttime is in UTC
     """
-    utc = timezone('UTC')
 
     agenda = []
     for hit in Search(using=es, index=index).scan():
@@ -108,9 +116,7 @@ def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
         hit["endtime_sort"] = pd.to_datetime(hit["endtime"])
 
         if (starttime is not None) or (starttime == ""):
-            startday = pd.to_datetime(starttime)
-            if startday.tzinfo is None:
-                startday = utc.localize(startday)
+            startday = convert_utc(starttime)
             endday = startday + timedelta(days=1) - timedelta(minutes=1)
             if (hit["starttime_sort"] >= startday and
                 hit["endtime_sort"] <= endday):
@@ -121,3 +127,12 @@ def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
             agenda.append(hit.to_dict())
 
     return agenda
+
+
+def filter_startend_time(responses: list, starttime: pd.Timestamp, endtime: pd.Timestamp):
+    """Filter a list by starttime and endtime"""
+    submissions = []
+    for hit in responses:
+        if convert_utc(hit["starttime"]) >= starttime and convert_utc(hit["endtime"]) <= endtime:
+            submissions.append(hit)
+    return submissions
