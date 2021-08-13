@@ -12,7 +12,6 @@ grid_index: grid
 # Path to file and index name for ElasticSearch 
 editions:
   2020-4:
-    airtable_api_key: ""
     airtable_id: ""
     table_name: "submissions"
     paper_index: agenda-2020-4
