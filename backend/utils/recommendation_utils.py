@@ -3,9 +3,33 @@ Utilities for recommendation
 """
 import numpy as np
 import pandas as pd
+from typing import Optional
 from sklearn.neighbors import NearestNeighbors
-from submission_utils import get_abstract
 np.random.seed(seed=126)  # apply seed for exploration sampling
+
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search
+
+es = Elasticsearch([
+    {"host": "localhost", "port": 9200},
+])
+
+
+def get_abstract(index: str = "agenda-2020-1", id: str = "1"):
+    """
+    Get abstract id from a given index.
+
+    index: str, ElasticSearch index (see es_index.py) for the ElasticSearch name
+    """
+    # return submission if we find submission ID from elasticsearch
+    if id != "":
+        try:
+            submission = es.get(index=index, id=id).get("_source", [])
+            return submission
+        except:
+            return None
+    else:
+        return None
 
 
 def generate_recommendations(
@@ -14,7 +38,7 @@ def generate_recommendations(
     index: str,
     nbrs_model: NearestNeighbors = None,
     exploration: bool = False,
-    n_recommend: int = None,
+    n_recommend: Optional[int] = None,
     alpha: float = 1.2,
     abstract_info: bool = False
 ):

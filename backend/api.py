@@ -4,6 +4,7 @@ import json
 import yaml
 from glob import glob
 from tqdm.auto import tqdm
+from typing import List, Dict, Optional
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='.backend.env') # setting all credentials here
 
@@ -26,7 +27,7 @@ from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 from falcon import HTTPUnauthorized, HTTPForbidden, HTTP_302
 
-with open("es_config.yml") as f:
+with open("../scripts/es_config.yml") as f:
     es_config = yaml.load(f, Loader=yaml.FullLoader)
 es = Elasticsearch([{
     'host': es_config["host"],
@@ -49,39 +50,24 @@ app.add_middleware(
 HTTP_REQUEST = Request()
 
 
-def firebase_authentication(request, response, context=None, **kwargs):
-    """Token authorization for GET and/or POST request.
-    This is use to authenticate user for our API.
+@app.get("/api/query/{index_name}")
+async def query(index_name: str, q: Optional[str] = None, n_results: Optional[int] = 10):
+    """Query affiliation and submissions from ElasticSearch
 
-    The request header looks like the following
-    {
-        headers: {
-            Authorization: 'Bearer <jwt_firebase_token>'
-        }
-    }
-    We can verify Firebase token given from the frontend.
-
-    Usage:
-        Adding @hug.get('/<api_name>', requires=firebase_authentication)
-        to API that need authentication
+    API
+    ===
+    >>> http://localhost:8000/api/query/grid?q=University%20of%20Pennsylvania
     """
-    token = request.get_header('Authorization')
+    if n_results is None:
+        n_results = 10
+    if index_name == "grid":
+        if q is not None:
+            queries = utils.query_affiliations(q, n_results=n_results)
+        else:
+            queries = []
+    elif index_name != "":
+        queries = utils.query_abstracts(q, n_results=n_results, index=index_name)
+    else:
+        queries = []
+    return {"data": queries}
 
-    if token:
-        if token.split("Bearer ").pop():
-            token = token.split("Bearer ").pop()
-            try:
-                _ = id_token.verify_firebase_token(
-                    token, HTTP_REQUEST
-                )
-                # if claim exists, quit this authentication
-                return True
-            except ValueError:
-                raise HTTPForbidden(
-                    "Unauthorized Error",
-                    "Unable to determine with provided encoding",
-                )
-    raise HTTPUnauthorized(
-        "Authentication Error",
-        "Unable to determine with provided encoding",
-    )

@@ -2,6 +2,7 @@
 Utilities for submission query from ElasticSearch
 """
 import pandas as pd
+from typing import Optional
 
 from pytz import timezone
 from datetime import timedelta
@@ -26,23 +27,6 @@ def convert_es_responses_to_list(search_responses: list):
         submission["submission_id"] = response["_id"]
         submissions.append(submission)
     return submissions
-
-
-def get_abstract(index: str = "agenda-2020-1", id: str = "1"):
-    """
-    Get abstract id from a given index.
-
-    index: str, ElasticSearch index (see es_index.py) for the ElasticSearch name
-    """
-    # return submission if we find submission ID from elasticsearch
-    if id != "":
-        try:
-            submission = es.get(index=index, id=id).get("_source", [])
-            return submission
-        except:
-            return None
-    else:
-        return None
 
 
 def query(q: str,  n_results: int = 10, index: str = "grid", fields: list = []):
@@ -104,7 +88,7 @@ def query_abstracts(
     return output_responses
 
 
-def get_agenda(index: str = "agenda-2020-1", starttime: str = None):
+def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
     """
     Returns agenda one day after a given starttime from a given index
 

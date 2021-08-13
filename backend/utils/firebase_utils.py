@@ -1,10 +1,11 @@
 """
 Utilities for Firebase
 """
-import os
-import os.path as op
+from typing import Optional
 import google.cloud
-from google.cloud import firestore, storage
+from google.cloud import firestore
+from dotenv import load_dotenv
+load_dotenv(dotenv_path='.backend.env')
 
 db = firestore.Client()
 
@@ -29,7 +30,7 @@ def delete_data(doc_id: str, collection: str):
     print(f"Deleting {doc_id} from collection {collection}")
 
 
-def set_data(data: dict, doc_id: str = None, collection: str = ""):
+def set_data(data: dict, doc_id: Optional[str] = None, collection: str = ""):
     """Set data (as a dictionary) to Firebase collection"""
     if collection == "":
         return
