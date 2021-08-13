@@ -1,5 +1,5 @@
 """
-Utilities for submissions
+Utilities for submission query from ElasticSearch
 """
 import pandas as pd
 
@@ -89,7 +89,7 @@ def query_abstracts(
     q: str = "Neuron",
     n_results: int = 10,
     index: str = "agenda-2020-1",
-    fields: list = ["title", "abstract", "fullname", "institution"]
+    fields: list = ["title^2", "abstract", "fullname", "institution"]
 ):
     """
     Query abstracts from a given Elastic index
