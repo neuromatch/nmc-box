@@ -7,6 +7,7 @@ Usage:
 import yaml
 from tqdm.auto import tqdm
 import pandas as pd
+from pyairtable import Table
 from elasticsearch import Elasticsearch, helpers
 
 with open("es_config.yml") as f:
@@ -16,6 +17,12 @@ es = Elasticsearch([{
     'host': es_config["host"],
     'port': es_config["port"]
 }])
+
+keys_airtable = [
+    "submission_id", "title", "abstract", "fullname", "coauthors",
+    "institution", "theme", "talk_format", "starttime", "endtime",
+    "url", "track"
+] # keys that we are interested
 
 settings_affiliation = {
     "settings": {
@@ -170,12 +177,30 @@ def index_grid():
     print('Done indexing GRID affiliations')
 
 
+def read_submissions(submissions: list, keys: list = None):
+    submissions_flatten = []
+    for submission in submissions:
+        if keys is not None:
+            d = {k: v for k, v in submission["fields"].items() if k in keys_airtable}
+        else:
+            d = submission["fields"]
+        d["submission_id"] = submission["id"]
+        submissions_flatten.append(d)
+    return submissions_flatten
+
+
 def index_submissions():
     """
     Index all submissions listed in es_config.yml
     """
     for _, v in tqdm(es_config["editions"].items()):
-        submission_df = pd.read_csv(v["path"]).fillna("")
+        if "path" in v.keys():
+            submission_df = pd.read_csv(v["path"]).fillna("")
+        elif "airtable_api_key" in v.keys() and "airtable_id" in v.keys():
+            submissions = Table(v["airtable_api_key"], v["airtable_id"], v["table_name"])
+            submission_df = pd.DataFrame(read_submissions(submissions, keys=keys_airtable))
+        else:
+            raise RuntimeError("Please put the path to CSV file or Airtable ID and ")
         es.indices.delete(
             index=v["paper_index"],
             ignore=[400, 404]

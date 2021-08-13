@@ -7,8 +7,6 @@ elasticsearch_dsl
 fastapi
 pytz
 scikit-learn
-sentence-transformers
-airtable-python-wrapper
 stripe
 docopt
 transformers
