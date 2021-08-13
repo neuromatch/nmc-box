@@ -1,30 +1,24 @@
 """
 Utilities for Airtable
+We will mostly use pyairtable but we implement a few functions to use
 """
-import os
 import json
 import requests
-import pandas as pd
-from urllib.parse import quote
-from tqdm import tqdm, tqdm_notebook
-from airtable import Airtable
-
-AIRTABLE_ID = os.environ.get("AIRTABLE_ID")
-AIRTABLE_KEY = os.environ.get("AIRTABLE_KEY")
-assert isinstance(AIRTABLE_ID, str), "Please provide AIRTABLE_ID in .backend.env file"
-assert isinstance(AIRTABLE_KEY, str), "Pleaase provide AIRTABLE_KEY in .backend.env file"
 
 
-def get_record(table_name: str = "submissions", record_id: str = ""):
+def get_record(
+    airtable_key: str, base_id: str,
+    table_name: str = "submissions", record_id: str = ""
+):
     """
     Get record from Airtable with a given record ID `record_id`
     """
     if record_id != "":
         request_url = (
-            f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}/{record_id}"
+            f"https://api.airtable.com/v0/{base_id}/{table_name}/{record_id}"
         )
         headers = {
-            "Authorization": f"Bearer {AIRTABLE_KEY}",
+            "Authorization": f"Bearer {airtable_key}",
         }
         output = requests.get(request_url, headers=headers)
         return output
@@ -32,7 +26,10 @@ def get_record(table_name: str = "submissions", record_id: str = ""):
         return None
 
 
-def set_record(data: dict, table_name: str = "submissions"):
+def set_record(
+    airtable_key: str, base_id: str,
+    data: dict, table_name: str = "submissions"
+):
     """
     Add event to Airtable with AIRTABLE_ID
     specified in .env file
@@ -59,11 +56,9 @@ def set_record(data: dict, table_name: str = "submissions"):
     >>> print(output)
     """
     headers = {
-        "Authorization": f"Bearer {AIRTABLE_KEY}",
+        "Authorization": f"Bearer {airtable_key}",
         "Content-Type": "application/json",
     }
-    post_url = f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}"
+    post_url = f"https://api.airtable.com/v0/{base_id}/{table_name}"
     output = requests.post(post_url, data=json.dumps(data), headers=headers)
     return output.json()
-
-

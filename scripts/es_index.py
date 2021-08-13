@@ -22,7 +22,7 @@ keys_airtable = [
     "submission_id", "title", "abstract", "fullname", "coauthors",
     "institution", "theme", "talk_format", "starttime", "endtime",
     "url", "track"
-] # keys that we are interested
+] # keys that we are interested from Airtable
 
 settings_affiliation = {
     "settings": {
