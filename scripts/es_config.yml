@@ -1,4 +1,4 @@
-# Config related to ElasticSearch
+# Config related ingestion to ElasticSearch
 
 # Elastic search
 host: "localhost"
@@ -9,10 +9,11 @@ port: 9200
 grid_path: grid-2021-06-15/grid.csv
 grid_index: grid
 
-# Path to file and index name for ElasticSearch 
+# Path to file or Airtable ID to index submissions to ElasticSearch
+# This example has 3 abstracts from
 editions:
   2020-4:
-    airtable_id: ""
+    airtable_id: "appcidVUHiMD8TU0s"
     table_name: "submissions"
     paper_index: agenda-2020-4
 

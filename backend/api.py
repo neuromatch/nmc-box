@@ -7,12 +7,13 @@ from typing import List, Dict, Optional
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='.backend.env') # setting all credentials here
 
-# import utils as a library
-import utils
-
 import joblib
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
+import pandas as pd
+from pydantic import BaseModel
+from pyairtable import Table
+import utils # import utils as a library
 
 from fastapi import FastAPI, status
 from fastapi.encoders import jsonable_encoder
@@ -21,7 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
-from falcon import HTTPUnauthorized, HTTPForbidden, HTTP_302
+
 
 with open("../scripts/es_config.yml") as f:
     es_config = yaml.load(f, Loader=yaml.FullLoader)
@@ -43,6 +44,7 @@ if len(embedding_paths) > 0:
         op.basename(path).split('.')[0]: json.load(open(path, 'r'))
         for path in glob("../sitedata/embeddings/*.joblib")
     }
+airtable_key = os.environ.get("AIRTABLE_KEY")
 
 
 app = FastAPI()
@@ -58,6 +60,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 HTTP_REQUEST = Request()
+
+
+class Submission(BaseModel):
+    submission_id: Optional[str] = None
+    title: str = ""
+    abstract: str = ""
+    fullname: str = ""
+    coauthors: Optional[str] = None
+    institution: Optional[str] = None
+    theme: Optional[str] = None
+    talk_format: str
+    # below fields are created by organizers
+    starttime: Optional[str] = None
+    endtime: Optional[str] = None
+    url: Optional[str] = None
+    track: Optional[str] = None
+
 
 # profile
 @app.get("/api/affiliation")
@@ -103,7 +122,7 @@ async def update_user():
     return None
 
 
-# abstract
+# abstract search
 @app.get("/api/abstract/{edition}")
 async def get_abstracts(
     edition: str,
@@ -231,26 +250,71 @@ async def get_abstracts(
                 "pageSize": page_size
             },
             "links": {
-                "current": f"/api/abstract/{edition}/default?view=default&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}/default?view=default&skip={skip + page_size}&limit={page_size}"
+                "current": f"/api/abstract/{edition}?view=default&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view=default&skip={skip + page_size}&limit={page_size}"
             },
             "data": []
         })
 
 
+# abstract get, create, and update
 @app.get("/api/abstract/{edition}/{submission_id}")
 async def get_abstract(edition: str, submission_id: str):
-    """Get an abstract with submission id from a given edition 
     """
-    abstract = utils.get_abstract(index=f"agenda-{edition}", id=submission_id)
+    Get an abstract with submission id from a given edition
+
+    Note: This will retrieve from ElasticSearch instead of Airtable
+        to prevent traffic
+    """
+    base_id = es_config["editions"][edition].get("airtable_id")
+    table_name = es_config["editions"][edition].get("table_name")
+    if base_id is None:
+        abstract = utils.get_abstract(index=f"agenda-{edition}", id=submission_id)
+    else:
+        table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
+        abstract = table.get(submission_id) # return abstract from Airtable
     return JSONResponse(content={"data": abstract})
 
 
-@app.post("/api/abstract")
-async def set_abstract(edition: str, submission_id: str):
-    """Submit an abstract"""
+@app.post("/api/abstract/{edition}")
+async def create_abstract(submission: Submission, edition: str):
+    """
+    Submit an abstract to Airtable
+    """
     # TODOs: recieve submission and update Airtable
-    return None
+    if submission["starttime"] not in ["", None] and submission["endtime"] not in ["", None]:
+        submission["starttime"] = str(pd.to_datetime(submission["starttime"]))
+        submission["endtime"] = str(pd.to_datetime(submission["endtime"]))
+
+    # look for base_id for a given "edition"
+    base_id = es_config["editions"][edition].get("airtable_id")
+    table_name = es_config["editions"][edition].get("table_name")
+    if base_id is None:
+        print("Seems like there is no Airtable set up, only a CSV file")
+        return
+    else:
+        table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
+        r = table.create(submission) # create submission
+        print(f"Set the record {r['id']} on Airtable")
+        return
+
+
+@app.put("/api/abstract/{edition}/{submission_id}")
+async def update_abstract(submission_id: str, submission: Submission, edition: str):
+    """
+    Update an abstract on Airtable with a given submission ID
+    """
+    # look for base_id for a given "edition"
+    base_id = es_config["editions"][edition].get("airtable_id")
+    table_name = es_config["editions"][edition].get("table_name")
+    if base_id is None:
+        print("Seems like there is no Airtable set up, only a CSV file")
+        return
+    else:
+        table = Table(api_key=airtable_key, base_id=base_id, table_name="submissions")
+        r = table.update(submission_id, submission) # create submission
+        print(f"Set the record {r['id']} on Airtable")
+        return
 
 
 @app.patch("/api/abstract/{edition}/{submission_id}")
@@ -258,5 +322,3 @@ async def update_preference(edition: str, submission_id: str, action: str = "lik
     """Update preference"""
     # TODOs: set preference on Firebase
     return None
-
-

@@ -1,5 +1,6 @@
 requests
 fastapi
+pydantic
 pytz
 docopt
 pyairtable

@@ -1,16 +1,17 @@
 # Neuromatch Conference in a Box
 
 Making an online conference requires some technologies backbone to run it.
-In 2020, we built [Neuromatch conferences (NMCs)](https://neuromatch.io/conference/)
+We built [Neuromatch conferences (NMCs)](https://neuromatch.io/conference/)
 which allow organizers to automate many aspects of the conference and incorporate
 ML algorithms to the workflow. Here, we open-source most of our implementations
-at NMC so that online organizers can adapt to make the better one in the future.
+at NMC so that online organizers can adapt to make the better online conference
+in the future.
 
 ## Project Structure (TBA)
 
-* Scripts - for generating information
-* Frontend using [ReactJS]()
-* Backend using Python and [FastAPI](https://fastapi.tiangolo.com/)
+* Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
+* Frontend: implemented using [ReactJS](https://reactjs.org/)
+* Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
 
 ## Components
 
@@ -18,6 +19,8 @@ NMC in-a-box provides some functionalities as follows:
 
 * Registration - ask for basic information and available times during the conference
 * Submission - submit abstracts to Airtable
+  * Ask for available times, talk format, theme
+  * Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
 * Search and recommendation engine with infinite scroll design
 * Mind matching script - run separately to produce output matches between registered attendees
 
@@ -25,10 +28,12 @@ NMC in-a-box provides some functionalities as follows:
 
 ### Set up enviroment
 
-* Setting up `.env` file which contains Airtable key and Firebase authentication.
 * Install backend dependencies in `backend/requirements.txt`
+* Set up `.env` file which contains Airtable key and Firebase authentication.
+* Adapt basic information in `sitedata/config.yml` for the page and `scripts/es_config.yml`
+  for data to be indexed
 
-### Backend
+### Set up backend
 
 In backend, we have put the data, create embeddings (for recommendation), and index them on ElasticSearch
 (use to provide abstract information in the frontend).
@@ -50,7 +55,7 @@ uvicorn api:app
 
 To serve backend with FastAPI library.
 
-### Frontend
+### Set up frontend
 
 (TBA)
 
