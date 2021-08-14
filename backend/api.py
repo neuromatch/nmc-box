@@ -16,7 +16,7 @@ from pyairtable import Table
 import utils # import utils as a library
 from utils import get_user_info, get_data, set_data
 
-from fastapi import FastAPI, Query, status
+from fastapi import FastAPI, Query, Header, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,13 +29,14 @@ from google.auth.transport.requests import Request
 # get Firebase collections
 with open("../sitedata/config.yml") as f:
     site_config = yaml.load(f, Loader=yaml.FullLoader)
+with open("../scripts/es_config.yml") as f:
+    es_config = yaml.load(f, Loader=yaml.FullLoader)
+
 current_edition = site_config["current_edition"]
 collections = site_config["firebase-collection"][current_edition]
 user_collection = collections["users"]
 preference_collection = collections["preferences"]
 
-with open("../scripts/es_config.yml") as f:
-    es_config = yaml.load(f, Loader=yaml.FullLoader)
 es = Elasticsearch([{
     'host': es_config["host"],
     'port': es_config["port"]
@@ -52,7 +53,7 @@ if len(model_paths) > 0:
 if len(embedding_paths) > 0:
     embeddings = {
         op.basename(path).split('.')[0]: json.load(open(path, 'r'))
-        for path in glob("../sitedata/embeddings/*.joblib")
+        for path in embedding_paths
     }
 airtable_key = os.environ.get("AIRTABLE_KEY")
 
@@ -86,15 +87,6 @@ class Submission(BaseModel):
     endtime: Optional[str] = None
     url: Optional[str] = None
     track: Optional[str] = None
-
-
-class Vote(BaseModel):
-    """
-    Vote a submission ID in a given edition
-    """
-    edition: str
-    submission_id: str
-    action: str # vote action, can be "like" | "dislike"
 
 
 # profile
@@ -141,6 +133,94 @@ async def update_user():
     return None
 
 
+@app.get("/api/user/preference/")
+async def get_user_votes(authorization: Optional[str] = Header(None)):
+    """
+    Get user votes for all edition
+    """
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        user_id = user_info.get("user_id")
+        user_preference = get_data(user_id, preference_collection)  # all preferences
+        abstracts = [
+            {"edition": k, "abstracts": utils.get_abstract(edition=f"agenda-{k}", id=v)}
+            for k, v in user_preference.items()
+        ]
+        return JSONResponse(content={"data": abstracts})
+    else:
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+
+
+@app.get("/api/user/preference/{edition}")
+async def get_user_votes(edition: str, authorization: Optional[str] = Header(None)):
+    """
+    Get user votes if edition is specified, it will 
+    """
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        user_id = user_info.get("user_id")
+        user_preference = get_data(user_id, preference_collection)  # all preferences
+
+        ids = user_preference[edition]
+        abstracts = {
+            "edition": edition,
+            "abstracts": [utils.get_abstract(edition=f"agenda-{edition}", id=idx) for idx in ids]
+        }
+        return JSONResponse(content={"data": abstracts})
+    else:
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+
+
+@app.patch("/api/user/preference/{edition}/{submission_id}")
+async def update_user_votes(
+    edition: str,
+    submission_id: str,
+    action: Optional[str] = None,
+    authorization: Optional[str] = Header(None)
+):
+    """
+    Update votes made by user in an abstract browser to Firebase
+
+    edition: str
+    submission_id: str
+    action: str (optional) can be "like" or "dislike"
+    """
+    # TODOs: set preference on Firebase
+    user_info = get_user_info(authorization)
+    user_id = user_info.get("user_id")
+    user_preference = get_data(user_id, preference_collection)  # all preferences
+    if user_info is None:
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+
+    if action is None:
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+    elif action == "like" and user_id is not None:
+        if user_preference is None:
+            user_preference = {edition: [submission_id]}
+        else:
+            current_pref = user_preference[edition]
+            update_pref = list(set(current_pref + [submission_id]))
+            user_preference.update({edition: update_pref})
+        try:
+            set_data(user_preference, user_id)
+        except (google.cloud.exceptions.NotFound, TypeError):
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+    elif action == "dislike" and user_id is not None:
+        if user_preference is None:
+            return
+        else:
+            current_pref = user_preference[edition]
+            update_pref = list(set(current_pref - [submission_id]))
+            user_preference.update({edition: update_pref})
+        try:
+            set_data(user_preference, user_id)
+        except (google.cloud.exceptions.NotFound, TypeError):
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+    else:
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+
+
+
 # abstract search
 @app.get("/api/abstract/{edition}")
 async def get_abstracts(
@@ -150,7 +230,8 @@ async def get_abstracts(
     starttime: Optional[str] = Query(None),
     endtime: Optional[str] = Query(None),
     skip: int = Query(0),
-    limit: int = Query(40)
+    limit: int = Query(40),
+    authorization: Optional[str] = Header(None)
 ):
     """
     Query abstracts from a given edition
@@ -158,16 +239,27 @@ async def get_abstracts(
     edition: str, such as 2020-1, 2020-2, 2020-3
     q: Optional[str], query string
     view: Optional[str], can be "default" | "your-votes" | "recommendations" | "personalized"
+    starttime: str, starttime parameter
+    endtime: str, endtime parameter
     skip: int = 0, skip parameter
     limit: int = 40, limit parameter
     """
+    # get preference from Firebase
+    try:
+        user_info = get_user_info(authorization)
+        user_id = user_info.get("user_id")
+        user_preference = get_data(user_id, preference_collection).get("edition", [])  # all preferences
+    except:
+        user_preference = []
+
     es_search = Search(using=es, index=f"agenda-{edition}")
     n_submissions = es_search.count()
     page_size = limit # set page size to equal to limit
     current_page = int(skip / page_size) + 1
     n_page = int(n_submissions / page_size) + 1
-    starttime = utils.convert_utc(starttime)
-    endtime = utils.convert_utc(endtime)
+    if starttime is not None and endtime is not None:
+        starttime = utils.convert_utc(starttime)
+        endtime = utils.convert_utc(endtime)
 
     if current_page > n_page:
         return JSONResponse(content={
@@ -196,8 +288,8 @@ async def get_abstracts(
             "data": submissions[skip: skip + limit]
         })
     elif view == "your-votes":
-        # TODOs: get votes for generating votes
-        submission_ids = []
+        # Get preference from Firebase and return to frontend
+        submission_ids = user_preference
         submissions = [
             utils.get_abstract(index=f"agenda-{edition}", id=idx)
             for idx in submission_ids
@@ -209,14 +301,14 @@ async def get_abstracts(
                 "pageSize": page_size
             },
             "links": {
-                "current": f"/api/abstract/{edition}?view={view}&sort={sort}&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view={view}&sort={sort}&skip={skip + page_size}&limit={page_size}"
+                "current": f"/api/abstract/{edition}?view={view}&skip={skip}&limit={page_size}",
+                "next": f"/api/abstract/{edition}?view={view}&skip={skip + page_size}&limit={page_size}"
             },
-            "data": []
+            "data": submissions[skip: skip + limit] if len(submissions) > 0 else []
         })
     elif view == "recommendations":
         # TODOs: get votes for generating recommendations
-        submission_ids = []
+        submission_ids = user_preference
         submissions = utils.generate_recommendations(
             submission_ids,
             data=embeddings,
@@ -240,7 +332,7 @@ async def get_abstracts(
         })
     elif view == "personalized":
         # TODOs: get votes for generating personalized recommendation
-        submission_ids = []
+        submission_ids = user_preference
         submissions = utils.generate_personalized_recommendations(
             submission_ids,
             data=embeddings,
@@ -335,43 +427,4 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.update(submission_id, submission) # create submission
         print(f"Set the record {r['id']} on Airtable")
-        return
-
-
-@app.patch("/api/abstract/")
-async def update_user_votes(headers, vote: Vote):
-    """
-    Update votes made in abstract browser
-    to Firebase
-    """
-    # TODOs: set preference on Firebase
-    user_info = get_user_info(headers)
-    user_id = user_info.get("user_id")
-    vote = vote.dict()  # receive vote
-    edition = vote["edition"]
-    user_preference = get_data(user_id, preference_collection)  # all preferences
-
-    if vote.get("action") == "like" and user_id is not None:
-        if user_preference is None:
-            user_preference = {edition: [vote["submission_id"]]}
-        else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref + [vote["submission_id"]]))
-            user_preference.update({edition: update_pref})
-        try:
-            set_data(user_preference, user_id)
-        except (google.cloud.exceptions.NotFound, TypeError):
-            return
-    elif vote.get("action") == "dislike" and user_id is not None:
-        if user_preference is None:
-            return
-        else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref - [vote["submission_id"]]))
-            user_preference.update({edition: update_pref})
-        try:
-            set_data(user_preference, user_id)
-        except (google.cloud.exceptions.NotFound, TypeError):
-            return
-    else:
         return

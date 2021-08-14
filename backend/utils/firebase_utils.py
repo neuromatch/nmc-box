@@ -2,7 +2,8 @@
 Utilities for Firebase
 """
 from typing import Optional
-from fastapi import status, JSONResponse
+from fastapi import status, Header
+from fastapi.responses import JSONResponse
 
 import google.cloud
 from google.cloud import firestore
@@ -16,17 +17,17 @@ db = firestore.Client()
 HTTP_REQUEST = Request()
 
 
-def get_user_info(headers):
+def get_user_info(authorization: Optional[str] = None):
     """
     Get user information from request token
     sending from the frontend
     """
-    token = headers.get('AUTHORIZATION').replace("Bearer ", "")
     try:
+        token = authorization.replace("Bearer ", "")
         user_info = id_token.verify_firebase_token(token, HTTP_REQUEST)
         return user_info
-    except ValueError:
-        raise JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+    except (ValueError, AttributeError) as e:
+        return None
 
 
 def get_all_collection(collection: str = "users"):

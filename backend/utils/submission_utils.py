@@ -60,7 +60,8 @@ def query(q: Optional[str] = None, n_results: Optional[int] = None, index: str =
         )
         search_responses = responses[0:n_results].execute()
         search_responses = search_responses.to_dict()['hits']['hits']
-        search_responses = convert_es_responses_to_list(search_responses)
+        if not "grid":
+            search_responses = convert_es_responses_to_list(search_responses)
     return search_responses
 
 
@@ -133,6 +134,8 @@ def filter_startend_time(responses: list, starttime: Optional[pd.Timestamp] = No
     """
     Filter a list by starttime and endtime
     """
+    print(f"Starttime = {starttime}")
+    print(f"Endtime = {endtime}")
     if starttime in ["", None] and endtime in ["", None]:
         return responses
     else:
