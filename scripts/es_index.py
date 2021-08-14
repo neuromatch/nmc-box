@@ -158,7 +158,7 @@ def index_grid():
     """
     Index GRID affiliations to elasticsearch index
     """
-    grid_df = pd.read_csv(es_config["grid_path"]).fillna('')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
     affiliations = grid_df.to_dict(orient='records')
 
     es.indices.delete(
@@ -166,7 +166,7 @@ def index_grid():
         ignore=[400, 404]
     )
 
-    grid_df = pd.read_csv(es_config["grid_path"]).fillna('')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
     affiliations = grid_df.to_dict(orient='records')
     es.indices.create(
         index=es_config["grid_index"],

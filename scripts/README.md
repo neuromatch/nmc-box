@@ -18,6 +18,6 @@ Index GRID and submission. The first script will Download GRID dataset from [htt
 then put this root then download and serve Elasticsearch. The second line will index data specified in `es_config.yml` to Elasticsearch.
 
 ``` sh
-bash serve_elasticsearch.sh
+bash es_serve.sh
 python es_index.py
 ```

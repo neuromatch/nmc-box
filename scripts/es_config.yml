@@ -3,10 +3,11 @@
 # Elastic search
 host: "localhost"
 port: 9200
+es_version: 7.4.0
 
 # path to GRID CSV file and index name for GRID
 # Download GRID from https://www.grid.ac/downloads
-grid_path: grid-2021-06-15/grid.csv
+grid_version: 2021-06-15
 grid_index: grid
 
 # Path to file or Airtable ID to index submissions to ElasticSearch
