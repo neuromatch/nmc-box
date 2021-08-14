@@ -1,5 +1,6 @@
+# Overall information about the conference
 name: Neuromatch Conference
-current_edition: 2020-3
+current_edition: 2020-4
 subtitle: A conference made for the whole neuroscience community
 description: " Based on the successful mind-matching session at the Cognitive\
   \ Computational Neuroscience (CCN) conference and previous Neuromatch\
@@ -23,19 +24,19 @@ blind_vote:
 editions:
   2020-1:
     edition_name: 1.0
-    page_title: 'neuromatch 1.0'
+    page_title: neuromatch 1.0
     registration_date: Anytime before March 30, 2020
     submission_date: March 25, 2020
     main_conference: March 30 - April 1, 2020
-    twitter_hashtag: neuromatch
+    twitter_hashtag: neuromatch2020
 
   2020-2:
     edition_name: 2.0
-    page_title: 'neuromatch 2.0'
-    registration_date: Anytime before October 30, 2020
-    submission_date: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
-    main_conference: October 26 - 30, 2020
-    twitter_hashtag: neuromatch
+    page_title: neuromatch 2.0
+    registration_date: April 20 to May 20, 2020
+    submission_date: April 20 to May 20, 2020
+    main_conference: May 25 - 27, 2020
+    twitter_hashtag: neuromatch2020
 
   2020-3:
     edition_name: 3.0
@@ -45,19 +46,19 @@ editions:
     main_conference: October 26 - 30, 2020
     twitter_hashtag: nmc3
 
-# if ``use_airtable`` is True, read data directly from Airtable otherwise assume CSV or JSON
-agenda:
+# Firebase collection for users and votes
+firebase-collection:
   2020-1:
-    file_name: agenda-2020-1.csv
-    use_airtable: False
+    users: "users_2020_1"
+    preferences: "preferences"
   2020-2:
-    file_name: agenda-2020-2.csv
-    use_airtable: False
+    users: "users_2020_2"
+    preferences: "preferences"
   2020-3:
-    file_name: agenda-2020-3.csv
-    use_airtable: False
-    id: "appxxxxxxx"
-    key: "keyxxxxxxx"
-
+    users: "users_2020_3"
+    preferences: "preferences"
+  2020-4:
+    users: "users_2020_4"
+    preferences: "preferences"
 
 google_analytics: UA-XXXXXXXX

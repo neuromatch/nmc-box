@@ -129,20 +129,23 @@ def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
     return agenda
 
 
-def filter_startend_time(responses: list, starttime: pd.Timestamp, endtime: pd.Timestamp):
+def filter_startend_time(responses: list, starttime: Optional[pd.Timestamp] = None, endtime: Optional[pd.Timestamp] = None):
     """
     Filter a list by starttime and endtime
     """
-    # assuming UTC for all given timezones if tzinfo is None, localize by UTC
-    utc = timezone('UTC')
-    if starttime.tzinfo is None:
-        starttime = utc.localize(starttime)
-    if endtime.tzinfo is None:
-        endtime = utc.localize(endtime)
+    if starttime in ["", None] and endtime in ["", None]:
+        return responses
+    else:
+        # assuming UTC for all given timezones if tzinfo is None, localize by UTC
+        utc = timezone('UTC')
+        if starttime.tzinfo is None:
+            starttime = utc.localize(starttime)
+        if endtime.tzinfo is None:
+            endtime = utc.localize(endtime)
 
-    # filtering
-    submissions = []
-    for hit in responses:
-        if convert_utc(hit["starttime"]) >= starttime and convert_utc(hit["endtime"]) <= endtime:
-            submissions.append(hit)
-    return submissions
+        # filtering
+        submissions = []
+        for hit in responses:
+            if convert_utc(hit["starttime"]) >= starttime and convert_utc(hit["endtime"]) <= endtime:
+                submissions.append(hit)
+        return submissions

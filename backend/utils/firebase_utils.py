@@ -16,12 +16,12 @@ db = firestore.Client()
 HTTP_REQUEST = Request()
 
 
-def get_user_info(request):
+def get_user_info(headers):
     """
     Get user information from request token
     sending from the frontend
     """
-    token = request.get('AUTHORIZATION').replace("Bearer ", "")
+    token = headers.get('AUTHORIZATION').replace("Bearer ", "")
     try:
         user_info = id_token.verify_firebase_token(token, HTTP_REQUEST)
         return user_info
