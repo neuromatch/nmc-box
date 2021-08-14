@@ -1,0 +1,891 @@
+{
+  "edition": "2020-1",
+  "data": [
+    {
+      "speaker": "Konrad Kording (UPenn), Dan Goodman (Imperial)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/1"
+        }
+      ],
+      "title": "Conference Opening",
+      "abstract": "Join Konrad Kording (UPenn) and Dan Goodman (Imperial) on the opening of neuromatch unconference 2020.",
+      "datetime_edt": "2020-03-30 06:00:00"
+    },
+    {
+      "speaker": "Tim Behrens (Oxford)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/1"
+        }
+      ],
+      "title": "Abstraction and inference in the prefrontal hippocampal circuitry",
+      "abstract": "The cellular representations and computations that allow rodents to navigate in space have been described with beautiful precision. In this talk, I will show that some of these same computations can be found in humans doing tasks that appear very different from spatial navigation. I will describe some theory that allows us to think about spatial and non-spatial problems in the same framework, and I will try to use this theory to give a new perspective on the beautiful spatial computations that inspired it. The overall goal of this work is to find a framework where we can talk about complicated non-spatial inference problems with the same precision that is only currently available in space.",
+      "datetime_edt": "2020-03-30 07:00:00"
+    },
+    {
+      "speaker": "Contributed talks",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/2"
+        }
+      ],
+      "schedule": [
+        [
+          {
+            "title": "The Head Direction Circuit of Two Insect Species",
+            "speaker": "Ioannis Pisokas (U Edinburgh)"
+          },
+          {
+            "title": "Local and global organization of synaptic inputs on cortical dendrites",
+            "speaker": "Jan Kirchner (Max Planck)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-30 08:00:00"
+    },
+    {
+      "speaker": "Tim O'Leary (Cambridge)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/3"
+        }
+      ],
+      "title": "How does the brain cope with continual circuit reconfiguration?",
+      "abstract": "Over days and weeks, neurons in Posterior Parietal Cortex (PPC) have been found to continually change their activity patterns during performance of learned sensorimotor tasks, with no obvious change in behavior. This challenges classical theories which assume stable engrams underlie stable behavior (Ganguly 2009, Tonegawa 2015). Recent theoretical work hypothesizes that drift in neural activity may reside in a linear subspace, allowing a stable readout. However, it remains an open question whether experimentally observed drift is compatible with such theory. Using existing data we show that fixed linear weights can approximately decode behavior over many days. However, a non-negligible component of drift occurs outside a linear subspace. We quantify the amount of additional plasticity that would be required to compensate for reconfiguration, and show that accurate readout can be achieved with physiologically achievable rates of synaptic plasticity.",
+      "datetime_edt": "2020-03-30 09:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [
+          {
+            "title": "Synchronous Caregiving from Birth to Adulthood Tunes Humans' Social Brain",
+            "speaker": "Adi Yaniv (Gonda Brain Research, Israel)"
+          },
+          {
+            "title": "A neurocomputational account of Self-Other Distinction",
+            "speaker": "Samuel Ereira (UCL)"
+          },
+          {
+            "title": "Social Structure Learning in Anterior Insula",
+            "speaker": "Tatiana Lau (U of London)"
+          }
+        ],
+        [],
+        [
+          {
+            "title": "DeepCINAC: a deep-learning-based Python toolbox for inferring calcium imaging neuronal activity based on movie visualization",
+            "speaker": "Julien Denis (INMED, France)."
+          },
+          {
+            "title": "Investigating simple object representations for deep RL",
+            "speaker": "Guy Davidson (NYU)"
+          },
+          {
+            "title": "A Geometric Perspective on Artificial Deep Neural Networks",
+            "speaker": "Stanislav Fo\u0159t"
+          }
+        ],
+        [
+          {
+            "title": "A Genetic Model of the Connectome",
+            "speaker": "D\u00e1niel Barab\u00e1si"
+          },
+          {
+            "title": "Learning sequences of correlated patterns in neural networks",
+            "speaker": "Subhadra Mokashe (Duke)"
+          },
+          {
+            "title": "Process as Connectivity: towards biology-specific complex networks",
+            "speaker": "Bradly Alicea (OpenWorm)"
+          }
+        ],
+        [
+          {
+            "title": "[Moved]",
+            "speaker": ""
+          },
+          {
+            "title": "An Algorithmic Barrier to Neural Circuit Understanding",
+            "speaker": "Venkatakrishnan Ramaswamy"
+          },
+          {
+            "title": "[Canceled]",
+            "speaker": "[Canceled]"
+          }
+        ],
+        [
+          {
+            "title": "A Decentralised Neural Model Explaining Optimal Integration Of Navigational Strategies in Insects",
+            "speaker": "Xuelong Sun (U Lincoln)"
+          },
+          {
+            "title": "Temporal sequences of brain activity at rest are constrained by white matter structure and modulated by cognitive demands",
+            "speaker": "Eli Cornblath (UPenn)"
+          },
+          {
+            "title": "Are deep neural networks effective models of visual activity in the brain because of their architecture or training?",
+            "speaker": "Anna Truzzi (Trinity College Dublin)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-30 10:00:00"
+    },
+    {
+      "speaker": "Nicole Rust (UPenn)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/5"
+        }
+      ],
+      "title": "Understanding image memorability",
+      "abstract": "When asked, \u2018Have you seen this image before?\u2019, why are some images easier to remember than others? In this talk, I will review new developments in our understanding of \u201cimage memorability\u201d variation, including its behavioral characteristics, its neural correlates, and the optimization principles from which it originates. I will highlight work that has employed large behavioral data to leverage memorability scores computed for individual images. These studies demonstrate that that the mapping of image content to image memorability is predictable, but also non-intuitive and multifaceted. This work has also led to insights into the neural correlates of image memorability, by way of the discovery of a type of population response magnitude variation that emerges in high-level visual cortex as well as higher stages of deep neural networks trained to categorize objects. Finally, in the spirit of neuromatch.io, I will end the talk by describing open questions about image memorability that can be tractably addressed through a combination of existing pretrained deep neural networks and publicly available behavioral and neural data.",
+      "datetime_edt": "2020-03-30 11:00:00"
+    },
+    {
+      "speaker": "Ken Harris (UCL)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/6"
+        }
+      ],
+      "title": "N_neurons -> infinity",
+      "abstract": "We used 2-photon calcium imaging to record the responses of >10,000 neurons in the visual cortex of awake mice, to thousands of natural images. This dataset was large enough to allow us to consider a limit where the number of recorded neurons and stimuli tends to infinity: by considering neurons and stimuli to have been randomly sampled from a probability distribution, we are able infer the geometry of the full population code, to the full distribution of stimuli. This population code was high-dimensional, with the variance of its dimensions following a n^(-alpha) power law with alpha ~ 1. This power law did not reflect the statistics of natural images, as it persisted even when presenting spatially whitened stimuli. A mathematical analysis showed that a continuous representation of sensory stimuli requires variances decaying faster than n^(-1), and a differentiable representation of a d-dimensional stimulus requires variances decaying faster than n^(-1 -2/d). By recording responses to stimulus ensembles of varying dimension, we showed this bound is saturated. We conclude that the manifold of neural population responses is as high-dimensional as possible before becoming non-differentiable.",
+      "datetime_edt": "2020-03-30 12:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [
+          {
+            "title": "Limits of Decoding Mental States",
+            "speaker": "Andrew Vigotsky (Northwestern)"
+          },
+          {
+            "title": "A new sulcal landmark identifying anatomical and functional gradients in human lateral prefrontal cortex",
+            "speaker": "Jacob Miller (Berkeley)"
+          },
+          {
+            "title": "Behavioral, physiological, and neural signatures of surprise during naturalistic sports viewing",
+            "speaker": "James Antony (Princeton)"
+          }
+        ],
+        [
+          {
+            "title": "The neural correlates of loss of consciousness in TBI",
+            "speaker": "Simone Monachino (Unitn)"
+          },
+          {
+            "title": "Neurocomputational mechanisms of social influence in goal-directed learning",
+            "speaker": "Lei Zhang (U of Vienna)"
+          },
+          {
+            "title": "Merging humans and machines with collaborative brain-computer interfaces",
+            "speaker": "Davide Valeriani (Harvard)"
+          }
+        ],
+        [
+          {
+            "title": "Two Routes to Scalable Credit Assignment without Weight Symmetry",
+            "speaker": "Javier Sagastuy-Brena (Stanford)"
+          },
+          {
+            "title": "Learning when to recall ",
+            "speaker": "Qihong Lu (Princeton Neuroscience)"
+          },
+          {
+            "title": "A theory of generalization in kernel regression and wide neural networks",
+            "speaker": "Abdulkadir Canatar (Harvard)"
+          }
+        ],
+        [
+          {
+            "title": "Multiple Mechanisms of Gain Modulation in the Serotonin System",
+            "speaker": "Emerson Harkin (U Ottawa)"
+          },
+          {
+            "title": "Interplay between persistent activity and activity-silent dynamics in prefrontal cortex ",
+            "speaker": "Jo\u00e3o Barbosa"
+          },
+          {
+            "title": "Long- and short-range connectivity and neuronal types affect prefrontal dorsal raphe circuit dynamics differently",
+            "speaker": "Alok Joshi (U of Ulster)"
+          }
+        ],
+        [
+          {
+            "title": "Predicting human skill in control of a supernumerary robotic thumb through motor coordination measures",
+            "speaker": "Ali Shafti (Imperial)"
+          },
+          {
+            "title": "Confidence in predicted position error explains saccadic decisions during pursuit",
+            "speaker": "Jonathan Coutinho (Queen's U)"
+          },
+          {
+            "title": "Neurobehavioral biomarkers of motor-learning in a real-world task",
+            "speaker": "Shlomi Haar Millo (Imperial)"
+          }
+        ],
+        [
+          {
+            "title": "Theta rhythm paradoxically sensitizes spike-frequency adapting interneurons to gamma and ripple frequencies",
+            "speaker": "Andreas Neef (GWDG)"
+          },
+          {
+            "title": "[No title]",
+            "speaker": "Seth Haney (UC San Diego)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-30 13:00:00"
+    },
+    {
+      "speaker": "Contributed talks",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/8"
+        }
+      ],
+      "schedule": [
+        [
+          {
+            "title": "Topological portraits of multiscale coordination dynamics",
+            "speaker": "Mengsen Zhang (Stanford)"
+          },
+          {
+            "title": "Individual differences among deep neural network models",
+            "speaker": "Johannes Mehrer (Cambridge)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-30 14:00:00"
+    },
+    {
+      "speaker": "Danielle Bassett (UPenn)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/9"
+        }
+      ],
+      "title": "Envisioning an equitable future for neuroscience",
+      "abstract": "In recent years, science has been pushed to grapple with the social and structural systems that produce vast gender and racial imbalances in academic participation. While current discussions largely focus on the role of people in positions of power (e.g., journal editors, grant reviewers and agencies, department chairs, and society presidents), many imbalances are in fact caused and perpetuated by researchers themselves. A key example is imbalance within citation practices, where people from marginalized groups are broadly undercited. Because of the downstream effects that citations can have on visibility and career advancement, understanding and eliminating bias in citation practices is vital for addressing inequity in our scientific community. Here we uncover evidence of striking (and growing) gender imbalance in neuroscience reference lists, and offer practical (and open-access) tools for the mitigation of disparity, thereby placing the power for social justice within the hands of individual researchers.",
+      "datetime_edt": "2020-03-30 15:00:00"
+    },
+    {
+      "speaker": "Panel Discussion (The big topics in neuroscience)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/10"
+        }
+      ],
+      "title": "The big topics in neuroscience",
+      "abstract": "Join the panelists of great neuroscientists to discuss the big topics in neuroscience.",
+      "datetime_edt": "2020-03-30 16:00:00"
+    },
+    {
+      "speaker": "Social time",
+      "abstract": "Join Konrad Kording (UPenn) and Dan Goodman (Imperial College) on Crowdcast for Social discussion. They will ask people on stage to chit-chat and discuss.",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/10"
+        }
+      ],
+      "datetime_edt": "2020-03-30 17:00:00"
+    },
+    {
+      "speaker": "Rescheduled to 9 PM",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/11"
+        }
+      ],
+      "title": "[Rescheduled to 9 PM]",
+      "abstract": "We reschedule Kate to 9 PM instead. We did feedback session already while we got no speaker.",
+      "datetime_edt": "2020-03-30 18:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [],
+        [
+          {
+            "title": "AriEL: volume coding for sentence generation",
+            "speaker": "Luca Celotti (Universit\u00e9 de Sherbrooke)"
+          },
+          {
+            "title": "A connectomic substrate of credit assignment in basal ganglia reinforcement learning",
+            "speaker": "Joergen Kornfeld (MIT)"
+          },
+          {
+            "title": "TBA",
+            "speaker": ""
+          }
+        ],
+        [
+          {
+            "title": "Hierarchical neural network models that more closely match primary visual cortex also better explain higher level vision",
+            "speaker": "Tiago Marques (MIT)"
+          },
+          {
+            "title": "Selectivity considered harmful: evaluating the causal impact of class selectivity in DNNs",
+            "speaker": "Matthew Leavitt (Facebook)"
+          },
+          {
+            "title": "",
+            "speaker": ""
+          }
+        ],
+        [
+          {
+            "title": "Dual processes of hippocampal mode switching",
+            "speaker": "Keiland Cooper (UC Irvine)"
+          },
+          {
+            "title": "Controlling decision-making dynamics in arbitrary neuronal networks",
+            "speaker": "Bryan Daniels (Arizona State U)"
+          },
+          {
+            "title": "A cortical model examining mismatch negativity deficits in schizophrenia",
+            "speaker": "Gili Karni (Minerva Schools at KGI)"
+          }
+        ],
+        [],
+        []
+      ],
+      "datetime_edt": "2020-03-30 19:00:00"
+    },
+    {
+      "speaker": "Contributed talks",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/13"
+        }
+      ],
+      "schedule": [
+        [
+          {
+            "title": "Efficient coding of contrast in auditory cortex determines target detection behavior.",
+            "speaker": "Chris Angeloni (UPenn)"
+          },
+          {
+            "title": "Precise excitation-inhibition balance controls gain and timing at the hippocampus",
+            "speaker": "Sahil Moza"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-30 20:00:00"
+    },
+    {
+      "speaker": "Kate Jeffery (UCL)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/11"
+        }
+      ],
+      "title": "Reliability-weighted cue integration in the rodent head direction system",
+      "abstract": "Studies in rodents have uncovered a system of spatially sensitive neurons that cooperate to form a representation of location, heading direction and speed of movement through the environment. Central to this representation is the head direction system, which combines static environmental information with dynamic self-motion information to generate a head direction signal. This talk will explore recent findings from our lab suggesting that retrosplenial cortex may be the site where weighted directional cue integration occurs, and will propose a mechanism for this weighting process.",
+      "datetime_edt": "2020-03-30 21:00:00"
+    },
+    {
+      "speaker": "Miriam Matamales (U New South Wales) - eLife ECR",
+      "talk_format": [
+        {
+          "name": "Zoom",
+          "url": "https://zoom.us/webinar/register/WN_kjbxqvE7RjuMpKGbVhkwkQ"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=7CZKDHBJ--Y"
+        }
+      ],
+      "title": "Striatal function and its role in goal directed action: a (learning) update",
+      "abstract": "One of the most intriguing characteristics of the striatum is the random spatial distribution and high degree of intermingling between its D1-(direct) and D2-(indirect) spiny projection neurons (SPNs). The anatomical organisation of these two principal neuronal populations is actively promoted during development and has been highly conserved throughout evolution for over 500 million years, and yet its relationship to function is still not fully understood. In our recent study, by mapping a dopamine-dependent transcriptional activation marker in large ensembles of D1- or D2-SPNs in mice, we demonstrated an extensive and dynamic D2- to D1-SPN transmodulation across the striatum that is necessary for updating previous goal-directed learning.",
+      "datetime_edt": "2020-03-31 04:00:00"
+    },
+    {
+      "speaker": "Debanjan Dasgupta (Francis Crick Institute) - eLife ECR",
+      "talk_format": [
+        {
+          "name": "Zoom",
+          "url": "https://zoom.us/webinar/register/WN_kjbxqvE7RjuMpKGbVhkwkQ"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=7CZKDHBJ--Y"
+        }
+      ],
+      "title": "Perception and encoding of temporally fluctuating odour stimulus in mice",
+      "abstract": "The field of olfaction has largely been dominated by the notion of being a temporally slow sense and hence temporal structure in odour had not been accounted for a long time. Here, we show that mice can understand correlation in temporal patterns in odour stimulus at frequencies > 40Hz. Further, we observe neurons in the olfactory bulb that can follow frequency upto 20 Hz suggesting the presence of vital neuronal machinery to use naturally occurring temporal patterns in odour stimulus.",
+      "datetime_edt": "2020-03-31 04:00:00"
+    },
+    {
+      "speaker": "Alexandra Tzilivaki (Charit\u00e9 \u2013 Universit\u00e4tsmedizin Berlin) - eLife ECR",
+      "talk_format": [
+        {
+          "name": "Zoom",
+          "url": "https://zoom.us/webinar/register/WN_kjbxqvE7RjuMpKGbVhkwkQ"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=7CZKDHBJ--Y"
+        }
+      ],
+      "title": "It's a matter of nonlinear dendrites",
+      "abstract": "Our recent modelling predictions, where we challenge the hypothesis that interneurons act simply as linear, widespread inhibitory, blankets across neuronal circuits. Along with supporting experimental evidence that I would briefly highlight, we demonstrate that a major interneuron subtype in CA3 and mPFC - the Fast Spiking Basket cells- contain two types of nonlinear dendrites that support learning and memory functions and are better described by a nonlinear Artificial Neural Network similar to pyramidal neurons. The below proposition raises questions for further studies in order to understand whether interneurons are assistants of leaders in memory formation.",
+      "datetime_edt": "2020-03-31 04:00:00"
+    },
+    {
+      "speaker": "Yiota Poirazi (IMBB/FORTH)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/16"
+        }
+      ],
+      "title": "Illuminating dendritic function using computational modeling",
+      "abstract": "In this presentation I will discuss research form our lab whereby computational models -supported by experiments- are used to provide new insights on how dendrites contribute to various brain functions. Specifically, I will present our findings on how dendritic nonlinearities in fast spiking interneurons and their can influence the processing abilities of these cells and the encoding of new memories, the role of human dendrites in enabling complex computations such as solving the XOR problem and the contributions of dendrite-targeting interneurons on place cell dynamics in the hippocampus, in health and disease.",
+      "datetime_edt": "2020-03-31 07:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [
+          {
+            "title": "Systematic tradeoffs between complexity, accuracy, and optimal in human decision-making",
+            "speaker": "Alex Filipowicz (Waterloo)"
+          },
+          {
+            "title": "Processing  of different spatial scales in the human brain",
+            "speaker": "Michael Peer (UPenn)"
+          },
+          {
+            "title": "Bayesian network change point detection using weighted stochastic block model",
+            "speaker": "Lingbin Bian (Monash U)"
+          }
+        ],
+        [
+          {
+            "title": "Deep learning resolves cortical activation asymmetries in fNIRS during a force tracking task evoking non-stationary haemodynamic responses",
+            "speaker": "Pablo Ortega (Imperial)"
+          },
+          {
+            "title": "A Brain Observatory for Neuroscience",
+            "speaker": "Byron Price (Boston U)"
+          },
+          {
+            "title": "Trait and state anxiety influence foraging decisions",
+            "speaker": "Arjun Ramakrishnan (Indian Institute of Tech)"
+          }
+        ],
+        [
+          {
+            "title": "Astro3S: a novel deep learning method for Astrocyte Spatiotemporal Semantic Segmentation",
+            "speaker": "Jacopo Bonato (Istituto Italiano di Tecnologia)"
+          },
+          {
+            "title": "A Neurobiology of Neural Networks for 2020",
+            "speaker": "Daniel Gardner (Cornell)"
+          },
+          {
+            "title": "Sensory processing and categorization in cortical and deep neural networks",
+            "speaker": "Dimitris Pinotsis (London & MIT)"
+          }
+        ],
+        [
+          {
+            "title": "Unequal Attractor States in Bistable Perception",
+            "speaker": "Leyla Khenissi"
+          },
+          {
+            "title": "Nonlinear scaling of resource allocation in sensory bottlenecks",
+            "speaker": "Laura R Edmondson (U Sheffield)"
+          },
+          {
+            "title": "Delayed surround responses of retinal ganglion cells causes spatiotemporal behavior of V1 simple cells",
+            "speaker": "Rene Larisch (Technische Universit\u00e4t Chemnitz)"
+          }
+        ],
+        [
+          {
+            "title": "Dynamic expressions of confidence within an evidence accumulation framework",
+            "speaker": "Kobe Desender (Ghent U)"
+          },
+          {
+            "title": "Understanding how deep convolutional neural networks predict human behaviour using an interpretable generative model of 3D faces",
+            "speaker": "Christoph Daube (Glasgow)"
+          },
+          {
+            "title": "Oscillatory Patterns in Behavioral Responses during a Memory Task",
+            "speaker": "Marije ter Wal (U Brimingham)"
+          }
+        ],
+        [
+          {
+            "title": "Population Model of Oscillatory Dynamics in Hippocampal CA1 and CA3 Regions",
+            "speaker": "Ashraya Samba Shiva (U Stirling)"
+          },
+          {
+            "title": "Beyond 256 shades of grey: Quantitative MRI for probing brain microstructure",
+            "speaker": "Christophe Phillips"
+          },
+          {
+            "title": "NeuroQuery: predictive meta-analysis of the neuroimaging literature",
+            "speaker": "J\u00e9r\u00f4me Dock\u00e8s (McGill)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-31 08:00:00"
+    },
+    {
+      "speaker": "Kanaka Rajan (Mount Sinai)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/18"
+        }
+      ],
+      "title": "Recurrent Network Models of Adaptive and Maladaptive State Transitions",
+      "abstract": "Join Kanaka Rajan from Icahn School of Medicine at Mount Sinai on her talk: \"Recurrent Network Models of Adaptive and Maladaptive State Transitions\"",
+      "datetime_edt": "2020-03-31 09:00:00"
+    },
+    {
+      "speaker": "Russ Poldrack (Stanford)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/19"
+        }
+      ],
+      "title": "Towards an open science ecosystem for neuroimaging",
+      "abstract": "Within the field of neuroimaging, open science is quickly become the norm. I will discuss the set of tools, standards, and resources that have enabled the development of open science in this domain, and discuss the lessons learned from this success.",
+      "datetime_edt": "2020-03-31 10:00:00"
+    },
+    {
+      "speaker": "Maria N. Geffen (UPenn)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/20"
+        }
+      ],
+      "title": "Neuronal circuits for making sense of sounds",
+      "abstract": "Hearing perception relies on our ability to tell apart the spectral content of different sounds, and to learn to use this difference to distinguish behaviorally relevant (such as dangerous and safe) sounds. However, the neuronal circuits that underlie this modulation remain unknown. In the auditory cortex, the excitatory neurons serve the dominant function in transmitting information about the sensory world within and across brain areas, whereas inhibitory interneurons carry a range of modulatory functions, shaping the way information is represented and processed. I will discuss the results of our recent studies that elucidate the function of neuronal populations in sound encoding and perception. First, we found that the most common class of inhibitory neurons modulate frequency selectivity of excitatory neurons in the auditory cortex and regulate frequency discrimination acuity and specificity of discriminative auditory associative learning. Our results demonstrate that cortical inhibition can improve or impair acuity of innate and learned auditory behaviors. Second, we found that another class of inhibitory neurons regulate adaptation in the auditory cortex to frequent sounds, in a stimulus-specific fashion. By selectively reducing responses to frequently, but not rarely, occurring sounds, auditory cortical neurons enhance the brain's ability to detect unexpected events through stimulus-specific adaptation. The role of these inhibitory neurons extends to other forms of adaptation to temporal regularities. Third, I will discuss a study that reveals a novel function for neuronal responses in the auditory cortex in learning. We found that the activity of cortical neurons predicts the specificity of auditory learning. These results expand our understanding of how specific cortical circuits contribute to auditory perception in everyday acoustic environments.",
+      "datetime_edt": "2020-03-31 11:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [
+          {
+            "title": "Default or not default? Resting-state network connectivity correlates with learning success",
+            "speaker": "Roberta Passiatore (U of Bari Aldo Moro)"
+          },
+          {
+            "title": "Holding the arm and fingers still through integration of cortical commands",
+            "speaker": "Scott Albert (John Hopkins)"
+          },
+          {
+            "title": "Dynamic brain connectivity predicts MS patients\u2019 impairment level",
+            "speaker": "Ceren Tozlu (Cornell)"
+          }
+        ],
+        [
+          {
+            "title": "A Normative Theory of Causal Inference in Neural Circuits",
+            "speaker": "Wenhao Zhang (U Pittsburgh)"
+          },
+          {
+            "title": "Spiking Time-dependent Plasticity generates efficient coding of predictions",
+            "speaker": "Pau Vilimelis Aceituno"
+          },
+          {
+            "title": "Biophysically-detailed multiscale model of macaque auditory thalamocortical circuits reproduces physiological oscillations",
+            "speaker": "Erica Griffith (SUNY)"
+          }
+        ],
+        [
+          {
+            "title": "Stable and Expressive Recurrent Neural Network Models for Vision",
+            "speaker": "Drew Linsley (Brown U)"
+          },
+          {
+            "title": "Data augmentation invariance for learning robust visual representations",
+            "speaker": "Alex Hernandez-Garcia (U of Osnabr\u00fcck)"
+          },
+          {
+            "title": "Vorsprung Durch Biologie: Better robustness and generalisation in deep neural networks through biological constraints",
+            "speaker": "Benjamin Evans (Bristol, UK)"
+          }
+        ],
+        [
+          {
+            "title": "Feedback inhibition and frequency-dependent pattern separation",
+            "speaker": "Daniel M\u00fcller-Komorowska"
+          },
+          {
+            "title": "Synergy as a precursor of transitions in complex systems dynamics",
+            "speaker": "Daniele Marinazzo (U Ghent)"
+          },
+          {
+            "title": "Spectral Constraints on Population Codes for Robust Linear Readout",
+            "speaker": "Blake Bordelon (Harvard)"
+          }
+        ],
+        [
+          {
+            "title": "'I interact therefore I am': Human becoming in and through social interaction",
+            "speaker": "Dimitris Bolis (Max Planck Institute of Psychiatry) & Leonhard Schilbach"
+          },
+          {
+            "title": "Many heads are more utilitarian than one: Moral judgements in small groups",
+            "speaker": "Anita Keshmirian (LMU Munich)"
+          },
+          {
+            "title": "Choices change the temporal weighting of decision-relevant evidence",
+            "speaker": "Bharath Chandra Talluri"
+          }
+        ],
+        [
+          {
+            "title": "Practical Bayesian inference for expensive models with Variational Bayesian Monte Carlo",
+            "speaker": "Luigi Acerbi (U Geneva)"
+          },
+          {
+            "title": "Schedule-free variational message passing for Bayesian filtering",
+            "speaker": "Wouter Kouw (Eindhoven U of Tech)"
+          },
+          {
+            "title": "Inhibitory Neurons in the Dorsomedial Medulla Promote REM Sleep",
+            "speaker": "Joseph Stucynski (UPenn)"
+          }
+        ],
+        [
+          {
+            "title": "Learning multiple cue - reward location associations with a reservoir computing model and temporal difference error-modulated Hebbian plasticity",
+            "speaker": "M Ganesh Kumar"
+          },
+          {
+            "title": "B-SOiD: Open Source Resource to Extract Actions and Kinematics from Trained and Naturalistic Behavior",
+            "speaker": "Eric Yttri (CMU)"
+          },
+          {
+            "title": "TBA",
+            "speaker": ""
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-31 12:00:00"
+    },
+    {
+      "speaker": "Yoshua Bengio (Mila)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/22"
+        }
+      ],
+      "title": "Towards deep learning implementations of functions associated with conscious processing",
+      "abstract": "Empirical evidence suggests strong links between human intelligence and consciousness, especially with particular abilities humans enjoy with current AI does not. We therefore propose that the next generation of AI will require tackling the non-trivial challenge of endowing machines with some of the functions associated with consciousness. At the same time, a better understanding of the functions associated with consciousness would provide extremely important insights into the human mind. Despite rapid progress, current AI methodologies face considerable limitations, most notably failures of \u201cout-of-distribution robustness\u201d. Fortuitously, recent advances in deep learning allow us to integrate emerging knowledge about consciousness and its functions into AI systems. These initial advances involve formalized but simplistic mechanisms for differentiable attention, memory, modularization of computation and indirect referents to pieces of information. Past progress in deep learning has concentrated mostly on learning from a static dataset, mostly for perception tasks and other System 1 abilities. We argue that towards this objective, soft attention mechanisms constitute a key ingredient to focus computation on a few concepts at a time (a \"conscious thought\") as per the consciousness prior and its associated assumption that many high-level dependencies can be approximately captured by a sparse factor graph. We also argue how the agent perspective in deep learning can help put more constraints on the learned representations to capture affordances, causal variables, and model transitions in the environment. Finally, we propose that meta-learning, the modularization aspect of the consciousness prior and the agent perspective on representation learning should facilitate re-use of learned components in novel ways (even if statistically improbable, as in counterfactuals), enabling more powerful forms of compositional generalization, i.e., out-of-distribution generalization based on the hypothesis of localized (in time, space, and concept space) changes in the environment due to interventions of agents.",
+      "datetime_edt": "2020-03-31 13:00:00"
+    },
+    {
+      "speaker": "Ila Fiete (MIT)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/23"
+        }
+      ],
+      "title": "Simultaneous rigidity and flexibility through modularity in cognitive maps for navigation",
+      "abstract": "Generalizably solving complex problems involves decomposing them into simpler components and combining these parts in effective ways to solve new instances. The hippocampal complex has been a rich playground for understanding how the brain constructs and combines modular structures for flexible computation. This is because the hippocampus and associated areas generate strikingly explicit emergent representations of abstract (latent) low-dimensional variables in the domain of spatial navigation that form the elements of spatial inference but are not directly specified by the world. I will describe recent progress in characterizing the rigid nature of these representations through unsupervised discovery of latent low-dimensional structure from population data and show how these rigid and simple low-dimensional circuits can generate, in a highly flexible way, representations and memory of different (spatial and non-spatial) variables, as seen in recent experiments. I will conclude with an overview of how understanding these circuits in the realm of navigation gives insights into their potential use in higher-dimensional non-spatial cognitive representations as well.",
+      "datetime_edt": "2020-03-31 14:00:00"
+    },
+    {
+      "speaker": "Short talks",
+      "talk_format": [],
+      "schedule": [
+        [
+          {
+            "title": "Awake suppression after brief exposure to a familiar stimulus",
+            "speaker": "Ji Won Bang (NYU)"
+          },
+          {
+            "title": "Orthogonal task coding in the prefrontal cortex during human continual learning",
+            "speaker": "Timo Flesch (Oxford)"
+          },
+          {
+            "title": "Core and Matrix Thalamic Sub-Populations Relate to Spatio-Temporal Cortical Connectivity Gradients",
+            "speaker": "Mac Shine (U Sydney)"
+          }
+        ],
+        [],
+        [
+          {
+            "title": "An autoencoder approach to measuring dimensionality and content of information transmission across cortical regions",
+            "speaker": "Mehdi Orouji (UC Irvine)"
+          },
+          {
+            "title": "Unsupervised learning of manifold models for coding physical transformations",
+            "speaker": "Christopher Rozell (Georgia Tech)"
+          },
+          {
+            "title": "Maximizing the coding capacity of neuronal networks",
+            "speaker": "Collins Assisi (IISER Pune)"
+          }
+        ],
+        [
+          {
+            "title": "Flexible motor sequencing through thalamic control of cortical dynamics",
+            "speaker": "Laureline Logiaco (Columbia U)"
+          },
+          {
+            "title": "Supervised Deep Similarity Matching",
+            "speaker": "Shanshan Qin (Harvard)"
+          },
+          {
+            "title": "The mystery of disappearing receptive fields",
+            "speaker": "Maria Kesa (Janelia Farm)"
+          }
+        ],
+        [
+          {
+            "title": "Population coding of strategic variables during foraging in freely-moving macaques",
+            "speaker": "Neda Shahidi (U Goettingen)"
+          },
+          {
+            "title": "Temporally coherent perturbation of neural dynamics during the delay period alters human multi-item working memory",
+            "speaker": "Huan Luo (Peking U)"
+          },
+          {
+            "title": "Features or Bugs? Synergistic Idiosyncrasies in Human Learning and Decision-Making",
+            "speaker": "Dalin Guo (UCSD)"
+          }
+        ],
+        [
+          {
+            "title": "A whole-brain analysis of water-flow responses in larval zebrafish",
+            "speaker": "Gilles Vanwalleghem (U Queensland)"
+          },
+          {
+            "title": "Embodied Cognition: Using Developmental Braitenberg Vehicles To Model Levels of Representation",
+            "speaker": "Jesse Parent"
+          },
+          {
+            "title": "Towards multipurpose bio-realistic models of cortical circuits",
+            "speaker": "Anton Arkhipov (Allen Institute)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-31 15:00:00"
+    },
+    {
+      "speaker": "Blake Richards (McGill/Mila) and Paul Cicek",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/25"
+        }
+      ],
+      "title": "Are normative models a good framework for systems neuroscience?",
+      "abstract": "In recent years there has been increasing interest in the use of top-down, normative models of neural circuits. For example, some researchers have argued that the principles of optimization provided by deep learning should be used as a framework for systems neuroscience. Yet, there are others who question the utility of such normative models, especially in light of ongoing debates regarding how brain functions are operationally defined. In this session, Blake Richards (McGill University/Mila) and Paul Cisek (Universit\u00e9 de Montr\u00e9al) will debate whether normative models provide a good framework for systems neuroscience at this point in the field's development. Blake will argue for \"yes\", Paul for \"no\". Each researcher will present their perspective in 10 minutes, then have a 20 minute debate with each other before opening the session up to audience questions and comments. \nhttps://www.nature.com/articles/s41593-019-0520-2\nhttps://link.springer.com/article/10.3758/s13414-019-01760-1\nhttps://www.ncbi.nlm.nih.gov/pubmed/31434893",
+      "datetime_edt": "2020-03-31 16:00:00"
+    },
+    {
+      "speaker": "Surya Ganguli (Stanford)",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/26"
+        }
+      ],
+      "title": "Not only creating but also understanding deep and recurrent network models of the brain",
+      "abstract": "Modern machine learning methods have yielded powerful tools to generate network models of diverse brain circuits spanning sensation, cognition and action. However, such models raise profound questions about the very nature of explanation in systems neuroscience. Are we simply replacing something we don\u2019t understand (the brain) with something else we don\u2019t understand (a large deep/recurrent neural network).  Moreover, how do we leverage such models to extract new conceptual hypotheses regarding brain function that can drive the design of the next generation of neuroscience experiments.  We will explore these issues in the context of deep feedforward models of the first steps of vision in the retina, and recurrent neural network models of the entorhinal cortex, obtaining analytic and computational methods to extract a human interpretable conceptual understanding of their development and function.",
+      "datetime_edt": "2020-03-31 17:00:00"
+    },
+    {
+      "speaker": "Contributed talks",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/27"
+        }
+      ],
+      "schedule": [
+        [
+          {
+            "title": "Investigating the Source and Structure of Unexplained Variance in Natural Scenes fMRI Data",
+            "speaker": "Maggie Mae Mell (Medical U of South Carolina)"
+          },
+          {
+            "title": "Brain-Like Object Recognition with High-Performing Shallow Recurrent ANNs",
+            "speaker": "Martin Schrimpf (MIT)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-31 18:00:00"
+    },
+    {
+      "speaker": "Discussion",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/28"
+        }
+      ],
+      "abstract": "Discussion about the conference. How to make it better? How can us, neuroscience community, cope with COVID-19 related issues?",
+      "datetime_edt": "2020-03-31 19:00:00"
+    },
+    {
+      "speaker": "Social time",
+      "abstract": "Join Konrad Kording (UPenn) and Dan Goodman (Imperial College) on Crowdcast. They will ask people on stage to chit-chat and discuss.",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/28"
+        }
+      ],
+      "datetime_edt": "2020-03-31 20:00:00"
+    },
+    {
+      "speaker": "Contributed talks",
+      "talk_format": [
+        {
+          "name": "Crowdcast",
+          "url": "https://www.crowdcast.io/e/neuromatch/29"
+        }
+      ],
+      "schedule": [
+        [
+          {
+            "title": "A recurrent neural circuit model for color constancy",
+            "speaker": "Aimen Zerroug (Brown)"
+          },
+          {
+            "title": "Unsupervised Learning Predicts Human Perception and Misperception of Specular Surface Reflectance",
+            "speaker": "Kate Storrs (Abteilung Allgemeine Psychologie)"
+          }
+        ]
+      ],
+      "datetime_edt": "2020-03-31 21:00:00"
+    }
+  ]
+}

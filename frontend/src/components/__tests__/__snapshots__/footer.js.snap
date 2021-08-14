@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders correctly 1`] = `
+<div
+  className="sc-bdVaJa TOCcG"
+>
+  <div
+    className="sc-bwzfXH ckBUiA"
+  >
+    Made with
+    <span
+      className="sc-ifAKCX bXDggk"
+    >
+       ❤ 
+    </span>
+    at
+    <br />
+    <a
+      className="sc-htpNat bFVrkX"
+      href="http://kordinglab.com/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Kording lab (University of Pennsylvania)
+    </a>
+     and 
+    <a
+      className="sc-htpNat bFVrkX"
+      href="http://neural-reckoning.org/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Neural Reckoning Lab (Imperial College)
+    </a>
+    <br />
+    <a
+      className="sc-bxivhb hctUYH"
+      href="/terms-of-use"
+    >
+      Terms of Use | Code of Conduct
+    </a>
+  </div>
+</div>
+`;

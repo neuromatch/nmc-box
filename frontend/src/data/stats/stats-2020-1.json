@@ -1,0 +1,8565 @@
+{
+  "edition": "2020-1",
+  "data": [
+    {
+      "location": "New York, United States",
+      "n_users": 105,
+      "position": [
+        40.7127281,
+        -74.0060152
+      ]
+    },
+    {
+      "location": "Berlin, Germany",
+      "n_users": 83,
+      "position": [
+        52.5170365,
+        13.3888599
+      ]
+    },
+    {
+      "location": "Montreal, Canada",
+      "n_users": 61,
+      "position": [
+        45.4972159,
+        -73.6103642
+      ]
+    },
+    {
+      "location": "Philadelphia, United States",
+      "n_users": 61,
+      "position": [
+        39.9527237,
+        -75.1635262
+      ]
+    },
+    {
+      "location": "Baltimore, United States",
+      "n_users": 48,
+      "position": [
+        39.2908816,
+        -76.610759
+      ]
+    },
+    {
+      "location": "Oxford, United Kingdom",
+      "n_users": 45,
+      "position": [
+        51.7520131,
+        -1.2578499
+      ]
+    },
+    {
+      "location": "Cambridge, United States",
+      "n_users": 44,
+      "position": [
+        42.3750997,
+        -71.1056157
+      ]
+    },
+    {
+      "location": "Toronto, Canada",
+      "n_users": 44,
+      "position": [
+        43.6534817,
+        -79.3839347
+      ]
+    },
+    {
+      "location": "Munich, Germany",
+      "n_users": 39,
+      "position": [
+        48.1371079,
+        11.5753822
+      ]
+    },
+    {
+      "location": "Zurich, Switzerland",
+      "n_users": 37,
+      "position": [
+        47.3723941,
+        8.5423328
+      ]
+    },
+    {
+      "location": "Pittsburgh, United States",
+      "n_users": 35,
+      "position": [
+        40.4416941,
+        -79.9900861
+      ]
+    },
+    {
+      "location": "San Francisco, United States",
+      "n_users": 32,
+      "position": [
+        37.7790262,
+        -122.4199061
+      ]
+    },
+    {
+      "location": "San Diego, United States",
+      "n_users": 32,
+      "position": [
+        32.7174209,
+        -117.1627714
+      ]
+    },
+    {
+      "location": "Nijmegen, Netherlands",
+      "n_users": 31,
+      "position": [
+        51.8427385,
+        5.8634696
+      ]
+    },
+    {
+      "location": "Paris, France",
+      "n_users": 29,
+      "position": [
+        48.8566969,
+        2.3514616
+      ]
+    },
+    {
+      "location": "Leipzig, Germany",
+      "n_users": 29,
+      "position": [
+        51.3406321,
+        12.3747329
+      ]
+    },
+    {
+      "location": "Los Angeles, United States",
+      "n_users": 29,
+      "position": [
+        34.0536909,
+        -118.2427666
+      ]
+    },
+    {
+      "location": "Amsterdam, Netherlands",
+      "n_users": 28,
+      "position": [
+        52.3727598,
+        4.8936041
+      ]
+    },
+    {
+      "location": "Tel Aviv, Israel",
+      "n_users": 28,
+      "position": [
+        32.0804808,
+        34.7805274
+      ]
+    },
+    {
+      "location": "Cambridge, United Kingdom",
+      "n_users": 28,
+      "position": [
+        52.2034823,
+        0.1235817
+      ]
+    },
+    {
+      "location": "Germany",
+      "n_users": 25,
+      "position": [
+        51.0834196,
+        10.4234469
+      ]
+    },
+    {
+      "location": "Marseille, France",
+      "n_users": 24,
+      "position": [
+        43.2961743,
+        5.3699525
+      ]
+    },
+    {
+      "location": "Frankfurt am Main, Germany",
+      "n_users": 24,
+      "position": [
+        50.1106444,
+        8.6820917
+      ]
+    },
+    {
+      "location": "London, Canada",
+      "n_users": 23,
+      "position": [
+        42.9836747,
+        -81.2496068
+      ]
+    },
+    {
+      "location": "Islington, United Kingdom",
+      "n_users": 23,
+      "position": [
+        51.5384287,
+        -0.0999051
+      ]
+    },
+    {
+      "location": "Princeton, United States",
+      "n_users": 22,
+      "position": [
+        40.3492744,
+        -74.6592958
+      ]
+    },
+    {
+      "location": "Hamburg, Germany",
+      "n_users": 21,
+      "position": [
+        53.5437641,
+        10.0099133
+      ]
+    },
+    {
+      "location": "Edinburgh, United Kingdom",
+      "n_users": 21,
+      "position": [
+        55.9533456,
+        -3.1883749
+      ]
+    },
+    {
+      "location": "London, United Kingdom",
+      "n_users": 20,
+      "position": [
+        51.5073219,
+        -0.1276474
+      ]
+    },
+    {
+      "location": "Barcelona, Spain",
+      "n_users": 20,
+      "position": [
+        41.3828939,
+        2.1774322
+      ]
+    },
+    {
+      "location": "Brooklyn, United States",
+      "n_users": 20,
+      "position": [
+        40.6501038,
+        -73.9495823
+      ]
+    },
+    {
+      "location": "Palo Alto, United States",
+      "n_users": 20,
+      "position": [
+        37.4443293,
+        -122.1598465
+      ]
+    },
+    {
+      "location": "Camden, United Kingdom",
+      "n_users": 19,
+      "position": [
+        51.5423045,
+        -0.1395604
+      ]
+    },
+    {
+      "location": "Houston, United States",
+      "n_users": 18,
+      "position": [
+        29.7589382,
+        -95.3676974
+      ]
+    },
+    {
+      "location": "Seattle, United States",
+      "n_users": 18,
+      "position": [
+        47.6038321,
+        -122.3300624
+      ]
+    },
+    {
+      "location": "Budapest, Hungary",
+      "n_users": 18,
+      "position": [
+        47.4983815,
+        19.0404707
+      ]
+    },
+    {
+      "location": "United Kingdom",
+      "n_users": 18,
+      "position": [
+        54.7023545,
+        -3.2765753
+      ]
+    },
+    {
+      "location": "Lisbon, Portugal",
+      "n_users": 18,
+      "position": [
+        38.7077507,
+        -9.1365919
+      ]
+    },
+    {
+      "location": "Providence, United States",
+      "n_users": 18,
+      "position": [
+        41.8239891,
+        -71.4128343
+      ]
+    },
+    {
+      "location": "Bengaluru, India",
+      "n_users": 18,
+      "position": [
+        12.9791198,
+        77.5912997
+      ]
+    },
+    {
+      "location": "Chicago, United States",
+      "n_users": 17,
+      "position": [
+        41.8755616,
+        -87.6244212
+      ]
+    },
+    {
+      "location": "Singapore, Singapore",
+      "n_users": 17,
+      "position": [
+        1.357107,
+        103.8194992
+      ]
+    },
+    {
+      "location": "Washington, United States",
+      "n_users": 17,
+      "position": [
+        38.8949855,
+        -77.0365708
+      ]
+    },
+    {
+      "location": "Bristol, United Kingdom",
+      "n_users": 17,
+      "position": [
+        51.4538022,
+        -2.5972985
+      ]
+    },
+    {
+      "location": "Rockville, United States",
+      "n_users": 17,
+      "position": [
+        39.0840054,
+        -77.1527573
+      ]
+    },
+    {
+      "location": "Vienna, Austria",
+      "n_users": 17,
+      "position": [
+        48.2083537,
+        16.3725042
+      ]
+    },
+    {
+      "location": "New Haven, United States",
+      "n_users": 16,
+      "position": [
+        41.3082138,
+        -72.9250518
+      ]
+    },
+    {
+      "location": "Trondheim, Norway",
+      "n_users": 15,
+      "position": [
+        63.4305658,
+        10.3951929
+      ]
+    },
+    {
+      "location": "Somerville, United States",
+      "n_users": 15,
+      "position": [
+        42.3875968,
+        -71.0994968
+      ]
+    },
+    {
+      "location": "Sheffield, United Kingdom",
+      "n_users": 15,
+      "position": [
+        53.3806626,
+        -1.4702278
+      ]
+    },
+    {
+      "location": "Hampstead, United Kingdom",
+      "n_users": 15,
+      "position": [
+        51.5542879,
+        -0.1740747
+      ]
+    },
+    {
+      "location": "Austin, United States",
+      "n_users": 15,
+      "position": [
+        30.2711286,
+        -97.7436995
+      ]
+    },
+    {
+      "location": "G\u00f6ttingen, Germany",
+      "n_users": 14,
+      "position": [
+        51.5327604,
+        9.9352051
+      ]
+    },
+    {
+      "location": "Atlanta, United States",
+      "n_users": 13,
+      "position": [
+        33.7490987,
+        -84.3901849
+      ]
+    },
+    {
+      "location": "Mannheim, Germany",
+      "n_users": 13,
+      "position": [
+        49.489591,
+        8.467236
+      ]
+    },
+    {
+      "location": "Berkeley, United States",
+      "n_users": 13,
+      "position": [
+        37.8708393,
+        -122.2728639
+      ]
+    },
+    {
+      "location": "Durham, United States",
+      "n_users": 13,
+      "position": [
+        35.996653,
+        -78.9018053
+      ]
+    },
+    {
+      "location": "Vancouver, Canada",
+      "n_users": 13,
+      "position": [
+        49.2608724,
+        -123.1139529
+      ]
+    },
+    {
+      "location": "Davis, United States",
+      "n_users": 12,
+      "position": [
+        40.7474784,
+        -92.3965311
+      ]
+    },
+    {
+      "location": "Boston, United States",
+      "n_users": 12,
+      "position": [
+        42.3602534,
+        -71.0582912
+      ]
+    },
+    {
+      "location": "Ashburn, United States",
+      "n_users": 12,
+      "position": [
+        39.0437192,
+        -77.4874899
+      ]
+    },
+    {
+      "location": "Minneapolis, United States",
+      "n_users": 12,
+      "position": [
+        44.9772995,
+        -93.2654692
+      ]
+    },
+    {
+      "location": "Madrid, Spain",
+      "n_users": 12,
+      "position": [
+        40.4167047,
+        -3.7035825
+      ]
+    },
+    {
+      "location": "Rochester, United States",
+      "n_users": 12,
+      "position": [
+        43.157285,
+        -77.615214
+      ]
+    },
+    {
+      "location": "United States",
+      "n_users": 11,
+      "position": [
+        39.7837304,
+        -100.4458825
+      ]
+    },
+    {
+      "location": "Cologne, Germany",
+      "n_users": 11,
+      "position": [
+        50.938361,
+        6.959974
+      ]
+    },
+    {
+      "location": "Pune, India",
+      "n_users": 11,
+      "position": [
+        18.521428,
+        73.8544541
+      ]
+    },
+    {
+      "location": "Central, Hong Kong",
+      "n_users": 11,
+      "position": [
+        22.2850394,
+        114.1583819
+      ]
+    },
+    {
+      "location": "Ann Arbor, United States",
+      "n_users": 11,
+      "position": [
+        42.2681569,
+        -83.7312291
+      ]
+    },
+    {
+      "location": "La Jolla, United States",
+      "n_users": 10,
+      "position": [
+        32.83259,
+        -117.2716839
+      ]
+    },
+    {
+      "location": "Stanford, United States",
+      "n_users": 10,
+      "position": [
+        37.427467,
+        -122.1702445
+      ]
+    },
+    {
+      "location": "Bloomington, United States",
+      "n_users": 10,
+      "position": [
+        39.1670396,
+        -86.5342881
+      ]
+    },
+    {
+      "location": "Bethesda, United States",
+      "n_users": 10,
+      "position": [
+        38.9819845,
+        -77.12423413116392
+      ]
+    },
+    {
+      "location": "Santiago, Chile",
+      "n_users": 10,
+      "position": [
+        -33.4377968,
+        -70.6504451
+      ]
+    },
+    {
+      "location": "Portland, United States",
+      "n_users": 10,
+      "position": [
+        45.5202471,
+        -122.6741949
+      ]
+    },
+    {
+      "location": "Lausanne, Switzerland",
+      "n_users": 9,
+      "position": [
+        46.5218269,
+        6.6327025
+      ]
+    },
+    {
+      "location": "Reutlingen, Germany",
+      "n_users": 9,
+      "position": [
+        48.4919508,
+        9.2114144
+      ]
+    },
+    {
+      "location": "Athens, Greece",
+      "n_users": 9,
+      "position": [
+        37.9839412,
+        23.7283052
+      ]
+    },
+    {
+      "location": "Copenhagen, Denmark",
+      "n_users": 9,
+      "position": [
+        55.6867243,
+        12.5700724
+      ]
+    },
+    {
+      "location": "Kingston, Canada",
+      "n_users": 9,
+      "position": [
+        44.230687,
+        -76.481323
+      ]
+    },
+    {
+      "location": "Stockholm, Sweden",
+      "n_users": 9,
+      "position": [
+        59.3251172,
+        18.0710935
+      ]
+    },
+    {
+      "location": "St Louis, United States",
+      "n_users": 9,
+      "position": [
+        38.6529545,
+        -90.24111656024635
+      ]
+    },
+    {
+      "location": "Dublin, Ireland",
+      "n_users": 9,
+      "position": [
+        53.3497645,
+        -6.2602732
+      ]
+    },
+    {
+      "location": "Jerusalem, Israel",
+      "n_users": 9,
+      "position": [
+        31.778345,
+        35.2250786
+      ]
+    },
+    {
+      "location": "Oslo, Norway",
+      "n_users": 8,
+      "position": [
+        59.9133301,
+        10.7389701
+      ]
+    },
+    {
+      "location": "Brussels, Belgium",
+      "n_users": 8,
+      "position": [
+        50.8465573,
+        4.351697
+      ]
+    },
+    {
+      "location": "Istanbul, Turkey",
+      "n_users": 8,
+      "position": [
+        41.0096334,
+        28.9651646
+      ]
+    },
+    {
+      "location": "Bangkok, Thailand",
+      "n_users": 8,
+      "position": [
+        13.7542529,
+        100.493087
+      ]
+    },
+    {
+      "location": "Stuttgart, Germany",
+      "n_users": 8,
+      "position": [
+        48.7784485,
+        9.1800132
+      ]
+    },
+    {
+      "location": "Bielefeld, Germany",
+      "n_users": 8,
+      "position": [
+        52.0191005,
+        8.531007
+      ]
+    },
+    {
+      "location": "Cardiff, United Kingdom",
+      "n_users": 8,
+      "position": [
+        51.4816546,
+        -3.1791934
+      ]
+    },
+    {
+      "location": "Basel, Switzerland",
+      "n_users": 8,
+      "position": [
+        47.5581077,
+        7.5878261
+      ]
+    },
+    {
+      "location": "Heraklion, Greece",
+      "n_users": 8,
+      "position": [
+        35.3400127,
+        25.1343475
+      ]
+    },
+    {
+      "location": "Helsinki, Finland",
+      "n_users": 8,
+      "position": [
+        60.1674098,
+        24.9425769
+      ]
+    },
+    {
+      "location": "Birmingham, United Kingdom",
+      "n_users": 7,
+      "position": [
+        52.4796992,
+        -1.9026911
+      ]
+    },
+    {
+      "location": "Genoa, Italy",
+      "n_users": 7,
+      "position": [
+        44.40726,
+        8.9338624
+      ]
+    },
+    {
+      "location": "Nuremberg, Germany",
+      "n_users": 7,
+      "position": [
+        49.453872,
+        11.077298
+      ]
+    },
+    {
+      "location": "Dresden, Germany",
+      "n_users": 7,
+      "position": [
+        51.0493286,
+        13.7381437
+      ]
+    },
+    {
+      "location": "Heidelberg, Germany",
+      "n_users": 7,
+      "position": [
+        49.4093582,
+        8.694724
+      ]
+    },
+    {
+      "location": "Buenos Aires, Argentina",
+      "n_users": 7,
+      "position": [
+        -34.6075682,
+        -58.4370894
+      ]
+    },
+    {
+      "location": "Milan, Italy",
+      "n_users": 7,
+      "position": [
+        45.4668,
+        9.1905
+      ]
+    },
+    {
+      "location": "Reading, United Kingdom",
+      "n_users": 7,
+      "position": [
+        51.45149525,
+        -0.9836342499365378
+      ]
+    },
+    {
+      "location": "Brighton, United States",
+      "n_users": 7,
+      "position": [
+        39.90699075,
+        -104.83740644981583
+      ]
+    },
+    {
+      "location": "Brisbane, Australia",
+      "n_users": 7,
+      "position": [
+        -27.4689682,
+        153.0234991
+      ]
+    },
+    {
+      "location": "Hong Kong",
+      "n_users": 7,
+      "position": [
+        22.2793278,
+        114.1628131
+      ]
+    },
+    {
+      "location": "Freiburg, Germany",
+      "n_users": 7,
+      "position": [
+        47.9960901,
+        7.8494005
+      ]
+    },
+    {
+      "location": "New Delhi, India",
+      "n_users": 7,
+      "position": [
+        28.6141793,
+        77.2022662
+      ]
+    },
+    {
+      "location": "Bern, Switzerland",
+      "n_users": 7,
+      "position": [
+        46.9482713,
+        7.4514512
+      ]
+    },
+    {
+      "location": "Arlington, United States",
+      "n_users": 7,
+      "position": [
+        32.701938999999996,
+        -97.10562379033699
+      ]
+    },
+    {
+      "location": "Acton, United Kingdom",
+      "n_users": 7,
+      "position": [
+        51.5081402,
+        -0.2732607
+      ]
+    },
+    {
+      "location": "Columbus, United States",
+      "n_users": 6,
+      "position": [
+        39.9622601,
+        -83.0007065
+      ]
+    },
+    {
+      "location": "Moscow, Russia",
+      "n_users": 6,
+      "position": [
+        55.4792046,
+        37.3273304
+      ]
+    },
+    {
+      "location": "Silver Spring, United States",
+      "n_users": 6,
+      "position": [
+        38.9959461,
+        -77.0276231
+      ]
+    },
+    {
+      "location": "Tucson, United States",
+      "n_users": 6,
+      "position": [
+        32.2228765,
+        -110.9748477
+      ]
+    },
+    {
+      "location": "Menlo Park, United States",
+      "n_users": 6,
+      "position": [
+        37.4519671,
+        -122.1779927
+      ]
+    },
+    {
+      "location": "D\u00fcsseldorf, Germany",
+      "n_users": 6,
+      "position": [
+        51.2254018,
+        6.7763137
+      ]
+    },
+    {
+      "location": "Ankara, Turkey",
+      "n_users": 6,
+      "position": [
+        39.9207774,
+        32.854067
+      ]
+    },
+    {
+      "location": "Pasadena, United States",
+      "n_users": 6,
+      "position": [
+        34.1476452,
+        -118.1444779
+      ]
+    },
+    {
+      "location": "Rome, Italy",
+      "n_users": 6,
+      "position": [
+        41.8933203,
+        12.4829321
+      ]
+    },
+    {
+      "location": "Irvine, United States",
+      "n_users": 6,
+      "position": [
+        33.6856969,
+        -117.8259819
+      ]
+    },
+    {
+      "location": "Ithaca, United States",
+      "n_users": 6,
+      "position": [
+        42.4396039,
+        -76.4968019
+      ]
+    },
+    {
+      "location": "Glasgow, United Kingdom",
+      "n_users": 6,
+      "position": [
+        55.8609825,
+        -4.2488787
+      ]
+    },
+    {
+      "location": "Prague, Czechia",
+      "n_users": 6,
+      "position": [
+        50.0874654,
+        14.4212535
+      ]
+    },
+    {
+      "location": "Leuven, Belgium",
+      "n_users": 6,
+      "position": [
+        50.879202,
+        4.7011675
+      ]
+    },
+    {
+      "location": "The Bronx, United States",
+      "n_users": 6,
+      "position": [
+        40.8466508,
+        -73.8785937
+      ]
+    },
+    {
+      "location": "Tampere, Finland",
+      "n_users": 6,
+      "position": [
+        61.4980214,
+        23.7603118
+      ]
+    },
+    {
+      "location": "Bonn, Germany",
+      "n_users": 6,
+      "position": [
+        50.735851,
+        7.10066
+      ]
+    },
+    {
+      "location": "Blacksburg, United States",
+      "n_users": 6,
+      "position": [
+        37.2296566,
+        -80.4136767
+      ]
+    },
+    {
+      "location": "Bochum, Germany",
+      "n_users": 6,
+      "position": [
+        51.4818111,
+        7.2196635
+      ]
+    },
+    {
+      "location": "Laurel, United States",
+      "n_users": 6,
+      "position": [
+        37.1000973,
+        -84.1148273
+      ]
+    },
+    {
+      "location": "Kensington, United Kingdom",
+      "n_users": 6,
+      "position": [
+        51.4989948,
+        -0.1991229
+      ]
+    },
+    {
+      "location": "Noida, India",
+      "n_users": 6,
+      "position": [
+        28.5726442,
+        77.3547609
+      ]
+    },
+    {
+      "location": "France",
+      "n_users": 6,
+      "position": [
+        46.603354,
+        1.8883335
+      ]
+    },
+    {
+      "location": "Mainz, Germany",
+      "n_users": 5,
+      "position": [
+        50.0012314,
+        8.2762513
+      ]
+    },
+    {
+      "location": "Eugene, United States",
+      "n_users": 5,
+      "position": [
+        44.0505054,
+        -123.0950506
+      ]
+    },
+    {
+      "location": "Sunnyvale, United States",
+      "n_users": 5,
+      "position": [
+        37.3688301,
+        -122.0363496
+      ]
+    },
+    {
+      "location": "Gurgaon, India",
+      "n_users": 5,
+      "position": [
+        28.42826235,
+        77.00270014657752
+      ]
+    },
+    {
+      "location": "Manchester, United Kingdom",
+      "n_users": 5,
+      "position": [
+        53.4794892,
+        -2.2451148
+      ]
+    },
+    {
+      "location": "Lethbridge, Canada",
+      "n_users": 5,
+      "position": [
+        49.694285,
+        -112.851562
+      ]
+    },
+    {
+      "location": "Ottawa, Canada",
+      "n_users": 5,
+      "position": [
+        45.421106,
+        -75.690308
+      ]
+    },
+    {
+      "location": "Hornsey, United Kingdom",
+      "n_users": 5,
+      "position": [
+        51.5873645,
+        -0.1209667
+      ]
+    },
+    {
+      "location": "Sydney, Australia",
+      "n_users": 5,
+      "position": [
+        -33.8548157,
+        151.2164539
+      ]
+    },
+    {
+      "location": "Rehovot, Israel",
+      "n_users": 5,
+      "position": [
+        31.8952532,
+        34.8105616
+      ]
+    },
+    {
+      "location": "Delhi, India",
+      "n_users": 5,
+      "position": [
+        28.6517178,
+        77.2219388
+      ]
+    },
+    {
+      "location": "Jupiter, United States",
+      "n_users": 5,
+      "position": [
+        26.9260832,
+        -80.12108914060954
+      ]
+    },
+    {
+      "location": "Hamilton, Canada",
+      "n_users": 5,
+      "position": [
+        43.2560802,
+        -79.8728583
+      ]
+    },
+    {
+      "location": "Kolkata, India",
+      "n_users": 5,
+      "position": [
+        22.54541245,
+        88.3567751581234
+      ]
+    },
+    {
+      "location": "Miami, United States",
+      "n_users": 5,
+      "position": [
+        25.7742658,
+        -80.1936589
+      ]
+    },
+    {
+      "location": "Oakland, United States",
+      "n_users": 5,
+      "position": [
+        37.8044557,
+        -122.2713563
+      ]
+    },
+    {
+      "location": "San Jose, United States",
+      "n_users": 5,
+      "position": [
+        37.3361905,
+        -121.8905833
+      ]
+    },
+    {
+      "location": "Mumbai, India",
+      "n_users": 5,
+      "position": [
+        18.9387711,
+        72.8353355
+      ]
+    },
+    {
+      "location": "Mexico City, Mexico",
+      "n_users": 5,
+      "position": [
+        19.4326296,
+        -99.1331785
+      ]
+    },
+    {
+      "location": "Sherbrooke, Canada",
+      "n_users": 5,
+      "position": [
+        45.403271,
+        -71.889038
+      ]
+    },
+    {
+      "location": "Ghent, Belgium",
+      "n_users": 5,
+      "position": [
+        51.0538286,
+        3.7250121
+      ]
+    },
+    {
+      "location": "Nottingham, United Kingdom",
+      "n_users": 4,
+      "position": [
+        52.9534193,
+        -1.1496461
+      ]
+    },
+    {
+      "location": "San Mateo, United States",
+      "n_users": 4,
+      "position": [
+        37.496904,
+        -122.3330573
+      ]
+    },
+    {
+      "location": "Bergheim, Germany",
+      "n_users": 4,
+      "position": [
+        50.9540457,
+        6.6410004
+      ]
+    },
+    {
+      "location": "Jamaica Plain, United States",
+      "n_users": 4,
+      "position": [
+        42.3098201,
+        -71.1203299
+      ]
+    },
+    {
+      "location": "Piscataway, United States",
+      "n_users": 4,
+      "position": [
+        40.5462553,
+        -74.4660408
+      ]
+    },
+    {
+      "location": "Bath, United Kingdom",
+      "n_users": 4,
+      "position": [
+        51.3813864,
+        -2.3596963
+      ]
+    },
+    {
+      "location": "Belmont, United States",
+      "n_users": 4,
+      "position": [
+        40.0057737,
+        -81.0097516
+      ]
+    },
+    {
+      "location": "Albuquerque, United States",
+      "n_users": 4,
+      "position": [
+        35.0841034,
+        -106.6509851
+      ]
+    },
+    {
+      "location": "Warsaw, Poland",
+      "n_users": 4,
+      "position": [
+        52.2337172,
+        21.07141112883227
+      ]
+    },
+    {
+      "location": "Stoke Newington, United Kingdom",
+      "n_users": 4,
+      "position": [
+        51.5576971,
+        -0.0772816
+      ]
+    },
+    {
+      "location": "Mountain View, United States",
+      "n_users": 4,
+      "position": [
+        37.3893889,
+        -122.0832101
+      ]
+    },
+    {
+      "location": "Kaunas, Republic of Lithuania",
+      "n_users": 4,
+      "position": [
+        54.8982139,
+        23.9044817
+      ]
+    },
+    {
+      "location": "Gatineau, Canada",
+      "n_users": 4,
+      "position": [
+        45.4283596,
+        -75.7106204
+      ]
+    },
+    {
+      "location": "Nice, France",
+      "n_users": 4,
+      "position": [
+        43.7009358,
+        7.2683912
+      ]
+    },
+    {
+      "location": "Quer\u00e9taro City, Mexico",
+      "n_users": 4,
+      "position": [
+        20.8542575,
+        -99.84756
+      ]
+    },
+    {
+      "location": "Newark, United States",
+      "n_users": 4,
+      "position": [
+        40.735657,
+        -74.1723667
+      ]
+    },
+    {
+      "location": "Durham, United Kingdom",
+      "n_users": 4,
+      "position": [
+        54.666667,
+        -1.75
+      ]
+    },
+    {
+      "location": "Toulouse, France",
+      "n_users": 4,
+      "position": [
+        43.6044622,
+        1.4442469
+      ]
+    },
+    {
+      "location": "Graz, Austria",
+      "n_users": 4,
+      "position": [
+        47.0708678,
+        15.4382786
+      ]
+    },
+    {
+      "location": "Brookline, United States",
+      "n_users": 4,
+      "position": [
+        42.3317642,
+        -71.1211635
+      ]
+    },
+    {
+      "location": "Hanover, United States",
+      "n_users": 4,
+      "position": [
+        37.744783,
+        -77.4464165
+      ]
+    },
+    {
+      "location": "Madison, United States",
+      "n_users": 4,
+      "position": [
+        43.074761,
+        -89.3837613
+      ]
+    },
+    {
+      "location": "Waltham, United States",
+      "n_users": 4,
+      "position": [
+        42.3756401,
+        -71.2358004
+      ]
+    },
+    {
+      "location": "Lyon, France",
+      "n_users": 4,
+      "position": [
+        45.7578137,
+        4.8320114
+      ]
+    },
+    {
+      "location": "Calgary, Canada",
+      "n_users": 4,
+      "position": [
+        51.0534234,
+        -114.0625892
+      ]
+    },
+    {
+      "location": "Columbia, United States",
+      "n_users": 3,
+      "position": [
+        34.0007493,
+        -81.0343313
+      ]
+    },
+    {
+      "location": "Kanpur, India",
+      "n_users": 3,
+      "position": [
+        26.4609135,
+        80.3217588
+      ]
+    },
+    {
+      "location": "Scarsdale, United States",
+      "n_users": 3,
+      "position": [
+        40.9690798,
+        -73.7635316
+      ]
+    },
+    {
+      "location": "Reggio Emilia, Italy",
+      "n_users": 3,
+      "position": [
+        44.608664,
+        10.594796841892734
+      ]
+    },
+    {
+      "location": "Falls Church, United States",
+      "n_users": 3,
+      "position": [
+        38.882334,
+        -77.1710914
+      ]
+    },
+    {
+      "location": "College Park, United States",
+      "n_users": 3,
+      "position": [
+        38.980666,
+        -76.9369189
+      ]
+    },
+    {
+      "location": "Falkirk, United Kingdom",
+      "n_users": 3,
+      "position": [
+        56.00205085,
+        -3.749622841384784
+      ]
+    },
+    {
+      "location": "Regensburg, Germany",
+      "n_users": 3,
+      "position": [
+        49.0195333,
+        12.0974869
+      ]
+    },
+    {
+      "location": "Geneva, Switzerland",
+      "n_users": 3,
+      "position": [
+        46.2017559,
+        6.1466014
+      ]
+    },
+    {
+      "location": "Redmond, United States",
+      "n_users": 3,
+      "position": [
+        47.6694141,
+        -122.1238767
+      ]
+    },
+    {
+      "location": "Groningen, Netherlands",
+      "n_users": 3,
+      "position": [
+        53.2190652,
+        6.5680077
+      ]
+    },
+    {
+      "location": "Exeter, United Kingdom",
+      "n_users": 3,
+      "position": [
+        50.725562,
+        -3.5269108
+      ]
+    },
+    {
+      "location": "Cricklewood, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.5566986,
+        -0.2157507
+      ]
+    },
+    {
+      "location": "Gandhinagar, India",
+      "n_users": 3,
+      "position": [
+        23.2232877,
+        72.6492267
+      ]
+    },
+    {
+      "location": "Kfar Saba, Israel",
+      "n_users": 3,
+      "position": [
+        32.1773471,
+        34.907459
+      ]
+    },
+    {
+      "location": "Redwood City, United States",
+      "n_users": 3,
+      "position": [
+        37.4863239,
+        -122.2325233
+      ]
+    },
+    {
+      "location": "Gainesville, United States",
+      "n_users": 3,
+      "position": [
+        29.6519684,
+        -82.3249846
+      ]
+    },
+    {
+      "location": "West Roxbury, United States",
+      "n_users": 3,
+      "position": [
+        42.2792649,
+        -71.1494972
+      ]
+    },
+    {
+      "location": "Johannesburg, South Africa",
+      "n_users": 3,
+      "position": [
+        -26.205,
+        28.049722
+      ]
+    },
+    {
+      "location": "Juelich, Germany",
+      "n_users": 3,
+      "position": [
+        50.9220931,
+        6.3611015
+      ]
+    },
+    {
+      "location": "Sonipat, India",
+      "n_users": 3,
+      "position": [
+        29.0033144,
+        77.0167323
+      ]
+    },
+    {
+      "location": "Dunfermline, United Kingdom",
+      "n_users": 3,
+      "position": [
+        56.0713724,
+        -3.4616183
+      ]
+    },
+    {
+      "location": "Great Neck, United States",
+      "n_users": 3,
+      "position": [
+        40.8006567,
+        -73.7284647
+      ]
+    },
+    {
+      "location": "Riverside, United States",
+      "n_users": 3,
+      "position": [
+        33.9533546,
+        -117.3961623
+      ]
+    },
+    {
+      "location": "Spain",
+      "n_users": 3,
+      "position": [
+        39.3262345,
+        -4.8380649
+      ]
+    },
+    {
+      "location": "Goleta, United States",
+      "n_users": 3,
+      "position": [
+        34.4358295,
+        -119.8276389
+      ]
+    },
+    {
+      "location": "Richmond, United States",
+      "n_users": 3,
+      "position": [
+        37.5385087,
+        -77.43428
+      ]
+    },
+    {
+      "location": "State College, United States",
+      "n_users": 3,
+      "position": [
+        40.7944504,
+        -77.8616386
+      ]
+    },
+    {
+      "location": "Greenford, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.5422492,
+        -0.3453513
+      ]
+    },
+    {
+      "location": "Denver, United States",
+      "n_users": 3,
+      "position": [
+        39.7392364,
+        -104.9848623
+      ]
+    },
+    {
+      "location": "Hoffman, United States",
+      "n_users": 3,
+      "position": [
+        45.829404,
+        -95.791994
+      ]
+    },
+    {
+      "location": "Darmstadt, Germany",
+      "n_users": 3,
+      "position": [
+        49.872775,
+        8.651177
+      ]
+    },
+    {
+      "location": "Santa Barbara, United States",
+      "n_users": 3,
+      "position": [
+        34.4221319,
+        -119.7026673
+      ]
+    },
+    {
+      "location": "Smithtown, United States",
+      "n_users": 3,
+      "position": [
+        40.8559314,
+        -73.2006687
+      ]
+    },
+    {
+      "location": "S\u00e3o Paulo, Brazil",
+      "n_users": 3,
+      "position": [
+        -23.5506507,
+        -46.6333824
+      ]
+    },
+    {
+      "location": "Emeryville, United States",
+      "n_users": 3,
+      "position": [
+        37.8314089,
+        -122.2865266
+      ]
+    },
+    {
+      "location": "Dallas, United States",
+      "n_users": 3,
+      "position": [
+        32.7762719,
+        -96.7968559
+      ]
+    },
+    {
+      "location": "Hackney, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.5432402,
+        -0.0493621
+      ]
+    },
+    {
+      "location": "San Sebasti\u00e1n de La Gomera, Spain",
+      "n_users": 3,
+      "position": [
+        28.0910382,
+        -17.1110077
+      ]
+    },
+    {
+      "location": "Fremont, United States",
+      "n_users": 3,
+      "position": [
+        37.5482697,
+        -121.9885719
+      ]
+    },
+    {
+      "location": "Canada",
+      "n_users": 3,
+      "position": [
+        61.0666922,
+        -107.9917071
+      ]
+    },
+    {
+      "location": "Lebanon, United States",
+      "n_users": 3,
+      "position": [
+        40.375713,
+        -76.4626118
+      ]
+    },
+    {
+      "location": "Bremen, Germany",
+      "n_users": 3,
+      "position": [
+        53.0758196,
+        8.8071646
+      ]
+    },
+    {
+      "location": "Linda a Velha, Portugal",
+      "n_users": 3,
+      "position": [
+        38.711404099999996,
+        -9.240821345915375
+      ]
+    },
+    {
+      "location": "Albany, United States",
+      "n_users": 3,
+      "position": [
+        42.6511674,
+        -73.754968
+      ]
+    },
+    {
+      "location": "Tienen, Belgium",
+      "n_users": 3,
+      "position": [
+        50.8074825,
+        4.9371775
+      ]
+    },
+    {
+      "location": "Brampton, Canada",
+      "n_users": 3,
+      "position": [
+        43.6858146,
+        -79.7599337
+      ]
+    },
+    {
+      "location": "Cape Town, South Africa",
+      "n_users": 3,
+      "position": [
+        -33.928992,
+        18.417396
+      ]
+    },
+    {
+      "location": "Poplar, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.5110713,
+        -0.0144629
+      ]
+    },
+    {
+      "location": "Mississauga, Canada",
+      "n_users": 3,
+      "position": [
+        43.590338,
+        -79.645729
+      ]
+    },
+    {
+      "location": "Alexandria, United States",
+      "n_users": 3,
+      "position": [
+        38.8051095,
+        -77.0470229
+      ]
+    },
+    {
+      "location": "Trento, Italy",
+      "n_users": 3,
+      "position": [
+        46.0664228,
+        11.1257601
+      ]
+    },
+    {
+      "location": "Charleston, United States",
+      "n_users": 3,
+      "position": [
+        32.7876012,
+        -79.9402728
+      ]
+    },
+    {
+      "location": "Tokyo, Japan",
+      "n_users": 3,
+      "position": [
+        35.6828387,
+        139.7594549
+      ]
+    },
+    {
+      "location": "Palaiseau, France",
+      "n_users": 3,
+      "position": [
+        48.7144587,
+        2.2453842
+      ]
+    },
+    {
+      "location": "Charlottesville, United States",
+      "n_users": 3,
+      "position": [
+        38.029306,
+        -78.4766781
+      ]
+    },
+    {
+      "location": "Brighton, United Kingdom",
+      "n_users": 3,
+      "position": [
+        50.8220399,
+        -0.1374061
+      ]
+    },
+    {
+      "location": "Tartu, Estonia",
+      "n_users": 3,
+      "position": [
+        58.37484375,
+        26.730243779564816
+      ]
+    },
+    {
+      "location": "Lambeth, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.5013012,
+        -0.117287
+      ]
+    },
+    {
+      "location": "Magdeburg, Germany",
+      "n_users": 3,
+      "position": [
+        52.1315889,
+        11.6399609
+      ]
+    },
+    {
+      "location": "Qu\u00e9bec, Canada",
+      "n_users": 3,
+      "position": [
+        52.4760892,
+        -71.8258668
+      ]
+    },
+    {
+      "location": "Palm Beach Gardens, United States",
+      "n_users": 3,
+      "position": [
+        26.8418256,
+        -80.13590694666684
+      ]
+    },
+    {
+      "location": "Bogot\u00e1, Colombia",
+      "n_users": 3,
+      "position": [
+        4.59808,
+        -74.0760439
+      ]
+    },
+    {
+      "location": "Chiswick, United Kingdom",
+      "n_users": 3,
+      "position": [
+        51.4923137,
+        -0.263818
+      ]
+    },
+    {
+      "location": "Allston, United States",
+      "n_users": 3,
+      "position": [
+        42.3554344,
+        -71.1321271
+      ]
+    },
+    {
+      "location": "Lucknow, India",
+      "n_users": 3,
+      "position": [
+        26.8381,
+        80.9346001
+      ]
+    },
+    {
+      "location": "Poznan, Poland",
+      "n_users": 3,
+      "position": [
+        52.40063215,
+        16.91978694287606
+      ]
+    },
+    {
+      "location": "Potsdam, Germany",
+      "n_users": 3,
+      "position": [
+        52.4009309,
+        13.0591397
+      ]
+    },
+    {
+      "location": "Haifa, Israel",
+      "n_users": 2,
+      "position": [
+        32.8191218,
+        34.9983856
+      ]
+    },
+    {
+      "location": "Groesbeek, Netherlands",
+      "n_users": 2,
+      "position": [
+        51.7759402,
+        5.939637425808444
+      ]
+    },
+    {
+      "location": "Oulu, Finland",
+      "n_users": 2,
+      "position": [
+        65.0118734,
+        25.4716809
+      ]
+    },
+    {
+      "location": "Grenoble, France",
+      "n_users": 2,
+      "position": [
+        45.1875602,
+        5.7357819
+      ]
+    },
+    {
+      "location": "Magdalena Contreras, Mexico",
+      "n_users": 2,
+      "position": [
+        19.27547005,
+        -99.26333858358939
+      ]
+    },
+    {
+      "location": "Zagreb, Croatia",
+      "n_users": 2,
+      "position": [
+        45.813177,
+        15.977048
+      ]
+    },
+    {
+      "location": "Salford, United Kingdom",
+      "n_users": 2,
+      "position": [
+        53.4877463,
+        -2.2891921
+      ]
+    },
+    {
+      "location": "Wijchen, Netherlands",
+      "n_users": 2,
+      "position": [
+        51.8099983,
+        5.7362233
+      ]
+    },
+    {
+      "location": "Manchester, United States",
+      "n_users": 2,
+      "position": [
+        42.9956397,
+        -71.4547891
+      ]
+    },
+    {
+      "location": "Marrickville, Australia",
+      "n_users": 2,
+      "position": [
+        -33.9103854,
+        151.1556908
+      ]
+    },
+    {
+      "location": "Paddington, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5170856,
+        -0.1775422
+      ]
+    },
+    {
+      "location": "Medford, United States",
+      "n_users": 2,
+      "position": [
+        42.4184296,
+        -71.1061639
+      ]
+    },
+    {
+      "location": "Guatemala City, Guatemala",
+      "n_users": 2,
+      "position": [
+        14.6222328,
+        -90.5185188
+      ]
+    },
+    {
+      "location": "Randolph, United States",
+      "n_users": 2,
+      "position": [
+        38.0472916,
+        -89.8107962
+      ]
+    },
+    {
+      "location": "Grasse, France",
+      "n_users": 2,
+      "position": [
+        43.6589011,
+        6.9239103
+      ]
+    },
+    {
+      "location": "Ariel, Israel",
+      "n_users": 2,
+      "position": [
+        32.0510445,
+        34.7988728
+      ]
+    },
+    {
+      "location": "Montrouge, France",
+      "n_users": 2,
+      "position": [
+        48.8188544,
+        2.3194375
+      ]
+    },
+    {
+      "location": "New Brunswick, United States",
+      "n_users": 2,
+      "position": [
+        40.4862174,
+        -74.4518173
+      ]
+    },
+    {
+      "location": "Newton Center, United States",
+      "n_users": 2,
+      "position": [
+        42.3306528,
+        -71.1994989
+      ]
+    },
+    {
+      "location": "Aarhus N, Denmark",
+      "n_users": 2,
+      "position": [
+        56.2305603,
+        10.1238188
+      ]
+    },
+    {
+      "location": "Arnhem, Netherlands",
+      "n_users": 2,
+      "position": [
+        51.984257,
+        5.9108573
+      ]
+    },
+    {
+      "location": "Santa Monica, United States",
+      "n_users": 2,
+      "position": [
+        34.0250724,
+        -118.4965129
+      ]
+    },
+    {
+      "location": "Narberth, United States",
+      "n_users": 2,
+      "position": [
+        40.0084456,
+        -75.26046
+      ]
+    },
+    {
+      "location": "M\u00fcnster, Germany",
+      "n_users": 2,
+      "position": [
+        51.9625101,
+        7.6251879
+      ]
+    },
+    {
+      "location": "Santa Cruz de Tenerife, Spain",
+      "n_users": 2,
+      "position": [
+        28.469648,
+        -16.2540884
+      ]
+    },
+    {
+      "location": "Norristown, United States",
+      "n_users": 2,
+      "position": [
+        40.121497,
+        -75.3399048
+      ]
+    },
+    {
+      "location": "Santa Clara, United States",
+      "n_users": 2,
+      "position": [
+        37.2333253,
+        -121.6846349
+      ]
+    },
+    {
+      "location": "Osnabr\u00fcck, Germany",
+      "n_users": 2,
+      "position": [
+        52.266837,
+        8.049741
+      ]
+    },
+    {
+      "location": "Aberdeen, United Kingdom",
+      "n_users": 2,
+      "position": [
+        57.1482429,
+        -2.0928095
+      ]
+    },
+    {
+      "location": "Okinawa, Japan",
+      "n_users": 2,
+      "position": [
+        26.5707754,
+        128.0255901
+      ]
+    },
+    {
+      "location": "Gloucester, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.8653705,
+        -2.2458192
+      ]
+    },
+    {
+      "location": "Mimet, France",
+      "n_users": 2,
+      "position": [
+        43.4139973,
+        5.504383
+      ]
+    },
+    {
+      "location": "San Juan del R\u00edo, Mexico",
+      "n_users": 2,
+      "position": [
+        16.8969181,
+        -96.14738987188724
+      ]
+    },
+    {
+      "location": "Haywards Heath, United Kingdom",
+      "n_users": 2,
+      "position": [
+        50.9999616,
+        -0.1049747
+      ]
+    },
+    {
+      "location": "Milton Keynes, United Kingdom",
+      "n_users": 2,
+      "position": [
+        52.0429797,
+        -0.7589607
+      ]
+    },
+    {
+      "location": "Abingdon, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.6714842,
+        -1.2779715
+      ]
+    },
+    {
+      "location": "Melbourne, Australia",
+      "n_users": 2,
+      "position": [
+        -37.8142176,
+        144.9631608
+      ]
+    },
+    {
+      "location": "Harrow, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5967688,
+        -0.33727515543507014
+      ]
+    },
+    {
+      "location": "Louvain-la-Neuve, Belgium",
+      "n_users": 2,
+      "position": [
+        50.6741689,
+        4.614178674316212
+      ]
+    },
+    {
+      "location": "Sacramento, United States",
+      "n_users": 2,
+      "position": [
+        38.5815719,
+        -121.4943996
+      ]
+    },
+    {
+      "location": "Leicester, United Kingdom",
+      "n_users": 2,
+      "position": [
+        52.6361398,
+        -1.1330789
+      ]
+    },
+    {
+      "location": "Limburg an der Lahn, Germany",
+      "n_users": 2,
+      "position": [
+        50.3876305,
+        8.0636197
+      ]
+    },
+    {
+      "location": "Jaipur, India",
+      "n_users": 2,
+      "position": [
+        26.916194,
+        75.820349
+      ]
+    },
+    {
+      "location": "Phoenix, United States",
+      "n_users": 2,
+      "position": [
+        33.4484367,
+        -112.0741417
+      ]
+    },
+    {
+      "location": "Liestal, Switzerland",
+      "n_users": 2,
+      "position": [
+        47.4839723,
+        7.7347783
+      ]
+    },
+    {
+      "location": "Rhodes, Greece",
+      "n_users": 2,
+      "position": [
+        36.17262995,
+        27.919418145633188
+      ]
+    },
+    {
+      "location": "Japan",
+      "n_users": 2,
+      "position": [
+        36.5748441,
+        139.2394179
+      ]
+    },
+    {
+      "location": "Wittenberg, Germany",
+      "n_users": 2,
+      "position": [
+        51.9161437,
+        12.64676720356984
+      ]
+    },
+    {
+      "location": "Porto, Portugal",
+      "n_users": 2,
+      "position": [
+        41.1494512,
+        -8.6107884
+      ]
+    },
+    {
+      "location": "Jungnang-gu, South Korea",
+      "n_users": 2,
+      "position": [
+        37.6063,
+        127.093
+      ]
+    },
+    {
+      "location": "Leesburg, United States",
+      "n_users": 2,
+      "position": [
+        28.810823,
+        -81.8778582
+      ]
+    },
+    {
+      "location": "Ixelles-Elsene, Belgium",
+      "n_users": 2,
+      "position": [
+        50.8331141,
+        4.3668279
+      ]
+    },
+    {
+      "location": "Leeds, United Kingdom",
+      "n_users": 2,
+      "position": [
+        53.7974185,
+        -1.5437941
+      ]
+    },
+    {
+      "location": "Kendal, United Kingdom",
+      "n_users": 2,
+      "position": [
+        54.3289795,
+        -2.747183
+      ]
+    },
+    {
+      "location": "Las Vegas, United States",
+      "n_users": 2,
+      "position": [
+        36.1672559,
+        -115.1485163
+      ]
+    },
+    {
+      "location": "Allen, United States",
+      "n_users": 2,
+      "position": [
+        40.8077797,
+        -84.0572225
+      ]
+    },
+    {
+      "location": "Kiel, Germany",
+      "n_users": 2,
+      "position": [
+        54.3227085,
+        10.135555
+      ]
+    },
+    {
+      "location": "Kyiv, Ukraine",
+      "n_users": 2,
+      "position": [
+        50.4500336,
+        30.5241361
+      ]
+    },
+    {
+      "location": "Krakow, Poland",
+      "n_users": 2,
+      "position": [
+        50.0469432,
+        19.997153435836697
+      ]
+    },
+    {
+      "location": "Klosterneuburg, Austria",
+      "n_users": 2,
+      "position": [
+        48.30499,
+        16.323756
+      ]
+    },
+    {
+      "location": "Wood Green, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5959898,
+        -0.1091471
+      ]
+    },
+    {
+      "location": "Richmond Hill, Canada",
+      "n_users": 2,
+      "position": [
+        43.880078,
+        -79.439392
+      ]
+    },
+    {
+      "location": "Li\u00e8ge, Belgium",
+      "n_users": 2,
+      "position": [
+        50.6451381,
+        5.5734203
+      ]
+    },
+    {
+      "location": "Saarbr\u00fccken, Germany",
+      "n_users": 2,
+      "position": [
+        49.234362,
+        6.996379
+      ]
+    },
+    {
+      "location": "Hove, United Kingdom",
+      "n_users": 2,
+      "position": [
+        50.8352409,
+        -0.1703739
+      ]
+    },
+    {
+      "location": "Herent, Belgium",
+      "n_users": 2,
+      "position": [
+        50.9029514,
+        4.6728253
+      ]
+    },
+    {
+      "location": "Heverlee, Belgium",
+      "n_users": 2,
+      "position": [
+        50.85172925,
+        4.69313075102807
+      ]
+    },
+    {
+      "location": "Ruislip, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5714026,
+        -0.4213375
+      ]
+    },
+    {
+      "location": "Hillsborough, United States",
+      "n_users": 2,
+      "position": [
+        27.9184543,
+        -82.3488057
+      ]
+    },
+    {
+      "location": "Yokohama, Japan",
+      "n_users": 2,
+      "position": [
+        35.444991,
+        139.636768
+      ]
+    },
+    {
+      "location": "L\u00fcbeck, Germany",
+      "n_users": 2,
+      "position": [
+        53.866444,
+        10.684738
+      ]
+    },
+    {
+      "location": "Furth, Germany",
+      "n_users": 2,
+      "position": [
+        49.477263,
+        10.989616
+      ]
+    },
+    {
+      "location": "Louisville, United States",
+      "n_users": 2,
+      "position": [
+        38.2542376,
+        -85.759407
+      ]
+    },
+    {
+      "location": "Peckham, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4734122,
+        -0.0699321
+      ]
+    },
+    {
+      "location": "Huntington Station, United States",
+      "n_users": 2,
+      "position": [
+        40.84766075,
+        -73.4038824238588
+      ]
+    },
+    {
+      "location": "Italy",
+      "n_users": 2,
+      "position": [
+        42.6384261,
+        12.674297
+      ]
+    },
+    {
+      "location": "Hyderabad, India",
+      "n_users": 2,
+      "position": [
+        17.38878595,
+        78.46106473453146
+      ]
+    },
+    {
+      "location": "Indianapolis, United States",
+      "n_users": 2,
+      "position": [
+        39.7683331,
+        -86.1583502
+      ]
+    },
+    {
+      "location": "Indore, India",
+      "n_users": 2,
+      "position": [
+        22.7203616,
+        75.8681996
+      ]
+    },
+    {
+      "location": "Iowa City, United States",
+      "n_users": 2,
+      "position": [
+        41.6612561,
+        -91.5299106
+      ]
+    },
+    {
+      "location": "Peiting, Germany",
+      "n_users": 2,
+      "position": [
+        47.795462,
+        10.9235088
+      ]
+    },
+    {
+      "location": "Islamabad, Pakistan",
+      "n_users": 2,
+      "position": [
+        33.6938118,
+        73.0651511
+      ]
+    },
+    {
+      "location": "Anaheim, United States",
+      "n_users": 2,
+      "position": [
+        33.8347516,
+        -117.911732
+      ]
+    },
+    {
+      "location": "Amherst, United States",
+      "n_users": 2,
+      "position": [
+        42.3685658,
+        -72.505714
+      ]
+    },
+    {
+      "location": "Aix-en-Provence, France",
+      "n_users": 2,
+      "position": [
+        43.5298424,
+        5.4474738
+      ]
+    },
+    {
+      "location": "Koblenz, Germany",
+      "n_users": 2,
+      "position": [
+        50.3533278,
+        7.5943951
+      ]
+    },
+    {
+      "location": "Aachen, Germany",
+      "n_users": 2,
+      "position": [
+        50.776351,
+        6.083862
+      ]
+    },
+    {
+      "location": "Fulham, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4744221,
+        -0.2060772
+      ]
+    },
+    {
+      "location": "Cagliari, Italy",
+      "n_users": 2,
+      "position": [
+        39.2169525,
+        9.1128513
+      ]
+    },
+    {
+      "location": "Coventry, United Kingdom",
+      "n_users": 2,
+      "position": [
+        52.4081812,
+        -1.510477
+      ]
+    },
+    {
+      "location": "Courbevoie, France",
+      "n_users": 2,
+      "position": [
+        48.8953328,
+        2.2561602
+      ]
+    },
+    {
+      "location": "Bras\u00edlia, Brazil",
+      "n_users": 2,
+      "position": [
+        -10.3333333,
+        -53.2
+      ]
+    },
+    {
+      "location": "Bermondsey, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4970125,
+        -0.063268
+      ]
+    },
+    {
+      "location": "The Hague, Netherlands",
+      "n_users": 2,
+      "position": [
+        52.0799838,
+        4.3113461
+      ]
+    },
+    {
+      "location": "Boynton Beach, United States",
+      "n_users": 2,
+      "position": [
+        26.5256179,
+        -80.0666026
+      ]
+    },
+    {
+      "location": "Sweden",
+      "n_users": 2,
+      "position": [
+        59.6749712,
+        14.5208584
+      ]
+    },
+    {
+      "location": "Cold Spring Harbor, United States",
+      "n_users": 2,
+      "position": [
+        40.8605415,
+        -73.44767037032815
+      ]
+    },
+    {
+      "location": "Boulogne-Billancourt, France",
+      "n_users": 2,
+      "position": [
+        48.8356649,
+        2.240206
+      ]
+    },
+    {
+      "location": "Boulder, United States",
+      "n_users": 2,
+      "position": [
+        40.0149856,
+        -105.2705456
+      ]
+    },
+    {
+      "location": "Champaign, United States",
+      "n_users": 2,
+      "position": [
+        40.1164205,
+        -88.2433829
+      ]
+    },
+    {
+      "location": "Singapore",
+      "n_users": 2,
+      "position": [
+        1.357107,
+        103.8194992
+      ]
+    },
+    {
+      "location": "Espoo, Finland",
+      "n_users": 2,
+      "position": [
+        60.2241869,
+        24.6603626
+      ]
+    },
+    {
+      "location": "Essen, Germany",
+      "n_users": 2,
+      "position": [
+        51.4582235,
+        7.0158171
+      ]
+    },
+    {
+      "location": "Cascais, Portugal",
+      "n_users": 2,
+      "position": [
+        38.72240025,
+        -9.396909171649877
+      ]
+    },
+    {
+      "location": "Edmonton, Canada",
+      "n_users": 2,
+      "position": [
+        53.535411,
+        -113.507996
+      ]
+    },
+    {
+      "location": "Turku, Finland",
+      "n_users": 2,
+      "position": [
+        60.4517531,
+        22.2670522
+      ]
+    },
+    {
+      "location": "Turin, Italy",
+      "n_users": 2,
+      "position": [
+        45.0677551,
+        7.6824892
+      ]
+    },
+    {
+      "location": "Stony Brook, United States",
+      "n_users": 2,
+      "position": [
+        40.9087015,
+        -73.13960360056436
+      ]
+    },
+    {
+      "location": "C\u00f3rdoba, Argentina",
+      "n_users": 2,
+      "position": [
+        -31.4173391,
+        -64.183319
+      ]
+    },
+    {
+      "location": "Decatur, United States",
+      "n_users": 2,
+      "position": [
+        39.8454163,
+        -88.9524151
+      ]
+    },
+    {
+      "location": "Derby, United Kingdom",
+      "n_users": 2,
+      "position": [
+        52.9212617,
+        -1.4761491
+      ]
+    },
+    {
+      "location": "Dhaka, Bangladesh",
+      "n_users": 2,
+      "position": [
+        23.7593572,
+        90.3788136
+      ]
+    },
+    {
+      "location": "D\u00fcren, Germany",
+      "n_users": 2,
+      "position": [
+        50.8031684,
+        6.4820806
+      ]
+    },
+    {
+      "location": "Wanstead, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5756739,
+        0.0277989
+      ]
+    },
+    {
+      "location": "Dortmund, Germany",
+      "n_users": 2,
+      "position": [
+        51.5142273,
+        7.4652789
+      ]
+    },
+    {
+      "location": "Buffalo, United States",
+      "n_users": 2,
+      "position": [
+        42.8867166,
+        -78.8783922
+      ]
+    },
+    {
+      "location": "Beckton, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5160797,
+        0.0594257
+      ]
+    },
+    {
+      "location": "Tottenham, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5976955,
+        -0.0672892
+      ]
+    },
+    {
+      "location": "Camberwell, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4745706,
+        -0.0925416
+      ]
+    },
+    {
+      "location": "Australia",
+      "n_users": 2,
+      "position": [
+        -24.7761086,
+        134.755
+      ]
+    },
+    {
+      "location": "Utrecht, Netherlands",
+      "n_users": 2,
+      "position": [
+        52.0949753,
+        5.109708
+      ]
+    },
+    {
+      "location": "Beijing, China",
+      "n_users": 2,
+      "position": [
+        39.906217,
+        116.3912757
+      ]
+    },
+    {
+      "location": "Chemnitz, Germany",
+      "n_users": 2,
+      "position": [
+        50.8322608,
+        12.9252977
+      ]
+    },
+    {
+      "location": "Charenton-le-Pont, France",
+      "n_users": 2,
+      "position": [
+        48.8198479,
+        2.4159508
+      ]
+    },
+    {
+      "location": "Taipei, Taiwan",
+      "n_users": 2,
+      "position": [
+        25.0375198,
+        121.5636796
+      ]
+    },
+    {
+      "location": "Valencia, Spain",
+      "n_users": 2,
+      "position": [
+        39.4699014,
+        -0.3759513
+      ]
+    },
+    {
+      "location": "Chevy Chase, United States",
+      "n_users": 2,
+      "position": [
+        38.9822473,
+        -77.0881873
+      ]
+    },
+    {
+      "location": "Chelsea, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4875417,
+        -0.1682205
+      ]
+    },
+    {
+      "location": "Tampa, United States",
+      "n_users": 2,
+      "position": [
+        27.9477595,
+        -82.458444
+      ]
+    },
+    {
+      "location": "Cleveland, United States",
+      "n_users": 2,
+      "position": [
+        41.5051613,
+        -81.6934446
+      ]
+    },
+    {
+      "location": "Finland",
+      "n_users": 2,
+      "position": [
+        63.2467777,
+        25.9209164
+      ]
+    },
+    {
+      "location": "Taichung, Taiwan",
+      "n_users": 2,
+      "position": [
+        24.163162,
+        120.6478282
+      ]
+    },
+    {
+      "location": "City of Westminster, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.4973206,
+        -0.137149
+      ]
+    },
+    {
+      "location": "Secaucus, United States",
+      "n_users": 2,
+      "position": [
+        40.7899291,
+        -74.0566735
+      ]
+    },
+    {
+      "location": "Finchley, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5973246,
+        -0.1805587
+      ]
+    },
+    {
+      "location": "Verona, Italy",
+      "n_users": 2,
+      "position": [
+        45.4384958,
+        10.9924122
+      ]
+    },
+    {
+      "location": "Weston, United States",
+      "n_users": 2,
+      "position": [
+        26.103632,
+        -80.40310198173701
+      ]
+    },
+    {
+      "location": "Shibuya, Japan",
+      "n_users": 2,
+      "position": [
+        35.6645956,
+        139.6987107
+      ]
+    },
+    {
+      "location": "Uxbridge, United Kingdom",
+      "n_users": 2,
+      "position": [
+        51.5449509,
+        -0.4816672
+      ]
+    },
+    {
+      "location": "Chennai, India",
+      "n_users": 2,
+      "position": [
+        13.0801721,
+        80.2838331
+      ]
+    },
+    {
+      "location": "Vilnius, Republic of Lithuania",
+      "n_users": 2,
+      "position": [
+        54.6870458,
+        25.2829111
+      ]
+    },
+    {
+      "location": "Verdun, Canada",
+      "n_users": 2,
+      "position": [
+        45.459078,
+        -73.5731774
+      ]
+    },
+    {
+      "location": "Evanston, United States",
+      "n_users": 2,
+      "position": [
+        42.0447388,
+        -87.6930459
+      ]
+    },
+    {
+      "location": "Ashdod, Israel",
+      "n_users": 2,
+      "position": [
+        31.7977314,
+        34.6529922
+      ]
+    },
+    {
+      "location": "Thornton, United States",
+      "n_users": 1,
+      "position": [
+        39.8695516,
+        -104.9851819
+      ]
+    },
+    {
+      "location": "Wurzen, Germany",
+      "n_users": 1,
+      "position": [
+        51.3709574,
+        12.7410574
+      ]
+    },
+    {
+      "location": "Penarth, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.435968,
+        -3.1733023
+      ]
+    },
+    {
+      "location": "Thousand Oaks, United States",
+      "n_users": 1,
+      "position": [
+        34.17142715,
+        -118.91058772974445
+      ]
+    },
+    {
+      "location": "Toa Payoh New Town, Singapore",
+      "n_users": 1,
+      "position": [
+        1.3353906,
+        103.8497414
+      ]
+    },
+    {
+      "location": "Wymondham, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.5740252,
+        1.1232028929768247
+      ]
+    },
+    {
+      "location": "Patna, India",
+      "n_users": 1,
+      "position": [
+        25.6093239,
+        85.1235252
+      ]
+    },
+    {
+      "location": "Wroc\u0142aw, Poland",
+      "n_users": 1,
+      "position": [
+        51.1263106,
+        16.97819633051261
+      ]
+    },
+    {
+      "location": "Perth, United Kingdom",
+      "n_users": 1,
+      "position": [
+        56.3957679,
+        -3.4335463
+      ]
+    },
+    {
+      "location": "Waterbury, United States",
+      "n_users": 1,
+      "position": [
+        41.5538091,
+        -73.0438362
+      ]
+    },
+    {
+      "location": "Pasly, France",
+      "n_users": 1,
+      "position": [
+        49.4025,
+        3.2972222
+      ]
+    },
+    {
+      "location": "Watsonville, United States",
+      "n_users": 1,
+      "position": [
+        36.9092773,
+        -121.7529071
+      ]
+    },
+    {
+      "location": "Torcy, France",
+      "n_users": 1,
+      "position": [
+        50.4830626,
+        2.02302
+      ]
+    },
+    {
+      "location": "Wynnewood, United States",
+      "n_users": 1,
+      "position": [
+        40.0028514,
+        -75.2707469
+      ]
+    },
+    {
+      "location": "Parempuyre, France",
+      "n_users": 1,
+      "position": [
+        44.9485379,
+        -0.6052708
+      ]
+    },
+    {
+      "location": "Princeton Junction, United States",
+      "n_users": 1,
+      "position": [
+        40.321632,
+        -74.61949414153017
+      ]
+    },
+    {
+      "location": "Paralimni, Cyprus",
+      "n_users": 1,
+      "position": [
+        35.0391339,
+        33.9827919
+      ]
+    },
+    {
+      "location": "Pernik, Bulgaria",
+      "n_users": 1,
+      "position": [
+        42.62802685,
+        22.88250453463423
+      ]
+    },
+    {
+      "location": "Wuerselen, Germany",
+      "n_users": 1,
+      "position": [
+        50.8178682,
+        6.1341108
+      ]
+    },
+    {
+      "location": "Peta\u1e96 Tiqwa, Israel",
+      "n_users": 1,
+      "position": [
+        32.11658115,
+        34.86404509927681
+      ]
+    },
+    {
+      "location": "Philipsburg, United States",
+      "n_users": 1,
+      "position": [
+        40.8964465,
+        -78.2205688
+      ]
+    },
+    {
+      "location": "Temuco, Chile",
+      "n_users": 1,
+      "position": [
+        -38.7362611,
+        -72.590546
+      ]
+    },
+    {
+      "location": "Ponteranica, Italy",
+      "n_users": 1,
+      "position": [
+        45.7320767,
+        9.651987
+      ]
+    },
+    {
+      "location": "Plumstead, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4804635,
+        0.0924286
+      ]
+    },
+    {
+      "location": "Plainsboro, United States",
+      "n_users": 1,
+      "position": [
+        40.3334409,
+        -74.6004341
+      ]
+    },
+    {
+      "location": "Teplice, Czechia",
+      "n_users": 1,
+      "position": [
+        50.6406644,
+        13.8244461
+      ]
+    },
+    {
+      "location": "Porto Alegre, Brazil",
+      "n_users": 1,
+      "position": [
+        -30.0324999,
+        -51.2303767
+      ]
+    },
+    {
+      "location": "Terrassa, Spain",
+      "n_users": 1,
+      "position": [
+        41.5629885,
+        2.0102442
+      ]
+    },
+    {
+      "location": "Thame, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.7482733,
+        -0.9781805
+      ]
+    },
+    {
+      "location": "Pierre-Benite, France",
+      "n_users": 1,
+      "position": [
+        45.7028321,
+        4.8241323
+      ]
+    },
+    {
+      "location": "Watertown, United States",
+      "n_users": 1,
+      "position": [
+        42.3709299,
+        -71.1828321
+      ]
+    },
+    {
+      "location": "Thessaloniki, Greece",
+      "n_users": 1,
+      "position": [
+        40.6403167,
+        22.9352716
+      ]
+    },
+    {
+      "location": "Portsmouth, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.8036831,
+        -1.075614
+      ]
+    },
+    {
+      "location": "Pfaeffikon, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.36974975,
+        8.781494434838272
+      ]
+    },
+    {
+      "location": "Teddington, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4277844,
+        -0.333653
+      ]
+    },
+    {
+      "location": "Techirghiol, Romania",
+      "n_users": 1,
+      "position": [
+        44.05420685,
+        28.590675269192303
+      ]
+    },
+    {
+      "location": "Thiais, France",
+      "n_users": 1,
+      "position": [
+        48.7643664,
+        2.391024
+      ]
+    },
+    {
+      "location": "Thornhill, Canada",
+      "n_users": 1,
+      "position": [
+        43.8161477,
+        -79.4245925
+      ]
+    },
+    {
+      "location": "Pfungstadt, Germany",
+      "n_users": 1,
+      "position": [
+        49.8023181,
+        8.5987671
+      ]
+    },
+    {
+      "location": "Wuppertal, Germany",
+      "n_users": 1,
+      "position": [
+        51.264018,
+        7.1780374
+      ]
+    },
+    {
+      "location": "Pfullingen, Germany",
+      "n_users": 1,
+      "position": [
+        48.4656175,
+        9.2258951
+      ]
+    },
+    {
+      "location": "Temple, United States",
+      "n_users": 1,
+      "position": [
+        31.098207,
+        -97.3427847
+      ]
+    },
+    {
+      "location": "Poyenberg, Germany",
+      "n_users": 1,
+      "position": [
+        54.040945,
+        9.6884847
+      ]
+    },
+    {
+      "location": "Pflugerville, United States",
+      "n_users": 1,
+      "position": [
+        30.4393696,
+        -97.6200043
+      ]
+    },
+    {
+      "location": "Waterloo, Canada",
+      "n_users": 1,
+      "position": [
+        43.466874,
+        -80.524635
+      ]
+    },
+    {
+      "location": "Pinner, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5968712,
+        -0.3770142
+      ]
+    },
+    {
+      "location": "Padova, Italy",
+      "n_users": 1,
+      "position": [
+        45.4077172,
+        11.8734455
+      ]
+    },
+    {
+      "location": "Panipat, India",
+      "n_users": 1,
+      "position": [
+        29.3912753,
+        76.9771675
+      ]
+    },
+    {
+      "location": "Zollikerberg, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.3456637,
+        8.5993998
+      ]
+    },
+    {
+      "location": "Vaestra Froelunda, Sweden",
+      "n_users": 1,
+      "position": [
+        57.6529,
+        11.9106
+      ]
+    },
+    {
+      "location": "North Charleston, United States",
+      "n_users": 1,
+      "position": [
+        32.9131295,
+        -80.0629981965219
+      ]
+    },
+    {
+      "location": "Northampton, United States",
+      "n_users": 1,
+      "position": [
+        36.4168078,
+        -77.3642227
+      ]
+    },
+    {
+      "location": "Norwich, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.628606,
+        1.29227
+      ]
+    },
+    {
+      "location": "Uster, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.3512065,
+        8.7179221
+      ]
+    },
+    {
+      "location": "Novi Sad, Serbia",
+      "n_users": 1,
+      "position": [
+        45.2551338,
+        19.8451756
+      ]
+    },
+    {
+      "location": "Nunhead, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4615309,
+        -0.0535056
+      ]
+    },
+    {
+      "location": "Zbraslav, Czechia",
+      "n_users": 1,
+      "position": [
+        49.221003,
+        16.2938559
+      ]
+    },
+    {
+      "location": "Nutley, United States",
+      "n_users": 1,
+      "position": [
+        40.8223223,
+        -74.1598663
+      ]
+    },
+    {
+      "location": "Urbana, United States",
+      "n_users": 1,
+      "position": [
+        40.1117174,
+        -88.207301
+      ]
+    },
+    {
+      "location": "Oberursel, Germany",
+      "n_users": 1,
+      "position": [
+        50.2005518,
+        8.580452
+      ]
+    },
+    {
+      "location": "Odense, Denmark",
+      "n_users": 1,
+      "position": [
+        55.3997225,
+        10.3852104
+      ]
+    },
+    {
+      "location": "Oegstgeest, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.1833669,
+        4.472129402976295
+      ]
+    },
+    {
+      "location": "Offenbach, Germany",
+      "n_users": 1,
+      "position": [
+        50.1055002,
+        8.7610698
+      ]
+    },
+    {
+      "location": "Olching, Germany",
+      "n_users": 1,
+      "position": [
+        48.2036863,
+        11.3311557
+      ]
+    },
+    {
+      "location": "Valbonne, France",
+      "n_users": 1,
+      "position": [
+        43.641141,
+        7.0086255
+      ]
+    },
+    {
+      "location": "Norman, United States",
+      "n_users": 1,
+      "position": [
+        35.2225717,
+        -97.4394816
+      ]
+    },
+    {
+      "location": "Pamplona, Spain",
+      "n_users": 1,
+      "position": [
+        42.8184538,
+        -1.6442556
+      ]
+    },
+    {
+      "location": "Waban, United States",
+      "n_users": 1,
+      "position": [
+        42.3273475,
+        -71.2292763
+      ]
+    },
+    {
+      "location": "New London, United States",
+      "n_users": 1,
+      "position": [
+        41.3556187,
+        -72.0997804
+      ]
+    },
+    {
+      "location": "New Orleans, United States",
+      "n_users": 1,
+      "position": [
+        29.9499323,
+        -90.0701156
+      ]
+    },
+    {
+      "location": "New Rochelle, United States",
+      "n_users": 1,
+      "position": [
+        40.9115386,
+        -73.7826363
+      ]
+    },
+    {
+      "location": "el Prat de Llobregat, Spain",
+      "n_users": 1,
+      "position": [
+        41.3246333,
+        2.0952568
+      ]
+    },
+    {
+      "location": "New Zealand",
+      "n_users": 1,
+      "position": [
+        -41.5000831,
+        172.8344077
+      ]
+    },
+    {
+      "location": "Vermillion, United States",
+      "n_users": 1,
+      "position": [
+        39.8763626,
+        -87.4635672
+      ]
+    },
+    {
+      "location": "Newcastle upon Tyne, United Kingdom",
+      "n_users": 1,
+      "position": [
+        54.9738474,
+        -1.6131572
+      ]
+    },
+    {
+      "location": "Newmarket, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.2443103,
+        0.4065503
+      ]
+    },
+    {
+      "location": "Newport Beach, United States",
+      "n_users": 1,
+      "position": [
+        33.6170092,
+        -117.9294401
+      ]
+    },
+    {
+      "location": "Nicosia, Cyprus",
+      "n_users": 1,
+      "position": [
+        35.1739302,
+        33.364726
+      ]
+    },
+    {
+      "location": "Nieuwegein, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.0298704,
+        5.0929333789192395
+      ]
+    },
+    {
+      "location": "Vellore, India",
+      "n_users": 1,
+      "position": [
+        12.7948109,
+        79.0006410968549
+      ]
+    },
+    {
+      "location": "Vinkeveen, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.2232371,
+        4.943284064043583
+      ]
+    },
+    {
+      "location": "Nizhniy Novgorod, Russia",
+      "n_users": 1,
+      "position": [
+        56.328571,
+        44.003506
+      ]
+    },
+    {
+      "location": "Nogent-sur-Marne, France",
+      "n_users": 1,
+      "position": [
+        48.8388009,
+        2.4917292
+      ]
+    },
+    {
+      "location": "Uppsala, Sweden",
+      "n_users": 1,
+      "position": [
+        59.8586126,
+        17.6387436
+      ]
+    },
+    {
+      "location": "Oldenburg, Germany",
+      "n_users": 1,
+      "position": [
+        53.1389753,
+        8.2146017
+      ]
+    },
+    {
+      "location": "Zaragoza, Spain",
+      "n_users": 1,
+      "position": [
+        41.6521342,
+        -0.8809428
+      ]
+    },
+    {
+      "location": "Olten, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.3496571,
+        7.903787
+      ]
+    },
+    {
+      "location": "Wandsworth, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4570271,
+        -0.1932607
+      ]
+    },
+    {
+      "location": "Pacific Palisades, United States",
+      "n_users": 1,
+      "position": [
+        34.0480643,
+        -118.5264706
+      ]
+    },
+    {
+      "location": "Pacifica, United States",
+      "n_users": 1,
+      "position": [
+        37.6138253,
+        -122.4869194
+      ]
+    },
+    {
+      "location": "Ypsilanti, United States",
+      "n_users": 1,
+      "position": [
+        42.24253,
+        -83.6171426940706
+      ]
+    },
+    {
+      "location": "Trenton, United States",
+      "n_users": 1,
+      "position": [
+        40.2170575,
+        -74.7429463
+      ]
+    },
+    {
+      "location": "Waregem, Belgium",
+      "n_users": 1,
+      "position": [
+        50.8868222,
+        3.4323622
+      ]
+    },
+    {
+      "location": "Takoma Park, United States",
+      "n_users": 1,
+      "position": [
+        38.9778882,
+        -77.0074765
+      ]
+    },
+    {
+      "location": "Trelex, Switzerland",
+      "n_users": 1,
+      "position": [
+        46.414967,
+        6.2048987
+      ]
+    },
+    {
+      "location": "Toyonaka, Japan",
+      "n_users": 1,
+      "position": [
+        34.7862025,
+        135.4737093
+      ]
+    },
+    {
+      "location": "Towson, United States",
+      "n_users": 1,
+      "position": [
+        39.4018552,
+        -76.602388
+      ]
+    },
+    {
+      "location": "Totteridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6331335,
+        -0.2008636
+      ]
+    },
+    {
+      "location": "Torre del Greco, Italy",
+      "n_users": 1,
+      "position": [
+        40.7879211,
+        14.3682813
+      ]
+    },
+    {
+      "location": "Palmers Green, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6222544,
+        -0.1127378
+      ]
+    },
+    {
+      "location": "Yarraville, Australia",
+      "n_users": 1,
+      "position": [
+        -37.8158955,
+        144.8899037
+      ]
+    },
+    {
+      "location": "Palos Verdes Estates, United States",
+      "n_users": 1,
+      "position": [
+        33.7872386,
+        -118.401813
+      ]
+    },
+    {
+      "location": "Trivandrum, India",
+      "n_users": 1,
+      "position": [
+        8.5058909,
+        76.9570481
+      ]
+    },
+    {
+      "location": "Troms\u00f8, Norway",
+      "n_users": 1,
+      "position": [
+        69.6492969,
+        18.9548489
+      ]
+    },
+    {
+      "location": "Overijse, Belgium",
+      "n_users": 1,
+      "position": [
+        50.7701622,
+        4.5351806
+      ]
+    },
+    {
+      "location": "Orl\u00e9ans, France",
+      "n_users": 1,
+      "position": [
+        47.9027336,
+        1.9086066
+      ]
+    },
+    {
+      "location": "Omaha, United States",
+      "n_users": 1,
+      "position": [
+        41.2587459,
+        -95.9383758
+      ]
+    },
+    {
+      "location": "Onalaska, United States",
+      "n_users": 1,
+      "position": [
+        30.805746,
+        -95.1163261
+      ]
+    },
+    {
+      "location": "Ulm, Germany",
+      "n_users": 1,
+      "position": [
+        48.3974003,
+        9.9934336
+      ]
+    },
+    {
+      "location": "Tysons Corner, United States",
+      "n_users": 1,
+      "position": [
+        38.916509000000005,
+        -77.22578585192836
+      ]
+    },
+    {
+      "location": "Orangevale, United States",
+      "n_users": 1,
+      "position": [
+        38.6840715,
+        -121.21839903078865
+      ]
+    },
+    {
+      "location": "Turkey",
+      "n_users": 1,
+      "position": [
+        38.9597594,
+        34.9249653
+      ]
+    },
+    {
+      "location": "Zapopan, Mexico",
+      "n_users": 1,
+      "position": [
+        20.7032055,
+        -103.4261243
+      ]
+    },
+    {
+      "location": "Outremont, Canada",
+      "n_users": 1,
+      "position": [
+        45.5186167,
+        -73.6068856
+      ]
+    },
+    {
+      "location": "Trowbridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3195102,
+        -2.2017864693935865
+      ]
+    },
+    {
+      "location": "Walldurn, Germany",
+      "n_users": 1,
+      "position": [
+        49.5833,
+        9.36667
+      ]
+    },
+    {
+      "location": "Wallington, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.357945,
+        -0.1495621
+      ]
+    },
+    {
+      "location": "Ottestad, Norway",
+      "n_users": 1,
+      "position": [
+        60.7464602,
+        11.136809
+      ]
+    },
+    {
+      "location": "Ouagadougou, Burkina Faso",
+      "n_users": 1,
+      "position": [
+        12.3681873,
+        -1.5270944
+      ]
+    },
+    {
+      "location": "Wallsend, United Kingdom",
+      "n_users": 1,
+      "position": [
+        54.9911912,
+        -1.5342042
+      ]
+    },
+    {
+      "location": "Woodstock, United States",
+      "n_users": 1,
+      "position": [
+        42.041003,
+        -74.118329
+      ]
+    },
+    {
+      "location": "Raleigh, United States",
+      "n_users": 1,
+      "position": [
+        35.7803977,
+        -78.6390989
+      ]
+    },
+    {
+      "location": "Taizhou, China",
+      "n_users": 1,
+      "position": [
+        32.4614944,
+        119.913445
+      ]
+    },
+    {
+      "location": "Williamstown, United States",
+      "n_users": 1,
+      "position": [
+        38.6381245,
+        -84.5604977
+      ]
+    },
+    {
+      "location": "Saint Paul, United States",
+      "n_users": 1,
+      "position": [
+        44.9504037,
+        -93.1015026
+      ]
+    },
+    {
+      "location": "Saint-Eustache, Canada",
+      "n_users": 1,
+      "position": [
+        45.5646052,
+        -73.8929714
+      ]
+    },
+    {
+      "location": "Saint-Hyacinthe, Canada",
+      "n_users": 1,
+      "position": [
+        45.627484,
+        -72.940636
+      ]
+    },
+    {
+      "location": "Saint-Lambert, Canada",
+      "n_users": 1,
+      "position": [
+        45.5016203,
+        -73.5102981
+      ]
+    },
+    {
+      "location": "Saint-Zotique, Canada",
+      "n_users": 1,
+      "position": [
+        45.2425481,
+        -74.2477841
+      ]
+    },
+    {
+      "location": "Soedra Sunderbyn, Sweden",
+      "n_users": 1,
+      "position": [
+        65.6597,
+        21.9395
+      ]
+    },
+    {
+      "location": "Slough, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.50342695,
+        -0.5748721523852964
+      ]
+    },
+    {
+      "location": "Sainte-Foy-les-Lyon, France",
+      "n_users": 1,
+      "position": [
+        45.7362255,
+        4.7934767
+      ]
+    },
+    {
+      "location": "Salamanca, Spain",
+      "n_users": 1,
+      "position": [
+        40.9651572,
+        -5.6640182
+      ]
+    },
+    {
+      "location": "Skokie, United States",
+      "n_users": 1,
+      "position": [
+        42.0333694,
+        -87.7333972
+      ]
+    },
+    {
+      "location": "Sintra, Portugal",
+      "n_users": 1,
+      "position": [
+        38.8355605,
+        -9.352225245746453
+      ]
+    },
+    {
+      "location": "Saline, United States",
+      "n_users": 1,
+      "position": [
+        37.750075,
+        -88.5302584
+      ]
+    },
+    {
+      "location": "Villeurbanne, France",
+      "n_users": 1,
+      "position": [
+        45.7733105,
+        4.8869339
+      ]
+    },
+    {
+      "location": "Salt Lake City, United States",
+      "n_users": 1,
+      "position": [
+        40.7596198,
+        -111.8867975
+      ]
+    },
+    {
+      "location": "Wiesbaden, Germany",
+      "n_users": 1,
+      "position": [
+        50.0820384,
+        8.2416556
+      ]
+    },
+    {
+      "location": "Willebroek, Belgium",
+      "n_users": 1,
+      "position": [
+        51.0606816,
+        4.3588917
+      ]
+    },
+    {
+      "location": "Sag Harbor, United States",
+      "n_users": 1,
+      "position": [
+        40.9978727,
+        -72.2922292
+      ]
+    },
+    {
+      "location": "Salzburg, Austria",
+      "n_users": 1,
+      "position": [
+        47.7981346,
+        13.0464806
+      ]
+    },
+    {
+      "location": "Sofia, Bulgaria",
+      "n_users": 1,
+      "position": [
+        42.6978634,
+        23.3221789
+      ]
+    },
+    {
+      "location": "Rovereto, Italy",
+      "n_users": 1,
+      "position": [
+        45.886548,
+        11.0452369
+      ]
+    },
+    {
+      "location": "Royal Leamington Spa, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.2913394,
+        -1.536404
+      ]
+    },
+    {
+      "location": "Royal Tunbridge Wells, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.1371483,
+        0.2673446
+      ]
+    },
+    {
+      "location": "Songpa-dong, South Korea",
+      "n_users": 1,
+      "position": [
+        37.50479,
+        127.11369
+      ]
+    },
+    {
+      "location": "Roydon, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.77526,
+        0.5240043
+      ]
+    },
+    {
+      "location": "Rozendaal, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.0394752,
+        5.963024982504363
+      ]
+    },
+    {
+      "location": "West Lafayette, United States",
+      "n_users": 1,
+      "position": [
+        40.4258686,
+        -86.9080655
+      ]
+    },
+    {
+      "location": "Solna, Sweden",
+      "n_users": 1,
+      "position": [
+        59.361367,
+        18.0013693
+      ]
+    },
+    {
+      "location": "Russia",
+      "n_users": 1,
+      "position": [
+        64.6863136,
+        97.7453061
+      ]
+    },
+    {
+      "location": "Ryde, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.72414995,
+        -1.1727622804957731
+      ]
+    },
+    {
+      "location": "R\u00f8dovre Municipality, Denmark",
+      "n_users": 1,
+      "position": [
+        55.69020045,
+        12.448045107651946
+      ]
+    },
+    {
+      "location": "Soham, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.3333453,
+        0.3387475
+      ]
+    },
+    {
+      "location": "R\u00f8nne, Denmark",
+      "n_users": 1,
+      "position": [
+        55.0994511,
+        14.7060906
+      ]
+    },
+    {
+      "location": "Wilmette, United States",
+      "n_users": 1,
+      "position": [
+        42.0757315,
+        -87.7193768
+      ]
+    },
+    {
+      "location": "West Palm Beach, United States",
+      "n_users": 1,
+      "position": [
+        26.715364,
+        -80.0532942
+      ]
+    },
+    {
+      "location": "Salzbergen, Germany",
+      "n_users": 1,
+      "position": [
+        52.3228202,
+        7.347503
+      ]
+    },
+    {
+      "location": "Sint-Oedenrode, Netherlands",
+      "n_users": 1,
+      "position": [
+        51.5635235,
+        5.472437946351864
+      ]
+    },
+    {
+      "location": "Woodlawn, Canada",
+      "n_users": 1,
+      "position": [
+        43.7810717,
+        -65.2987862
+      ]
+    },
+    {
+      "location": "Sankt Augustin, Germany",
+      "n_users": 1,
+      "position": [
+        50.7752776,
+        7.1895507
+      ]
+    },
+    {
+      "location": "Wevelgem, Belgium",
+      "n_users": 1,
+      "position": [
+        50.8121065,
+        3.1864393078698976
+      ]
+    },
+    {
+      "location": "Scottsdale, United States",
+      "n_users": 1,
+      "position": [
+        33.4942189,
+        -111.9260184
+      ]
+    },
+    {
+      "location": "Schwabbruck, Germany",
+      "n_users": 1,
+      "position": [
+        47.8243593,
+        10.8365749
+      ]
+    },
+    {
+      "location": "White Lake, Canada",
+      "n_users": 1,
+      "position": [
+        50.0246528,
+        -95.5169031
+      ]
+    },
+    {
+      "location": "Scarborough, Canada",
+      "n_users": 1,
+      "position": [
+        43.773077,
+        -79.257774
+      ]
+    },
+    {
+      "location": "Santa Cruz, United States",
+      "n_users": 1,
+      "position": [
+        37.050096,
+        -121.9905908
+      ]
+    },
+    {
+      "location": "Savski Venac, Serbia",
+      "n_users": 1,
+      "position": [
+        44.8028737,
+        20.4575104
+      ]
+    },
+    {
+      "location": "Savoy, United States",
+      "n_users": 1,
+      "position": [
+        33.5950735,
+        -96.35676727159378
+      ]
+    },
+    {
+      "location": "Weybridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3727175,
+        -0.4549297
+      ]
+    },
+    {
+      "location": "Satellite Beach, United States",
+      "n_users": 1,
+      "position": [
+        28.1761233,
+        -80.5900519
+      ]
+    },
+    {
+      "location": "Santo Amador, Portugal",
+      "n_users": 1,
+      "position": [
+        38.13786335,
+        -7.315508892027629
+      ]
+    },
+    {
+      "location": "Sarajevo, Bosnia and Herzegovina",
+      "n_users": 1,
+      "position": [
+        43.8519774,
+        18.3866868
+      ]
+    },
+    {
+      "location": "Santo Andr\u00e9, Brazil",
+      "n_users": 1,
+      "position": [
+        -23.6573395,
+        -46.5322504
+      ]
+    },
+    {
+      "location": "Sao Marcos, Portugal",
+      "n_users": 1,
+      "position": [
+        40.8548901,
+        -7.0473487
+      ]
+    },
+    {
+      "location": "Sao Jose do Rio Preto, Brazil",
+      "n_users": 1,
+      "position": [
+        -20.8125851,
+        -49.3804212
+      ]
+    },
+    {
+      "location": "Sant Quirze de Besora, Spain",
+      "n_users": 1,
+      "position": [
+        42.101426,
+        2.2170289
+      ]
+    },
+    {
+      "location": "Senec, Slovakia",
+      "n_users": 1,
+      "position": [
+        48.2345524,
+        17.38557777887312
+      ]
+    },
+    {
+      "location": "Singen, Germany",
+      "n_users": 1,
+      "position": [
+        47.7617515,
+        8.8348709
+      ]
+    },
+    {
+      "location": "Seneca, United States",
+      "n_users": 1,
+      "position": [
+        41.1343702,
+        -83.1194199
+      ]
+    },
+    {
+      "location": "Whitestone, United States",
+      "n_users": 1,
+      "position": [
+        40.7945457,
+        -73.8184674
+      ]
+    },
+    {
+      "location": "Samsun, Turkey",
+      "n_users": 1,
+      "position": [
+        41.2303557,
+        35.9683338
+      ]
+    },
+    {
+      "location": "San Antonio, United States",
+      "n_users": 1,
+      "position": [
+        29.4246002,
+        -98.4951405
+      ]
+    },
+    {
+      "location": "San Bruno, United States",
+      "n_users": 1,
+      "position": [
+        37.6304904,
+        -122.4110835
+      ]
+    },
+    {
+      "location": "San Carlos, United States",
+      "n_users": 1,
+      "position": [
+        37.504936,
+        -122.2618236
+      ]
+    },
+    {
+      "location": "Siirt, Turkey",
+      "n_users": 1,
+      "position": [
+        37.8646916,
+        42.0510294
+      ]
+    },
+    {
+      "location": "Sidcup, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4264002,
+        0.101044
+      ]
+    },
+    {
+      "location": "San Crist\u00f3bal de las Casas, Mexico",
+      "n_users": 1,
+      "position": [
+        16.6835469,
+        -92.61551841991157
+      ]
+    },
+    {
+      "location": "White River Junction, United States",
+      "n_users": 1,
+      "position": [
+        43.6488351,
+        -72.3193634
+      ]
+    },
+    {
+      "location": "Shoreham-by-Sea, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.8322307,
+        -0.2746717
+      ]
+    },
+    {
+      "location": "Shanghai, China",
+      "n_users": 1,
+      "position": [
+        31.2322758,
+        121.4692071
+      ]
+    },
+    {
+      "location": "Seoul, South Korea",
+      "n_users": 1,
+      "position": [
+        37.5666791,
+        126.9782914
+      ]
+    },
+    {
+      "location": "San Mauro Pascoli, Italy",
+      "n_users": 1,
+      "position": [
+        44.1064626,
+        12.4148977
+      ]
+    },
+    {
+      "location": "San Miguel de Tucum\u00e1n, Argentina",
+      "n_users": 1,
+      "position": [
+        -26.8474394,
+        -65.22591549386462
+      ]
+    },
+    {
+      "location": "Seocho-gu, South Korea",
+      "n_users": 1,
+      "position": [
+        37.4835,
+        127.0322
+      ]
+    },
+    {
+      "location": "Rouen, France",
+      "n_users": 1,
+      "position": [
+        49.4404591,
+        1.0939658
+      ]
+    },
+    {
+      "location": "Rotterdam, Netherlands",
+      "n_users": 1,
+      "position": [
+        51.9228958,
+        4.4631727
+      ]
+    },
+    {
+      "location": "Rosny-sous-Bois, France",
+      "n_users": 1,
+      "position": [
+        48.8716626,
+        2.4875193
+      ]
+    },
+    {
+      "location": "Redene, France",
+      "n_users": 1,
+      "position": [
+        47.8600854,
+        -3.4613833
+      ]
+    },
+    {
+      "location": "Woking, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3201891,
+        -0.5564726
+      ]
+    },
+    {
+      "location": "Wayne, United States",
+      "n_users": 1,
+      "position": [
+        38.4251958,
+        -88.4197678
+      ]
+    },
+    {
+      "location": "Redondo Beach, United States",
+      "n_users": 1,
+      "position": [
+        33.8455911,
+        -118.3886766
+      ]
+    },
+    {
+      "location": "Swansea, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6195955,
+        -3.9459248
+      ]
+    },
+    {
+      "location": "Surat, India",
+      "n_users": 1,
+      "position": [
+        21.1864607,
+        72.8081281
+      ]
+    },
+    {
+      "location": "Sunapee, United States",
+      "n_users": 1,
+      "position": [
+        43.3874008,
+        -72.0877198
+      ]
+    },
+    {
+      "location": "Weingarten, Germany",
+      "n_users": 1,
+      "position": [
+        47.8075299,
+        9.6431145
+      ]
+    },
+    {
+      "location": "Sugar Land, United States",
+      "n_users": 1,
+      "position": [
+        29.6196787,
+        -95.6349463
+      ]
+    },
+    {
+      "location": "Wellesley Hills, United States",
+      "n_users": 1,
+      "position": [
+        42.3081168,
+        -71.2780745
+      ]
+    },
+    {
+      "location": "Stuart, United States",
+      "n_users": 1,
+      "position": [
+        27.197983,
+        -80.2519175
+      ]
+    },
+    {
+      "location": "Remicourt, Belgium",
+      "n_users": 1,
+      "position": [
+        50.678492,
+        5.319969
+      ]
+    },
+    {
+      "location": "Remiremont, France",
+      "n_users": 1,
+      "position": [
+        48.0158951,
+        6.5912615
+      ]
+    },
+    {
+      "location": "Strasbourg, France",
+      "n_users": 1,
+      "position": [
+        48.584614,
+        7.7507127
+      ]
+    },
+    {
+      "location": "Stourbridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.4577615,
+        -2.1474345
+      ]
+    },
+    {
+      "location": "Storrs, United States",
+      "n_users": 1,
+      "position": [
+        41.8084314,
+        -72.2495231
+      ]
+    },
+    {
+      "location": "Redhill, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.2404691,
+        -0.1682816
+      ]
+    },
+    {
+      "location": "Recklinghausen, Germany",
+      "n_users": 1,
+      "position": [
+        51.6143815,
+        7.1978546
+      ]
+    },
+    {
+      "location": "West Haven, United States",
+      "n_users": 1,
+      "position": [
+        41.2706527,
+        -72.9470471
+      ]
+    },
+    {
+      "location": "Recife, Brazil",
+      "n_users": 1,
+      "position": [
+        -8.0641931,
+        -34.8781517
+      ]
+    },
+    {
+      "location": "P\u00e9cs, Hungary",
+      "n_users": 1,
+      "position": [
+        46.0763222,
+        18.2280746
+      ]
+    },
+    {
+      "location": "Quartino, Switzerland",
+      "n_users": 1,
+      "position": [
+        46.1512996,
+        8.8872938
+      ]
+    },
+    {
+      "location": "Taito, Japan",
+      "n_users": 1,
+      "position": [
+        35.71745,
+        139.790859
+      ]
+    },
+    {
+      "location": "Quilpu\u00e9, Chile",
+      "n_users": 1,
+      "position": [
+        -33.0498135,
+        -71.4415282
+      ]
+    },
+    {
+      "location": "Raanana, Israel",
+      "n_users": 1,
+      "position": [
+        32.1862752,
+        34.8692427
+      ]
+    },
+    {
+      "location": "Rahway, United States",
+      "n_users": 1,
+      "position": [
+        40.6081591,
+        -74.2776468
+      ]
+    },
+    {
+      "location": "Tadley, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3414473,
+        -1.1446781163706068
+      ]
+    },
+    {
+      "location": "Rainham, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3642835,
+        0.6014889
+      ]
+    },
+    {
+      "location": "Ramat Gan, Israel",
+      "n_users": 1,
+      "position": [
+        32.0686867,
+        34.8246812
+      ]
+    },
+    {
+      "location": "S\u00e8vres, France",
+      "n_users": 1,
+      "position": [
+        48.8247407,
+        2.2127083
+      ]
+    },
+    {
+      "location": "Ratingen, Germany",
+      "n_users": 1,
+      "position": [
+        51.2973261,
+        6.8493503
+      ]
+    },
+    {
+      "location": "Ravensburg, Germany",
+      "n_users": 1,
+      "position": [
+        47.7811014,
+        9.612468
+      ]
+    },
+    {
+      "location": "Szeged, Hungary",
+      "n_users": 1,
+      "position": [
+        46.2546312,
+        20.1486016
+      ]
+    },
+    {
+      "location": "Syracuse, United States",
+      "n_users": 1,
+      "position": [
+        43.0481221,
+        -76.1474244
+      ]
+    },
+    {
+      "location": "Rebordosa, Portugal",
+      "n_users": 1,
+      "position": [
+        41.2202567,
+        -8.4112601
+      ]
+    },
+    {
+      "location": "Rennes, France",
+      "n_users": 1,
+      "position": [
+        48.1113387,
+        -1.6800198
+      ]
+    },
+    {
+      "location": "Reno, United States",
+      "n_users": 1,
+      "position": [
+        39.5261206,
+        -119.8126581
+      ]
+    },
+    {
+      "location": "Witney, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.7859366,
+        -1.4850585
+      ]
+    },
+    {
+      "location": "Reykjavik, Iceland",
+      "n_users": 1,
+      "position": [
+        64.145981,
+        -21.9422367
+      ]
+    },
+    {
+      "location": "Southbank, Australia",
+      "n_users": 1,
+      "position": [
+        -37.8253618,
+        144.9640203
+      ]
+    },
+    {
+      "location": "Rio Grande, Puerto Rico",
+      "n_users": 1,
+      "position": [
+        18.0976281,
+        -66.9391004
+      ]
+    },
+    {
+      "location": "Rio de Janeiro, Brazil",
+      "n_users": 1,
+      "position": [
+        -22.9110137,
+        -43.2093727
+      ]
+    },
+    {
+      "location": "Rishon LeZiyyon, Israel",
+      "n_users": 1,
+      "position": [
+        31.9635712,
+        34.8101149
+      ]
+    },
+    {
+      "location": "South Ockendon, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5093771,
+        0.2827942
+      ]
+    },
+    {
+      "location": "Winston-Salem, United States",
+      "n_users": 1,
+      "position": [
+        36.0998131,
+        -80.2440518
+      ]
+    },
+    {
+      "location": "Windsor, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.48379805,
+        -0.6041397427111339
+      ]
+    },
+    {
+      "location": "Rodeo, United States",
+      "n_users": 1,
+      "position": [
+        38.028274350000004,
+        -122.23731182159091
+      ]
+    },
+    {
+      "location": "South Lake Tahoe, United States",
+      "n_users": 1,
+      "position": [
+        38.9332411,
+        -119.9843482
+      ]
+    },
+    {
+      "location": "Windermere, United Kingdom",
+      "n_users": 1,
+      "position": [
+        54.3794828,
+        -2.9061994
+      ]
+    },
+    {
+      "location": "Romainville, France",
+      "n_users": 1,
+      "position": [
+        48.8852958,
+        2.4358326
+      ]
+    },
+    {
+      "location": "Soumagne, Belgium",
+      "n_users": 1,
+      "position": [
+        50.6147718,
+        5.739941
+      ]
+    },
+    {
+      "location": "Sosnowiec, Poland",
+      "n_users": 1,
+      "position": [
+        50.271229500000004,
+        19.215561953947084
+      ]
+    },
+    {
+      "location": "Romford, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5760462,
+        0.1822646
+      ]
+    },
+    {
+      "location": "Roquefort-les-Pins, France",
+      "n_users": 1,
+      "position": [
+        43.6661456,
+        7.0492115
+      ]
+    },
+    {
+      "location": "Ringmer, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.90078055,
+        0.06323861584139442
+      ]
+    },
+    {
+      "location": "West Covina, United States",
+      "n_users": 1,
+      "position": [
+        34.0686208,
+        -117.9389526
+      ]
+    },
+    {
+      "location": "Spring, United States",
+      "n_users": 1,
+      "position": [
+        30.0798826,
+        -95.4172549
+      ]
+    },
+    {
+      "location": "Welwyn, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.837085,
+        -0.2027198848735445
+      ]
+    },
+    {
+      "location": "Wellington, United States",
+      "n_users": 1,
+      "position": [
+        34.856166,
+        -100.2137263
+      ]
+    },
+    {
+      "location": "Stirling, United Kingdom",
+      "n_users": 1,
+      "position": [
+        56.1181242,
+        -3.9360012
+      ]
+    },
+    {
+      "location": "Welwyn Garden City, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.8031083,
+        -0.2068872
+      ]
+    },
+    {
+      "location": "Stepney, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5174023,
+        -0.0462189
+      ]
+    },
+    {
+      "location": "Richmond, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4613531,
+        -0.3032767
+      ]
+    },
+    {
+      "location": "Starnberg, Germany",
+      "n_users": 1,
+      "position": [
+        48.0001038,
+        11.3508972
+      ]
+    },
+    {
+      "location": "St. Gallen, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.4250593,
+        9.3765878
+      ]
+    },
+    {
+      "location": "Rijnsburg, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.198385,
+        4.449707198834748
+      ]
+    },
+    {
+      "location": "St. Catharines, Canada",
+      "n_users": 1,
+      "position": [
+        43.1579812,
+        -79.2441003
+      ]
+    },
+    {
+      "location": "Ried im Innkreis, Austria",
+      "n_users": 1,
+      "position": [
+        48.2085868,
+        13.48839
+      ]
+    },
+    {
+      "location": "St Petersburg, Russia",
+      "n_users": 1,
+      "position": [
+        59.9606739,
+        30.1586551
+      ]
+    },
+    {
+      "location": "Riegelsberg, Germany",
+      "n_users": 1,
+      "position": [
+        49.3022607,
+        6.9454057
+      ]
+    },
+    {
+      "location": "Rijeka, Croatia",
+      "n_users": 1,
+      "position": [
+        45.3271752,
+        14.4412309
+      ]
+    },
+    {
+      "location": "Wenzhou, China",
+      "n_users": 1,
+      "position": [
+        27.9958689,
+        120.6915792
+      ]
+    },
+    {
+      "location": "Vienna, United States",
+      "n_users": 1,
+      "position": [
+        38.9013729,
+        -77.2651762
+      ]
+    },
+    {
+      "location": "Les Ulis, France",
+      "n_users": 1,
+      "position": [
+        48.681708,
+        2.1701573
+      ]
+    },
+    {
+      "location": "New City, United States",
+      "n_users": 1,
+      "position": [
+        41.1499825,
+        -73.98989776091842
+      ]
+    },
+    {
+      "location": "Compi\u00e8gne, France",
+      "n_users": 1,
+      "position": [
+        49.4179497,
+        2.8263171
+      ]
+    },
+    {
+      "location": "Chuo, Japan",
+      "n_users": 1,
+      "position": [
+        35.666255,
+        139.775565
+      ]
+    },
+    {
+      "location": "Cirencester, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.7170188,
+        -1.9685299
+      ]
+    },
+    {
+      "location": "Ciudad Real, Spain",
+      "n_users": 1,
+      "position": [
+        38.95975095,
+        -3.8828283392159584
+      ]
+    },
+    {
+      "location": "Clapham, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4622924,
+        -0.1388561
+      ]
+    },
+    {
+      "location": "Clarksville, United States",
+      "n_users": 1,
+      "position": [
+        36.5277607,
+        -87.3588703
+      ]
+    },
+    {
+      "location": "Coimbra, Portugal",
+      "n_users": 1,
+      "position": [
+        40.2109801,
+        -8.4292057
+      ]
+    },
+    {
+      "location": "Colchester, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.8896903,
+        0.8994651
+      ]
+    },
+    {
+      "location": "College Station, United States",
+      "n_users": 1,
+      "position": [
+        30.5955289,
+        -96.3071042
+      ]
+    },
+    {
+      "location": "Colombes, France",
+      "n_users": 1,
+      "position": [
+        48.922788,
+        2.2543577
+      ]
+    },
+    {
+      "location": "Commack, United States",
+      "n_users": 1,
+      "position": [
+        40.8476971,
+        -73.2751126511568
+      ]
+    },
+    {
+      "location": "Concord, United States",
+      "n_users": 1,
+      "position": [
+        43.207178,
+        -71.537476
+      ]
+    },
+    {
+      "location": "Detroit, United States",
+      "n_users": 1,
+      "position": [
+        42.3315509,
+        -83.0466403
+      ]
+    },
+    {
+      "location": "Coogee, Australia",
+      "n_users": 1,
+      "position": [
+        -33.9217004,
+        151.2557975
+      ]
+    },
+    {
+      "location": "Cordenons, Italy",
+      "n_users": 1,
+      "position": [
+        46.003731,
+        12.718653395250298
+      ]
+    },
+    {
+      "location": "Cork, Ireland",
+      "n_users": 1,
+      "position": [
+        51.8979282,
+        -8.4705806
+      ]
+    },
+    {
+      "location": "Corroios, Portugal",
+      "n_users": 1,
+      "position": [
+        38.6415327,
+        -9.1522335
+      ]
+    },
+    {
+      "location": "Cranwell, United Kingdom",
+      "n_users": 1,
+      "position": [
+        53.0375651,
+        -0.4629025
+      ]
+    },
+    {
+      "location": "Cupertino, United States",
+      "n_users": 1,
+      "position": [
+        37.3228934,
+        -122.0322895
+      ]
+    },
+    {
+      "location": "Curitiba, Brazil",
+      "n_users": 1,
+      "position": [
+        -25.4295963,
+        -49.2712724
+      ]
+    },
+    {
+      "location": "Cusco, Peru",
+      "n_users": 1,
+      "position": [
+        -13.5170887,
+        -71.9785356
+      ]
+    },
+    {
+      "location": "Czechia",
+      "n_users": 1,
+      "position": [
+        49.8167003,
+        15.4749544
+      ]
+    },
+    {
+      "location": "Dabas, Hungary",
+      "n_users": 1,
+      "position": [
+        47.1729302,
+        19.3229242
+      ]
+    },
+    {
+      "location": "China",
+      "n_users": 1,
+      "position": [
+        35.000074,
+        104.999927
+      ]
+    },
+    {
+      "location": "Chigwell, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6176444,
+        0.0757204
+      ]
+    },
+    {
+      "location": "Chichester, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.8364862,
+        -0.7791721
+      ]
+    },
+    {
+      "location": "Chiang Mai, Thailand",
+      "n_users": 1,
+      "position": [
+        18.790876,
+        98.988048
+      ]
+    },
+    {
+      "location": "Caldwell, United States",
+      "n_users": 1,
+      "position": [
+        29.8298971,
+        -97.5959641
+      ]
+    },
+    {
+      "location": "Canberra, Australia",
+      "n_users": 1,
+      "position": [
+        -35.2975906,
+        149.1012676
+      ]
+    },
+    {
+      "location": "Canton, United States",
+      "n_users": 1,
+      "position": [
+        32.555664,
+        -95.8640507
+      ]
+    },
+    {
+      "location": "Capena, Italy",
+      "n_users": 1,
+      "position": [
+        42.1401497,
+        12.540201
+      ]
+    },
+    {
+      "location": "Capestang, France",
+      "n_users": 1,
+      "position": [
+        43.3265792,
+        3.0457226
+      ]
+    },
+    {
+      "location": "Carcavelos, Portugal",
+      "n_users": 1,
+      "position": [
+        38.69210915,
+        -9.335470188377633
+      ]
+    },
+    {
+      "location": "Carmel, United States",
+      "n_users": 1,
+      "position": [
+        41.4266361,
+        -73.6788272
+      ]
+    },
+    {
+      "location": "Carrbridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        57.2825434,
+        -3.8146791
+      ]
+    },
+    {
+      "location": "Castelo Branco, Portugal",
+      "n_users": 1,
+      "position": [
+        39.97675825,
+        -7.446059929966704
+      ]
+    },
+    {
+      "location": "Catford, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4453215,
+        -0.0197534
+      ]
+    },
+    {
+      "location": "Caulfield South, Australia",
+      "n_users": 1,
+      "position": [
+        -37.894699,
+        145.0249323
+      ]
+    },
+    {
+      "location": "Centereach, United States",
+      "n_users": 1,
+      "position": [
+        40.868527,
+        -73.08415020025492
+      ]
+    },
+    {
+      "location": "Centreville, United States",
+      "n_users": 1,
+      "position": [
+        38.8403909,
+        -77.4288769
+      ]
+    },
+    {
+      "location": "Champigny-sur-Marne, France",
+      "n_users": 1,
+      "position": [
+        48.8137759,
+        2.5107384
+      ]
+    },
+    {
+      "location": "Chapel Hill, United States",
+      "n_users": 1,
+      "position": [
+        35.9131542,
+        -79.05578
+      ]
+    },
+    {
+      "location": "Chard, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.8736728,
+        -2.9597425
+      ]
+    },
+    {
+      "location": "Charlestown of Aberlour, United Kingdom",
+      "n_users": 1,
+      "position": [
+        57.4707462,
+        -3.2254545
+      ]
+    },
+    {
+      "location": "Charleville-M\u00e9zi\u00e8res, France",
+      "n_users": 1,
+      "position": [
+        49.7735712,
+        4.7206939
+      ]
+    },
+    {
+      "location": "Charlotte, United States",
+      "n_users": 1,
+      "position": [
+        35.2270869,
+        -80.8431268
+      ]
+    },
+    {
+      "location": "Cheltenham, Australia",
+      "n_users": 1,
+      "position": [
+        -37.9670081,
+        145.0546951
+      ]
+    },
+    {
+      "location": "Chervonohrad, Ukraine",
+      "n_users": 1,
+      "position": [
+        50.3892068,
+        24.2287906
+      ]
+    },
+    {
+      "location": "Dalian, China",
+      "n_users": 1,
+      "position": [
+        38.9181714,
+        121.6282945
+      ]
+    },
+    {
+      "location": "Didcot, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6056908,
+        -1.2467923
+      ]
+    },
+    {
+      "location": "Burtonsville, United States",
+      "n_users": 1,
+      "position": [
+        39.1112193,
+        -76.9324752
+      ]
+    },
+    {
+      "location": "Ferndale, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6604868,
+        -3.4475628
+      ]
+    },
+    {
+      "location": "Ernakulam, India",
+      "n_users": 1,
+      "position": [
+        10.038394700000001,
+        76.5074145180173
+      ]
+    },
+    {
+      "location": "Erzincan, Turkey",
+      "n_users": 1,
+      "position": [
+        39.6073429,
+        39.2013209
+      ]
+    },
+    {
+      "location": "Esneux, Belgium",
+      "n_users": 1,
+      "position": [
+        50.533724899999996,
+        5.57577274403242
+      ]
+    },
+    {
+      "location": "Essenheim, Germany",
+      "n_users": 1,
+      "position": [
+        49.9313933,
+        8.1564124
+      ]
+    },
+    {
+      "location": "Euskirchen, Germany",
+      "n_users": 1,
+      "position": [
+        50.6612623,
+        6.7871219
+      ]
+    },
+    {
+      "location": "Fair Lawn, United States",
+      "n_users": 1,
+      "position": [
+        40.9403762,
+        -74.1318096
+      ]
+    },
+    {
+      "location": "Fairfax, United States",
+      "n_users": 1,
+      "position": [
+        38.8462236,
+        -77.3063733
+      ]
+    },
+    {
+      "location": "Far Rockaway, United States",
+      "n_users": 1,
+      "position": [
+        40.6053825,
+        -73.7551326
+      ]
+    },
+    {
+      "location": "Faringdon, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6582582,
+        -1.5837123
+      ]
+    },
+    {
+      "location": "Farmington, United States",
+      "n_users": 1,
+      "position": [
+        44.6402434,
+        -93.1435497
+      ]
+    },
+    {
+      "location": "Fitzroy North, Australia",
+      "n_users": 1,
+      "position": [
+        -37.7833316,
+        144.9837074
+      ]
+    },
+    {
+      "location": "Dilbeek, Belgium",
+      "n_users": 1,
+      "position": [
+        50.8480711,
+        4.2662591
+      ]
+    },
+    {
+      "location": "Fleron, Belgium",
+      "n_users": 1,
+      "position": [
+        50.6168354,
+        5.6832219
+      ]
+    },
+    {
+      "location": "Flint, United States",
+      "n_users": 1,
+      "position": [
+        43.0161693,
+        -83.6900211
+      ]
+    },
+    {
+      "location": "Floreffe, Belgium",
+      "n_users": 1,
+      "position": [
+        50.4366874,
+        4.7600394
+      ]
+    },
+    {
+      "location": "Florence, Italy",
+      "n_users": 1,
+      "position": [
+        43.7698712,
+        11.2555757
+      ]
+    },
+    {
+      "location": "Floridablanca, Colombia",
+      "n_users": 1,
+      "position": [
+        7.0625358,
+        -73.0858228
+      ]
+    },
+    {
+      "location": "Foix, France",
+      "n_users": 1,
+      "position": [
+        42.9638998,
+        1.6053807
+      ]
+    },
+    {
+      "location": "Fontana, United States",
+      "n_users": 1,
+      "position": [
+        34.0922335,
+        -117.435048
+      ]
+    },
+    {
+      "location": "Forest Hill, Australia",
+      "n_users": 1,
+      "position": [
+        -37.85299,
+        145.1694935589885
+      ]
+    },
+    {
+      "location": "Fort Lauderdale, United States",
+      "n_users": 1,
+      "position": [
+        26.1223084,
+        -80.1433786
+      ]
+    },
+    {
+      "location": "Fort Walton Beach, United States",
+      "n_users": 1,
+      "position": [
+        30.4057552,
+        -86.618842
+      ]
+    },
+    {
+      "location": "Erfurt, Germany",
+      "n_users": 1,
+      "position": [
+        50.9777974,
+        11.0287364
+      ]
+    },
+    {
+      "location": "Erftstadt, Germany",
+      "n_users": 1,
+      "position": [
+        50.789981999999995,
+        6.781549221222182
+      ]
+    },
+    {
+      "location": "Elkridge, United States",
+      "n_users": 1,
+      "position": [
+        39.2128338,
+        -76.7137155
+      ]
+    },
+    {
+      "location": "El Sobrante, United States",
+      "n_users": 1,
+      "position": [
+        37.9744635,
+        -122.3057294030647
+      ]
+    },
+    {
+      "location": "Dobris, Czechia",
+      "n_users": 1,
+      "position": [
+        49.7813749,
+        14.1704372
+      ]
+    },
+    {
+      "location": "Doesburg, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.018750499999996,
+        6.151558274308546
+      ]
+    },
+    {
+      "location": "Dordrecht, Netherlands",
+      "n_users": 1,
+      "position": [
+        51.7958812,
+        4.6779351
+      ]
+    },
+    {
+      "location": "Dover Plains, United States",
+      "n_users": 1,
+      "position": [
+        41.7450645,
+        -73.57912671089849
+      ]
+    },
+    {
+      "location": "Downingtown, United States",
+      "n_users": 1,
+      "position": [
+        40.0064958,
+        -75.7032742
+      ]
+    },
+    {
+      "location": "Drancy, France",
+      "n_users": 1,
+      "position": [
+        48.9229803,
+        2.4455201
+      ]
+    },
+    {
+      "location": "Dronten, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.53172775,
+        5.75053478514506
+      ]
+    },
+    {
+      "location": "Dryja, Poland",
+      "n_users": 1,
+      "position": [
+        52.1122171,
+        18.294635
+      ]
+    },
+    {
+      "location": "Dulwich, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4418786,
+        -0.0843244
+      ]
+    },
+    {
+      "location": "Dundas, Canada",
+      "n_users": 1,
+      "position": [
+        43.2661904,
+        -79.9546341
+      ]
+    },
+    {
+      "location": "Dundee, United Kingdom",
+      "n_users": 1,
+      "position": [
+        56.4605938,
+        -2.97019
+      ]
+    },
+    {
+      "location": "Dunedin, New Zealand",
+      "n_users": 1,
+      "position": [
+        -45.8740984,
+        170.5035755
+      ]
+    },
+    {
+      "location": "Durango, United States",
+      "n_users": 1,
+      "position": [
+        37.2713951,
+        -107.8815978
+      ]
+    },
+    {
+      "location": "East Falmouth, United States",
+      "n_users": 1,
+      "position": [
+        41.5784425,
+        -70.5586401
+      ]
+    },
+    {
+      "location": "East Greenwich, United States",
+      "n_users": 1,
+      "position": [
+        41.6603788,
+        -71.4558911
+      ]
+    },
+    {
+      "location": "Edegem, Belgium",
+      "n_users": 1,
+      "position": [
+        51.1548066,
+        4.4458312
+      ]
+    },
+    {
+      "location": "Edgware, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.613673,
+        -0.2749398
+      ]
+    },
+    {
+      "location": "Edison, United States",
+      "n_users": 1,
+      "position": [
+        40.5382375,
+        -74.39451734508772
+      ]
+    },
+    {
+      "location": "El Cerrito, United States",
+      "n_users": 1,
+      "position": [
+        33.8410146,
+        -117.52079778811958
+      ]
+    },
+    {
+      "location": "El Monte, United States",
+      "n_users": 1,
+      "position": [
+        34.0751571,
+        -118.036849
+      ]
+    },
+    {
+      "location": "El Paso, United States",
+      "n_users": 1,
+      "position": [
+        31.7754152,
+        -106.4646348
+      ]
+    },
+    {
+      "location": "Cachan, France",
+      "n_users": 1,
+      "position": [
+        48.7945413,
+        2.3340758
+      ]
+    },
+    {
+      "location": "Burnaby, Canada",
+      "n_users": 1,
+      "position": [
+        49.2433804,
+        -122.9725459
+      ]
+    },
+    {
+      "location": "Neuss, Germany",
+      "n_users": 1,
+      "position": [
+        51.1981778,
+        6.6916476
+      ]
+    },
+    {
+      "location": "Asslar, Germany",
+      "n_users": 1,
+      "position": [
+        50.5927946,
+        8.4649082
+      ]
+    },
+    {
+      "location": "Anse, France",
+      "n_users": 1,
+      "position": [
+        45.9364662,
+        4.7170072
+      ]
+    },
+    {
+      "location": "Antakya, Turkey",
+      "n_users": 1,
+      "position": [
+        36.219114,
+        36.1616275
+      ]
+    },
+    {
+      "location": "Antibes, France",
+      "n_users": 1,
+      "position": [
+        43.5836,
+        7.10905
+      ]
+    },
+    {
+      "location": "Apolda, Germany",
+      "n_users": 1,
+      "position": [
+        51.0227878,
+        11.5129742
+      ]
+    },
+    {
+      "location": "Araghar, India",
+      "n_users": 1,
+      "position": [
+        30.3069,
+        78.0499
+      ]
+    },
+    {
+      "location": "Ardentes, France",
+      "n_users": 1,
+      "position": [
+        46.7422328,
+        1.8320589
+      ]
+    },
+    {
+      "location": "Ardmore, United States",
+      "n_users": 1,
+      "position": [
+        34.1742611,
+        -97.1436254
+      ]
+    },
+    {
+      "location": "Arjuni, India",
+      "n_users": 1,
+      "position": [
+        21.0501106,
+        79.6112917
+      ]
+    },
+    {
+      "location": "Ashland, United States",
+      "n_users": 1,
+      "position": [
+        40.7887367,
+        -82.2360391
+      ]
+    },
+    {
+      "location": "Ashquelon, Israel",
+      "n_users": 1,
+      "position": [
+        31.6688,
+        34.5743
+      ]
+    },
+    {
+      "location": "Astoria, United States",
+      "n_users": 1,
+      "position": [
+        46.187885,
+        -123.831256
+      ]
+    },
+    {
+      "location": "Bangor, United Kingdom",
+      "n_users": 1,
+      "position": [
+        53.2277187,
+        -4.1268822
+      ]
+    },
+    {
+      "location": "Auburn, United States",
+      "n_users": 1,
+      "position": [
+        32.535699,
+        -85.48677785023041
+      ]
+    },
+    {
+      "location": "Augsburg, Germany",
+      "n_users": 1,
+      "position": [
+        48.3668041,
+        10.8986971
+      ]
+    },
+    {
+      "location": "Aurangabad, India",
+      "n_users": 1,
+      "position": [
+        19.877263,
+        75.3390241
+      ]
+    },
+    {
+      "location": "Austria",
+      "n_users": 1,
+      "position": [
+        47.2000338,
+        13.199959
+      ]
+    },
+    {
+      "location": "Bad Vilbel, Germany",
+      "n_users": 1,
+      "position": [
+        50.1804837,
+        8.7410776
+      ]
+    },
+    {
+      "location": "Badalona, Spain",
+      "n_users": 1,
+      "position": [
+        41.4493539,
+        2.248254
+      ]
+    },
+    {
+      "location": "Bag, Hungary",
+      "n_users": 1,
+      "position": [
+        47.6337331,
+        19.4792099
+      ]
+    },
+    {
+      "location": "Baghdad, Iraq",
+      "n_users": 1,
+      "position": [
+        33.3024309,
+        44.3787992
+      ]
+    },
+    {
+      "location": "Balham, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4456449,
+        -0.1503643
+      ]
+    },
+    {
+      "location": "Bamberg, Germany",
+      "n_users": 1,
+      "position": [
+        49.8916044,
+        10.8868478
+      ]
+    },
+    {
+      "location": "Angers, France",
+      "n_users": 1,
+      "position": [
+        47.4739884,
+        -0.5515588
+      ]
+    },
+    {
+      "location": "Andresy, France",
+      "n_users": 1,
+      "position": [
+        48.9821445,
+        2.0610573
+      ]
+    },
+    {
+      "location": "Anderlecht, Belgium",
+      "n_users": 1,
+      "position": [
+        50.8390983,
+        4.3296526
+      ]
+    },
+    {
+      "location": "Altoona, United States",
+      "n_users": 1,
+      "position": [
+        40.518681,
+        -78.394736
+      ]
+    },
+    {
+      "location": "Aalst, Belgium",
+      "n_users": 1,
+      "position": [
+        50.9383226,
+        4.0392147
+      ]
+    },
+    {
+      "location": "Aarhus C, Denmark",
+      "n_users": 1,
+      "position": [
+        56.1496278,
+        10.2134046
+      ]
+    },
+    {
+      "location": "Aarhus, Denmark",
+      "n_users": 1,
+      "position": [
+        56.1496278,
+        10.2134046
+      ]
+    },
+    {
+      "location": "Abbottabad, Pakistan",
+      "n_users": 1,
+      "position": [
+        34.1436589,
+        73.2139122
+      ]
+    },
+    {
+      "location": "Aberdeen, United States",
+      "n_users": 1,
+      "position": [
+        46.975371,
+        -123.815722
+      ]
+    },
+    {
+      "location": "Abu Dhabi, United Arab Emirates",
+      "n_users": 1,
+      "position": [
+        24.4747961,
+        54.3705762
+      ]
+    },
+    {
+      "location": "Acton, United States",
+      "n_users": 1,
+      "position": [
+        34.48074149999999,
+        -118.1868378638664
+      ]
+    },
+    {
+      "location": "Adana, Turkey",
+      "n_users": 1,
+      "position": [
+        37.1438001,
+        35.4984094
+      ]
+    },
+    {
+      "location": "Addlestone, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.3710908,
+        -0.4895675
+      ]
+    },
+    {
+      "location": "Agios Konstantinos, Greece",
+      "n_users": 1,
+      "position": [
+        38.7574861,
+        22.8591842
+      ]
+    },
+    {
+      "location": "Ahmedabad, India",
+      "n_users": 1,
+      "position": [
+        23.0216238,
+        72.5797068
+      ]
+    },
+    {
+      "location": "Aichach, Germany",
+      "n_users": 1,
+      "position": [
+        48.4589775,
+        11.1308417
+      ]
+    },
+    {
+      "location": "Aktobe, Kazakhstan",
+      "n_users": 1,
+      "position": [
+        50.2796448,
+        57.2124606
+      ]
+    },
+    {
+      "location": "Al Mansurah, Egypt",
+      "n_users": 1,
+      "position": [
+        31.037566,
+        31.38649
+      ]
+    },
+    {
+      "location": "Alexandria, Australia",
+      "n_users": 1,
+      "position": [
+        -33.9091568,
+        151.1921281
+      ]
+    },
+    {
+      "location": "Alhambra, United States",
+      "n_users": 1,
+      "position": [
+        34.093042,
+        -118.12706
+      ]
+    },
+    {
+      "location": "Alken, Belgium",
+      "n_users": 1,
+      "position": [
+        50.8754731,
+        5.3079873
+      ]
+    },
+    {
+      "location": "Allschwil, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.5510799,
+        7.5365611
+      ]
+    },
+    {
+      "location": "Almada, Portugal",
+      "n_users": 1,
+      "position": [
+        38.6764302,
+        -9.1649974
+      ]
+    },
+    {
+      "location": "Almere Stad, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.3554394,
+        5.2567468
+      ]
+    },
+    {
+      "location": "Altadena, United States",
+      "n_users": 1,
+      "position": [
+        34.1863161,
+        -118.1352329
+      ]
+    },
+    {
+      "location": "Banbury, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.0605712,
+        -1.3277563
+      ]
+    },
+    {
+      "location": "Barakaldo, Spain",
+      "n_users": 1,
+      "position": [
+        43.29548,
+        -2.9900933
+      ]
+    },
+    {
+      "location": "Burlington, United States",
+      "n_users": 1,
+      "position": [
+        44.4762975,
+        -73.2135472
+      ]
+    },
+    {
+      "location": "Bridgewater, United States",
+      "n_users": 1,
+      "position": [
+        41.9903787,
+        -70.9750426
+      ]
+    },
+    {
+      "location": "Bordeaux, France",
+      "n_users": 1,
+      "position": [
+        44.841225,
+        -0.5800364
+      ]
+    },
+    {
+      "location": "Borken, Germany",
+      "n_users": 1,
+      "position": [
+        51.8443183,
+        6.8582247
+      ]
+    },
+    {
+      "location": "Bouc-Bel-Air, France",
+      "n_users": 1,
+      "position": [
+        43.4511819,
+        5.4127848
+      ]
+    },
+    {
+      "location": "Bozeman, United States",
+      "n_users": 1,
+      "position": [
+        45.6794293,
+        -111.0440474
+      ]
+    },
+    {
+      "location": "Bracknell, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4060111,
+        -0.7588572953575845
+      ]
+    },
+    {
+      "location": "Braga, Portugal",
+      "n_users": 1,
+      "position": [
+        41.5510583,
+        -8.4280045
+      ]
+    },
+    {
+      "location": "Breckenridge, United States",
+      "n_users": 1,
+      "position": [
+        32.7558392,
+        -98.9032554
+      ]
+    },
+    {
+      "location": "Brentford, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4863958,
+        -0.3216623
+      ]
+    },
+    {
+      "location": "Brentwood, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6201654,
+        0.3018662
+      ]
+    },
+    {
+      "location": "Bridgend, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5049843,
+        -3.5756674
+      ]
+    },
+    {
+      "location": "Bridlewood, Canada",
+      "n_users": 1,
+      "position": [
+        50.9007131,
+        -114.1105152
+      ]
+    },
+    {
+      "location": "Bathinda, India",
+      "n_users": 1,
+      "position": [
+        30.17911535,
+        75.04710156312628
+      ]
+    },
+    {
+      "location": "Brieselang, Germany",
+      "n_users": 1,
+      "position": [
+        52.5873198,
+        12.9920587
+      ]
+    },
+    {
+      "location": "Brockton, United States",
+      "n_users": 1,
+      "position": [
+        42.0834335,
+        -71.0183787
+      ]
+    },
+    {
+      "location": "Broomfield, United States",
+      "n_users": 1,
+      "position": [
+        39.9203827,
+        -105.0691464
+      ]
+    },
+    {
+      "location": "Broughty Ferry, United Kingdom",
+      "n_users": 1,
+      "position": [
+        56.4666461,
+        -2.8727725
+      ]
+    },
+    {
+      "location": "Bryn Mawr, United States",
+      "n_users": 1,
+      "position": [
+        40.0238245,
+        -75.31734069085473
+      ]
+    },
+    {
+      "location": "Buckley, United States",
+      "n_users": 1,
+      "position": [
+        40.5969794,
+        -88.0380959
+      ]
+    },
+    {
+      "location": "Buggenhout, Belgium",
+      "n_users": 1,
+      "position": [
+        51.0152271,
+        4.2022689
+      ]
+    },
+    {
+      "location": "Bunkyo-ku, Japan",
+      "n_users": 1,
+      "position": [
+        35.71881,
+        139.744732
+      ]
+    },
+    {
+      "location": "Burgess Hill, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.9575365,
+        -0.1332853
+      ]
+    },
+    {
+      "location": "Burlingame, United States",
+      "n_users": 1,
+      "position": [
+        37.5841026,
+        -122.3660825
+      ]
+    },
+    {
+      "location": "Boone, United States",
+      "n_users": 1,
+      "position": [
+        42.321246,
+        -88.8235511
+      ]
+    },
+    {
+      "location": "Bologna, Italy",
+      "n_users": 1,
+      "position": [
+        44.4936714,
+        11.3430347
+      ]
+    },
+    {
+      "location": "Boca Raton, United States",
+      "n_users": 1,
+      "position": [
+        26.3586885,
+        -80.0830984
+      ]
+    },
+    {
+      "location": "Bnei Brak, Israel",
+      "n_users": 1,
+      "position": [
+        32.0873899,
+        34.8324376
+      ]
+    },
+    {
+      "location": "Beaverton, United States",
+      "n_users": 1,
+      "position": [
+        45.4871723,
+        -122.8037804
+      ]
+    },
+    {
+      "location": "Beecher, United States",
+      "n_users": 1,
+      "position": [
+        41.34059,
+        -87.6214286
+      ]
+    },
+    {
+      "location": "Begles, France",
+      "n_users": 1,
+      "position": [
+        44.8074559,
+        -0.5488542
+      ]
+    },
+    {
+      "location": "Beirut, Lebanon",
+      "n_users": 1,
+      "position": [
+        33.8959203,
+        35.47843
+      ]
+    },
+    {
+      "location": "Beja, Portugal",
+      "n_users": 1,
+      "position": [
+        38.0154479,
+        -7.8650368
+      ]
+    },
+    {
+      "location": "Belfast, United Kingdom",
+      "n_users": 1,
+      "position": [
+        54.5964411,
+        -5.9302761
+      ]
+    },
+    {
+      "location": "Belgrade, Serbia",
+      "n_users": 1,
+      "position": [
+        44.8178131,
+        20.4568974
+      ]
+    },
+    {
+      "location": "Bellevue, United States",
+      "n_users": 1,
+      "position": [
+        47.6144219,
+        -122.1923372
+      ]
+    },
+    {
+      "location": "Beltsville, United States",
+      "n_users": 1,
+      "position": [
+        39.0299081,
+        -76.9149547
+      ]
+    },
+    {
+      "location": "Bergamo, Italy",
+      "n_users": 1,
+      "position": [
+        45.756655699999996,
+        9.754219200862249
+      ]
+    },
+    {
+      "location": "Bernardsville, United States",
+      "n_users": 1,
+      "position": [
+        40.7186805,
+        -74.5692273
+      ]
+    },
+    {
+      "location": "Bessins, France",
+      "n_users": 1,
+      "position": [
+        45.2033161,
+        5.2630996
+      ]
+    },
+    {
+      "location": "Bhopal, India",
+      "n_users": 1,
+      "position": [
+        23.2530923,
+        77.3962718
+      ]
+    },
+    {
+      "location": "Bhubaneswar, India",
+      "n_users": 1,
+      "position": [
+        20.2667774,
+        85.8435592
+      ]
+    },
+    {
+      "location": "Bicester, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.8988832,
+        -1.1518287
+      ]
+    },
+    {
+      "location": "Big Sky, United States",
+      "n_users": 1,
+      "position": [
+        45.2589644,
+        -111.3087255
+      ]
+    },
+    {
+      "location": "Bihorel, France",
+      "n_users": 1,
+      "position": [
+        49.4543405,
+        1.1159756
+      ]
+    },
+    {
+      "location": "Bilbao, Spain",
+      "n_users": 1,
+      "position": [
+        43.2630051,
+        -2.9349915
+      ]
+    },
+    {
+      "location": "Binghamton, United States",
+      "n_users": 1,
+      "position": [
+        42.096968,
+        -75.914341
+      ]
+    },
+    {
+      "location": "Blackwall, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5079378,
+        -0.0071843
+      ]
+    },
+    {
+      "location": "Bladensburg, United States",
+      "n_users": 1,
+      "position": [
+        38.9392997,
+        -76.9337983
+      ]
+    },
+    {
+      "location": "Frechen, Germany",
+      "n_users": 1,
+      "position": [
+        50.9096219,
+        6.8081935
+      ]
+    },
+    {
+      "location": "Frederiksberg, Denmark",
+      "n_users": 1,
+      "position": [
+        55.678016,
+        12.5326186
+      ]
+    },
+    {
+      "location": "Frederikshavn, Denmark",
+      "n_users": 1,
+      "position": [
+        57.4412134,
+        10.5336225
+      ]
+    },
+    {
+      "location": "Louviers, France",
+      "n_users": 1,
+      "position": [
+        49.2157245,
+        1.1646335
+      ]
+    },
+    {
+      "location": "Little Neck, United States",
+      "n_users": 1,
+      "position": [
+        40.7745338,
+        -73.7412564
+      ]
+    },
+    {
+      "location": "Little Rock, United States",
+      "n_users": 1,
+      "position": [
+        34.7464809,
+        -92.2895948
+      ]
+    },
+    {
+      "location": "Ljubljana, Slovenia",
+      "n_users": 1,
+      "position": [
+        46.0499803,
+        14.5068602
+      ]
+    },
+    {
+      "location": "Llanfairpwllgwyngyll, United Kingdom",
+      "n_users": 1,
+      "position": [
+        53.2226484,
+        -4.2036036
+      ]
+    },
+    {
+      "location": "Lomas de Zamora, Argentina",
+      "n_users": 1,
+      "position": [
+        -34.7575788,
+        -58.4027966
+      ]
+    },
+    {
+      "location": "Lommedalen, Norway",
+      "n_users": 1,
+      "position": [
+        59.9762583,
+        10.4688444
+      ]
+    },
+    {
+      "location": "Long Eaton, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.8985715,
+        -1.270813
+      ]
+    },
+    {
+      "location": "Long Island City, United States",
+      "n_users": 1,
+      "position": [
+        40.7415095,
+        -73.9569751
+      ]
+    },
+    {
+      "location": "Longueuil, Canada",
+      "n_users": 1,
+      "position": [
+        45.5172382,
+        -73.4467466
+      ]
+    },
+    {
+      "location": "Los Altos, United States",
+      "n_users": 1,
+      "position": [
+        37.3790629,
+        -122.116578
+      ]
+    },
+    {
+      "location": "Lubbock, United States",
+      "n_users": 1,
+      "position": [
+        33.5635206,
+        -101.879336
+      ]
+    },
+    {
+      "location": "Mallemoisson, France",
+      "n_users": 1,
+      "position": [
+        44.0492433,
+        6.1243174
+      ]
+    },
+    {
+      "location": "Ludhiana, India",
+      "n_users": 1,
+      "position": [
+        30.9090157,
+        75.851601
+      ]
+    },
+    {
+      "location": "Luxembourg",
+      "n_users": 1,
+      "position": [
+        49.8158683,
+        6.1296751
+      ]
+    },
+    {
+      "location": "Lyme, United States",
+      "n_users": 1,
+      "position": [
+        43.809756,
+        -72.156143
+      ]
+    },
+    {
+      "location": "Lystrup, Denmark",
+      "n_users": 1,
+      "position": [
+        56.237090949999995,
+        10.234882908622623
+      ]
+    },
+    {
+      "location": "L\u00fcneburg, Germany",
+      "n_users": 1,
+      "position": [
+        53.248706,
+        10.407855
+      ]
+    },
+    {
+      "location": "Maarssen, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.141334650000005,
+        5.047733756285531
+      ]
+    },
+    {
+      "location": "Maastricht, Netherlands",
+      "n_users": 1,
+      "position": [
+        50.8512438,
+        5.6909768
+      ]
+    },
+    {
+      "location": "Macao, Macao",
+      "n_users": 1,
+      "position": [
+        39.554608,
+        -7.9957035
+      ]
+    },
+    {
+      "location": "Magong, Taiwan",
+      "n_users": 1,
+      "position": [
+        23.5663766,
+        119.5784885
+      ]
+    },
+    {
+      "location": "Malakoff, France",
+      "n_users": 1,
+      "position": [
+        48.8211559,
+        2.3019814
+      ]
+    },
+    {
+      "location": "Lindfield, Australia",
+      "n_users": 1,
+      "position": [
+        -33.7802907,
+        151.1595848
+      ]
+    },
+    {
+      "location": "Lincoln, United Kingdom",
+      "n_users": 1,
+      "position": [
+        53.2336301,
+        -0.5392172
+      ]
+    },
+    {
+      "location": "Limavady, United Kingdom",
+      "n_users": 1,
+      "position": [
+        55.0491551,
+        -6.9488558
+      ]
+    },
+    {
+      "location": "Lille, France",
+      "n_users": 1,
+      "position": [
+        50.6365654,
+        3.0635282
+      ]
+    },
+    {
+      "location": "Lahore, Pakistan",
+      "n_users": 1,
+      "position": [
+        31.5656079,
+        74.3141775
+      ]
+    },
+    {
+      "location": "Lake Zurich, United States",
+      "n_users": 1,
+      "position": [
+        42.1969689,
+        -88.0934108
+      ]
+    },
+    {
+      "location": "Lamia, Greece",
+      "n_users": 1,
+      "position": [
+        38.9004584,
+        22.4341691
+      ]
+    },
+    {
+      "location": "Lampertheim, Germany",
+      "n_users": 1,
+      "position": [
+        49.5944428,
+        8.4675044
+      ]
+    },
+    {
+      "location": "Lanark, Canada",
+      "n_users": 1,
+      "position": [
+        45.047011,
+        -76.3298878
+      ]
+    },
+    {
+      "location": "Laramie, United States",
+      "n_users": 1,
+      "position": [
+        41.311367,
+        -105.591101
+      ]
+    },
+    {
+      "location": "Lazdijai, Republic of Lithuania",
+      "n_users": 1,
+      "position": [
+        54.2348374,
+        23.5113025
+      ]
+    },
+    {
+      "location": "Le Roy, United States",
+      "n_users": 1,
+      "position": [
+        40.8777792,
+        -93.5927169
+      ]
+    },
+    {
+      "location": "Leatherhead, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.2955038,
+        -0.3293689
+      ]
+    },
+    {
+      "location": "Legnano, Italy",
+      "n_users": 1,
+      "position": [
+        45.5946985,
+        8.9183595
+      ]
+    },
+    {
+      "location": "Leiden, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.1518157,
+        4.4811088666204295
+      ]
+    },
+    {
+      "location": "Leidschendam, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.0958935,
+        4.432529675059794
+      ]
+    },
+    {
+      "location": "Leiria, Portugal",
+      "n_users": 1,
+      "position": [
+        39.7437902,
+        -8.8071119
+      ]
+    },
+    {
+      "location": "Lennestadt, Germany",
+      "n_users": 1,
+      "position": [
+        51.1245718,
+        8.0568953
+      ]
+    },
+    {
+      "location": "Lenox, United States",
+      "n_users": 1,
+      "position": [
+        40.8816547,
+        -94.5619095
+      ]
+    },
+    {
+      "location": "Leominster, United States",
+      "n_users": 1,
+      "position": [
+        42.5192095,
+        -71.7678956
+      ]
+    },
+    {
+      "location": "Les Clayes-sous-Bois, France",
+      "n_users": 1,
+      "position": [
+        48.8214478,
+        1.9871825
+      ]
+    },
+    {
+      "location": "Aadorf, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.4915782,
+        8.9029526
+      ]
+    },
+    {
+      "location": "Lewes, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.8746139,
+        0.005115324110936268
+      ]
+    },
+    {
+      "location": "Lexington, United States",
+      "n_users": 1,
+      "position": [
+        38.0464066,
+        -84.4970393
+      ]
+    },
+    {
+      "location": "Leyton, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5696734,
+        -0.015681
+      ]
+    },
+    {
+      "location": "Malden, United States",
+      "n_users": 1,
+      "position": [
+        42.4250964,
+        -71.066163
+      ]
+    },
+    {
+      "location": "Marburg, Germany",
+      "n_users": 1,
+      "position": [
+        50.8117327,
+        8.7757742
+      ]
+    },
+    {
+      "location": "Gaithersburg, United States",
+      "n_users": 1,
+      "position": [
+        39.1434406,
+        -77.2013705
+      ]
+    },
+    {
+      "location": "Nar\u00f3n, Spain",
+      "n_users": 1,
+      "position": [
+        43.5010981,
+        -8.1923091
+      ]
+    },
+    {
+      "location": "Moron, Argentina",
+      "n_users": 1,
+      "position": [
+        -34.6510527,
+        -58.6217416
+      ]
+    },
+    {
+      "location": "Morrisville, United States",
+      "n_users": 1,
+      "position": [
+        42.8986566,
+        -75.6402204
+      ]
+    },
+    {
+      "location": "Mosman, Australia",
+      "n_users": 1,
+      "position": [
+        -33.8301355,
+        151.2447663
+      ]
+    },
+    {
+      "location": "Mossingen, Germany",
+      "n_users": 1,
+      "position": [
+        48.4073606,
+        9.0646686
+      ]
+    },
+    {
+      "location": "Mount Shasta, United States",
+      "n_users": 1,
+      "position": [
+        41.4091897,
+        -122.1949533
+      ]
+    },
+    {
+      "location": "Mt. Pleasant, United States",
+      "n_users": 1,
+      "position": [
+        33.1570582,
+        -94.9694007
+      ]
+    },
+    {
+      "location": "M\u00fchlhausen, Germany",
+      "n_users": 1,
+      "position": [
+        51.22444175,
+        10.476077607266438
+      ]
+    },
+    {
+      "location": "Nadarzyn, Poland",
+      "n_users": 1,
+      "position": [
+        52.0947222,
+        20.8075
+      ]
+    },
+    {
+      "location": "Nanterre, France",
+      "n_users": 1,
+      "position": [
+        48.8924273,
+        2.2071267
+      ]
+    },
+    {
+      "location": "Naperville, United States",
+      "n_users": 1,
+      "position": [
+        41.7728699,
+        -88.1479278
+      ]
+    },
+    {
+      "location": "Nashik, India",
+      "n_users": 1,
+      "position": [
+        20.0112475,
+        73.7902364
+      ]
+    },
+    {
+      "location": "Marlton, United States",
+      "n_users": 1,
+      "position": [
+        39.9005585,
+        -74.93389105589023
+      ]
+    },
+    {
+      "location": "Natal, Brazil",
+      "n_users": 1,
+      "position": [
+        -5.805398,
+        -35.2080905
+      ]
+    },
+    {
+      "location": "Natick, United States",
+      "n_users": 1,
+      "position": [
+        42.2836393,
+        -71.346996
+      ]
+    },
+    {
+      "location": "Navsari, India",
+      "n_users": 1,
+      "position": [
+        20.952407,
+        72.9323831
+      ]
+    },
+    {
+      "location": "Neapoli, Greece",
+      "n_users": 1,
+      "position": [
+        40.653984,
+        22.9414077
+      ]
+    },
+    {
+      "location": "Needham, United States",
+      "n_users": 1,
+      "position": [
+        31.9868295,
+        -88.33308822099423
+      ]
+    },
+    {
+      "location": "Neenah, United States",
+      "n_users": 1,
+      "position": [
+        44.1858193,
+        -88.462609
+      ]
+    },
+    {
+      "location": "Nerang, Australia",
+      "n_users": 1,
+      "position": [
+        -27.9896566,
+        153.3365942
+      ]
+    },
+    {
+      "location": "Netanya, Israel",
+      "n_users": 1,
+      "position": [
+        32.3286181,
+        34.8566246
+      ]
+    },
+    {
+      "location": "Netherlands",
+      "n_users": 1,
+      "position": [
+        52.5001698,
+        5.7480821
+      ]
+    },
+    {
+      "location": "Neu-Anspach, Germany",
+      "n_users": 1,
+      "position": [
+        50.3024677,
+        8.5098118
+      ]
+    },
+    {
+      "location": "Morganville, United States",
+      "n_users": 1,
+      "position": [
+        39.466386,
+        -97.20197
+      ]
+    },
+    {
+      "location": "Morgantown, United States",
+      "n_users": 1,
+      "position": [
+        39.6296809,
+        -79.9559437
+      ]
+    },
+    {
+      "location": "Morgan Hill, United States",
+      "n_users": 1,
+      "position": [
+        37.130408,
+        -121.6544974
+      ]
+    },
+    {
+      "location": "Montreal West, Canada",
+      "n_users": 1,
+      "position": [
+        45.452853,
+        -73.6442548
+      ]
+    },
+    {
+      "location": "Martin, Slovakia",
+      "n_users": 1,
+      "position": [
+        49.080356800000004,
+        18.8879725423569
+      ]
+    },
+    {
+      "location": "Mary Esther, United States",
+      "n_users": 1,
+      "position": [
+        30.4099215,
+        -86.6630098
+      ]
+    },
+    {
+      "location": "Massy, France",
+      "n_users": 1,
+      "position": [
+        49.6902106,
+        1.399492
+      ]
+    },
+    {
+      "location": "Matosinhos Municipality, Portugal",
+      "n_users": 1,
+      "position": [
+        41.1844,
+        8.6963
+      ]
+    },
+    {
+      "location": "Maurens, France",
+      "n_users": 1,
+      "position": [
+        43.4656791,
+        1.7946623
+      ]
+    },
+    {
+      "location": "Maynooth, Ireland",
+      "n_users": 1,
+      "position": [
+        53.3830239,
+        -6.5922806
+      ]
+    },
+    {
+      "location": "Mazkeret Batya, Israel",
+      "n_users": 1,
+      "position": [
+        31.8514378,
+        34.8411635
+      ]
+    },
+    {
+      "location": "Media, United States",
+      "n_users": 1,
+      "position": [
+        40.7750395,
+        -90.8320824
+      ]
+    },
+    {
+      "location": "Meilen, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.270428,
+        8.6412249
+      ]
+    },
+    {
+      "location": "Memphis, United States",
+      "n_users": 1,
+      "position": [
+        35.1490215,
+        -90.0516285
+      ]
+    },
+    {
+      "location": "Metuchen, United States",
+      "n_users": 1,
+      "position": [
+        40.5431598,
+        -74.3632049
+      ]
+    },
+    {
+      "location": "Milan, United States",
+      "n_users": 1,
+      "position": [
+        41.453089,
+        -90.5720803
+      ]
+    },
+    {
+      "location": "Mill Hill, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.6154423,
+        -0.2330675
+      ]
+    },
+    {
+      "location": "Millburn, United States",
+      "n_users": 1,
+      "position": [
+        40.7244443,
+        -74.3069069
+      ]
+    },
+    {
+      "location": "Missaglia, Italy",
+      "n_users": 1,
+      "position": [
+        45.7087169,
+        9.335754
+      ]
+    },
+    {
+      "location": "Missoula, United States",
+      "n_users": 1,
+      "position": [
+        46.8701049,
+        -113.9952672
+      ]
+    },
+    {
+      "location": "Missouri City, United States",
+      "n_users": 1,
+      "position": [
+        29.6185669,
+        -95.5377215
+      ]
+    },
+    {
+      "location": "Mohali, India",
+      "n_users": 1,
+      "position": [
+        30.450764,
+        76.0484147
+      ]
+    },
+    {
+      "location": "Monte Grande, Argentina",
+      "n_users": 1,
+      "position": [
+        -34.8197713,
+        -58.4660274
+      ]
+    },
+    {
+      "location": "Monterey, United States",
+      "n_users": 1,
+      "position": [
+        36.2231079,
+        -121.3877428
+      ]
+    },
+    {
+      "location": "Montevideo, Uruguay",
+      "n_users": 1,
+      "position": [
+        -34.9059039,
+        -56.1913569
+      ]
+    },
+    {
+      "location": "Lagos, Nigeria",
+      "n_users": 1,
+      "position": [
+        6.4550575,
+        3.3941795
+      ]
+    },
+    {
+      "location": "Lafayette Hill, United States",
+      "n_users": 1,
+      "position": [
+        40.0939993,
+        -75.2529568
+      ]
+    },
+    {
+      "location": "La Pobla de Lillet, Spain",
+      "n_users": 1,
+      "position": [
+        42.2437379,
+        1.9749329
+      ]
+    },
+    {
+      "location": "Hemel Hempstead, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.7511784,
+        -0.472528
+      ]
+    },
+    {
+      "location": "Hamden, United States",
+      "n_users": 1,
+      "position": [
+        42.1911969,
+        -74.9946083
+      ]
+    },
+    {
+      "location": "Hamilton, New Zealand",
+      "n_users": 1,
+      "position": [
+        -37.7879076,
+        175.2818068
+      ]
+    },
+    {
+      "location": "Hammersmith, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4920377,
+        -0.2236401
+      ]
+    },
+    {
+      "location": "Hangzhou, China",
+      "n_users": 1,
+      "position": [
+        30.2489634,
+        120.2052342
+      ]
+    },
+    {
+      "location": "Hanover, Germany",
+      "n_users": 1,
+      "position": [
+        52.3744779,
+        9.7385532
+      ]
+    },
+    {
+      "location": "Hatfield, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.7634675,
+        -0.2258741
+      ]
+    },
+    {
+      "location": "Hawthorne, United States",
+      "n_users": 1,
+      "position": [
+        33.9188589,
+        -118.3483256
+      ]
+    },
+    {
+      "location": "Hayward, United States",
+      "n_users": 1,
+      "position": [
+        37.6688205,
+        -122.0807964
+      ]
+    },
+    {
+      "location": "Hechingen, Germany",
+      "n_users": 1,
+      "position": [
+        48.3525529,
+        8.9642047
+      ]
+    },
+    {
+      "location": "Heemstede, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.3427475,
+        4.618043843137004
+      ]
+    },
+    {
+      "location": "Hemmingen, Germany",
+      "n_users": 1,
+      "position": [
+        52.3167,
+        9.75
+      ]
+    },
+    {
+      "location": "La Garenne-Colombes, France",
+      "n_users": 1,
+      "position": [
+        48.9069349,
+        2.2465748
+      ]
+    },
+    {
+      "location": "Hendon, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5897442,
+        -0.22162
+      ]
+    },
+    {
+      "location": "Hercules, United States",
+      "n_users": 1,
+      "position": [
+        38.0171441,
+        -122.2885808
+      ]
+    },
+    {
+      "location": "Hermanville-sur-Mer, France",
+      "n_users": 1,
+      "position": [
+        49.2844444,
+        -0.3138889
+      ]
+    },
+    {
+      "location": "Herstal, Belgium",
+      "n_users": 1,
+      "position": [
+        50.6650412,
+        5.629981
+      ]
+    },
+    {
+      "location": "Herzliya, Israel",
+      "n_users": 1,
+      "position": [
+        32.1720339,
+        34.83099838250153
+      ]
+    },
+    {
+      "location": "Hicksville, United States",
+      "n_users": 1,
+      "position": [
+        40.7684331,
+        -73.5251253
+      ]
+    },
+    {
+      "location": "Highbury, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5457996,
+        -0.1027127
+      ]
+    },
+    {
+      "location": "Highland Park, United States",
+      "n_users": 1,
+      "position": [
+        32.831563,
+        -96.80077329849314
+      ]
+    },
+    {
+      "location": "Hitchin, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.9464129,
+        -0.2791646
+      ]
+    },
+    {
+      "location": "Hoboken, United States",
+      "n_users": 1,
+      "position": [
+        40.7433066,
+        -74.0323752
+      ]
+    },
+    {
+      "location": "Half Moon Bay, United States",
+      "n_users": 1,
+      "position": [
+        37.4635519,
+        -122.4285862
+      ]
+    },
+    {
+      "location": "Haldia, India",
+      "n_users": 1,
+      "position": [
+        22.028124,
+        88.0632655
+      ]
+    },
+    {
+      "location": "Guwahati, India",
+      "n_users": 1,
+      "position": [
+        26.1805978,
+        91.753943
+      ]
+    },
+    {
+      "location": "Guadalajara, Mexico",
+      "n_users": 1,
+      "position": [
+        20.6720375,
+        -103.3383962
+      ]
+    },
+    {
+      "location": "Garliava, Republic of Lithuania",
+      "n_users": 1,
+      "position": [
+        54.8279294,
+        23.8746799
+      ]
+    },
+    {
+      "location": "Gattatico, Italy",
+      "n_users": 1,
+      "position": [
+        44.7956839,
+        10.4445566
+      ]
+    },
+    {
+      "location": "Geesthacht, Germany",
+      "n_users": 1,
+      "position": [
+        53.4397121,
+        10.3682538
+      ]
+    },
+    {
+      "location": "Gelsenkirchen, Germany",
+      "n_users": 1,
+      "position": [
+        51.5110321,
+        7.0960124
+      ]
+    },
+    {
+      "location": "Gentbrugge, Belgium",
+      "n_users": 1,
+      "position": [
+        51.0447236,
+        3.7588813
+      ]
+    },
+    {
+      "location": "Geraardsbergen, Belgium",
+      "n_users": 1,
+      "position": [
+        50.7715779,
+        3.8827287
+      ]
+    },
+    {
+      "location": "Giessen, Germany",
+      "n_users": 1,
+      "position": [
+        50.5862066,
+        8.6742306
+      ]
+    },
+    {
+      "location": "Gland, Switzerland",
+      "n_users": 1,
+      "position": [
+        46.4212913,
+        6.2675845
+      ]
+    },
+    {
+      "location": "Glen Mills, United States",
+      "n_users": 1,
+      "position": [
+        39.919698,
+        -75.4904323
+      ]
+    },
+    {
+      "location": "Glendale, United States",
+      "n_users": 1,
+      "position": [
+        34.1469416,
+        -118.2478471
+      ]
+    },
+    {
+      "location": "Golders Green, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5718315,
+        -0.1955219
+      ]
+    },
+    {
+      "location": "Gose, Japan",
+      "n_users": 1,
+      "position": [
+        34.4631877,
+        135.740175
+      ]
+    },
+    {
+      "location": "Gossau, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.4155906,
+        9.249359
+      ]
+    },
+    {
+      "location": "Grabs, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.1816557,
+        9.4446312
+      ]
+    },
+    {
+      "location": "Grafstal, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.4450685,
+        8.7018296
+      ]
+    },
+    {
+      "location": "Great Yarmouth, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.6072426,
+        1.7310768
+      ]
+    },
+    {
+      "location": "Greenbank, Australia",
+      "n_users": 1,
+      "position": [
+        -27.7317798,
+        152.9837006
+      ]
+    },
+    {
+      "location": "Greensboro, United States",
+      "n_users": 1,
+      "position": [
+        36.0726355,
+        -79.7919754
+      ]
+    },
+    {
+      "location": "Greenwich, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4820845,
+        -0.0045417
+      ]
+    },
+    {
+      "location": "Gross-Gerau, Germany",
+      "n_users": 1,
+      "position": [
+        49.9194456,
+        8.4852426
+      ]
+    },
+    {
+      "location": "Grunwald, Germany",
+      "n_users": 1,
+      "position": [
+        48.0486558,
+        11.5300727
+      ]
+    },
+    {
+      "location": "Holborn, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.5179341,
+        -0.1195284
+      ]
+    },
+    {
+      "location": "Hollywood, United States",
+      "n_users": 1,
+      "position": [
+        34.0980031,
+        -118.3295232
+      ]
+    },
+    {
+      "location": "Holmdel, United States",
+      "n_users": 1,
+      "position": [
+        40.3451095,
+        -74.1840322
+      ]
+    },
+    {
+      "location": "Johor Bahru, Malaysia",
+      "n_users": 1,
+      "position": [
+        1.4953041,
+        103.7550839
+      ]
+    },
+    {
+      "location": "Jyv\u00e4skyl\u00e4, Finland",
+      "n_users": 1,
+      "position": [
+        62.2393002,
+        25.745951
+      ]
+    },
+    {
+      "location": "Karlsruhe, Germany",
+      "n_users": 1,
+      "position": [
+        49.0068705,
+        8.4034195
+      ]
+    },
+    {
+      "location": "Karstaedt, Germany",
+      "n_users": 1,
+      "position": [
+        53.2883824,
+        11.4893222
+      ]
+    },
+    {
+      "location": "Kessel-Lo, Belgium",
+      "n_users": 1,
+      "position": [
+        50.889915450000004,
+        4.730761494626895
+      ]
+    },
+    {
+      "location": "Kidbrooke, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4675731,
+        0.0285241
+      ]
+    },
+    {
+      "location": "Kingsbridge, United Kingdom",
+      "n_users": 1,
+      "position": [
+        50.2848555,
+        -3.7789738
+      ]
+    },
+    {
+      "location": "Kingston upon Thames, United Kingdom",
+      "n_users": 1,
+      "position": [
+        51.4096275,
+        -0.3062621
+      ]
+    },
+    {
+      "location": "Kirkland, United States",
+      "n_users": 1,
+      "position": [
+        47.6859573,
+        -122.1920249
+      ]
+    },
+    {
+      "location": "Kleinmachnow, Germany",
+      "n_users": 1,
+      "position": [
+        52.4064167,
+        13.2236601
+      ]
+    },
+    {
+      "location": "Kleve, Germany",
+      "n_users": 1,
+      "position": [
+        51.7854839,
+        6.131367415330141
+      ]
+    },
+    {
+      "location": "Kloten, Switzerland",
+      "n_users": 1,
+      "position": [
+        47.4525133,
+        8.5861477
+      ]
+    },
+    {
+      "location": "Knokke-Heist, Belgium",
+      "n_users": 1,
+      "position": [
+        51.3433866,
+        3.2884738
+      ]
+    },
+    {
+      "location": "Knoxville, United States",
+      "n_users": 1,
+      "position": [
+        35.9603948,
+        -83.9210261
+      ]
+    },
+    {
+      "location": "Kol\u00edn, Czechia",
+      "n_users": 1,
+      "position": [
+        50.0288894,
+        15.2011571
+      ]
+    },
+    {
+      "location": "Konnagar, India",
+      "n_users": 1,
+      "position": [
+        22.69972,
+        88.3519784
+      ]
+    },
+    {
+      "location": "Konstancin-Jeziorna, Poland",
+      "n_users": 1,
+      "position": [
+        52.0834787,
+        21.1208073
+      ]
+    },
+    {
+      "location": "Konya, Turkey",
+      "n_users": 1,
+      "position": [
+        37.8719963,
+        32.4844015
+      ]
+    },
+    {
+      "location": "Korner, Germany",
+      "n_users": 1,
+      "position": [
+        51.2307037,
+        10.584891
+      ]
+    },
+    {
+      "location": "Koszeg, Hungary",
+      "n_users": 1,
+      "position": [
+        47.3894949,
+        16.5406843
+      ]
+    },
+    {
+      "location": "Krefeld, Germany",
+      "n_users": 1,
+      "position": [
+        51.3331205,
+        6.5623343
+      ]
+    },
+    {
+      "location": "Kuala Lumpur, Malaysia",
+      "n_users": 1,
+      "position": [
+        3.1516964,
+        101.6942371
+      ]
+    },
+    {
+      "location": "Jurong West New Town, Singapore",
+      "n_users": 1,
+      "position": [
+        1.3396365,
+        103.7073387
+      ]
+    },
+    {
+      "location": "Jihlava, Czechia",
+      "n_users": 1,
+      "position": [
+        49.396064,
+        15.5903065
+      ]
+    },
+    {
+      "location": "Holon, Israel",
+      "n_users": 1,
+      "position": [
+        32.0193121,
+        34.7804076
+      ]
+    },
+    {
+      "location": "Jeddah, Saudi Arabia",
+      "n_users": 1,
+      "position": [
+        21.5810088,
+        39.1653612
+      ]
+    },
+    {
+      "location": "Honolulu, United States",
+      "n_users": 1,
+      "position": [
+        21.304547,
+        -157.8556764
+      ]
+    },
+    {
+      "location": "Horb am Neckar, Germany",
+      "n_users": 1,
+      "position": [
+        48.4447943,
+        8.6914794
+      ]
+    },
+    {
+      "location": "Hornsby, Australia",
+      "n_users": 1,
+      "position": [
+        -33.5724083,
+        151.13177549754764
+      ]
+    },
+    {
+      "location": "Horsens, Denmark",
+      "n_users": 1,
+      "position": [
+        55.8611696,
+        9.8444774
+      ]
+    },
+    {
+      "location": "Huainan, China",
+      "n_users": 1,
+      "position": [
+        32.5866826,
+        117.0130019
+      ]
+    },
+    {
+      "location": "Huizen, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.296484449999994,
+        5.240582040690262
+      ]
+    },
+    {
+      "location": "Huntingdon, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.3314292,
+        -0.1847723
+      ]
+    },
+    {
+      "location": "Huntington, United States",
+      "n_users": 1,
+      "position": [
+        38.4192496,
+        -82.445154
+      ]
+    },
+    {
+      "location": "Hvidovre, Denmark",
+      "n_users": 1,
+      "position": [
+        55.6441712,
+        12.4772091
+      ]
+    },
+    {
+      "location": "Hyattsville, United States",
+      "n_users": 1,
+      "position": [
+        38.9529442,
+        -76.9408647
+      ]
+    },
+    {
+      "location": "Hyde Park, United States",
+      "n_users": 1,
+      "position": [
+        41.7847232,
+        -73.9332461
+      ]
+    },
+    {
+      "location": "IJsselstein, Netherlands",
+      "n_users": 1,
+      "position": [
+        52.026205250000004,
+        5.028685923229064
+      ]
+    },
+    {
+      "location": "Interlaken, Switzerland",
+      "n_users": 1,
+      "position": [
+        46.6855231,
+        7.8585139
+      ]
+    },
+    {
+      "location": "Ipswich, United Kingdom",
+      "n_users": 1,
+      "position": [
+        52.0579495,
+        1.1526345
+      ]
+    },
+    {
+      "location": "Irun, Spain",
+      "n_users": 1,
+      "position": [
+        43.3383176,
+        -1.7888095
+      ]
+    },
+    {
+      "location": "Isidro Casanova, Argentina",
+      "n_users": 1,
+      "position": [
+        -34.7047876,
+        -58.5861609
+      ]
+    },
+    {
+      "location": "Itabashi-ku, Japan",
+      "n_users": 1,
+      "position": [
+        35.774143,
+        139.681209
+      ]
+    },
+    {
+      "location": "Ituzaingo, Argentina",
+      "n_users": 1,
+      "position": [
+        -34.6583293,
+        -58.6671441
+      ]
+    },
+    {
+      "location": "Izmir, Turkey",
+      "n_users": 1,
+      "position": [
+        38.4147331,
+        27.1434119
+      ]
+    },
+    {
+      "location": "Jammu, India",
+      "n_users": 1,
+      "position": [
+        32.7185614,
+        74.8580917
+      ]
+    },
+    {
+      "location": "Javea, Spain",
+      "n_users": 1,
+      "position": [
+        38.7893909,
+        0.1633256
+      ]
+    },
+    {
+      "location": "les Planes d'Hostoles, Spain",
+      "n_users": 1,
+      "position": [
+        42.0565983,
+        2.5384283
+      ]
+    }
+  ]
+}
