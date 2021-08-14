@@ -116,21 +116,40 @@ async def migrate():
 
 
 @app.get("/api/user")
-async def get_user():
+async def get_user(authorization: Optional[str] = Header(None)):
     # TODOs: find user from a given user ID
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        user_id = user_info.get("user_id")
+        user = utils.get_data(user_id, user_collection)
+        if user is not None:
+            return JSONResponse(content=user)
+        else:
+            return JSONResponse(content={})
     return None
 
 
 @app.post("/api/user")
-async def create_user():
+async def create_user(user_data, authorization: Optional[str] = Header(None)):
     # TODOs: create user
-    return None
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        user_id = user_info.get("user_id")
+        utils.set_data(user_data, user_id, user_collection) # set data
+        print(f"Done setting user with ID = {user_id}")
+    else:
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
 
 
 @app.put("/api/user")
-async def update_user():
-    # TODOs: update user data
-    return None
+async def update_user(user_data, authorization: Optional[str] = Header(None)):
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        user_id = user_info.get("user_id")
+        utils.update_data(user_data, user_id, user_collection) # update data
+        print(f"Done setting user with ID = {user_id}")
+    else:
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
 
 
 @app.get("/api/user/preference/")
@@ -192,30 +211,31 @@ async def update_user_votes(
     if user_info is None:
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
 
-    if action is None:
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
-    elif action == "like" and user_id is not None:
+    if action == "like" and user_id is not None:
         if user_preference is None:
             user_preference = {edition: [submission_id]}
+            try:
+                utils.set_data(user_preference, user_id, preference_collection)
+            except (google.cloud.exceptions.NotFound, TypeError):
+                return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
             current_pref = user_preference[edition]
             update_pref = list(set(current_pref + [submission_id]))
-            user_preference.update({edition: update_pref})
-        try:
-            set_data(user_preference, user_id)
-        except (google.cloud.exceptions.NotFound, TypeError):
-            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            try:
+                utils.update_data({edition: update_pref}, user_id, preference_collection)
+            except (google.cloud.exceptions.NotFound, TypeError):
+                return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     elif action == "dislike" and user_id is not None:
         if user_preference is None:
-            return
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
             current_pref = user_preference[edition]
             update_pref = list(set(current_pref - [submission_id]))
             user_preference.update({edition: update_pref})
-        try:
-            set_data(user_preference, user_id)
-        except (google.cloud.exceptions.NotFound, TypeError):
-            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            try:
+                utils.update_data({edition: update_pref}, user_id, preference_collection)
+            except (google.cloud.exceptions.NotFound, TypeError):
+                return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     else:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -389,7 +409,11 @@ async def get_abstract(edition: str, submission_id: str):
 
 
 @app.post("/api/abstract/{edition}")
-async def create_abstract(submission: Submission, edition: str):
+async def create_abstract(
+    submission: Submission,
+    edition: str,
+    authorization: Optional[str] = Header(None)
+):
     """
     Submit an abstract to Airtable
     """
@@ -404,12 +428,23 @@ async def create_abstract(submission: Submission, edition: str):
     table_name = es_config["editions"][edition].get("table_name")
     if base_id is None:
         print("Seems like there is no Airtable set up, only a CSV file")
-        return
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.create(submission) # create submission
         print(f"Set the record {r['id']} on Airtable")
-        return
+
+        user_info = get_user_info(authorization)
+        if user_info is not None:
+            user_id = user_info.get("user_id")
+            utils.update_data(
+                {"submission_id": r["id"]},
+                user_id,
+                user_collection
+            )  # update submission to a user
+            return JSONResponse(status=status.HTTP_200_OK)
+        else:
+            return JSONResponse(status=status.HTTP_403_FORBIDDEN)
 
 
 @app.put("/api/abstract/{edition}/{submission_id}")
@@ -422,9 +457,9 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
     table_name = es_config["editions"][edition].get("table_name")
     if base_id is None:
         print("Seems like there is no Airtable set up, only a CSV file")
-        return
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.update(submission_id, submission) # create submission
         print(f"Set the record {r['id']} on Airtable")
-        return
+        return JSONResponse(status=status.HTTP_200_OK)
