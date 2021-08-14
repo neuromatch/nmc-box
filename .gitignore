@@ -5,6 +5,7 @@
 .env
 # credentials
 neuromatch-*.json
+nmc-box-*.json
 # recommendation models
 recommendation_engine/
 

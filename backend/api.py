@@ -20,6 +20,7 @@ from fastapi import FastAPI, Query, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 import google.cloud
 from google.oauth2 import id_token

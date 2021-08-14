@@ -47,8 +47,9 @@ bash serve_elasticsearch.sh # serve elasticsearch
 python es_index.py # index ElasticSearch
 ```
 
-* Download Firebase authentication JSON file in the root of `backend`.
-* After indexing data to ElasticSearch, go to `backend` and run
+* Download Firebase authentication JSON file in the root of `backend`. To download,
+  you can go to Project settings on Firebase. Choose `Service accounts` > `Firebase Admin SDK` > `Generate new private key` in Python
+* Then go to `backend` folder and run
 
 ``` sh
 uvicorn api:app
