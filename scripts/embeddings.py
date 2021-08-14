@@ -3,12 +3,14 @@ Transform text to embeddings using
 Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
 
 Usage:
-    python embeddings.py
+    embeddings.py [--option=<option>]
+    embeddings.py [-h | --help]
+    embeddings.py [-v | --version]
 
 Options:
     -h --help       Show this screen
     --version       Show version
-    -o --option     Embedding option, can be ``lsa`` or ``sent_embed``, default ``lsa``
+    --option=<option>     Embedding option, can be ``lsa`` or ``sent_embed``, default ``lsa``
 """
 import os
 import os.path as op
@@ -19,19 +21,17 @@ from docopt import docopt
 import joblib
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from transformers import AutoTokenizer, AutoModel
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 
-
-MAX_BATCH_SIZE = 16
-EMBEDDING_OPTION = "sent_embed"
-print("Download model and produce embedding\n")
+print("Download SPECTER model for creating embedding\n")
 tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
 model = AutoModel.from_pretrained('allenai/specter')
+MAX_BATCH_SIZE = 16
 
 
 def chunks(lst, chunk_size=MAX_BATCH_SIZE):
@@ -52,7 +52,7 @@ def preprocess(text):
     return text.lower()
 
 
-def calculate_embeddings(df, option="lsa", n_papers=10):
+def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE):
     """Calculates embeddings from a given dataframe
     assume dataframe has title and abstract in the columns
 
@@ -62,11 +62,12 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
         Group papers into smaller list for embedding computations
         Larger one takes too long on regular laptop
     """
+    assert option in ["lsa", "sent_embed"]
     if option == "sent_embed":
         papers = list(df["title"] + "[SEP]" + df["abstract"])
         # group papers
         embeddings = []
-        for g in tqdm(chunks(papers)):
+        for g in tqdm(chunks(papers, chunk_size=n_papers)):
             inputs = tokenizer(g, padding=True,
                                truncation=True,
                                return_tensors="pt",
@@ -102,11 +103,18 @@ def calculate_embeddings(df, option="lsa", n_papers=10):
 
 
 if __name__ == "__main__":
+    arguments = docopt(__doc__, version="0.1")
     save_path = op.join("..", "sitedata", "embeddings")
     # create embeddings
     if not op.exists(save_path):
         os.makedirs(save_path)
     paths = glob(op.join("..", "sitedata", "agenda", "*.csv")) + glob(op.join("..", "sitedata", "agenda", "*.json"))
+
+    # option if not specified, set option as `sent_embed`
+    option = arguments.get('--option')
+    if option is None:
+        option = "sent_embed"
+
     for path in tqdm(paths):
         print(f"Calculate embeddings for {path}\n")
         basename = op.basename(path).split('.')[0]
@@ -119,8 +127,11 @@ if __name__ == "__main__":
             df = pd.read_csv(path).fillna("")
 
         # calculate embeddings, save in JSON with the same basename
-        paper_embeddings = calculate_embeddings(df, option=EMBEDDING_OPTION)
-        json.dump(paper_embeddings, open(op.join(save_path, basename + '.json'), "w"))
+        paper_embeddings = calculate_embeddings(df, option=option)
+        json.dump(
+            paper_embeddings, open(op.join(save_path, basename + '.json'), "w"),
+            indent=2
+        )
 
         # nearest neighbors, save in joblib with the same basename
         X = np.vstack([p["embedding"] for p in paper_embeddings])

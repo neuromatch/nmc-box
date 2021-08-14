@@ -1,19 +1,118 @@
-# Neuromatch in a box
+# Neuromatch Conference in a Box
 
-Without technology backbone, making a conference is probably hard for many organizers.
-In 2020, we built [Neuromatch conferences](https://neuromatch.io/conference/)
-which allow organizers to automate many aspects of the conference. Here, we try to
-open-source multiple aspects for other organizers.
+Making an online conference requires some technologies backbone to run it.
+We built [Neuromatch conferences (NMCs)](https://neuromatch.io/conference/)
+which allow organizers to automate many aspects of the conference and incorporate
+ML algorithms to the workflow. Here, we open-source most of our implementations
+at NMC so that online organizers can adapt to make the better online conference
+in the future.
+
+## Project Structure (TBA)
+
+* Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
+* Frontend: implemented using [ReactJS](https://reactjs.org/)
+* Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
 
 ## Components
 
-* Registration
-* Recommendation engine
-* Mind matching (run separately to produce output)
-* Schedule optimization (TBA)
-* Payment using Stripe
+NMC in-a-box provides some functionalities as follows:
 
-## Structure
+* Registration - ask for basic information and available times during the conference
+* Submission - submit abstracts to Airtable
+  * Ask for available times, talk format, theme
+  * Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
+* Search and recommendation engine with infinite scroll design
+* Mind matching script - run separately to produce output matches between registered attendees
 
-* Frontend using ReactJS
-* Backend using Python
+## Workflow
+
+### Set up enviroment
+
+* Install backend dependencies in `backend/requirements.txt`
+* Set up `.env` file which contains Airtable key and Firebase authentication.
+* Adapt basic information in `sitedata/config.yml` for the page and `scripts/es_config.yml`
+  for data to be indexed
+
+### Set up backend
+
+In backend, we have put the data, create embeddings (for recommendation), and index them on ElasticSearch
+(use to provide abstract information in the frontend).
+
+* Put data in `sitedata/agenda/*.csv`
+* In `scripts` folder, change information in `es_config.yml` where you can put path to CSV files or Airtable ID.
+
+``` sh
+python embeddings.py --option=sent_embed # create embedding
+bash serve_elasticsearch.sh # serve elasticsearch
+python es_index.py # index ElasticSearch
+```
+
+* Download Firebase authentication JSON file in the root of `backend`. To download,
+  you can go to Project settings on Firebase. Choose `Service accounts` > `Firebase Admin SDK` > `Generate new private key` in Python
+* Then go to `backend` folder and run
+
+``` sh
+uvicorn api:app
+```
+
+To serve backend with FastAPI library.
+
+### Set up frontend
+
+(TBA)
+
+## Set up authentication, database, and Airtable
+
+In current NMC, we use Firebase for authentication. Cloud Firestore
+You can go to [Firebase](https://firebase.google.com/) to create authentication for your conference website.
+We use two main functions from Firebase: Firebase authentication and Cloud Firestore.
+
+### Google authentication
+
+* On Firebase: Set up Google sign in
+
+### Github authentication
+
+* On Firebase: Set up Github `Sign-in method`
+* On Github: Go to `settings` > `Developer settings` > `Github App` > Get Client ID and Client Secret
+* On Firebase: Put Client ID and Client Secret from Github
+
+### Set up Cloud Firestore
+
+We use Cloud Firestore to collect user data. You can go to `Firestore Database` then `+ Start collection`.
+Here we have `users_2021_1` as a collection name.
+
+### Airtable
+
+For submission, we have a good experience with [Airtable](https://airtable.com/) so we implement
+the backend so that the submission is added to Airtable. Here, you only have to make sure that
+form on the website is the same with Airtable (see fields on `sitedata/agenda/README.md`).
+We set up Airtable base which you can view here (TBD).
+
+## Citations
+
+If you use or refer to NMC workflow, please cite our published articles on
+[TICS](https://www.sciencedirect.com/science/article/pii/S1364661321000097) and
+[eLife](https://elifesciences.org/articles/57892) below:
+
+```
+@article{achakulvisut2021towards,
+  title={Towards Democratizing and Automating Online Conferences: Lessons from the Neuromatch Conferences},
+  author={Achakulvisut, Titipat and Ruangrong, Tulakan and Mineault, Patrick and Vogels, Tim P and Peters, Megan AK and Poirazi, Panayiota and Rozell, Christopher and Wyble, Brad and Goodman, Dan FM and Kording, Konrad Paul},
+  journal={Trends in Cognitive Sciences},
+  year={2021},
+  publisher={Elsevier}
+}
+```
+
+```
+@article{achakulvisut2020point,
+  title={Point of view: Improving on legacy conferences by moving online},
+  author={Achakulvisut, Titipat and Ruangrong, Tulakan and Bilgin, Isil and Van Den Bossche, Sofie and Wyble, Brad and Goodman, Dan FM and Kording, Konrad P},
+  journal={Elife},
+  volume={9},
+  pages={e57892},
+  year={2020},
+  publisher={eLife Sciences Publications Limited}
+}
+```

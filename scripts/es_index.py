@@ -1,15 +1,28 @@
+"""
+Elasticsearch ingestion
+
+Usage:
+    python elasticsearch.py
+"""
 import yaml
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import pandas as pd
+from pyairtable import Table
 from elasticsearch import Elasticsearch, helpers
 
-with open("../sitedata/server.yml") as f:
-    server_config = yaml.load(f, Loader=yaml.FullLoader)
+with open("es_config.yml") as f:
+    es_config = yaml.load(f, Loader=yaml.FullLoader)
 
 es = Elasticsearch([{
-    'host': server_config["host"],
-    'port': server_config["port"]
+    'host': es_config["host"],
+    'port': es_config["port"]
 }])
+
+keys_airtable = [
+    "submission_id", "title", "abstract", "fullname", "coauthors",
+    "institution", "theme", "talk_format", "starttime", "endtime",
+    "url", "track"
+] # keys that we are interested from Airtable
 
 settings_affiliation = {
     "settings": {
@@ -126,10 +139,15 @@ settings_submission = {
 }
 
 
-def generate_rows(rows, row_type="affiliation", id="ID"):
+def generate_rows(rows: list, index: str = "grid", row_type: str = "affiliation", id: str = "ID", keys: list = None):
+    """
+    Generate dictionary to ingest to Elasticsearch.
+    """
     for _, row in enumerate(rows):
+        if isinstance(keys, list):
+            row = {k: str(v) for k, v in row.items() if k in keys}
         yield {
-            '_index': server_config["grid_index"],
+            '_index': index,
             '_type': row_type,
             '_id': row[id],
             '_source': row
@@ -140,18 +158,18 @@ def index_grid():
     """
     Index GRID affiliations to elasticsearch index
     """
-    grid_df = pd.read_csv(server_config["grid_path"]).fillna('')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
     affiliations = grid_df.to_dict(orient='records')
 
     es.indices.delete(
-        index=server_config["grid_index"],
+        index=es_config["grid_index"],
         ignore=[400, 404]
     )
 
-    grid_df = pd.read_csv(server_config["grid"]).fillna('')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
     affiliations = grid_df.to_dict(orient='records')
     es.indices.create(
-        index=server_config["grid_index"],
+        index=es_config["grid_index"],
         body=settings_affiliation,
         include_type_name=True
     )
@@ -159,11 +177,30 @@ def index_grid():
     print('Done indexing GRID affiliations')
 
 
-def index_submission():
-    """Index all submissions listed in server.yml
+def read_submissions(submissions: list, keys: list = None):
+    submissions_flatten = []
+    for submission in submissions:
+        if keys is not None:
+            d = {k: v for k, v in submission["fields"].items() if k in keys_airtable}
+        else:
+            d = submission["fields"]
+        d["submission_id"] = submission["id"]
+        submissions_flatten.append(d)
+    return submissions_flatten
+
+
+def index_submissions():
     """
-    for k, v in server_config["editions"].items():
-        submission_df = pd.read_csv(v["path"]).fillna("")
+    Index all submissions listed in es_config.yml
+    """
+    for _, v in tqdm(es_config["editions"].items()):
+        if "path" in v.keys():
+            submission_df = pd.read_csv(v["path"]).fillna("")
+        elif "airtable_api_key" in v.keys() and "airtable_id" in v.keys():
+            submissions = Table(v["airtable_api_key"], v["airtable_id"], v["table_name"])
+            submission_df = pd.DataFrame(read_submissions(submissions, keys=keys_airtable))
+        else:
+            raise RuntimeError("Please put the path to CSV file or Airtable ID and ")
         es.indices.delete(
             index=v["paper_index"],
             ignore=[400, 404]
@@ -174,10 +211,18 @@ def index_submission():
             include_type_name=True
         )
         submissions = submission_df.to_dict(orient="records")
-        helpers.bulk(es, generate_rows(submissions))
-    print('Done indexing submissions')
+        helpers.bulk(
+            es,
+            generate_rows(
+                submissions,
+                index=v["paper_index"],
+                row_type="submission",
+                id="submission_id",
+            )
+        )
+        print(f'Done indexing submissions to {v["paper_index"]}')
 
 
 if __name__ == '__main__':
     index_grid()  # index GRID database
-    index_submission()  # index submissions
+    index_submissions()  # index submissions

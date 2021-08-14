@@ -6,9 +6,9 @@ declare -r dl_url="https://artifacts.elastic.co/downloads/elasticsearch"
 declare -r app_path="elasticsearch-${version}"
 
 # download data from grid.ac
-declare -r grid_version="2019-12-10"
+declare -r grid_version="2021-06-15"
 declare -r grid_dl_url="https://digitalscience.figshare.com/ndownloader/files/20151785"
-declare -r grid_data_path="data/grid-${grid_version}"
+declare -r grid_data_path="grid-${grid_version}"
 
 
 getDownloadName() {
@@ -38,7 +38,7 @@ download() {
 
 downloadGridData() {
   wget ${grid_dl_url} -O "grid-${grid_version}.zip"
-  unzip "grid-${grid_version}.zip" -d "data/grid-${grid_version}"
+  unzip "grid-${grid_version}.zip" -d "grid-${grid_version}"
   rm "grid-${grid_version}.zip"
 }
 
