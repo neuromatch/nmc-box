@@ -47,6 +47,7 @@ bash serve_elasticsearch.sh # serve elasticsearch
 python es_index.py # index ElasticSearch
 ```
 
+* Download Firebase authentication JSON file in the root of `backend`.
 * After indexing data to ElasticSearch, go to `backend` and run
 
 ``` sh
@@ -63,6 +64,7 @@ To serve backend with FastAPI library.
 
 In current NMC, we use Firebase for authentication. Cloud Firestore
 You can go to [Firebase](https://firebase.google.com/) to create authentication for your conference website.
+We use two main functions from Firebase: Firebase authentication and Cloud Firestore.
 
 ### Google authentication
 

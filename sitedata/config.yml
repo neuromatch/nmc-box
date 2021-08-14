@@ -40,11 +40,19 @@ editions:
 
   2020-3:
     edition_name: 3.0
-    page_title: 'neuromatch 3.0'
+    page_title: neuromatch 3.0
     registration_date: Anytime before October 30, 2020
     submission_date: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
     main_conference: October 26 - 30, 2020
     twitter_hashtag: nmc3
+
+  2020-4:
+    edition_name: 4.0
+    page_title: neuromatch 4.0 [demo]
+    registration_date: Anytime before December 30, 2020
+    submission_date: November 7, 2020
+    main_conference: November 26 - 30, 2020
+    twitter_hashtag: nmcboxdemo
 
 # Firebase collection for users and votes
 firebase-collection:
