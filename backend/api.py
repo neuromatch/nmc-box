@@ -6,6 +6,8 @@ from glob import glob
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='.backend.env') # setting all credentials here
+assert os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'), "Please check if GOOGLE_APPLICATION_CREDENTIALS is specified in environment file"
+assert os.environ.get('AIRTABLE_KEY'), "Please check if AIRTABLE_KEY is specified in environment file"
 
 import joblib
 from elasticsearch import Elasticsearch
@@ -13,7 +15,7 @@ from elasticsearch_dsl import Search
 import pandas as pd
 from pydantic import BaseModel
 from pyairtable import Table
-import utils # import utils as a library
+import utils # import utils as a library, make sure to load environment variables before
 from utils import get_user_info, get_data, set_data
 
 from fastapi import FastAPI, Query, Header, status

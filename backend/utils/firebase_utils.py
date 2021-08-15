@@ -10,8 +10,6 @@ from google.cloud import firestore
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 
-from dotenv import load_dotenv
-load_dotenv(dotenv_path='.backend.env')
 
 db = firestore.Client()
 HTTP_REQUEST = Request()
