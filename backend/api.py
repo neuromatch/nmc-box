@@ -3,11 +3,16 @@ import os.path as op
 import json
 import yaml
 from glob import glob
-from typing import List, Dict, Optional
+from typing import Optional
 from dotenv import load_dotenv
-load_dotenv(dotenv_path='.backend.env') # setting all credentials here
-assert os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'), "Please check if GOOGLE_APPLICATION_CREDENTIALS is specified in environment file"
-assert os.environ.get('AIRTABLE_KEY'), "Please check if AIRTABLE_KEY is specified in environment file"
+
+load_dotenv(dotenv_path="../.env")  # setting all credentials here
+assert os.environ.get(
+    "GOOGLE_APPLICATION_CREDENTIALS"
+), "Please check if GOOGLE_APPLICATION_CREDENTIALS is specified in environment file"
+assert os.environ.get(
+    "AIRTABLE_KEY"
+), "Please check if AIRTABLE_KEY is specified in environment file"
 
 import joblib
 from elasticsearch import Elasticsearch
@@ -15,8 +20,8 @@ from elasticsearch_dsl import Search
 import pandas as pd
 from pydantic import BaseModel
 from pyairtable import Table
-import utils # import utils as a library, make sure to load environment variables before
-from utils import get_user_info, get_data, set_data
+import utils  # import utils as a library, make sure to load environment variables before
+from utils import get_user_info, get_data, set_data, update_data
 
 from fastapi import FastAPI, Query, Header, status
 from fastapi.encoders import jsonable_encoder
@@ -39,22 +44,18 @@ collections = site_config["firebase-collection"][current_edition]
 user_collection = collections["users"]
 preference_collection = collections["preferences"]
 
-es = Elasticsearch([{
-    'host': es_config["host"],
-    'port': es_config["port"]
-}])
+es = Elasticsearch([{"host": es_config["host"], "port": es_config["port"]}])
 
 # loading model and embeddings
 model_paths = glob("../sitedata/embeddings/*.joblib")
 embedding_paths = glob("../sitedata/embeddings/*.json")
 if len(model_paths) > 0:
     nbrs_models = {
-        op.basename(path).split('.')[0]: joblib.load(path)
-        for path in model_paths
+        op.basename(path).split(".")[0]: joblib.load(path) for path in model_paths
     }
 if len(embedding_paths) > 0:
     embeddings = {
-        op.basename(path).split('.')[0]: json.load(open(path, 'r'))
+        op.basename(path).split(".")[0]: json.load(open(path, "r"))
         for path in embedding_paths
     }
 airtable_key = os.environ.get("AIRTABLE_KEY")
@@ -93,9 +94,10 @@ class Submission(BaseModel):
 
 # profile
 @app.get("/api/affiliation")
-async def get_affiliations(q: Optional[str] = Query(None), n_results: Optional[int] = Query(10)):
-    """Query affiliation listed in GRID database from ElasticSearch
-    """
+async def get_affiliations(
+    q: Optional[str] = Query(None), n_results: Optional[int] = Query(10)
+):
+    """Query affiliation listed in GRID database from ElasticSearch"""
     if n_results is None:
         n_results = 10
     if q is not None:
@@ -123,7 +125,7 @@ async def get_user(authorization: Optional[str] = Header(None)):
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
-        user = utils.get_data(user_id, user_collection)
+        user = get_data(user_id, user_collection)
         if user is not None:
             return JSONResponse(content=user)
         else:
@@ -137,7 +139,7 @@ async def create_user(user_data, authorization: Optional[str] = Header(None)):
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
-        utils.set_data(user_data, user_id, user_collection) # set data
+        set_data(user_data, user_id, user_collection)  # set data
         print(f"Done setting user with ID = {user_id}")
     else:
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
@@ -148,7 +150,7 @@ async def update_user(user_data, authorization: Optional[str] = Header(None)):
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
-        utils.update_data(user_data, user_id, user_collection) # update data
+        update_data(user_data, user_id, user_collection)  # update data
         print(f"Done setting user with ID = {user_id}")
     else:
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
@@ -175,7 +177,7 @@ async def get_user_votes(authorization: Optional[str] = Header(None)):
 @app.get("/api/user/preference/{edition}")
 async def get_user_votes(edition: str, authorization: Optional[str] = Header(None)):
     """
-    Get user votes if edition is specified, it will 
+    Get user votes if edition is specified, it will
     """
     user_info = get_user_info(authorization)
     if user_info is not None:
@@ -185,7 +187,9 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
         ids = user_preference[edition]
         abstracts = {
             "edition": edition,
-            "abstracts": [utils.get_abstract(edition=f"agenda-{edition}", id=idx) for idx in ids]
+            "abstracts": [
+                utils.get_abstract(index=f"agenda-{edition}", id=idx) for idx in ids
+            ],
         }
         return JSONResponse(content={"data": abstracts})
     else:
@@ -197,7 +201,7 @@ async def update_user_votes(
     edition: str,
     submission_id: str,
     action: Optional[str] = None,
-    authorization: Optional[str] = Header(None)
+    authorization: Optional[str] = Header(None),
 ):
     """
     Update votes made by user in an abstract browser to Firebase
@@ -208,23 +212,25 @@ async def update_user_votes(
     """
     # TODOs: set preference on Firebase
     user_info = get_user_info(authorization)
-    user_id = user_info.get("user_id")
-    user_preference = get_data(user_id, preference_collection)  # all preferences
     if user_info is None:
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+    user_id = user_info.get("user_id")
+    user_preference = get_data(user_id, preference_collection)  # all preferences
 
     if action == "like" and user_id is not None:
         if user_preference is None:
             user_preference = {edition: [submission_id]}
             try:
-                utils.set_data(user_preference, user_id, preference_collection)
+                set_data(user_preference, user_id, preference_collection)
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
             current_pref = user_preference[edition]
             update_pref = list(set(current_pref + [submission_id]))
             try:
-                utils.update_data({edition: update_pref}, user_id, preference_collection)
+                update_data(
+                    {edition: update_pref}, user_id, preference_collection
+                )
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     elif action == "dislike" and user_id is not None:
@@ -235,12 +241,13 @@ async def update_user_votes(
             update_pref = list(set(current_pref - [submission_id]))
             user_preference.update({edition: update_pref})
             try:
-                utils.update_data({edition: update_pref}, user_id, preference_collection)
+                update_data(
+                    {edition: update_pref}, user_id, preference_collection
+                )
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     else:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
-
 
 
 # abstract search
@@ -253,7 +260,7 @@ async def get_abstracts(
     endtime: Optional[str] = Query(None),
     skip: int = Query(0),
     limit: int = Query(40),
-    authorization: Optional[str] = Header(None)
+    authorization: Optional[str] = Header(None),
 ):
     """
     Query abstracts from a given edition
@@ -270,13 +277,15 @@ async def get_abstracts(
     try:
         user_info = get_user_info(authorization)
         user_id = user_info.get("user_id")
-        user_preference = get_data(user_id, preference_collection).get("edition", [])  # all preferences
+        user_preference = get_data(user_id, preference_collection).get(
+            "edition", []
+        )  # all preferences
     except:
         user_preference = []
 
     es_search = Search(using=es, index=f"agenda-{edition}")
     n_submissions = es_search.count()
-    page_size = limit # set page size to equal to limit
+    page_size = limit  # set page size to equal to limit
     current_page = int(skip / page_size) + 1
     n_page = int(n_submissions / page_size) + 1
     if starttime is not None and endtime is not None:
@@ -284,31 +293,39 @@ async def get_abstracts(
         endtime = utils.convert_utc(endtime)
 
     if current_page > n_page:
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": current_page,
-                "totalPage": n_page,
-                "pageSize": page_size
-            },
-            "data": []
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": current_page,
+                    "totalPage": n_page,
+                    "pageSize": page_size,
+                },
+                "data": [],
+            }
+        )
 
     if view == "default":
-        submissions = utils.query_abstracts(q, index=f"agenda-{edition}") # get all responses
-        submissions = utils.filter_startend_time(submissions, starttime, endtime) # filter by start, end time
+        submissions = utils.query_abstracts(
+            q, index=f"agenda-{edition}"
+        )  # get all responses
+        submissions = utils.filter_startend_time(
+            submissions, starttime, endtime
+        )  # filter by start, end time
 
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": current_page,
-                "totalPage": n_page,
-                "pageSize": page_size
-            },
-            "links": {
-                "current": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}"
-            },
-            "data": submissions[skip: skip + limit]
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": current_page,
+                    "totalPage": n_page,
+                    "pageSize": page_size,
+                },
+                "links": {
+                    "current": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
+                    "next": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                },
+                "data": submissions[skip : skip + limit],
+            }
+        )
     elif view == "your-votes":
         # Get preference from Firebase and return to frontend
         submission_ids = user_preference
@@ -316,18 +333,22 @@ async def get_abstracts(
             utils.get_abstract(index=f"agenda-{edition}", id=idx)
             for idx in submission_ids
         ]
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": int(skip / page_size) + 1,
-                "totalPage": int(len(submissions) / page_size) + 1,
-                "pageSize": page_size
-            },
-            "links": {
-                "current": f"/api/abstract/{edition}?view={view}&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view={view}&skip={skip + page_size}&limit={page_size}"
-            },
-            "data": submissions[skip: skip + limit] if len(submissions) > 0 else []
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": int(skip / page_size) + 1,
+                    "totalPage": int(len(submissions) / page_size) + 1,
+                    "pageSize": page_size,
+                },
+                "links": {
+                    "current": f"/api/abstract/{edition}?view={view}&skip={skip}&limit={page_size}",
+                    "next": f"/api/abstract/{edition}?view={view}&skip={skip + page_size}&limit={page_size}",
+                },
+                "data": submissions[skip : skip + limit]
+                if len(submissions) > 0
+                else [],
+            }
+        )
     elif view == "recommendations":
         # TODOs: get votes for generating recommendations
         submission_ids = user_preference
@@ -337,21 +358,25 @@ async def get_abstracts(
             index=f"agenda-{edition}",
             nbrs_model=nbrs_models[f"agenda-{edition}"],
             exploration=False,
-            abstract_info=True
+            abstract_info=True,
         )
         submissions = utils.filter_startend_time(submissions, starttime, endtime)
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": int(skip / page_size) + 1,
-                "totalPage": int(len(submissions) / page_size) + 1,
-                "pageSize": page_size
-            },
-            "links": {
-                "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}"
-            },
-            "data": submissions[skip:skip + limit] if len(submissions) > 0 else []
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": int(skip / page_size) + 1,
+                    "totalPage": int(len(submissions) / page_size) + 1,
+                    "pageSize": page_size,
+                },
+                "links": {
+                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
+                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                },
+                "data": submissions[skip : skip + limit]
+                if len(submissions) > 0
+                else [],
+            }
+        )
     elif view == "personalized":
         # TODOs: get votes for generating personalized recommendation
         submission_ids = user_preference
@@ -359,34 +384,40 @@ async def get_abstracts(
             submission_ids,
             data=embeddings,
             index=f"agenda-{edition}",
-            nbrs_model=nbrs_models[f"agenda-{edition}"]
+            nbrs_model=nbrs_models[f"agenda-{edition}"],
         )
         submissions = utils.filter_startend_time(submissions, starttime, endtime)
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": int(skip / page_size) + 1,
-                "totalPage": int(len(submissions) / page_size) + 1,
-                "pageSize": page_size
-            },
-            "links": {
-                "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}"
-            },
-            "data": submissions[skip:skip + limit] if len(submissions) > 0 else []
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": int(skip / page_size) + 1,
+                    "totalPage": int(len(submissions) / page_size) + 1,
+                    "pageSize": page_size,
+                },
+                "links": {
+                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
+                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                },
+                "data": submissions[skip : skip + limit]
+                if len(submissions) > 0
+                else [],
+            }
+        )
     else:
-        return JSONResponse(content={
-            "meta": {
-                "currentPage": current_page,
-                "totalPage": n_page,
-                "pageSize": page_size
-            },
-            "links": {
-                "current": f"/api/abstract/{edition}?view=default&skip={skip}&limit={page_size}",
-                "next": f"/api/abstract/{edition}?view=default&skip={skip + page_size}&limit={page_size}"
-            },
-            "data": []
-        })
+        return JSONResponse(
+            content={
+                "meta": {
+                    "currentPage": current_page,
+                    "totalPage": n_page,
+                    "pageSize": page_size,
+                },
+                "links": {
+                    "current": f"/api/abstract/{edition}?view=default&skip={skip}&limit={page_size}",
+                    "next": f"/api/abstract/{edition}?view=default&skip={skip + page_size}&limit={page_size}",
+                },
+                "data": [],
+            }
+        )
 
 
 # abstract get, create, and update
@@ -406,22 +437,23 @@ async def get_abstract(edition: str, submission_id: str):
     else:
         # query from Airtable
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        abstract = table.get(submission_id) # return abstract from Airtable
+        abstract = table.get(submission_id)  # return abstract from Airtable
     return JSONResponse(content={"data": abstract})
 
 
 @app.post("/api/abstract/{edition}")
 async def create_abstract(
-    submission: Submission,
-    edition: str,
-    authorization: Optional[str] = Header(None)
+    submission: Submission, edition: str, authorization: Optional[str] = Header(None)
 ):
     """
     Submit an abstract to Airtable
     """
     submission = submission.dict()
 
-    if submission["starttime"] not in ["", None] and submission["endtime"] not in ["", None]:
+    if submission["starttime"] not in ["", None] and submission["endtime"] not in [
+        "",
+        None,
+    ]:
         submission["starttime"] = str(pd.to_datetime(submission["starttime"]))
         submission["endtime"] = str(pd.to_datetime(submission["endtime"]))
 
@@ -433,16 +465,14 @@ async def create_abstract(
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.create(submission) # create submission
+        r = table.create(submission)  # create submission
         print(f"Set the record {r['id']} on Airtable")
 
         user_info = get_user_info(authorization)
         if user_info is not None:
             user_id = user_info.get("user_id")
-            utils.update_data(
-                {"submission_id": r["id"]},
-                user_id,
-                user_collection
+            update_data(
+                {"submission_id": r["id"]}, user_id, user_collection
             )  # update submission to a user
             return JSONResponse(status=status.HTTP_200_OK)
         else:
@@ -462,6 +492,6 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.update(submission_id, submission) # create submission
+        r = table.update(submission_id, submission)  # create submission
         print(f"Set the record {r['id']} on Airtable")
         return JSONResponse(status=status.HTTP_200_OK)

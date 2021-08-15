@@ -5,14 +5,16 @@ import numpy as np
 import pandas as pd
 from typing import Optional
 from sklearn.neighbors import NearestNeighbors
-np.random.seed(seed=126)  # apply seed for exploration sampling
 
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search
 
-es = Elasticsearch([
-    {"host": "localhost", "port": 9200},
-])
+np.random.seed(seed=126)  # apply seed for exploration sampling
+
+es = Elasticsearch(
+    [
+        {"host": "localhost", "port": 9200},
+    ]
+)
 
 
 def get_abstract(index: str = "agenda-2020-1", id: str = "1"):
@@ -40,7 +42,7 @@ def generate_recommendations(
     exploration: bool = False,
     n_recommend: Optional[int] = None,
     alpha: float = 1.2,
-    abstract_info: bool = False
+    abstract_info: bool = False,
 ):
     """
     Generate recommended submissions from a list of submission ids
@@ -64,18 +66,27 @@ def generate_recommendations(
     if len(submission_ids) == 0:
         return []
 
-    idx_mapping =  {r["submission_id"]: r["embedding"] for r in data[index]}  # submission to embedding
-    idx_subid_mapping = {i: r["submission_id"] for i, r in enumerate(data[index])} # idx to submission
+    idx_mapping = {
+        r["submission_id"]: r["embedding"] for r in data[index]
+    }  # submission to embedding
+    idx_subid_mapping = {
+        i: r["submission_id"] for i, r in enumerate(data[index])
+    }  # idx to submission
     # only use submissions id that exist in keys
-    submission_ids = [
-        sid for sid in submission_ids
-        if sid in idx_mapping.keys()
-    ]
-    pref_vector = alpha * np.mean([
-        np.array(idx_mapping.get(sid))
-        for sid in submission_ids
-        if sid in idx_mapping.keys()
-    ], axis=0).reshape(-1, 1).T
+    submission_ids = [sid for sid in submission_ids if sid in idx_mapping.keys()]
+    pref_vector = (
+        alpha
+        * np.mean(
+            [
+                np.array(idx_mapping.get(sid))
+                for sid in submission_ids
+                if sid in idx_mapping.keys()
+            ],
+            axis=0,
+        )
+        .reshape(-1, 1)
+        .T
+    )
     distances, indices = nbrs_model.kneighbors(pref_vector)
     indices = indices.ravel()
     distances = distances.ravel()
@@ -84,17 +95,12 @@ def generate_recommendations(
     if exploration:
         w = 1 / (distances + 1e-3)
         probs = w / np.sum(w)
-        indices = np.random.choice(
-            indices, size=len(indices),
-            replace=False, p=probs
-        )
+        indices = np.random.choice(indices, size=len(indices), replace=False, p=probs)
     recommend_indices = [
-        idx_subid_mapping.get(idx)
-        for idx in indices
-        if idx in idx_subid_mapping.keys()
+        idx_subid_mapping.get(idx) for idx in indices if idx in idx_subid_mapping.keys()
     ]  # recommendation indices
     if n_recommend:
-        recommend_indices = recommend_indices[0:n_recommend + 1]
+        recommend_indices = recommend_indices[0 : n_recommend + 1]
 
     if abstract_info:
         recommend_abstracts = [
@@ -131,29 +137,59 @@ def generate_personalized_recommendations(
     if len(submission_ids) == 0:
         return []
 
-    rec_submissions = generate_recommendations(submission_ids, data, index, nbrs_model, n_recommend=None, abstract_info=True)
+    rec_submissions = generate_recommendations(
+        submission_ids, data, index, nbrs_model, n_recommend=None, abstract_info=True
+    )
     rec_submissions_df = pd.DataFrame(rec_submissions)
     rec_submissions_df["starttime_sort"] = pd.to_datetime(rec_submissions_df.starttime)
 
     if index == "agenda-2020-3":
         # for NMC3, we recommend all main events
-        main_events_df = rec_submissions_df[~rec_submissions_df.talk_format.isin(["Traditional talk", "Interactive talk"])]
-        rec_submissions_df = rec_submissions_df[rec_submissions_df.talk_format.isin(["Traditional talk", "Interactive talk"])]
+        main_events_df = rec_submissions_df[
+            ~rec_submissions_df.talk_format.isin(
+                ["Traditional talk", "Interactive talk"]
+            )
+        ]
+        rec_submissions_df = rec_submissions_df[
+            rec_submissions_df.talk_format.isin(
+                ["Traditional talk", "Interactive talk"]
+            )
+        ]
 
         # selected submissions
-        selected_ids = list(set(submission_ids) - set(list(main_events_df.submission_id)))
-        selected_df = pd.DataFrame([get_abstract(index, id=idx) for idx in selected_ids])
+        selected_ids = list(
+            set(submission_ids) - set(list(main_events_df.submission_id))
+        )
+        selected_df = pd.DataFrame(
+            [get_abstract(index, id=idx) for idx in selected_ids]
+        )
         personalized_rec_df = pd.concat(
             (
-                pd.concat((selected_df, rec_submissions_df), axis=0).groupby("starttime_sort").first().reset_index(),
-                main_events_df
-            ), axis=0).sort_values("starttime_sort")
-        personalized_abstracts = personalized_rec_df.drop("starttime_sort", axis=1).to_dict(orient="records")
+                pd.concat((selected_df, rec_submissions_df), axis=0)
+                .groupby("starttime_sort")
+                .first()
+                .reset_index(),
+                main_events_df,
+            ),
+            axis=0,
+        ).sort_values("starttime_sort")
+        personalized_abstracts = personalized_rec_df.drop(
+            "starttime_sort", axis=1
+        ).to_dict(orient="records")
     else:
         # for other events, just recommend the closest event within a given starttime
         selected_ids = list(set(submission_ids))
-        selected_df = pd.DataFrame([get_abstract(index, id=idx) for idx in selected_ids])
-        personalized_rec_df = pd.concat((selected_df, rec_submissions_df), axis=0)\
-            .groupby("starttime_sort").first().reset_index().sort_values("starttime_sort")
-        personalized_abstracts = personalized_rec_df.drop("starttime_sort", axis=1).to_dict(orient="records")
+        selected_df = pd.DataFrame(
+            [get_abstract(index, id=idx) for idx in selected_ids]
+        )
+        personalized_rec_df = (
+            pd.concat((selected_df, rec_submissions_df), axis=0)
+            .groupby("starttime_sort")
+            .first()
+            .reset_index()
+            .sort_values("starttime_sort")
+        )
+        personalized_abstracts = personalized_rec_df.drop(
+            "starttime_sort", axis=1
+        ).to_dict(orient="records")
     return personalized_abstracts

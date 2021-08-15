@@ -7,16 +7,16 @@ import requests
 
 
 def get_record(
-    airtable_key: str, base_id: str,
-    table_name: str = "submissions", record_id: str = ""
+    airtable_key: str,
+    base_id: str,
+    table_name: str = "submissions",
+    record_id: str = "",
 ):
     """
     Get record from Airtable with a given record ID `record_id`
     """
     if record_id != "":
-        request_url = (
-            f"https://api.airtable.com/v0/{base_id}/{table_name}/{record_id}"
-        )
+        request_url = f"https://api.airtable.com/v0/{base_id}/{table_name}/{record_id}"
         headers = {
             "Authorization": f"Bearer {airtable_key}",
         }
@@ -27,8 +27,7 @@ def get_record(
 
 
 def set_record(
-    airtable_key: str, base_id: str,
-    data: dict, table_name: str = "submissions"
+    airtable_key: str, base_id: str, data: dict, table_name: str = "submissions"
 ):
     """
     Add event to Airtable with AIRTABLE_ID
