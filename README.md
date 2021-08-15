@@ -46,12 +46,21 @@ Before running API, we have put the data, create embeddings (used for recommenda
 and index them on ElasticSearch.
 
 * First, put data in `sitedata/agenda/*.csv`
-* Change information in `scripts/es_config.yml` where you can put path to CSV files or Airtable ID.
+* Change information in `scripts/es_config.yml` where you can put path to CSV files or Airtable ID
+* Create embedding with `embeddings.py` script, you may use `--option=lsa` when you are testing as it is faster and use `--option=sent_embed` in production as it provides better performance
 
 ``` sh
-python embeddings.py --option=sent_embed # create embedding
-bash serve_elasticsearch.sh # serve elasticsearch
-python es_index.py # index ElasticSearch
+# run faster
+python embeddings.py --option=lsa
+# better performance
+python embeddings.py --option=sent_embed
+```
+
+* Then, serve and index ElasticSearch
+
+```sh
+bash es_serve.sh # serve
+python es_index.py # index
 ```
 
 * Go to `backend` and serve APIs using
