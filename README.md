@@ -109,8 +109,12 @@ We set up Airtable base which you can view here (TBD).
 
 We use SendGrid to send email out to our participants. You can create a SendGrid account on
 [SendGrid](https://sendgrid.com/). Then, set up email domain in `Settings` > `Sender Authentication`
-and `API Keys`. We suggest to test the API using [sendgrid-python](https://github.com/sendgrid/sendgrid-python)
-before the production. You can specify email content in `sitedata/email-content.json`
+and `API Keys`. Then add `SENDGRID_API_KEY` to `.env`. We suggest to test the API using
+[sendgrid-python](https://github.com/sendgrid/sendgrid-python) before launching the website.
+You can specify email content in `sitedata/email-content.json`.
+
+If `SENDGRID_API_KEY` is **not** specified, we will not send an email
+after registration and submission.
 
 ## Citations
 
