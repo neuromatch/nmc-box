@@ -44,8 +44,12 @@ const linkStyle = css`
   justify-content: center;
 
   &:hover {
-    color: #419eda;
+    color: #eee;
+    opacity: 0.9;
+    text-decoration: none;
   }
+
+  margin: 4px;
 `;
 
 const StyledLink = styled(Link)`
@@ -79,8 +83,55 @@ const Layout = ({
         hideModal={() => setLoginModalVisible(false)}
       />
       <StickyFooterWrapper>
-        <NavBar>
-          <DropdownButton
+        <NavBar
+          menuItems={[
+            {
+              text: 'Instructions',
+              dropdown: [
+                {
+                  text: 'How to register',
+                  onClick: '/instructions/how-to-register',
+                },
+                {
+                  text: 'How to submit',
+                  onClick: '/instructions/how-to-submit',
+                },
+              ],
+            },
+            {
+              text: 'Agenda',
+              dropdown: [
+                {
+                  text: 'Agenda',
+                  onClick: '/agenda',
+                },
+                {
+                  text: 'Abstract Browser',
+                  onClick: '/abstract-browser',
+                },
+              ],
+            },
+            {
+              text: 'About',
+              dropdown:
+              [
+                {
+                  text: 'FAQ',
+                  onClick: '/faq',
+                },
+                {
+                  text: 'About',
+                  onClick: '/about',
+                },
+              ],
+            },
+            // log in button should be moved into menus!
+          ]}
+        />
+          {/* <StyledLink to="/">
+            Not a dropdown demo
+          </StyledLink> */}
+          {/* <DropdownButton
             noButtonBorder
             dropdownContent={[
               {
@@ -181,7 +232,7 @@ const Layout = ({
                   )
               : null
           }
-        </NavBar>
+        </NavBar> */}
 
         <Container noPadding={noPadding} css={containerStyle}>
           {children}

@@ -80,7 +80,7 @@ const StyledImg = styled.img`
 //   }
 // `;
 
-const NavbarComponent = ({ children }) => {
+const NavbarComponent = ({ menuItems }) => {
   const [hideMenu, setHideMenu] = useState(true);
 
   return (
@@ -98,7 +98,7 @@ const NavbarComponent = ({ children }) => {
           <Burger handlePress={() => setHideMenu(!hideMenu)} />
           <Menus
             hidden={hideMenu}
-            items={children}
+            items={menuItems}
           />
         </NavContainer>
       </Navbar>
@@ -108,11 +108,11 @@ const NavbarComponent = ({ children }) => {
 };
 
 NavbarComponent.propTypes = {
-  children: PropTypes.node,
+  menuItems: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 NavbarComponent.defaultProps = {
-  children: null,
+  menuItems: null,
 };
 
 const AcademyNavbar = ({ children }) => {

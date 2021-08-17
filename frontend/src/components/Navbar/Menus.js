@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 import { media } from '../../styles';
+import { Fa } from '../../utils';
+import { DropdownButton, FontIconButton, LineButton } from '../BaseComponents/Buttons';
+import { Link } from 'gatsby';
 
 // variables
 const navHeight = 60;
@@ -93,6 +96,44 @@ const NavItem = styled.li`
   `}
 `;
 
+const StyledLink = styled(Link)`
+  color: #eee;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #eee;
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  margin: 4px;
+`;
+
+const StyledFontIconButton = styled(FontIconButton)`
+  cursor: pointer;
+  color: #eee;
+  background-color: transparent;
+
+  margin: 4px;
+
+  :hover {
+    opacity: 0.9;
+    background-color: transparent;
+    color: #eee;
+  }
+
+  :active {
+    opacity: 0.5;
+    background-color: transparent;
+    border-color: transparent;
+    color: #eee;
+  }
+`;
+
 const Menus = ({ items, hidden }) => {
   // workaround for hiding hiccup on first load
   const [hideDuration, setHideDuration] = useState(false);
@@ -121,27 +162,40 @@ const Menus = ({ items, hidden }) => {
       ref={navListRef}
     >
       {
-        Array.isArray(items)
-          ? items.map((item) => (
-            <NavItem key={item?.props?.children || `now-loading-${Math.random()}`}>
-              {item}
-            </NavItem>
-          ))
-          : (
-            <NavItem key={items?.props?.children || `now-loading-${Math.random()}`}>
-              {items}
-            </NavItem>
-          )
+        items.map((item) => (
+          <NavItem key={item.text || `now-loading-${Math.random()}`}>
+            {item?.dropdown
+              ? (
+                <DropdownButton
+                  noButtonBorder
+                  dropdownContent={item.dropdown}
+                >
+                  {item.text}
+                </DropdownButton>
+              )
+              : (typeof(item.onClick) === 'function')
+                ? (
+                  <LineButton noBorder onClick={item.onClick}>
+                    {item.text}
+                  </LineButton>
+                )
+                : <StyledLink to={item.onClick}>{item.text}</StyledLink> }
+          </NavItem>
+        ))
       }
     </NavList>
   );
 };
 
 Menus.propTypes = {
-  items: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.object,
-  ]),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    onClick: PropTypes.string,
+    dropdown: PropTypes.arrayOf(PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      onClick: PropTypes.string,
+    })),
+  })),
   hidden: PropTypes.bool,
 };
 
