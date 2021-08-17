@@ -5,6 +5,8 @@ import yaml
 from glob import glob
 from typing import Optional
 from dotenv import load_dotenv
+import sendgrid  # sendgrid API
+from sendgrid.helpers.mail import *
 
 load_dotenv(dotenv_path="../.env")  # setting all credentials here
 assert os.environ.get(
@@ -13,6 +15,12 @@ assert os.environ.get(
 assert os.environ.get(
     "AIRTABLE_KEY"
 ), "Please check if AIRTABLE_KEY is specified in environment file"
+SENDGRID_API = os.environ.get("SENDGRID_API_KEY", "You did not specify Sendgrid API")
+if not SENDGRID_API:
+    print(
+        "You do not specify SENDGRID_API_KEY, we will not send email to user after \
+        registration and submission"
+    )
 
 import joblib
 from elasticsearch import Elasticsearch
@@ -107,10 +115,23 @@ async def get_affiliations(
     return JSONResponse(content={"data": queries})
 
 
-@app.post("/api/confirmation")
-async def send_confirmation_email():
-    # TODOs: send email confirmation
-    return None
+@app.post("/api/confirmation/{email_type}")
+async def send_confirmation_email(
+    email_type="registration", authorization: Optional[str] = Header(None)
+):
+    if SENDGRID_API:
+        user_info = get_user_info(authorization)
+        email = user_info.get("email")
+        sg = sendgrid.SendGridAPIClient(api_key=SENDGRID_API)
+
+        email_content = json.load(open("../sitedata/email-content.json", "r"))
+        data = email_content.get(email_type)
+        for d in data["personalizations"]:
+            d.update({"to": [{"email": email}]})
+        response = sg.client.mail.send.post(request_body=data)
+        return JSONResponse(status_code=response.status_code)
+    else:
+        return None
 
 
 @app.post("/api/migration")
@@ -228,9 +249,7 @@ async def update_user_votes(
             current_pref = user_preference[edition]
             update_pref = list(set(current_pref + [submission_id]))
             try:
-                update_data(
-                    {edition: update_pref}, user_id, preference_collection
-                )
+                update_data({edition: update_pref}, user_id, preference_collection)
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     elif action == "dislike" and user_id is not None:
@@ -241,9 +260,7 @@ async def update_user_votes(
             update_pref = list(set(current_pref - [submission_id]))
             user_preference.update({edition: update_pref})
             try:
-                update_data(
-                    {edition: update_pref}, user_id, preference_collection
-                )
+                update_data({edition: update_pref}, user_id, preference_collection)
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     else:
