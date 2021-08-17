@@ -140,6 +140,9 @@ const Menus = ({ items, hidden }) => {
   const [menuHeight, setMenuHeight] = useState(null);
   const navListRef = useRef(null);
 
+  // TODO: use actual theme here!
+  const [theme, setTheme] = useState('light');
+
   useEffect(() => {
     setMenuHeight(navListRef.current.scrollHeight);
     const timeoutRef = setTimeout(() => {
@@ -153,6 +156,8 @@ const Menus = ({ items, hidden }) => {
     return null;
   }
 
+  console.log('items', items);
+
   return (
     <NavList
       hidden={hidden}
@@ -161,6 +166,12 @@ const Menus = ({ items, hidden }) => {
       hideDuration={hideDuration}
       ref={navListRef}
     >
+      <NavItem key="theme-switch">
+        <StyledFontIconButton
+          icon={theme === 'light' ? "moon" : "sun"}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        />
+      </NavItem>
       {
         items.map((item) => (
           <NavItem key={item.text || `now-loading-${Math.random()}`}>
