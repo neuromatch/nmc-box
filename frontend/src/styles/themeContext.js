@@ -1,6 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
+import {
+  ThemeProvider as StyledComponentsThemeProvider,
+  ThemeContext as StyledComponentsThemeContext,
+} from 'styled-components';
 import colors from './colors';
 
 // -- CONSTANTS
@@ -41,16 +44,22 @@ const ThemeProvider = ({ children }) => {
       </StyledComponentsThemeProvider>
     </ThemeContext.Provider>
   )
-}
+};
 
 const useThemeContext = () => {
-  const themeState = React.useContext(ThemeContext)
+  const themeState = React.useContext(ThemeContext);
+  const themeObject = React.useContext(StyledComponentsThemeContext);
 
   if (typeof themeState === 'undefined') {
     throw new Error('useThemeContext must be used within a ThemeProvider')
   }
 
-  return themeState
-}
+  // themeState -> { theme, setTheme }
+  // themeObject -> { colors }
+  return {
+    ...themeState,
+    themeObject,
+  };
+};
 
 export { ThemeProvider, useThemeContext }
