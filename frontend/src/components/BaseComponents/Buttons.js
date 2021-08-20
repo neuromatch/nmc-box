@@ -1,38 +1,32 @@
-import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import useComponentVisible from '../../hooks/useComponentVisible';
+import { basedStyles } from '../../styles';
+import { color } from '../../utils';
 import Fa from '../../utils/fontawesome';
-import { media } from '../../styles';
 
 // -- declare base styles
 const commonButtonStyle = css`
-  padding: 3px 12px;
-
-  border: 1px solid ${(props) => props.color};
-  border-radius: 5px;
-
-  color: ${(props) => props.color};
+  cursor: pointer;
+  color: ${p => p.color || p.theme.colors.secondary};
   background-color: transparent;
 
-  cursor: pointer;
+  border: 1px solid ${p => p.color || color.scale(p.theme.colors.secondary, 15)};
+  border-radius: 5px;
 
-  &:hover {
-    opacity: 0.9;
-    /* color: ${(p) => p.hoverColor};
-    background-color: ${(p) => p.hoverBgColor}; */
-  }
+  /* handle space in case of multiple buttons in the same parent */
+  /* margin: auto 4px; */
+  padding: 3px 12px;
 
   &:disabled {
-    color: #bbb;
-    border-color: #bbb;
+    color: ${p => p.theme.colors.disabled};
+    border-color: ${p => p.theme.colors.disabled};
     background-color: transparent;
     cursor: default;
 
     &:hover {
       opacity: 1;
-      color: #bbb;
+      color: ${p => p.theme.colors.disabled};
       background-color: transparent;
     }
   }
@@ -41,21 +35,7 @@ const commonButtonStyle = css`
     outline: none;
   }
 
-  &:active {
-    outline: none;
-    opacity: 0.5;
-
-    /* border-color: ${(p) => p.activeBgColor};
-
-    color: ${(p) => p.hoverBgColor};
-    background-color: ${(p) => p.activeBgColor}; */
-  }
-
-  /* --
-  * handle space in case of multiple buttons
-  * in the same parent
-  -- */
-  margin: 4px;
+  ${basedStyles.interxEffect}
 `;
 
 const toggledButtonColor = css`
@@ -139,17 +119,11 @@ const LineButton = styled.button.attrs(() => ({
 
 LineButton.propTypes = {
   color: PropTypes.string,
-  hoverColor: PropTypes.string,
-  hoverBgColor: PropTypes.string,
-  activeBgColor: PropTypes.string,
   noBorder: PropTypes.bool,
 };
 
 LineButton.defaultProps = {
-  color: '#eee',
-  hoverColor: '#333',
-  hoverBgColor: '#fff',
-  activeBgColor: 'rgba(256,256,256,0.2)',
+  color: null,
   noBorder: false,
 };
 
@@ -236,193 +210,6 @@ FormButton.defaultProps = {
   hoverBgColor: '#444',
 };
 
-// -- dropdown -> this extends LineButton
-const DropdownWrapper = styled.div`
-  position: relative;
-
-  button {
-    padding-right: 8px;
-  }
-`;
-
-const DropdownItemsContainer = styled.ul`
-  /* reset */
-  margin: 0;
-  padding: 0;
-
-  position: absolute;
-  top: 2.25rem;
-  right: 0;
-
-  list-style-type: none;
-  background-color: #fff;
-
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  overflow: hidden;
-
-  /* on navbar it is overlayed by other buttons */
-  z-index: 1;
-
-  /* center the dropdown box on mobile */
-  ${media.medium`
-    width: 150px;
-    left: 50%;
-    margin-left: -75px;
-  `}
-`;
-
-const DropdownItem = styled.li`
-  /* reset */
-  margin: 0 !important;
-  padding: 0 12px;
-  height: 45px;
-
-  white-space: nowrap;
-
-  text-align: center;
-  /* width: 150px; */
-  /* margin: 0; */
-
-  display: flex;
-
-  /* it is out of center in responsive */
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background-color: #eee;
-    cursor: pointer;
-
-    button, a {
-      color: #419eda;
-    }
-  }
-
-  &:active {
-    background-color: #ddd;
-  }
-
-  button, a {
-    /* reset */
-    margin: 0 !important;
-    padding: 0;
-
-    padding: 7px 20px;
-
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    color: #444;
-
-    /* for clicking */
-    flex: 1;
-
-    &:hover, &:focus, &:active {
-      outline: none;
-    }
-  }
-
-  /*
-    On mobile, there is no actual :hover. The hover effect will show
-    only after the user actually click, so just about the same as :active.
-  */
-  ${media.medium`
-    padding: 0;
-  `}
-`;
-
-/**
- * @typedef DropdownContent
- * @property {string} text
- * @property {function|string} onClick - string is binded with <Link>,
- * function is binded with <button>
- *
- * DropdownButton
- * @param {Object} props
- * @param {import('react').ReactChild} props.children
- * @param {DropdownContent[]} props.dropdownContent
- */
-const DropdownButton = ({
-  children, dropdownContent, buttonColorProps, itemsContainerStyles, noButtonBorder,
-}) => {
-  const { ref: visibleRef, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
-
-  return (
-    <DropdownWrapper ref={visibleRef}>
-      <LineButton
-        onClick={() => setIsComponentVisible(!isComponentVisible)}
-        noBorder={noButtonBorder}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...buttonColorProps}
-      >
-        {children}
-        &nbsp;
-        {
-          isComponentVisible
-            ? <Fa icon="caret-up" />
-            : <Fa icon="caret-down" />
-        }
-      </LineButton>
-      {
-        isComponentVisible
-          ? (
-            <DropdownItemsContainer css={itemsContainerStyles}>
-              {
-                dropdownContent.map((item) => (
-                  typeof item.onClick === 'string'
-                    ? (
-                      <DropdownItem key={item.text}>
-                        <Link to={item.onClick}>
-                          {item.text}
-                        </Link>
-                      </DropdownItem>
-                    )
-                    : typeof item.onClick === 'function'
-                      ? (
-                        <DropdownItem key={item.text}>
-                          <button onClick={item.onClick} type="button">
-                            {item.text}
-                          </button>
-                        </DropdownItem>
-                      )
-                      : null
-                ))
-              }
-            </DropdownItemsContainer>
-          )
-          : null
-      }
-    </DropdownWrapper>
-  );
-};
-
-DropdownButton.propTypes = {
-  children: PropTypes.string,
-  dropdownContent: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    onClick: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  })).isRequired,
-  buttonColorProps: PropTypes.shape({
-    color: PropTypes.string,
-    hoverColor: PropTypes.string,
-    hoverBgColor: PropTypes.string,
-  }),
-  itemsContainerStyles: PropTypes.arrayOf(PropTypes.string),
-  noButtonBorder: PropTypes.bool,
-};
-
-DropdownButton.defaultProps = {
-  children: 'ok',
-  buttonColorProps: {},
-  itemsContainerStyles: undefined,
-  noButtonBorder: false,
-};
-
 export {
   LineButton,
   ToggleLineButton,
@@ -430,5 +217,4 @@ export {
   FontIconButton,
   FormButton,
   ButtonsContainer,
-  DropdownButton,
 };

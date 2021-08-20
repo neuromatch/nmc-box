@@ -21,7 +21,7 @@ const colors = {
   dark: {
     primary: 'rgba(34,34,34,1)',
     secondary: 'rgba(238,238,238,1)',
-    accent: 'rgba(91,184,244,1))',
+    accent: 'rgba(91,184,244,1)',
     disabled: 'rgba(187,187,187,1)',
     succeed: 'rgba(98,255,98,1)',
     danger: 'rgba(255,101,101,1)',

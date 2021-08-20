@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
-import { media } from '../../styles';
-import { Fa } from '../../utils';
-import { DropdownButton, FontIconButton, LineButton } from '../BaseComponents/Buttons';
+import { basedStyles, media } from '../../../styles';
 import { Link } from 'gatsby';
+import { useThemeContext, themes } from '../../../styles/themeContext';
+import DropdownButton from './DropdownButton';
+import { Fa } from '../../../utils';
+import LoginButton from './LoginButton';
 
 // variables
 const navHeight = 60;
@@ -38,9 +40,6 @@ const NavList = styled.ul`
     justify-content: flex-end;
   `}
   ${media.medium`
-    /* need to hide this only in responsive rendering */
-    /* TODO: still doesn't work as expect */
-    /* if set hidden, the dropdown wont work */
     ${(props) => props.hidden && css`
       overflow: hidden;
     `}
@@ -52,18 +51,6 @@ const NavList = styled.ul`
 
     & > li {
       height: ${navHeight - 10}px;
-    }
-
-    li:last-child {
-      margin-bottom: 5px;
-    }
-
-    li a {
-      justify-content: flex-start;
-    }
-
-    & > :not(:last-child):active {
-      background-color: #333;
     }
 
     ${(props) => (props.hidden
@@ -96,42 +83,41 @@ const NavItem = styled.li`
   `}
 `;
 
-const StyledLink = styled(Link)`
-  color: #eee;
-  height: 100%;
+const NavLinkButton = styled(Link)`
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
 
+  color: ${p => p.theme.colors.secondary};
+  border: none;
+  height: 100%;
+
+  /* -- used as button -- */
+  /* reset in case using user agent stylesheet */
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+
   &:hover {
-    color: #eee;
-    opacity: 0.9;
+    color: ${p => p.theme.colors.secondary};
     text-decoration: none;
   }
 
-  margin: 4px;
+  ${basedStyles.interxEffect}
 `;
 
-const StyledFontIconButton = styled(FontIconButton)`
+const ChangeThemeButton = styled.button.attrs(() => ({
+  type: 'button',
+}))`
   cursor: pointer;
-  color: #eee;
+  outline: none;
+  border: none;
+
+  color: ${p => p.theme.colors.secondary};
   background-color: transparent;
 
-  margin: 4px;
-
-  :hover {
-    opacity: 0.9;
-    background-color: transparent;
-    color: #eee;
-  }
-
-  :active {
-    opacity: 0.5;
-    background-color: transparent;
-    border-color: transparent;
-    color: #eee;
-  }
+  ${basedStyles.interxEffect}
 `;
 
 const Menus = ({ items, hidden }) => {
@@ -140,9 +126,9 @@ const Menus = ({ items, hidden }) => {
   const [menuHeight, setMenuHeight] = useState(null);
   const navListRef = useRef(null);
 
-  // TODO: use actual theme here!
-  const [theme, setTheme] = useState('light');
+  const { theme, setTheme } = useThemeContext();
 
+  // TODO: revise logic here
   useEffect(() => {
     setMenuHeight(navListRef.current.scrollHeight);
     const timeoutRef = setTimeout(() => {
@@ -156,8 +142,6 @@ const Menus = ({ items, hidden }) => {
     return null;
   }
 
-  console.log('items', items);
-
   return (
     <NavList
       hidden={hidden}
@@ -167,10 +151,11 @@ const Menus = ({ items, hidden }) => {
       ref={navListRef}
     >
       <NavItem key="theme-switch">
-        <StyledFontIconButton
-          icon={theme === 'light' ? "moon" : "sun"}
-          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-        />
+        <ChangeThemeButton
+          onClick={() => setTheme(theme === themes.light ? themes.dark : themes.light)}
+        >
+          <Fa icon={theme === themes.light ? "moon" : "sun"} />
+        </ChangeThemeButton>
       </NavItem>
       {
         items.map((item) => (
@@ -186,14 +171,19 @@ const Menus = ({ items, hidden }) => {
               )
               : (typeof(item.onClick) === 'function')
                 ? (
-                  <LineButton noBorder onClick={item.onClick}>
+                  <NavLinkButton
+                    type="button"
+                    as="button"
+                    onClick={item.onClick}
+                  >
                     {item.text}
-                  </LineButton>
+                  </NavLinkButton>
                 )
-                : <StyledLink to={item.onClick}>{item.text}</StyledLink> }
+                : <NavLinkButton to={item.onClick}>{item.text}</NavLinkButton> }
           </NavItem>
         ))
       }
+      <LoginButton />
     </NavList>
   );
 };
@@ -201,10 +191,10 @@ const Menus = ({ items, hidden }) => {
 Menus.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    onClick: PropTypes.string,
+    onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     dropdown: PropTypes.arrayOf(PropTypes.shape({
       text: PropTypes.string.isRequired,
-      onClick: PropTypes.string,
+      onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     })),
   })),
   hidden: PropTypes.bool,

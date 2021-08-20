@@ -2,26 +2,23 @@ import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Burger from '../BaseComponents/BurgerMenu';
+import Burger from './components/BurgerMenu';
 import { NavContainer } from '../BaseComponents/container';
-import Menus from './Menus';
+import Menus from './components/Menus';
 import { media } from '../../styles';
+import { useThemeContext } from '../../styles/themeContext';
+// import LogoAsText from './components/LogoAsText';
 
-// get logo image using require
-// const logo = require('../../images/bluenex-avatar.jpg');
+// place logo in static folder
 const logo = {
-  path: '/svgs/logos/neuromatch-conference.svg',
-  text: 'neuromatch conference logo',
-};
-
-const academyLogo = {
-  path: '/svgs/logos/neuromatch-academy.svg',
-  text: 'neuromatch academy logo',
-};
-
-const indexLogo = {
-  path: '/svgs/logos/Logo_full_Wh.svg',
-  text: 'neuromatch logo',
+  dark: {
+    path: '/svgs/logos/neuromatch-conference.svg',
+    text: 'neuromatch conference logo',
+  },
+  light: {
+    path: '/svgs/logos/neuromatch-conference-light.svg',
+    text: 'neuromatch conference logo',
+  },
 };
 
 // variables
@@ -29,7 +26,7 @@ const navHeight = 60;
 
 // navbar component
 const Navbar = styled.nav`
-  background-color: #222;
+  background-color: ${p => p.theme.colors.primary};
   min-height: ${navHeight}px;
   position: fixed;
   top: 0;
@@ -56,44 +53,30 @@ const LogoWrapper = styled(Link)`
 
 const StyledImg = styled.img`
   margin: 0;
-  /* this fix image color by multiplying color of image through bg */
-  /* mix-blend-mode: multiply; */
+
   /* grow to fit its wrapper */
   height: 100%;
 `;
 
-// const StyledLink = styled(Link)`
-//   &:hover {
-//     text-decoration: none;
-//   }
-// `;
-
-// const TitleText = styled.h2`
-//   color: #eee;
-//   margin: 0;
-//   padding: 0;
-//   height: ${navHeight}px;
-//   line-height: ${navHeight}px;
-
-//   &:hover {
-//     color: #ccc;
-//   }
-// `;
-
 const NavbarComponent = ({ menuItems }) => {
   const [hideMenu, setHideMenu] = useState(true);
+  const { theme } = useThemeContext();
+
+  console.log(theme);
 
   return (
     <>
       <Navbar>
         <NavContainer>
-          {/* <StyledLink to="/">
-            <TitleText>
-              neuromatch
-            </TitleText>
-          </StyledLink> */}
-          <LogoWrapper to="/conference">
-            <StyledImg src={logo.path} alt={logo.text} />
+          {/* top-left logo can be a text too */}
+          {/* <LogoAsText>
+            neuromatch
+          </LogoAsText> */}
+          <LogoWrapper to="/">
+            <StyledImg
+              src={logo[theme.toLowerCase()].path}
+              alt={logo[theme.toLowerCase()].text}
+            />
           </LogoWrapper>
           <Burger handlePress={() => setHideMenu(!hideMenu)} />
           <Menus
@@ -115,75 +98,4 @@ NavbarComponent.defaultProps = {
   menuItems: null,
 };
 
-const AcademyNavbar = ({ children }) => {
-  const [hideMenu, setHideMenu] = useState(true);
-
-  return (
-    <>
-      <Navbar>
-        <NavContainer>
-          {/* <StyledLink to="/">
-            <TitleText>
-              neuromatch
-            </TitleText>
-          </StyledLink> */}
-          <LogoWrapper to="/academy/">
-            <StyledImg src={academyLogo.path} alt={academyLogo.text} />
-          </LogoWrapper>
-          <Burger handlePress={() => setHideMenu(!hideMenu)} />
-          <Menus
-            hidden={hideMenu}
-            items={children}
-          />
-        </NavContainer>
-      </Navbar>
-      <NavPadder />
-    </>
-  );
-};
-
-AcademyNavbar.propTypes = {
-  children: PropTypes.node,
-};
-
-AcademyNavbar.defaultProps = {
-  children: null,
-};
-
-const IndexNavbar = ({ children }) => {
-  const [hideMenu, setHideMenu] = useState(true);
-
-  return (
-    <>
-      <Navbar>
-        <NavContainer>
-          {/* <StyledLink to="/">
-            <TitleText>
-              neuromatch
-            </TitleText>
-          </StyledLink> */}
-          <LogoWrapper to="/">
-            <StyledImg src={indexLogo.path} alt={indexLogo.text} />
-          </LogoWrapper>
-          <Burger handlePress={() => setHideMenu(!hideMenu)} />
-          <Menus
-            hidden={hideMenu}
-            items={children}
-          />
-        </NavContainer>
-      </Navbar>
-      <NavPadder />
-    </>
-  );
-};
-
-IndexNavbar.propTypes = {
-  children: PropTypes.node,
-};
-
-IndexNavbar.defaultProps = {
-  children: null,
-};
-
 export default NavbarComponent;
-export { AcademyNavbar, IndexNavbar };

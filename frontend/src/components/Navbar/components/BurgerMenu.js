@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { media } from '../../styles';
+import { media } from '../../../styles';
 
 export const StyledBurger = styled.button`
   /* position: absolute; */
@@ -26,7 +26,7 @@ export const StyledBurger = styled.button`
   div {
     width: 1.5rem;
     height: 0.2rem;
-    background: #eee;
+    background: ${p => p.theme.colors.secondary};
     border-radius: 15px;
     transition: all 0.3s linear;
     position: relative;
