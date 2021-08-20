@@ -1,15 +1,10 @@
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import useFirebaseWrapper from '../../../hooks/useFirebaseWrapper';
 import { confirmPromise } from '../../../utils';
 import { LineButton } from '../../BaseComponents/Buttons';
 import LoginModal from '../../LoginModal';
 import DropdownButton from './DropdownButton';
-
-const Container = styled.div`
-  margin-left: 12px;
-`;
 
 const LoginButton = () => {
   const {
@@ -21,7 +16,7 @@ const LoginButton = () => {
   const [loginModalVisible, setLoginModalVisible] = useState(false);
 
   return (
-    <Container>
+    <>
       <LoginModal
         modalVisible={loginModalVisible}
         hideModal={() => setLoginModalVisible(false)}
@@ -80,7 +75,7 @@ const LoginButton = () => {
             </DropdownButton>
           )
       : null}
-    </Container>
+    </>
   )
 };
 

@@ -128,7 +128,6 @@ const Menus = ({ items, hidden }) => {
 
   const { theme, setTheme } = useThemeContext();
 
-  // TODO: revise logic here
   useEffect(() => {
     setMenuHeight(navListRef.current.scrollHeight);
     const timeoutRef = setTimeout(() => {
@@ -183,7 +182,9 @@ const Menus = ({ items, hidden }) => {
           </NavItem>
         ))
       }
-      <LoginButton />
+      <NavItem>
+        <LoginButton />
+      </NavItem>
     </NavList>
   );
 };
