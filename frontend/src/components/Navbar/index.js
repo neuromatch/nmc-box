@@ -11,14 +11,9 @@ import { useThemeContext } from '../../styles/themeContext';
 
 // place logo in static folder
 const logo = {
-  dark: {
-    path: '/svgs/logos/neuromatch-conference.svg',
-    text: 'neuromatch conference logo',
-  },
-  light: {
-    path: '/svgs/logos/neuromatch-conference-light.svg',
-    text: 'neuromatch conference logo',
-  },
+  dark: '/svgs/logos/neuromatch-conference.svg',
+  light: '/svgs/logos/neuromatch-conference-light.svg',
+  text: 'neuromatch conference logo',
 };
 
 // variables
@@ -62,8 +57,6 @@ const NavbarComponent = ({ menuItems }) => {
   const [hideMenu, setHideMenu] = useState(true);
   const { theme } = useThemeContext();
 
-  console.log(theme);
-
   return (
     <>
       <Navbar>
@@ -74,8 +67,8 @@ const NavbarComponent = ({ menuItems }) => {
           </LogoAsText> */}
           <LogoWrapper to="/">
             <StyledImg
-              src={logo[theme.toLowerCase()].path}
-              alt={logo[theme.toLowerCase()].text}
+              src={logo[theme.toLowerCase()]}
+              alt={logo.text}
             />
           </LogoWrapper>
           <Burger handlePress={() => setHideMenu(!hideMenu)} />

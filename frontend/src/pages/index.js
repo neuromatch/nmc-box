@@ -1,17 +1,17 @@
 // import { navigate } from 'gatsby';
-import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { ReactSVG } from 'react-svg';
-import styled, { createGlobalStyle, css } from 'styled-components';
-// import { LineButton } from '../components/BaseComponents/Buttons';
+import styled, { css } from 'styled-components';
 import { Container } from '../components/BaseComponents/container';
 import Layout from '../components/layout';
-// import useAcademyMetadata from '../hooks/gql/useAcademyMetadata';
-import useSiteMetadata from '../hooks/gql/useSiteMetadata';
 import useProgramCommitteesData from '../hooks/gql/useProgramCommitteesData';
+import useSiteMetadata from '../hooks/gql/useSiteMetadata';
+import { growOverParentPadding, media } from '../styles';
+import { useThemeContext } from '../styles/themeContext';
+import { color } from '../utils';
 import Fa from '../utils/fontawesome';
-import { media, growOverParentPadding } from '../styles';
 
 // -- CONSTANTS
 const goals = [
@@ -31,48 +31,55 @@ const goals = [
 
 const sponsors = [
   {
-    require: require('../../static/upenn-official-logo-for-dark.png'),
+    dark: require('../../static/logos/sponsors/dark/upenn-official-logo.png'),
+    light: require('../../static/logos/sponsors/light/upenn-official-logo.png'),
     text: 'University of Pennsylvania',
   },
   {
-    require: require('../../static/imperial-official-logo-for-dark.png'),
+    dark: require('../../static/logos/sponsors/dark/imperial-official-logo.png'),
+    light: require('../../static/logos/sponsors/light/imperial-official-logo.png'),
     text: 'Imperial College London',
   },
   {
-    require: require('../../static/penn-state-logo.png'),
+    dark: require('../../static/logos/sponsors/dark/penn-state-logo.png'),
+    light: require('../../static/logos/sponsors/light/penn-state-logo.png'),
     text: 'Penn State University',
   },
   {
-    require: require('../../static/georgia-tech-logo.png'),
+    dark: require('../../static/logos/sponsors/dark/georgia-tech-logo.png'),
+    light: require('../../static/logos/sponsors/light/georgia-tech-logo.png'),
     text: 'Georgia Tech Institute of Technology',
   },
   {
-    require: require('../../static/ist-austria-logo.png'),
+    dark: require('../../static/logos/sponsors/dark/ist-austria-logo.png'),
+    light: require('../../static/logos/sponsors/light/ist-austria-logo.png'),
     text: 'IST Austria',
   },
   {
-    require: require('../../static/imbb-forth-logo.jpg'),
+    dark: require('../../static/logos/sponsors/dark/imbb-forth-logo.png'),
+    light: require('../../static/logos/sponsors/light/imbb-forth-logo.png'),
     text: 'IMBB Forth',
   },
   {
-    require: require('../../static/uc-irvine-logo.png'),
+    dark: require('../../static/logos/sponsors/dark/uc-irvine-logo.png'),
+    light: require('../../static/logos/sponsors/light/uc-irvine-logo.png'),
     text: 'UC Irvine',
   },
 ];
 
 // -- COMPONENTS
-const DarkBackgroundStyle = createGlobalStyle`
-  body {
-    background-color: #222;
-  }
-`;
+// const DarkBackgroundStyle = createGlobalStyle`
+//   body {
+//     background-color: #222;
+//   }
+// `;
 
 const HeaderBlock = styled.div`
   padding-bottom: 20px;
 `;
 
 const TitleHeading = styled.h1`
-  color: #eee;
+  color: ${p => p.theme.colors.secondary};
   font-size: 72px;
 
   /* scale according to screen width */
@@ -82,7 +89,7 @@ const TitleHeading = styled.h1`
 `;
 
 const SubtitleHeading = styled.h3`
-  color: #eaeaea;
+  color: ${p => p.theme.colors.secondary};
   font-weight: bold;
 
   ${(props) => props.notBold && css`
@@ -95,7 +102,7 @@ const TopicHeading = ({ children, hideTrailingDot }) => (
     css={`
       font-size: 1.05em;
       font-weight: bold;
-      color: #eaeaea;
+      color: ${p => p.theme.colors.secondary};
     `}
   >
     {children}
@@ -116,7 +123,7 @@ TopicHeading.defaultProps = {
 };
 
 const ContentText = styled.p`
-  color: #e0e0e0;
+  color: ${p => color.scale(p.theme.colors.secondary, p.theme.colors.factor * -5)};
 `;
 
 const EmphasizedText = styled.span`
@@ -124,12 +131,12 @@ const EmphasizedText = styled.span`
 `;
 
 const SepLine = styled.hr`
-  background-color: white;
+  background-color: ${p => p.theme.colors.secondary};
 `;
 
 const GoalBlock = styled.div`
   text-align: center;
-  background-color: #333;
+  background-color: ${p => color.scale(p.theme.colors.primary, p.theme.colors.factor * 3.5)};
 
   /* grow full width */
   ${growOverParentPadding(100)}
@@ -159,23 +166,25 @@ const StyledSVG = styled(ReactSVG)`
   margin: 0 auto 10px;
   height: 200px;
   width: 200px;
-  fill: #eee;
+  fill: ${p => p.theme.colors.secondary};
 `;
 
-const renderGoal = ({ svg, text }) => (
-  <EachGoal key={svg}>
-    <StyledSVG src={svg} />
-    <ContentText>{text}</ContentText>
+const GoalLogo = ({ item }) => (
+  <EachGoal>
+    <StyledSVG src={item.svg} />
+    <ContentText>{item.text}</ContentText>
   </EachGoal>
 );
 
-renderGoal.propTypes = {
-  svg: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+GoalLogo.propTypes = {
+  item: PropTypes.shape({
+    svg: PropTypes.string,
+    text: PropTypes.string,
+  }).isRequired,
 };
 
 const SponsorBlock = styled(GoalBlock)`
-  background-color: #333;
+  background-color: ${p => color.scale(p.theme.colors.primary, p.theme.colors.factor * 3.5)};
 `;
 
 const SponsorsArray = styled(GoalsArray)`
@@ -204,15 +213,22 @@ const StyledImg = styled.img`
   max-height: 100px;
 `;
 
-// eslint-disable-next-line react/prop-types
-const renderSponsor = ({ require, text }) => (
-  <EachSponsor key={text}>
-    <StyledImg src={require} />
-  </EachSponsor>
-);
+const SponsorLogo = ({ item }) => {
+  const { theme } = useThemeContext();
 
-renderSponsor.propTypes = {
-  text: PropTypes.string.isRequired,
+  return (
+    <EachSponsor>
+      <StyledImg src={item[theme.toLowerCase()]} />
+    </EachSponsor>
+  );
+};
+
+SponsorLogo.propTypes = {
+  item: PropTypes.shape({
+    dark: PropTypes.node,
+    light: PropTypes.node,
+    text: PropTypes.string,
+  }).isRequired,
 };
 
 // program committees
@@ -229,7 +245,7 @@ const OuterList = styled.ul`
 const InnerList = styled.ul`
   margin-bottom: 10px;
   margin-top: 10px;
-  color: white;
+  color: ${p => p.theme.colors.secondary};
 `;
 
 const CommitteeItem = styled.li`
@@ -294,7 +310,7 @@ export default () => {
 
   return (
     <Layout>
-      <DarkBackgroundStyle />
+      {/* <DarkBackgroundStyle /> */}
       <HeaderBlock>
         <TitleHeading>{title}</TitleHeading>
         <SubtitleHeading notBold>
@@ -358,50 +374,20 @@ export default () => {
         <SepLine />
         <SubtitleHeading>Program Committees</SubtitleHeading>
         <CommitteesBlock data={committteesData} />
-        <SepLine />
-        <SubtitleHeading>Neuromatch Career</SubtitleHeading>
-        <ContentText>
-          In this conference, we also provide a virtual job board
-          for job posters and job seekers. Please see navigation
-          bar above to post your job, find your job, or view
-          conference job board.
-        </ContentText>
-        <ContentText>
-          <TopicHeading>Job Board</TopicHeading>
-          Please check out job board
-          {' '}
-          <Link to="/jobs/job-board">
-            here
-          </Link>
-          <br />
-          <TopicHeading>Job Poster</TopicHeading>
-          Please post your job
-          {' '}
-          <Link to="/jobs/job-poster">
-            here
-          </Link>
-          <br />
-          <TopicHeading>Job Seeker</TopicHeading>
-          Please register
-          {' '}
-          <Link to="/jobs/job-seeker">
-            here
-          </Link>
-          {' '}
-          if you are looking for jobs
-        </ContentText>
       </HeaderBlock>
       <GoalBlock>
         <Container padBottom>
           <SubtitleHeading>Our goals</SubtitleHeading>
-          <GoalsArray>{goals.map((goal) => renderGoal(goal))}</GoalsArray>
+          <GoalsArray>
+            {goals.map((goal) => <GoalLogo key={goal.text} item={goal} />)}
+          </GoalsArray>
         </Container>
       </GoalBlock>
       <SponsorBlock>
         <Container padBottom>
           <SubtitleHeading>Organizers and Sponsors</SubtitleHeading>
           <SponsorsArray>
-            {sponsors.map((spon) => renderSponsor(spon))}
+            {sponsors.map((spon) => <SponsorLogo key={spon.text} item={spon} />)}
           </SponsorsArray>
         </Container>
       </SponsorBlock>

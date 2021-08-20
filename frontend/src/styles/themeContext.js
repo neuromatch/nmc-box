@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import {
   ThemeProvider as StyledComponentsThemeProvider,
   ThemeContext as StyledComponentsThemeContext,
+  createGlobalStyle,
 } from 'styled-components';
 import colors from './colors';
 
@@ -25,6 +26,13 @@ const ThemeProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies([themeCookieKey]);
   const [theme, setTheme] = useState(cookies[themeCookieKey] || defaultTheme)
 
+  const GlobalStyles = createGlobalStyle`
+    body {
+      color: ${p => p.theme.colors.primary};
+      background-color: ${p => p.theme.colors.primary};
+    }
+  `;
+
   // update cookies on theme change
   useEffect(() => {
     setCookie(themeCookieKey, theme);
@@ -40,6 +48,7 @@ const ThemeProvider = ({ children }) => {
           colors: colors[theme.toLowerCase()],
         }}
       >
+        <GlobalStyles />
         {children}
       </StyledComponentsThemeProvider>
     </ThemeContext.Provider>

@@ -17,6 +17,7 @@ const colors = {
     danger: 'rgba(226,63,63,1)',
     info: 'rgba(116,209,255,1)',
     warning: 'rgba(255,165,0,1)',
+    factor: -1,
   },
   dark: {
     primary: 'rgba(34,34,34,1)',
@@ -27,6 +28,7 @@ const colors = {
     danger: 'rgba(255,101,101,1)',
     info: 'rgba(154,247,255,1)',
     warning: 'rgba(255,203,38,1)',
+    factor: 1,
   },
 };
 
