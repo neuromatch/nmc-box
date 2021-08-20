@@ -3,6 +3,8 @@ import HashLoader from 'react-spinners/HashLoader';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { media } from '../../styles';
+import { useThemeContext } from '../../styles/themeContext';
+import { color } from '../../utils';
 
 const Container = styled.div`
   flex: 1;
@@ -12,6 +14,8 @@ const Container = styled.div`
   align-items: center;
   height: 100%;
 
+  background-color: ${p => p.theme.colors.primary};
+
   ${(p) => !p.growInFlex && css`
     min-height: 100vh;
   `}
@@ -20,7 +24,7 @@ const Container = styled.div`
 const Message = styled.p`
   margin: 0;
   display: block;
-  color: #666;
+  color: ${p => p.theme.colors.secondary};
   font-size: 24px;
   margin-top: 30px;
   text-align: center;
@@ -31,20 +35,27 @@ const Message = styled.p`
   `}
 `;
 
-const LoadingView = ({ message, growInFlex }) => (
-  <Container growInFlex={growInFlex}>
-    <HashLoader size={75} />
-    {
-      message
-        ? (
-          <Message>
-            { message }
-          </Message>
-        )
-        : null
-    }
-  </Container>
-);
+const LoadingView = ({ message, growInFlex }) => {
+  const { themeObject } = useThemeContext();
+
+  return (
+    <Container growInFlex={growInFlex}>
+      <HashLoader
+        color={color.format(themeObject.colors.accent, color.hexFormatter)}
+        size={75}
+      />
+      {
+        message
+          ? (
+            <Message>
+              { message }
+            </Message>
+          )
+          : null
+      }
+    </Container>
+  );
+};
 
 LoadingView.propTypes = {
   message: PropTypes.string,
