@@ -5,6 +5,7 @@ import {
   ThemeContext as StyledComponentsThemeContext,
   createGlobalStyle,
 } from 'styled-components';
+import { color } from '../utils';
 import colors from './colors';
 
 // -- CONSTANTS
@@ -28,8 +29,33 @@ const ThemeProvider = ({ children }) => {
 
   const GlobalStyles = createGlobalStyle`
     body {
-      color: ${p => p.theme.colors.primary};
       background-color: ${p => p.theme.colors.primary};
+
+      * {
+        color: ${p => p.theme.colors.secondary};
+      }
+
+      hr {
+        background-color: ${p => p.theme.colors.secondary};
+      }
+
+      a {
+        color: ${p => p.theme.colors.accent};
+      }
+
+      b, em, code {
+        /* slightly brighter */
+        color: ${p => color.scale(p.theme.colors.secondary, p.theme.colors.factor * 7)};
+      }
+
+      em {
+        text-decoration: underline;
+      }
+
+      p {
+        /* slightly dimmer */
+        color: ${p => color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
+      }
     }
   `;
 

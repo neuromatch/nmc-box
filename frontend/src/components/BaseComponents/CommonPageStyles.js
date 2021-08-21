@@ -1,43 +1,35 @@
 // import React from 'react';
 import styled from 'styled-components';
 
+// TODO: delete this file but first need to remove the component from all the files refer to it
 const CommonPageStyles = styled.div`
-  margin-bottom: 2.5em;
+  /* margin-bottom: 2.5em; */
 
-  code {
-    font-size: 1em;
-    color: #000;
-  }
-
-  h2,
+  /* h2,
   h3,
   h4 {
     font-weight: bold;
-  }
+  } */
 
-  h3 {
+  /* h3 {
     font-size: 1.25em;
-  }
+  } */
 
-  h4 {
+  /* h4 {
     font-size: 1.05em;
     margin-bottom: 1em;
-  }
+  } */
 
-  li {
+  /* li {
     h3,
     ul {
       margin-bottom: 0.5em;
     }
-  }
+  } */
 
-  hr {
-    background-color: #333;
-  }
-
-  .bold {
+  /* .bold {
     font-weight: bold;
-  }
+  } */
 `;
 
 export default CommonPageStyles;

@@ -79,7 +79,7 @@ const HeaderBlock = styled.div`
 `;
 
 const TitleHeading = styled.h1`
-  color: ${p => p.theme.colors.secondary};
+  /* color: ${p => p.theme.colors.secondary}; */
   font-size: 72px;
 
   /* scale according to screen width */
@@ -89,7 +89,7 @@ const TitleHeading = styled.h1`
 `;
 
 const SubtitleHeading = styled.h3`
-  color: ${p => p.theme.colors.secondary};
+  /* color: ${p => p.theme.colors.secondary}; */
   font-weight: bold;
 
   ${(props) => props.notBold && css`
@@ -102,7 +102,7 @@ const TopicHeading = ({ children, hideTrailingDot }) => (
     css={`
       font-size: 1.05em;
       font-weight: bold;
-      color: ${p => p.theme.colors.secondary};
+      /* color: ${p => p.theme.colors.secondary}; */
     `}
   >
     {children}
@@ -123,16 +123,16 @@ TopicHeading.defaultProps = {
 };
 
 const ContentText = styled.p`
-  color: ${p => color.scale(p.theme.colors.secondary, p.theme.colors.factor * -5)};
+  /* color: ${p => color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)}; */
 `;
 
 const EmphasizedText = styled.span`
   font-style: italic;
 `;
 
-const SepLine = styled.hr`
-  background-color: ${p => p.theme.colors.secondary};
-`;
+// const SepLine = styled.hr`
+//   background-color: ${p => p.theme.colors.secondary};
+// `;
 
 const GoalBlock = styled.div`
   text-align: center;
@@ -245,7 +245,7 @@ const OuterList = styled.ul`
 const InnerList = styled.ul`
   margin-bottom: 10px;
   margin-top: 10px;
-  color: ${p => p.theme.colors.secondary};
+  /* color: ${p => p.theme.colors.secondary}; */
 `;
 
 const CommitteeItem = styled.li`
@@ -319,7 +319,7 @@ export default () => {
         <ContentText>
           {longDescription}
         </ContentText>
-        <SepLine />
+        <hr />
         <SubtitleHeading>Registration &amp; Submission</SubtitleHeading>
         <ContentText>
           <TopicHeading>Registration date</TopicHeading>
@@ -371,7 +371,7 @@ export default () => {
             {twitter.hashtag}
           </a>
         </ContentText>
-        <SepLine />
+        <hr />
         <SubtitleHeading>Program Committees</SubtitleHeading>
         <CommitteesBlock data={committteesData} />
       </HeaderBlock>
