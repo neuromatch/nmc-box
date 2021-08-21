@@ -103,11 +103,11 @@ export default () => {
           <h4>1. Preparation</h4>
           <ol type="a">
             <li>
-              If you signed up for mind-match, we will send your match
-              partners on <Link to="/your-matches">your matches page</Link> a
-              few days after the registration ends. You will get who your
-              partners are and suggestions on how to e-meet them before,
-              during, or after the main conference.
+              If you signed up for mind-match, we will send your match partners
+              on <Link to="/your-matches">your matches page</Link> a few days
+              after the registration ends. You will get who your partners are
+              and suggestions on how to e-meet them before, during, or after the
+              main conference.
             </li>
             <li>
               You can exchange emails with your match partners to organize a
@@ -138,42 +138,40 @@ export default () => {
         <section>
           <h4>3. During the meeting</h4>
           <p>
-            We recommend the following, but feel free to structure your
-            meeting however you like.
+            We recommend the following, but feel free to structure your meeting
+            however you like.
           </p>
           <ol type="a">
             <li>
-              Start by each of you talking for 1 - 2 minutes about your
-              general interests and approach.
+              Start by each of you talking for 1 - 2 minutes about your general
+              interests and approach.
             </li>
             <li>
               If you immediately see a point of connection, go for it and talk
               about that.
             </li>
             <li>
-              Feel free to use screen-sharing and your slides if you think
-              they help.
+              Feel free to use screen-sharing and your slides if you think they
+              help.
             </li>
             <li>
               If not, try each of you describing briefly one or two projects
-              that you think would be relevant or interesting to the other
-              one, and see if that sparks an interesting discussion.
+              that you think would be relevant or interesting to the other one,
+              and see if that sparks an interesting discussion.
             </li>
             <li>
               Keep in mind, the idea is to give yourselves the best chance of
-              finding an unexpected and useful connection, so think broadly
-              and try to get across a range of ideas until you find something
-              that gets you both excited that you can talk about in more
-              detail.
+              finding an unexpected and useful connection, so think broadly and
+              try to get across a range of ideas until you find something that
+              gets you both excited that you can talk about in more detail.
             </li>
             <li>
-              Please be kind and respectful during your meeting (see more on
-              our code of conduct page).
+              Please be kind and respectful during your meeting (see more on our
+              code of conduct page).
             </li>
             <li>
               Don’t worry if you don’t find something, our algorithms aren’t
-              perfect and you’re not being judged on how well you do - have
-              fun!
+              perfect and you’re not being judged on how well you do - have fun!
             </li>
           </ol>
         </section>
