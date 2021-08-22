@@ -184,9 +184,9 @@ SponsorLogo.propTypes = {
 
 // program committees
 const CommitteesBlock = ({ data }) => (
-  <>
+  <dl>
     {data.map(({ theme, committees }) => (
-      <dl key={theme}>
+      <React.Fragment key={theme}>
         <dt>{theme}</dt>
         <dd>
           {committees.map(({ fullname, institution }, ind) => (
@@ -197,9 +197,9 @@ const CommitteesBlock = ({ data }) => (
             </React.Fragment>
           ))}
         </dd>
-      </dl>
+      </React.Fragment>
     ))}
-  </>
+  </dl>
 )
 
 CommitteesBlock.propTypes = {
