@@ -1,20 +1,17 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
-import {
-  CircleMarker, Map, Popup, TileLayer,
-} from 'react-leaflet';
-import 'react-medium-image-zoom/dist/styles.css';
-import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
-import Layout from '../components/layout';
-import useStatsData from '../hooks/gql/useStatsData';
+import React from "react"
+import { CircleMarker, Map, Popup, TileLayer } from "react-leaflet"
+import "react-medium-image-zoom/dist/styles.css"
+import Layout from "../components/layout"
+import useStatsData from "../hooks/gql/useStatsData"
 
 export default () => {
-  const statsData = useStatsData();
+  const statsData = useStatsData()
 
   return (
     <Layout>
-      <CommonPageStyles>
-        <h2>About</h2>
+      <h2>About</h2>
+      <section>
         <p className="bold">
           Scientific conferences and meetings have an important role in
           research, but they also suffer from disadvantages that are barriers to
@@ -70,69 +67,69 @@ export default () => {
           Please take a look at abstract submission and key dates, registration,
           and agenda information. Come join us!
         </p>
+      </section>
+      <section>
         <h3>The team</h3>
         <p>
           <span className="bold">Organizers</span>
-          {' · '}
+          {" · "}
           Dan Goodman (Imperial), Konrad Kording (UPenn), Brad Wyble (Penn
           State), Titipat Achakulvisut (UPenn), Tim Vogels (Oxford), Chris
-          Rozell (Georgia Tech), Yiota Poirazi (IMBB/FORTH), Megan Peters
-          (UC Irvine)
+          Rozell (Georgia Tech), Yiota Poirazi (IMBB/FORTH), Megan Peters (UC
+          Irvine)
           <br />
           <span className="bold">Career</span>
-          {' · '}
+          {" · "}
           Brad Wyble (Penn State), Ida Momennejad (Columbia), Maria Reva (EPFL)
           <br />
           <span className="bold">Tech</span>
-          {' · '}
+          {" · "}
           Tulakan Ruangrong (Mahidol U), Titipat Achakulvisut (UPenn)
         </p>
+      </section>
+      <section>
         <h3>Previous offerings featured in articles and news outlets</h3>
         <p>You can read about neuromatch from following articles and news</p>
         <ul>
           <li>
-            Achakulvisut, Titipat, et al. &ldquo;Towards Democratizing and Automating
-            Online Conferences: Lessons from the Neuromatch Conferences.&rdquo; Trends
-            in Cognitive Sciences (2021). doi:
-            {' '}
+            Achakulvisut, Titipat, et al. &ldquo;Towards Democratizing and
+            Automating Online Conferences: Lessons from the Neuromatch
+            Conferences.&rdquo; Trends in Cognitive Sciences (2021). doi:{" "}
             <a href="https://www.sciencedirect.com/science/article/pii/S1364661321000097">
               10.1016/j.tics.2021.01.007.
             </a>
           </li>
           <li>
             Achakulvisut, Titipat, et al. &ldquo;Point of View: Improving on
-            legacy conferences by moving online.&rdquo; eLife 9 (2020). doi:
-            {' '}
+            legacy conferences by moving online.&rdquo; eLife 9 (2020). doi:{" "}
             <a href="https://elifesciences.org/articles/57892">
               10.7554/eLife.57892.
             </a>
           </li>
           <li>
-            Achakulvisut, Titipat, et al.
-            {' '}
+            Achakulvisut, Titipat, et al.{" "}
             <a href="https://elifesciences.org/labs/5ed408f4/neuromatch-algorithms-to-match-scientists">
               &ldquo;neuromatch: Algorithms to match scientists.&rdquo;
-            </a>
-            {' '}
+            </a>{" "}
             eLife Labs (2020).
           </li>
           <li>
             A match for virtual conferences. Nature Machine Intelligence 2, 239
-            (2020). doi:
-            {' '}
+            (2020). doi:{" "}
             <a href="https://doi.org/10.1038/s42256-020-0182-5">
               https://doi.org/10.1038/s42256-020-0182-5
             </a>
           </li>
           <li>
             How to run big (neuro) science conferences online—neuromatch.io
-            (2020).
-            {' '}
+            (2020).{" "}
             <a href="https://medium.com/@kording/how-to-run-big-neuro-science-conferences-online-neuromatch-io-49c694c7e65d">
               Medium
             </a>
           </li>
         </ul>
+      </section>
+      <section>
         <h3>Thanks all participants!</h3>
         <p>
           <a
@@ -141,12 +138,11 @@ export default () => {
             href="https://twitter.com/hashtag/neuromatch2020"
           >
             #neuromatch2020
-          </a>
-          {' '}
+          </a>{" "}
           is truely an international unconference. You can see the registration
           locations below:
         </p>
-        {typeof window !== 'undefined' ? (
+        {typeof window !== "undefined" ? (
           <Map
             center={[25.0, 0.0]}
             zoom={1.5}
@@ -158,16 +154,16 @@ export default () => {
             <TileLayer
               url="http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}{r}.png"
               attribution='
-                    Map Tiles by
-                    <a href="https://stamen.com">Stamen Design</a>,
-                    under <a href="http://creativecommons.org/licenses/by/3.0">CC-BY-3.0</a>,
-                    Data by
-                    <a href="http://openstreetmap.org">OpenStreetMap</a>
-                    contributors, under
-                    <a href="http://creativecommons.org/licenses/by-sa/3.0">CC-BY-SA</a>
-                  '
+                  Map Tiles by
+                  <a href="https://stamen.com">Stamen Design</a>,
+                  under <a href="http://creativecommons.org/licenses/by/3.0">CC-BY-3.0</a>,
+                  Data by
+                  <a href="http://openstreetmap.org">OpenStreetMap</a>
+                  contributors, under
+                  <a href="http://creativecommons.org/licenses/by-sa/3.0">CC-BY-SA</a>
+                '
             />
-            {statsData.map((loc) => (
+            {statsData.map(loc => (
               <CircleMarker
                 center={loc.position}
                 key={loc.location}
@@ -175,10 +171,10 @@ export default () => {
                 color="#060506"
                 fillOpacity="0.5"
                 stroke={false}
-                onMouseOver={(e) => e.target.openPopup()}
-                onMouseOut={(e) => e.target.closePopup()}
-                onFocus={(e) => e.target.openPopup()}
-                onBlur={(e) => e.target.closePopup()}
+                onMouseOver={e => e.target.openPopup()}
+                onMouseOut={e => e.target.closePopup()}
+                onFocus={e => e.target.openPopup()}
+                onBlur={e => e.target.closePopup()}
               >
                 <Popup closeButton={false}>
                   <b>{`📍 ${loc.location}`}</b>
@@ -189,7 +185,7 @@ export default () => {
             ))}
           </Map>
         ) : null}
-      </CommonPageStyles>
+      </section>
     </Layout>
-  );
-};
+  )
+}
