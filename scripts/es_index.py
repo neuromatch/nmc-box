@@ -4,11 +4,19 @@ Elasticsearch ingestion
 Usage:
     python elasticsearch.py
 """
+import os
 import yaml
 from tqdm.auto import tqdm
 import pandas as pd
 from pyairtable import Table
 from elasticsearch import Elasticsearch, helpers
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="../.env")  # setting all credentials here
+assert os.environ.get(
+    "AIRTABLE_KEY"
+), "Please check if AIRTABLE_KEY is specified in environment file"
+airtable_key = os.environ.get("AIRTABLE_KEY")
 
 with open("es_config.yml") as f:
     es_config = yaml.load(f, Loader=yaml.FullLoader)
@@ -22,7 +30,7 @@ keys_airtable = [
     "submission_id", "title", "abstract", "fullname", "coauthors",
     "institution", "theme", "talk_format", "starttime", "endtime",
     "url", "track"
-] # keys that we are interested from Airtable
+]  # keys that we are interested from Airtable
 
 settings_affiliation = {
     "settings": {
@@ -196,11 +204,11 @@ def index_submissions():
     for _, v in tqdm(es_config["editions"].items()):
         if "path" in v.keys():
             submission_df = pd.read_csv(v["path"]).fillna("")
-        elif "airtable_api_key" in v.keys() and "airtable_id" in v.keys():
-            submissions = Table(v["airtable_api_key"], v["airtable_id"], v["table_name"])
-            submission_df = pd.DataFrame(read_submissions(submissions, keys=keys_airtable))
+        elif "airtable_id" in v.keys():
+            submissions = Table(airtable_key, v["airtable_id"], v["table_name"]).all()
+            submission_df = pd.DataFrame(read_submissions(submissions, keys=keys_airtable)).fillna("")
         else:
-            raise RuntimeError("Please put the path to CSV file or Airtable ID and ")
+            raise RuntimeError("Please put the path to CSV file or Airtable ID in es_config.yml")
         es.indices.delete(
             index=v["paper_index"],
             ignore=[400, 404]

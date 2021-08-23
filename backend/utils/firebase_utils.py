@@ -10,8 +10,6 @@ from google.cloud import firestore
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 
-from dotenv import load_dotenv
-load_dotenv(dotenv_path='.backend.env')
 
 db = firestore.Client()
 HTTP_REQUEST = Request()
@@ -51,20 +49,6 @@ def delete_data(doc_id: str, collection: str):
     print(f"Deleting {doc_id} from collection {collection}")
 
 
-def set_data(data: dict, doc_id: Optional[str] = None, collection: str = ""):
-    """Set data (as a dictionary) to Firebase collection"""
-    if collection == "":
-        return
-    if doc_id is None:
-        if data.get("id") is not None:
-            doc_id = data.get("id")
-        else:
-            doc_id = data.get("email")
-    doc_ref = db.collection(data).document(doc_id)
-    doc_ref.set(data)
-    print(f"Set a record with {doc_id} to collection {collection}")
-
-
 def get_data(doc_id: str, collection: str):
     """Get data with ``doc_id`` from a given Firebase collection"""
     doc_ref = db.collection(collection).document(doc_id)
@@ -74,3 +58,31 @@ def get_data(doc_id: str, collection: str):
         doc = None
         print(f"No user with id = {doc_id}!")
     return doc
+
+
+def set_data(data: dict, doc_id: Optional[str] = None, collection: str = ""):
+    """Set data (as a dictionary) to a given Firebase collection"""
+    if collection == "":
+        return
+    if doc_id is None:
+        if data.get("id") is not None:
+            doc_id = data.get("id")
+        else:
+            doc_id = data.get("email")
+    doc_ref = db.collection(collection).document(doc_id)
+    doc_ref.set(data)
+    print(f"Set a record with {doc_id} to collection {collection}")
+
+
+def update_data(data: dict, doc_id: Optional[str] = None, collection: str = ""):
+    """Update data to a given Firebase collection"""
+    if collection == "":
+        return
+    if doc_id is None:
+        if data.get("id") is not None:
+            doc_id = data.get("id")
+        else:
+            doc_id = data.get("email")
+    doc_ref = db.collection(collection).document(doc_id)
+    doc_ref.update(data)
+    print(f"Set a record with {doc_id} to collection {collection}")
