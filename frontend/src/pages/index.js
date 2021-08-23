@@ -244,23 +244,14 @@ export default () => {
             {mainConfDate}
             <br />
             <TopicHeading>Agenda</TopicHeading>
-            Available on{" "}
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://neural-reckoning.github.io/nmc3_provisional_schedule/"
-            >
-              Static Agenda
-            </a>
-            {" | "}
-            <Link to="/agenda">Agenda</Link>
+            Available on <Link to="/agenda">Agenda</Link>
             {" | "}
             <Link to="/abstract-browser">Abstract Browser</Link>
             <br />
             <TopicHeading>Registration Fees</TopicHeading>
             $25 | Pay after registration on{" "}
-            <Link to="/payment">payment page</Link>
-            , fee waiver is available, free for non-scientists
+            {/* <Link to="/payment">payment page</Link> */}
+            payment page, fee waiver is available, free for non-scientists
             <br />
             <Fa icon={["fab", "twitter"]} />
             {" · "}
