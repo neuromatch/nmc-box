@@ -14,13 +14,14 @@ const regex = {
     pattern: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+~#?&//=]*)?/gi,
   },
   mdLink: {
-    src: 'https://regexr.com/3ciio',
+    src: "https://regexr.com/3ciio",
     pattern: /(\[((?:\[[^\]]*\]|[^\[\]])*)\]\([ \t]*()<?((?:\([^)]*\)|[^()\s])*?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/gi,
-  }
+  },
 }
 
 // -- FUNCTION
-const composeRegex = (...regexes) => new RegExp(regexes.map(regex => regex.source).join("|"), 'g')
+const composeRegex = (...regexes) =>
+  new RegExp(regexes.map(regex => regex.source).join("|"), "g")
 
 const componentize = text => {
   const regs = composeRegex(regex.url.pattern, regex.mdLink.pattern)
@@ -44,7 +45,12 @@ const componentize = text => {
 
     if (p[3] && p[5]) {
       result.push(
-        <a key={p[3] + p[5] + ind} href={p[5]} target="_blank" rel="noopener noreferrer">
+        <a
+          key={p[3] + p[5] + ind}
+          href={p[5]}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {p[3]}
         </a>
       )
@@ -78,6 +84,17 @@ const Section = styled.section`
 
 const Details = styled.details`
   margin-bottom: 0.5rem;
+
+  & > summary {
+    display: list-item;
+    list-style: disclosure-closed inside;
+
+    cursor: pointer;
+  }
+
+  &[open] > summary {
+    list-style-type: disclosure-open;
+  }
 `
 
 const Summary = styled.summary`
