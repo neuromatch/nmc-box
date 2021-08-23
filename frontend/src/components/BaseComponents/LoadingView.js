@@ -41,7 +41,7 @@ const LoadingView = ({ message, growInFlex }) => {
   return (
     <Container growInFlex={growInFlex}>
       <HashLoader
-        color={color.format(themeObject.colors.accent, color.hexFormatter)}
+        color={color.format(themeObject.colors.secondary, color.hexFormatter)}
         size={75}
       />
       {

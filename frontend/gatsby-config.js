@@ -151,5 +151,12 @@ module.exports = {
         linkStyles: true,
       },
     },
+    'gatsby-transformer-yaml',
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `../sitedata/`,
+      },
+    },
   ],
 };
