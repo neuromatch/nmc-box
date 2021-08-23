@@ -48,14 +48,8 @@
     forward you the information.
   question: I am giving a talk. How can I join the zoom webinar?
   tag: agenda
-- answer: Please log-in to neuromatch.io and put your name, email and type of data
-    you want to remove on https://neuromatch.io/data-removal/. We will check if the
-    data match and remove it from our database.
-  question: If I submit something on neuromatch.io (job, submission) and I want to
-    retract, how can I do it?
-  tag: submission
 - answer: You can send us an email directly to nmc@neuromatch.io or ask us via Twitter
-    @neuromatch. We will try to resolve your problem as fast as we can.
+    [@neuromatch](https://twitter.com/neuromatch). We will try to resolve your problem as fast as we can.
   question: If I have very specific question, where can I ask the question?
   tag: contact
 - answer: The cost for the conference is $25 but you can always sign a waiver form
@@ -65,7 +59,7 @@
   question: How much do I need to pay for the conference?
   tag: registration
 - answer: "If you think some references are absolutely crucial you may include them,\
-    \ but try to avoid using them in general.  The submission portal will not block\
+    \ but try to avoid using them in general. The submission portal will not block\
     \ you from submitting more than 300 words, so the references will not count against\
     \ that limit.  \n"
   question: Can I include references in my abstract and will they count against the
@@ -87,9 +81,6 @@
 - answer: You can register for the conference and check them out at https://neuromatch.io/agenda
     and https://neuromatch.io/abstract-browser
   question: Where can I find the agenda for the event?
-  tag: agenda
-- answer: We can help you find your way through our rapid help desk https://direct.lc.chat/12309816/
-  question: I can't access my zoom room and my presentation starts in 10 minutes!
   tag: agenda
 - answer: 'We do not send an email confirmation, but you can just log back in and
     view your abstract to make sure it was submitted.  You can edit the submission

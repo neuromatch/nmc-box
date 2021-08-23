@@ -2,10 +2,11 @@ import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import { media } from '../../styles';
+import { color } from '../../utils';
 
 const StyledFooter = styled.div`
   height: 5.5em;
-  background-color: #222;
+  background-color: ${p => color.scale(p.theme.colors.primary, p.theme.colors.factor * 7)};
 
   display: flex;
   align-items: center;
@@ -20,7 +21,7 @@ const StyledFooter = styled.div`
 const StyledFooterText = styled.div`
   font-size: 0.75em;
   text-align: center;
-  color: #eee;
+  color: ${p => p.theme.colors.secondary};
   line-height: 1.6em;
 `;
 
@@ -28,15 +29,15 @@ const StyledLink = styled.a.attrs({
   target: '_blank',
   rel: 'noopener noreferrer',
 })`
-  color: #419eda;
+  color: ${p => p.theme.colors.accent};
 `;
 
 const StyledInternalLink = styled(Link)`
-  color: #419eda;
+  color: ${p => p.theme.colors.accent};
 `;
 
 const Red = styled.span`
-  color: #e23f3f;
+  color: ${p => p.theme.colors.danger};
 `;
 
 const Footer = () => (

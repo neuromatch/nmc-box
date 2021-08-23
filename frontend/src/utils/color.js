@@ -125,6 +125,22 @@ function format(color, formatter) {
   return `rgba(${parsed.r},${parsed.g},${parsed.b},${parsed.a})`;
 }
 
+// an only formatter available now
+function hexFormatter(parsed) {
+  // https://www.w3schools.com/lib/w3color.js
+  function toHex(n) {
+    let hex = n.toString(16);
+    while (hex.length < 2) {hex = "0" + hex; }
+    return hex;
+  }
+
+  const r = toHex(parsed.r);
+  const g = toHex(parsed.g);
+  const b = toHex(parsed.b);
+
+  return `#${r}${g}${b}`;
+};
+
 /**
  * contrast - a function to find contrast color, especially useful for finding
  * proper text color against specified background color
@@ -214,4 +230,5 @@ export default {
   contrast,
   scale,
   transparentize,
+  hexFormatter,
 };
