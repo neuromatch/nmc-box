@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -p 4000",
     "serve": "gatsby serve",
     "hug-dev": "cd ../backend && hug -f hug_api.py -p 8888",
     "gatsby-prod": "gatsby build && gatsby serve",
