@@ -40,7 +40,6 @@
         "panel": "dedicated"
       }
     },
-
     {
       "type": "process",
       "command": "${command:python.interpreterPath}",
@@ -152,7 +151,8 @@
     {
       "label": "run:development",
       "detail": "run development servers for both frontend and backend",
-      "dependsOn": ["frontend:develop", "backend:develop"]
+      "dependsOn": ["frontend:develop", "backend:develop"],
+      "problemMatcher": []
     },
     {
       "label": "run:development:fresh",
