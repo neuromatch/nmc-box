@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config({ path: '.frontend.env' });
+require('dotenv').config({ path: '../.env' });
 
 module.exports = {
   proxy: {

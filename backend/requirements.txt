@@ -18,3 +18,4 @@ google-cloud-firestore
 sendgrid
 torch
 torchvision
+python-dotenv
