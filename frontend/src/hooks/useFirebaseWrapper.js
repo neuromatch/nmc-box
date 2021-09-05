@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useFirebase } from 'gatsby-plugin-firebase';
+import { useState } from "react"
+import { useFirebase } from "gatsby-plugin-firebase"
 
 /**
  * @typedef {Object} userInfoObj
@@ -21,40 +21,44 @@ import { useFirebase } from 'gatsby-plugin-firebase';
  * @return {useFirebaseWrapperResult}
  */
 function useFirebaseWrapper() {
-  const [firebaseInstance, setFirebaseInstance] = useState(undefined);
-  const [currentUserInfo, setCurrentUserInfo] = useState(undefined);
-  const [isLoggedIn, setIsLoggedIn] = useState(undefined);
-  const [isLoadingUserInfo, setIsLoadingUserInfo] = useState(true);
-  const [idToken, setIdToken] = useState(undefined);
+  const [firebaseInstance, setFirebaseInstance] = useState(null)
+  const [currentUserInfo, setCurrentUserInfo] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(null)
+  const [isLoadingUserInfo, setIsLoadingUserInfo] = useState(true)
+  const [idToken, setIdToken] = useState(null)
 
   // @ts-ignore
-  useFirebase((firebase) => {
-    setFirebaseInstance(firebase);
+  useFirebase(firebase => {
+    setFirebaseInstance(firebase)
 
     // handle auth state change
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // console.log('The user has signed in..');
-        setCurrentUserInfo(user);
+        setCurrentUserInfo(user)
         // also get idToken in case we want to use if
         // outside useAuthenFetch
         if (user) {
-          user.getIdToken().then((idt) => setIdToken(idt));
+          user.getIdToken().then(idt => setIdToken(idt))
         }
 
-        setIsLoggedIn(true);
-        setIsLoadingUserInfo(false);
+        setIsLoggedIn(true)
+        setIsLoadingUserInfo(false)
       } else {
         // console.log('The user has signed out..');
-        setIsLoggedIn(false);
-        setIsLoadingUserInfo(false);
+        setIsLoggedIn(false)
+        setIsLoadingUserInfo(false)
       }
-    });
-  });
+    })
+  })
 
   return {
-    firebaseInstance, currentUserInfo, isLoadingUserInfo, isLoggedIn, idToken,
-  };
+    firebaseInstance,
+    currentUserInfo,
+    isLoadingUserInfo,
+    isLoggedIn,
+    idToken,
+  }
 }
 
-export default useFirebaseWrapper;
+export default useFirebaseWrapper
