@@ -19,6 +19,7 @@ const noInterxEffect = css`
   }
 `;
 
+// never used anywhere in this project yet
 const buttonStyle = css`
   all: unset;
   cursor: pointer;
