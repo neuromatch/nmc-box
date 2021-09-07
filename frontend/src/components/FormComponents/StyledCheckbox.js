@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Fa from '../../utils/fontawesome';
+import { color, Fa } from '../../utils';
 
 const StyledSpan = styled(Fa).attrs(() => ({
   icon: 'check-square',
@@ -15,12 +15,10 @@ const StyledSpan = styled(Fa).attrs(() => ({
   https://github.com/FortAwesome/react-fontawesome/issues/134#issuecomment-471940596
    */
   font-size: 25px !important;
-  color: #eee;
-  /* &:after {
-    content: "";
-    position: absolute;
-    display: none;
-  } */
+
+  path {
+    fill: ${p => color.transparentize(p.theme.colors.grey, 0.54)};
+  }
 `;
 
 const Wrapper = styled.label`
@@ -46,12 +44,10 @@ const Wrapper = styled.label`
     width: 0;
   }
 
-  &:hover input ~ ${StyledSpan} {
-    color: #ccc;
-  }
-
   & input:checked ~ ${StyledSpan} {
-    color: #2196f3;
+    path {
+      fill: ${p => p.theme.colors.accent};
+    }
   }
 `;
 
