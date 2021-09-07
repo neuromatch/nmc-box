@@ -1,10 +1,10 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import Fa from '../../utils/fontawesome';
-import { basedStyles, media } from '../../styles';
-import Card from '../BaseComponents/Card';
-import { UncontrolledCheckbox, ControlledCheckbox } from './StyledCheckbox';
-import StyledInputRange from './StyledInputRange';
+import React from "react"
+import styled, { css } from "styled-components"
+import Fa from "../../utils/fontawesome"
+import { basedStyles, media } from "../../styles"
+import Card from "../BaseComponents/Card"
+import { UncontrolledCheckbox, ControlledCheckbox } from "./StyledCheckbox"
+import StyledInputRange from "./StyledInputRange"
 
 /**
  * @param {Object} props
@@ -14,8 +14,9 @@ const FormWrapper = styled(Card)`
   /* fixedWidth makes narrow UI looks better,
    * e.g. registerForm
    */
-  ${(props) => props.fixedWidth
-    && css`
+  ${props =>
+    props.fixedWidth &&
+    css`
       width: 520px;
     `}
 
@@ -24,7 +25,7 @@ const FormWrapper = styled(Card)`
     margin-bottom: 0;
     width: 100%;
   }
-`;
+`
 
 const InputBlock = styled.div`
   display: flex;
@@ -46,16 +47,16 @@ const InputBlock = styled.div`
     border: 1px solid ${p => p.theme.colors.disabled};
     border-radius: 3px;
   }
-`;
+`
 
 const LabelBlock = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const FieldArrayContainer = styled.ul`
   margin: 0;
-`;
+`
 
 const FieldArrayItem = styled.li`
   margin-bottom: 0;
@@ -75,10 +76,10 @@ const FieldArrayItem = styled.li`
   div {
     flex: 1;
   }
-`;
+`
 
 const AbstractButtonContainer = styled.button.attrs(() => ({
-  type: 'button',
+  type: "button",
 }))`
   cursor: pointer;
   outline: none;
@@ -92,27 +93,25 @@ const AbstractButtonContainer = styled.button.attrs(() => ({
 
   ${basedStyles.interxEffect}
 
-  ${(props) => props.action === 'remove'
-    && css`
+  ${props =>
+    props.action === "remove" &&
+    css`
       position: absolute;
       top: 1px;
       right: 1px;
       color: ${p => p.theme.colors.danger};
     `}
-`;
+`
 
 // eslint-disable-next-line react/prop-types
 const AbstractButton = ({ action, ...buttonProps }) => (
-  <AbstractButtonContainer
-    {...buttonProps}
-    action={action}
-  >
-    <Fa icon={action === 'add' ? 'plus-square' : 'minus-square'} />
+  <AbstractButtonContainer {...buttonProps} action={action}>
+    <Fa icon={action === "add" ? "plus-square" : "minus-square"} />
   </AbstractButtonContainer>
-);
+)
 
 const RequiredIcon = styled(Fa).attrs(() => ({
-  icon: 'asterisk',
+  icon: "asterisk",
 }))`
   margin-left: 6px;
   /* important is needed here because
@@ -124,7 +123,7 @@ const RequiredIcon = styled(Fa).attrs(() => ({
   path {
     fill: ${p => p.theme.colors.danger};
   }
-`;
+`
 
 const RangeLabels = styled.div`
   font-size: 0.8rem;
@@ -132,7 +131,7 @@ const RangeLabels = styled.div`
   color: #555;
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const StyledInstructionText = styled.h4`
   /* reset */
@@ -143,7 +142,7 @@ const StyledInstructionText = styled.h4`
   margin-bottom: 10px;
 
   font-weight: 600;
-`;
+`
 
 const WarningMessage = styled.span`
   color: #eb4034;
@@ -152,17 +151,17 @@ const WarningMessage = styled.span`
     display: inline;
     content: "⚠️ ";
   }
-`;
+`
 
 const CheckboxBlock = styled(InputBlock)`
   display: inline-block;
-`;
+`
 
 const DisabledWrapper = styled.div`
   & * {
-    color: ${(props) => props.disabled && '#bbb'};
+    color: ${props => props.disabled && "#bbb"};
   }
-`;
+`
 
 /**
  * A block containing star score and its label
@@ -193,7 +192,7 @@ const StarScoreBlock = styled.div`
       justify-content: center;
     }
   `}
-`;
+`
 
 const TextWithButtonsWrapper = styled.div`
   display: flex;
@@ -212,14 +211,14 @@ const TextWithButtonsWrapper = styled.div`
       margin-right: 0;
     }
   }
-`;
+`
 
 const SubLabel = styled.label`
   font-size: 14.4px;
   line-height: 17px;
   margin: 2px 0 8px;
   font-style: italic;
-`;
+`
 
 export {
   FormWrapper,
@@ -240,4 +239,4 @@ export {
   UncontrolledCheckbox,
   SubLabel,
   AbstractButton,
-};
+}
