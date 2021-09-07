@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useAPI } from "./useAPI"
+import useAPI from "./useAPI"
 
 /**
  * @typedef {Object} useValidateRegistrationResult

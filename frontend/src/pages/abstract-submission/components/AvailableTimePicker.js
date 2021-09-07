@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import TimezonePicker from '../../../components/TimezonePicker';
 import useTimezone from '../../../hooks/useTimezone';
 import { media } from '../../../styles';
+import { color } from '../../../utils';
 
 // -- FUNCTIONS
 const timezoneParser = (dtStr, tz) => moment.tz(
@@ -69,27 +70,36 @@ const GridItem = styled.button.attrs(() => ({
   cursor: pointer;
 
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid ${p => p.theme.colors.disabled};
   border-radius: 4px;
   padding: 8px;
 
+  /* based color for time text is lighter black */
   p {
+    color: ${p => color.scale(p.theme.colors.black, 15)};
     margin: 0;
     font-size: 14px;
   }
 
-  /* handle active */
-  ${(p) => p.isActive && css`
-    background-color: #22cc22;
+  /* set color for disabled */
+  ${p => p.disabled && css`
+    p {
+      color: ${p => color.scale(p.theme.colors.grey, 30)};
+    }
+  `}
+
+  /* set color/bg for active */
+  ${p => p.isActive && css`
+    background-color: ${p => p.theme.colors.succeed};
 
     p {
-      color: white;
+      color: ${p => color.contrast(p.theme.colors.succeed)};
       font-weight: bold;
     }
   `}
 
   /* handle hover/active */
-  ${(p) => !p.isActive && !p.disabled && css`
+  ${p => !p.isActive && !p.disabled && css`
     :hover {
       background-color: #eee;
     }
@@ -99,9 +109,9 @@ const GridItem = styled.button.attrs(() => ({
   `}
 
   /* handle disabled */
-  ${(p) => p.disabled && css`
+  ${p => p.disabled && css`
     cursor: default;
-    background-color: #eee;
+    background-color: ${p => p.theme.colors.disabled};
   `}
 `;
 

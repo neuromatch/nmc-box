@@ -736,10 +736,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
                     </StyledInstructionText>
                     <LabelBlock>
                       <label>Abstract</label>
-                      <FontIconButton
+                      <AbstractButton
                         onClick={() => setNumberOfAbstract(numberOfAbstract + 1)}
                         disabled={isOptedOut}
-                        icon="plus-square"
+                        action="add"
                       />
                     </LabelBlock>
                     <FieldArrayContainer>
@@ -762,10 +762,9 @@ const RegisterForm = ({ prevUserData, origin }) => {
                             disabled={isOptedOut}
                             ref={register()}
                           />
-                          <FontIconButton
+                          <AbstractButton
                             onClick={() => setNumberOfAbstract(numberOfAbstract - 1)}
-                            removeButton
-                            icon="minus-square"
+                            action="remove"
                           />
                         </FieldArrayItem>
                       )))}
