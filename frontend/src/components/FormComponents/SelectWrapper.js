@@ -3,15 +3,74 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
-import AsyncSelect from 'react-select/async-creatable';
-import Select from 'react-select/creatable';
-import NoCreateSelect from 'react-select';
+import BasedAsyncSelect from 'react-select/async-creatable';
+import BasedSelect from 'react-select/creatable';
+import BasedNoCreateSelect from 'react-select';
 import { useFetchGet } from '../../hooks/useFetch';
+import { color } from '../../utils';
+import { useThemeContext } from '../../styles/themeContext';
 
-// const handleInputChange = (newValue) => {
-//   const inputValue = newValue.replace(/\W/g, '');
-//   return inputValue;
-// };
+// control select color and style here
+const overrideColors = (colors) => ({
+  control: (styles, { isDisabled }) => ({
+    ...styles,
+    backgroundColor: isDisabled ? 'rgba(239, 239, 239, 0.3)' : 'white',
+  }),
+  placeholder: (styles, { isDisabled }) => ({
+    ...styles,
+    color: isDisabled ? '#bbb' : styles.color,
+    opacity: isDisabled ? .54 : styles.opacity,
+  }),
+  option: (styles, { isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isDisabled
+        ? colors.disabled
+        : isSelected
+          ? colors.accent
+          : isFocused
+            ? color.transparentize(colors.accent, 0.3)
+            : null,
+      color: isDisabled
+        ? color.scale(colors.grey, 30)
+        : isSelected
+          ? color.contrast(colors.accent)
+          : colors.black,
+      cursor: isDisabled ? 'not-allowed' : 'default',
+      ':active': {
+        ...styles[':active'],
+        backgroundColor:
+          !isDisabled && (isSelected ? colors.accent : color.transparentize(colors.accent, 0.5)),
+      },
+    };
+  },
+});
+
+// -- WRAPPED BASED COMPONENTS
+const AsyncSelect = props => {
+  const { themeObject } = useThemeContext()
+
+  return (
+    <BasedAsyncSelect styles={overrideColors(themeObject.colors)} {...props} />
+  )
+}
+
+const Select = props => {
+  const { themeObject } = useThemeContext()
+
+  return <BasedSelect  styles={overrideColors(themeObject.colors)} {...props} />
+}
+
+const NoCreateSelect = props => {
+  const { themeObject } = useThemeContext()
+
+  return (
+    <BasedNoCreateSelect
+      styles={overrideColors(themeObject.colors)}
+      {...props}
+    />
+  )
+}
 
 /**
  * AsyncControlSelect: a select component that fetches suggestion to display as user type
@@ -141,4 +200,4 @@ ControlSelect.defaultProps = {
   allowCreate: true,
 };
 
-export { AsyncControlSelect, ControlSelect };
+export { AsyncControlSelect, ControlSelect, AsyncSelect, Select, NoCreateSelect };
