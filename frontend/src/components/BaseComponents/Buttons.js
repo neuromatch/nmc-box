@@ -72,32 +72,6 @@ const commonLinkStyle = css`
   }
 `;
 
-const fontIconButtonStyle = css`
-  /* margin-left: 5px; */
-  outline: none;
-
-  /* background-color: #333; */
-  border: none;
-  color: #333;
-  /* border-radius: 3px; */
-  /* padding: 0 10px; */
-  text-align: center;
-  text-decoration: none;
-  font-size: 18px;
-
-  &:hover {
-    background-color: #eee;
-    color: #333;
-  }
-
-  &:active {
-    outline: none;
-    background-color: rgba(256, 256, 256, 0.2);
-    border-color: rgba(256, 256, 256, 0.2);
-    color: #222;
-  }
-`;
-
 // -- container for button(s)
 const ButtonsContainer = styled.div`
   display: flex;
@@ -150,31 +124,9 @@ const ButtonWithLinkStyle = styled.button.attrs(() => ({
   ${commonLinkStyle}
 `;
 
-const FontIconButtonWrapper = styled.button.attrs(() => ({
-  type: 'button',
-}))`
-  ${fontIconButtonStyle}
-  ${(props) => props.removeButton
-    && css`
-      position: absolute;
-      top: 1px;
-      right: 1px;
-      color: red;
-    `}
-`;
 
-const FontIconButton = ({ icon, ...rest }) => (
-  <FontIconButtonWrapper
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...rest}
-  >
-    <Fa icon={icon} />
-  </FontIconButtonWrapper>
-);
 
-FontIconButton.propTypes = {
-  icon: PropTypes.string.isRequired,
-};
+
 
 // -- button in form
 const FormButton = styled(LineButton).attrs(() => ({
@@ -214,7 +166,6 @@ export {
   LineButton,
   ToggleLineButton,
   ButtonWithLinkStyle,
-  FontIconButton,
   FormButton,
   ButtonsContainer,
 };

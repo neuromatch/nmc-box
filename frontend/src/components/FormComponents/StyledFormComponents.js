@@ -1,6 +1,7 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import Fa from '../../utils/fontawesome';
-import { media } from '../../styles';
+import { basedStyles, media } from '../../styles';
 import Card from '../BaseComponents/Card';
 import { UncontrolledCheckbox, ControlledCheckbox } from './StyledCheckbox';
 import StyledInputRange from './StyledInputRange';
@@ -17,9 +18,6 @@ const FormWrapper = styled(Card)`
     && css`
       width: 520px;
     `}
-
-  /* this may not need */
-  /* justify-content: center; */
 
   /* default children form style */
   form {
@@ -45,7 +43,7 @@ const InputBlock = styled.div`
   input:not([type="range"]),
   textarea,
   select {
-    border: 1px solid #ccc;
+    border: 1px solid ${p => p.theme.colors.disabled};
     border-radius: 3px;
   }
 `;
@@ -79,6 +77,40 @@ const FieldArrayItem = styled.li`
   }
 `;
 
+const AbstractButtonContainer = styled.button.attrs(() => ({
+  type: 'button',
+}))`
+  cursor: pointer;
+  outline: none;
+
+  border: none;
+  color: ${p => p.theme.colors.secondary};
+  background-color: transparent;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+
+  ${basedStyles.interxEffect}
+
+  ${(props) => props.action === 'remove'
+    && css`
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      color: ${p => p.theme.colors.danger};
+    `}
+`;
+
+// eslint-disable-next-line react/prop-types
+const AbstractButton = ({ action, ...buttonProps }) => (
+  <AbstractButtonContainer
+    {...buttonProps}
+    action={action}
+  >
+    <Fa icon={action === 'add' ? 'plus-square' : 'minus-square'} />
+  </AbstractButtonContainer>
+);
+
 const RequiredIcon = styled(Fa).attrs(() => ({
   icon: 'asterisk',
 }))`
@@ -88,7 +120,10 @@ const RequiredIcon = styled(Fa).attrs(() => ({
   */
   font-size: 10px !important;
   margin-bottom: 2px;
-  color: red;
+
+  path {
+    fill: ${p => p.theme.colors.danger};
+  }
 `;
 
 const RangeLabels = styled.div`
@@ -204,4 +239,5 @@ export {
   ControlledCheckbox,
   UncontrolledCheckbox,
   SubLabel,
+  AbstractButton,
 };
