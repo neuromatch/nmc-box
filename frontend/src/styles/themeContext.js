@@ -31,8 +31,12 @@ const ThemeProvider = ({ children }) => {
     body {
       background-color: ${p => p.theme.colors.primary};
 
-      h1, h2, h3, h4, h5, h6, label, hr {
+      h1, h2, h3, h4, h5, h6, label {
         color: ${p => p.theme.colors.secondary};
+      }
+
+      hr {
+        background-color: ${p => p.theme.colors.secondary};
       }
 
       a {
@@ -49,7 +53,7 @@ const ThemeProvider = ({ children }) => {
         text-decoration: underline;
       }
 
-      p {
+      p, span, dl, ul {
         /* slightly dimmer */
         color: ${p =>
           color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};

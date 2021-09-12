@@ -21,18 +21,19 @@ import {
   CheckboxBlock,
   UncontrolledCheckbox,
   SubLabel,
+  AbstractButton,
 } from './StyledFormComponents';
 import { AsyncControlSelect, ControlSelect } from './SelectWrapper';
 import Toast, { toastTypes } from '../BaseComponents/Toast';
 import {
   ButtonsContainer,
   FormButton,
-  FontIconButton,
 } from '../BaseComponents/Buttons';
 import {
   confirmPromise,
   timePickerHelpers,
   reactSelectHelpers,
+  common,
 } from '../../utils';
 import AvailableTimePicker, {
   datesOptions,
@@ -41,6 +42,7 @@ import AvailableTimePicker, {
   timeBoundary,
 } from '../../pages/abstract-submission/components/AvailableTimePicker';
 import useTimezone from '../../hooks/useTimezone';
+import useAPI from '../../hooks/useAPI';
 
 // -- CONSTANTS
 const originEnum = {
@@ -156,6 +158,8 @@ const RegisterForm = ({ prevUserData, origin }) => {
   const [timezone, setTimezone] = useState(t);
   // ref
   const toastControl = useRef(null);
+  // api
+  const { register: registerAPI } = useAPI();
 
   const {
     register,
@@ -334,12 +338,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
       setIsSending(false);
 
       // scroll up to let user know what went wrong
-      window
-        && window.scrollBy({
-          top: -500,
-          left: 0,
-          behavior: 'smooth',
-        });
+      common.scrollBy(-500);
       return;
     }
 
@@ -382,22 +381,11 @@ const RegisterForm = ({ prevUserData, origin }) => {
 
     // console.log('readyData:', readyData);
 
-    fetch('/api/set_user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(readyData),
-    })
-      .then((x) => {
+    registerAPI(readyData)
+      .then(() => {
         // console.log('data is submitted!', x);
         // scroll to top
-        window
-          && window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-          });
+        common.scrollTo();
         // show toast
         toastControl.current.show();
       })
