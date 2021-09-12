@@ -22,7 +22,7 @@ import AbstractVirtualizedList from './components/AbstractVirtualizedList';
 import LoadingView from '../../components/BaseComponents/LoadingView';
 import useTimezone from '../../hooks/useTimezone';
 import TimezonePicker from '../../components/TimezonePicker';
-import { TextWithButtonsWrapper } from '../../components/FormComponents/StyledFormComponents';
+import HeadingWithButtonContainer from '../../components/BaseComponents/HeadingWithButtonContainer';
 
 // -- TYPES
 /**
@@ -449,7 +449,7 @@ export default () => {
           margin-bottom: 0;
         `}
       >
-        <TextWithButtonsWrapper
+        <HeadingWithButtonContainer
           css={`
           ${media.medium`
             display: block;
@@ -467,7 +467,7 @@ export default () => {
               setTimezone(tz);
             }}
           />
-        </TextWithButtonsWrapper>
+        </HeadingWithButtonContainer>
         <ul>
           <li>
             Please vote for abstracts that you would like to see.

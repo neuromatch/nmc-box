@@ -8,7 +8,6 @@ import { useCookies } from 'react-cookie';
 import Select from 'react-select';
 import styled from 'styled-components';
 import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
-import { TextWithButtonsWrapper } from '../components/FormComponents/StyledFormComponents';
 import Layout from '../components/layout';
 import useSiteMetadata from '../hooks/gql/useSiteMetadata';
 import { fetchGet, useFetchGet } from '../hooks/useFetch';
@@ -17,6 +16,7 @@ import Fa from '../utils/fontawesome';
 import { media, growOverParentPadding } from '../styles';
 import { AgendaInADay, StyledTable } from '../components/AgendaComponents';
 import AbstractModal from './abstract-browser/components/AbstractModal';
+import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWithButtonContainer';
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize);
@@ -335,7 +335,7 @@ export default () => {
         timezone={timeZone}
       />
       <CommonPageStyles>
-        <TextWithButtonsWrapper>
+        <HeadingWithButtonContainer>
           <h2>Agenda</h2>
           <div>
             <Select
@@ -360,7 +360,7 @@ export default () => {
               })}
             />
           </div>
-        </TextWithButtonsWrapper>
+        </HeadingWithButtonContainer>
         <p>
           Join our conference via Zoom Webinar and
           {' '}
@@ -376,7 +376,7 @@ export default () => {
           {' '}
           tab under your profile after the conference.
         </p>
-        <TextWithButtonsWrapper
+        <HeadingWithButtonContainer
           css={`
             ${media.medium`
               display: block;
@@ -415,7 +415,7 @@ export default () => {
               })}
             />
           </div>
-        </TextWithButtonsWrapper>
+        </HeadingWithButtonContainer>
         <p>
           The main conference will be happening on
           {' '}
