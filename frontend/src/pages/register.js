@@ -1,7 +1,7 @@
 import { navigate } from 'gatsby';
 import React from 'react';
 import LoadingView from '../components/BaseComponents/LoadingView';
-import RegisterForm, { originEnum } from '../components/FormComponents/RegisterForm';
+import RegisterForm, { originEnum } from '../components/RegisterForm';
 import useFirebaseWrapper from '../hooks/useFirebaseWrapper';
 import useValidateRegistration from '../hooks/useValidateRegistration';
 

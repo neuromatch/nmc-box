@@ -16,11 +16,11 @@ import LoadingView from '../../components/BaseComponents/LoadingView';
 import Toast, { toastTypes } from '../../components/BaseComponents/Toast';
 import { ControlSelect } from '../../components/FormComponents/SelectWrapper';
 import {
-  FormWrapper,
-  InputBlock,
+  FormContainer,
+  InputContainer,
   RequiredIcon,
   WarningMessage,
-} from '../../components/FormComponents/StyledFormComponents';
+} from '../../components/FormComponents';
 import Layout from '../../components/layout';
 import useSfnTopicsData from '../../hooks/gql/useSfnTopicsData';
 import useValidateRegistration from '../../hooks/useValidateRegistration';
@@ -65,7 +65,7 @@ const SelectsRow = styled.div`
   flex-wrap: wrap;
 
   /* on large screen we render theme and topic in half */
-  & > ${InputBlock} {
+  & > ${InputContainer} {
     flex: 1;
 
     :not(:last-child) {
@@ -77,7 +77,7 @@ const SelectsRow = styled.div`
   ${media.medium`
     flex-direction: column;
 
-    & > ${InputBlock} {
+    & > ${InputContainer} {
       :not(:last-child) {
         margin-right: 0px;
       }
@@ -386,7 +386,7 @@ export default () => {
           The submission is now closed (already pass the deadline on
           {` ${submissionDate})`}
         </p>
-        <FormWrapper>
+        <FormContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
             <p>
               <TopicHeading>Author</TopicHeading>
@@ -398,7 +398,7 @@ export default () => {
               <TopicHeading>Affiliation</TopicHeading>
               {` · ${prevUserData.institution}`}
             </p>
-            <InputBlock>
+            <InputContainer>
               <label>
                 Talk format
                 <RequiredIcon />
@@ -420,8 +420,8 @@ export default () => {
                 name="talkFormatSelect"
                 as={<WarningMessage />}
               />
-            </InputBlock>
-            <InputBlock>
+            </InputContainer>
+            <InputContainer>
               <label>Coauthors</label>
               <SubLabel>
                 Put your coauthor each separated with ;
@@ -433,9 +433,9 @@ export default () => {
                 ref={register()}
                 disabled
               />
-            </InputBlock>
+            </InputContainer>
             {/* use textinput */}
-            <InputBlock>
+            <InputContainer>
               <label>
                 Title
                 <RequiredIcon />
@@ -454,9 +454,9 @@ export default () => {
                 name="title"
                 as={<WarningMessage />}
               />
-            </InputBlock>
+            </InputContainer>
             {/* use textarea */}
-            <InputBlock>
+            <InputContainer>
               <label>
                 Abstract
                 <RequiredIcon />
@@ -478,9 +478,9 @@ export default () => {
                 name="abstract"
                 as={<WarningMessage />}
               />
-            </InputBlock>
+            </InputContainer>
             <SelectsRow>
-              <InputBlock>
+              <InputContainer>
                 <label>
                   Theme
                   <RequiredIcon />
@@ -499,9 +499,9 @@ export default () => {
                   name="theme"
                   as={<WarningMessage />}
                 />
-              </InputBlock>
+              </InputContainer>
             </SelectsRow>
-            <InputBlock>
+            <InputContainer>
               <label>
                 Available Presentation Date-Time
                 <RequiredIcon />
@@ -527,7 +527,7 @@ export default () => {
                 name="availableDatetimePicker"
                 as={<WarningMessage />}
               />
-            </InputBlock>
+            </InputContainer>
             {/* <ButtonsContainer>
               <FormButton
                 as="input"
@@ -536,7 +536,7 @@ export default () => {
               />
             </ButtonsContainer> */}
           </form>
-        </FormWrapper>
+        </FormContainer>
       </Layout>
     );
   }
