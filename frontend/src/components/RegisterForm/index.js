@@ -33,6 +33,7 @@ import {
   UncontrolledCheckbox,
   WarningMessage,
 } from "../FormComponents"
+import MindMatchingModule from "../../modules/mind-matching"
 
 // -- CONSTANTS
 const originEnum = {
@@ -127,7 +128,6 @@ const RegisterForm = ({ prevUserData, origin }) => {
   // get user info
   const { currentUserInfo: user } = useFirebaseWrapper()
   // state
-  const [numberOfAbstract, setNumberOfAbstract] = useState(1)
   const [isOptedOut, setIsOptedOut] = useState(undefined)
   const [isPublic, setIsPublic] = useState(false)
   // warning is true only when there is some data in the optional fields
@@ -176,6 +176,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [getValues, watchOptIns])
 
+  // TODO: this effect should be able to refactor entirely?
   // -- fill values with prev data, except abstracts and cois
   // -- for abstracts and cois, they will be set the size and trigger rerendering first
   useEffect(() => {
@@ -205,7 +206,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
       Object.entries(prevUserData).forEach(([key, val]) => {
         switch (key) {
           case "abstracts":
-            setNumberOfAbstract(val.length === 0 ? 1 : val.length)
+            // setNumberOfAbstract(val.length === 0 ? 1 : val.length)
             // console.log('abstract is set', val.length);
             break
           case "institution":
@@ -268,14 +269,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [prevUserData, setValue, timezone])
 
-  // set abstracts and cois when they are rerendered
-  useEffect(() => {
-    if (prevUserData) {
-      prevUserData.abstracts.forEach((x, ind) => {
-        setValue(`abstracts[${ind}]`, x)
-      })
-    }
-  }, [prevUserData, setValue, numberOfAbstract])
+
 
   // -- onSubmit funtion
   const onSubmit = data => {
@@ -556,7 +550,12 @@ const RegisterForm = ({ prevUserData, origin }) => {
                 />
               </InputContainer>
               <hr />
-              {/* add mind matching module here */}
+              <MindMatchingModule
+                abstracts={prevUserData?.abstracts}
+                formControl={{ register, control, setValue, errors }}
+                isOptedOut={isOptedOut}
+                optOutWarning={optOutWarning}
+              />
             </>
           )}
           <ButtonsContainer>
