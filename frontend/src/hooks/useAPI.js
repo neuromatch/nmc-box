@@ -21,6 +21,9 @@ function useAPI() {
   const { idToken } = useFirebaseWrapper()
 
   return {
+    getAffiliation: useCallback(q => {
+      return fetch(endpoints.affiliation + `?q=${q}`)
+    }, []),
     register: useCallback(data => {
       return fetch(endpoints.user, {
         method: "POST",

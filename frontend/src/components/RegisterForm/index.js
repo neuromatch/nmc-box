@@ -69,7 +69,7 @@ const defaultOptionalFields = {
   computational_score: "0.5",
   meeting_platform: [],
   abstracts: [],
-  coi: [],
+  coi: "",
   participate_mind_match: false,
   participate_grouped_mind: false,
 }
@@ -82,7 +82,7 @@ const defaultOptionalCheckers = {
   meetingPlatformSelect: [],
   // a bit hacky here as there is no way to have default text as none
   abstracts: [""],
-  coiSelect: [],
+  coi: "",
 }
 
 // -- FUNCTIONS
@@ -128,10 +128,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
   // get user info
   const { currentUserInfo: user } = useFirebaseWrapper()
   // state
-  const [isOptedOut, setIsOptedOut] = useState(undefined)
+  const [isOptedOut, setIsOptedOut] = useState(false)
   const [isPublic, setIsPublic] = useState(false)
   // warning is true only when there is some data in the optional fields
-  const [optOutWarning, setOptOutWarning] = useState(undefined)
+  const [optOutWarning, setOptOutWarning] = useState(false)
   const [isSending, setIsSending] = useState(false)
   // timezone for available datetime picker
   const { timezone: t } = useTimezone()
@@ -139,7 +139,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
   // ref
   const toastControl = useRef(null)
   // api
-  const { register: registerAPI } = useAPI()
+  const { register: registerAPI, getAffiliation } = useAPI()
 
   const {
     register,
@@ -491,9 +491,16 @@ const RegisterForm = ({ prevUserData, origin }) => {
                 <AsyncControlSelect
                   name="institutionSelect"
                   control={control}
-                  fetchUrl="/api/query_affiliation?n_results=10&q="
-                  placeholder="Type to see options..."
                   isRequired="Institution is required."
+                  selectProps={{
+                    loadOptions: (inputValue, callback) => {
+                      getAffiliation(inputValue)
+                        .then(res => res.json())
+                        .then(resJson => callback(resJson?.data?.map(x => ({ value: x, label: x })) || []))
+                    },
+                    placeholder: "Type to see options...",
+                    isClearable: true,
+                  }}
                 />
                 <ErrorMessage
                   errors={errors}

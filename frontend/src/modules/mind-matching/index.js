@@ -235,16 +235,14 @@ const MindMatchingModule = ({
             the un-conference. We will try best not to match you with person you
             already know.
           </InstructionText>
-          <LabelContainer>
-            <label>People I know:</label>
-          </LabelContainer>
-          <AsyncControlSelect
-            name="coiSelect"
-            control={control}
-            fetchUrl="/api/query_name?n_results=10&q="
-            isMulti
-            placeholder="Type to see options..."
-            menuPlacement="top"
+          <SubLabel>
+            Please separate each name with ;
+          </SubLabel>
+          <input
+            type="text"
+            placeholder="name1, affiliation1; name2, affiliation2; ..."
+            name="coi"
+            ref={register()}
             disabled={isOptedOut}
           />
         </InputContainer>
@@ -256,9 +254,9 @@ const MindMatchingModule = ({
 MindMatchingModule.propTypes = {
   abstracts: PropTypes.arrayOf(PropTypes.string),
   formControl: PropTypes.shape({
-    register: PropTypes.object,
+    register: PropTypes.func,
     control: PropTypes.object,
-    setValue: PropTypes.object,
+    setValue: PropTypes.func,
     errors: PropTypes.object,
   }).isRequired,
   isOptedOut: PropTypes.bool.isRequired,
