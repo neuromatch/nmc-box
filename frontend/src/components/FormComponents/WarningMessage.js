@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 const WarningMessage = styled.span`
-  color: #eb4034;
+  color: ${p => p.theme.colors.danger};
 
   &::before {
     display: inline;

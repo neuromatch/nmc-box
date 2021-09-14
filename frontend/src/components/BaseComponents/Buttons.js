@@ -128,37 +128,14 @@ const ButtonWithLinkStyle = styled.button.attrs(() => ({
 // -- button in form
 const FormButton = styled(LineButton).attrs(() => ({
   type: "submit",
-}))`
-  :active {
-    opacity: 0.5;
-  }
-
-  ${props =>
-    props.disabled &&
-    css`
-      color: #bbb;
-      background-color: transparent;
-      border-color: #bbb;
-      cursor: default;
-
-      &:hover {
-        color: #bbb;
-        background-color: transparent;
-        border-color: #bbb;
-      }
-    `}
-`
+}))``
 
 FormButton.propTypes = {
   color: PropTypes.string,
-  hoverColor: PropTypes.string,
-  hoverBgColor: PropTypes.string,
 }
 
 FormButton.defaultProps = {
-  color: "#333",
-  hoverColor: "#fff",
-  hoverBgColor: "#444",
+  color: null,
 }
 
 export {

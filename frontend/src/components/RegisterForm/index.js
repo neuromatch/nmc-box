@@ -1,9 +1,11 @@
+import debounce from "lodash/debounce"
 import PropTypes from "prop-types"
 import React, { useEffect, useRef, useState } from "react"
 import { Controller, ErrorMessage, useForm } from "react-hook-form"
 import useAPI from "../../hooks/useAPI"
 import useFirebaseWrapper from "../../hooks/useFirebaseWrapper"
 import useTimezone from "../../hooks/useTimezone"
+import MindMatchingModule from "../../modules/mind-matching"
 import AvailableTimePicker, {
   datesOptions,
   timeBoundary,
@@ -20,20 +22,17 @@ import { ButtonsContainer, FormButton } from "../BaseComponents/Buttons"
 import Toast, { toastTypes } from "../BaseComponents/Toast"
 import {
   AsyncControlSelect,
-  ControlSelect,
-} from "../FormComponents/SelectWrapper"
-import Layout from "../layout"
-import {
   CheckboxContainer,
+  ControlSelect,
   FormContainer,
   InputContainer,
-  RequiredIcon,
   InstructionText,
+  RequiredIcon,
   SubLabel,
   UncontrolledCheckbox,
   WarningMessage,
 } from "../FormComponents"
-import MindMatchingModule from "../../modules/mind-matching"
+import Layout from "../layout"
 
 // -- CONSTANTS
 const originEnum = {
@@ -233,9 +232,6 @@ const RegisterForm = ({ prevUserData, origin }) => {
               reactSelectHelpers.saveFormatToOptions(val)
             )
             break
-          case "coi":
-            setValue("coiSelect", reactSelectHelpers.saveFormatToOptions(val))
-            break
           case "available_dt":
             setValue(
               "availableDatetimePicker",
@@ -269,8 +265,6 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [prevUserData, setValue, timezone])
 
-
-
   // -- onSubmit funtion
   const onSubmit = data => {
     // to label button
@@ -283,7 +277,6 @@ const RegisterForm = ({ prevUserData, origin }) => {
       academicStatusSelect,
       meetingPlatformSelect,
       abstracts,
-      coiSelect,
       availableDatetimePicker,
       ...rest
     } = data
@@ -328,7 +321,6 @@ const RegisterForm = ({ prevUserData, origin }) => {
           ? []
           : abstracts
         : [],
-      coi: !isPublic ? reactSelectHelpers.optionsToSaveFormat(coiSelect) : [],
       available_dt: !isPublic
         ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
         : "",
@@ -344,15 +336,26 @@ const RegisterForm = ({ prevUserData, origin }) => {
           },
     }
 
-    // console.log('readyData:', readyData);
+    console.log("readyData:", readyData)
 
     registerAPI(readyData)
-      .then(() => {
+      .then(res => {
         // console.log('data is submitted!', x);
         // scroll to top
         common.scrollTo()
-        // show toast
-        toastControl.current.show()
+
+        if (res.ok) {
+          const message = originEnum.register
+            ? "Your profile has been registered."
+            : "Your profile has been updated."
+
+          toastControl.current.show(toastTypes.success, message)
+        } else {
+          toastControl.current.show(
+            toastTypes.error,
+            `Error ${res.status}: ${res.statusText}. Please contact our staff.`
+          )
+        }
       })
       .catch(err => {
         console.log(err)
@@ -365,11 +368,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
 
   return (
     <Layout>
-      <Toast
-        message="Your profile has been updated."
-        type={toastTypes.success}
-        ref={toastControl}
-      />
+      <Toast ref={toastControl} />
       <FormContainer>
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
@@ -493,11 +492,16 @@ const RegisterForm = ({ prevUserData, origin }) => {
                   control={control}
                   isRequired="Institution is required."
                   selectProps={{
-                    loadOptions: (inputValue, callback) => {
+                    loadOptions: debounce((inputValue, callback) => {
                       getAffiliation(inputValue)
                         .then(res => res.json())
-                        .then(resJson => callback(resJson?.data?.map(x => ({ value: x, label: x })) || []))
-                    },
+                        .then(resJson =>
+                          callback(
+                            resJson?.data?.map(x => ({ value: x, label: x })) ||
+                              []
+                          )
+                        )
+                    }, 300),
                     placeholder: "Type to see options...",
                     isClearable: true,
                   }}
@@ -575,8 +579,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
                   ? "Save"
                   : "Submit"
               }
-              // disabled={isSending}
-              disabled
+              disabled={isSending}
             />
           </ButtonsContainer>
         </form>
