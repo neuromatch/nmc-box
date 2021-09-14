@@ -12,7 +12,7 @@
         "content": [
             {
                 "type": "text/html",
-                "value": "<p>Dear participant,</p><p>Congratulation, you are registered to Neuromatch conference in a box (demo). There is no real event. It is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizer</p>"
+                "value": "<p>Dear participant,</p><p>Congratulation! you are registered to Neuromatch conference in a box (demo). This is not a real event. It is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizers</p>"
             }
         ]
     },
@@ -29,7 +29,24 @@
         "content": [
             {
                 "type": "text/plain",
-                "value": "<p>Dear participant,</p><p>Thank you for submitting your abstract to Neuromatch conference in a box (demo). This is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizer</p>"
+                "value": "<p>Dear participant,</p><p>Thank you for submitting your abstract to Neuromatch conference in a box (demo). This is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizers</p>"
+            }
+        ]
+    },
+    "mindmatch": {
+        "personalizations": [
+            {
+                "subject": "Your mind-match at Neuromatch Conference is ready [demo]"
+            }
+        ],
+        "from": {
+            "email": "neuromatchconf@neuromatch.io",
+            "name": "Neuromatch Conference in a box [Demo]"
+        },
+        "content": [
+            {
+                "type": "text/plain",
+                "value": "<p>Dear participant,</p><p>We have matched you to 6 more participants at the conference. Please log-in and check your match at https://neuromatch.io/your-matches. You can see the instructions how to start your conversation with your peers on https://neuromatch.io/instructions/how-to-register.</p><p>NMC Organizers</p>"
             }
         ]
     }

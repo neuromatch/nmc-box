@@ -1,6 +1,6 @@
 # Overall information about the conference
 name: Neuromatch Conference
-current_edition: 2020-4
+current_edition: 2021-4
 subtitle: A conference made for the whole neuroscience community
 description: " Based on the successful mind-matching session at the Cognitive\
   \ Computational Neuroscience (CCN) conference and previous Neuromatch\
@@ -46,7 +46,7 @@ editions:
     main_conference: October 26 - 30, 2020
     twitter_hashtag: nmc3
 
-  2020-4:
+  2021-4:
     edition_name: 4.0
     page_title: neuromatch 4.0 [demo]
     registration_date: Anytime before December 30, 2020
@@ -65,7 +65,7 @@ firebase-collection:
   2020-3:
     users: "users"
     preferences: "preferences"
-  2020-4:
+  2021-4:
     users: "users"
     preferences: "preferences"
 
