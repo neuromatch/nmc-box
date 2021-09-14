@@ -85,15 +85,16 @@ HTTP_REQUEST = Request()
 
 
 class Submission(BaseModel):
-    submission_id: Optional[str] = None
+    # fields provided by users
     title: str = ""
     abstract: str = ""
     fullname: str = ""
     coauthors: Optional[str] = None
     institution: Optional[str] = None
     theme: Optional[str] = None
-    talk_format: str
-    # below fields are created by organizers
+    talk_format: Optional[str] = None
+    arxiv: Optional[str] = None  # link to arXiv
+    # fields created by organizers for the conference
     starttime: Optional[str] = None
     endtime: Optional[str] = None
     url: Optional[str] = None
@@ -117,8 +118,16 @@ async def get_affiliations(
 
 @app.post("/api/confirmation/{email_type}")
 async def send_confirmation_email(
-    email_type="registration", authorization: Optional[str] = Header(None)
+    email_type: str = "registration", authorization: Optional[str] = Header(None)
 ):
+    """
+    Sending confirmation email using SendGrid API. This API will
+    read email template in /sitedata/email-content.json and then
+    send it out using SendGrid API
+
+    email_type: str, can be one options from registration, submission, mindmatch
+        Add more email template on sitedata/email-content.json
+    """
     if SENDGRID_API:
         user_info = get_user_info(authorization)
         email = user_info.get("email")
@@ -135,52 +144,67 @@ async def send_confirmation_email(
 
 
 @app.post("/api/migration")
-async def migrate():
+async def migrate(authorization: Optional[str] = Header(None)):
     # TODOs: find previous user profile and migrate to the current one
     return None
 
 
 @app.get("/api/user")
 async def get_user(authorization: Optional[str] = Header(None)):
-    # TODOs: find user from a given user ID
+    """
+    From a given authorization, get user ID, and
+    get user data from Firebase
+    """
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
         user = get_data(user_id, user_collection)
         if user is not None:
-            return JSONResponse(content=user)
+            return JSONResponse(content={"data": user})
         else:
-            return JSONResponse(content={})
-    return None
+            return JSONResponse(content={"data": {}})
+    else:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.post("/api/user")
-async def create_user(user_data, authorization: Optional[str] = Header(None)):
-    # TODOs: create user
+async def create_user(
+    user_data: Optional[dict], authorization: Optional[str] = Header(None)
+):
+    """
+    Create user on Firebase for a given user data.
+    Structure of the user data from front-end is as follows
+        {"id": ..., "payload": ...}
+    """
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
-        set_data(user_data, user_id, user_collection)  # set data
+        set_data(user_data["payload"], user_id, user_collection)  # set data
         print(f"Done setting user with ID = {user_id}")
     else:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.put("/api/user")
-async def update_user(user_data, authorization: Optional[str] = Header(None)):
+async def update_user(
+    user_data: Optional[dict], authorization: Optional[str] = Header(None)
+):
+    """
+    Update user on Firebase collection for a given user data.
+    """
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
         update_data(user_data, user_id, user_collection)  # update data
         print(f"Done setting user with ID = {user_id}")
     else:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.get("/api/user/preference/")
 async def get_user_votes(authorization: Optional[str] = Header(None)):
     """
-    Get user votes for all edition
+    Get user votes for all conference editions.
     """
     user_info = get_user_info(authorization)
     if user_info is not None:
@@ -192,13 +216,13 @@ async def get_user_votes(authorization: Optional[str] = Header(None)):
         ]
         return JSONResponse(content={"data": abstracts})
     else:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.get("/api/user/preference/{edition}")
 async def get_user_votes(edition: str, authorization: Optional[str] = Header(None)):
     """
-    Get user votes if edition is specified, it will
+    Get user votes from a specific edition.
     """
     user_info = get_user_info(authorization)
     if user_info is not None:
@@ -214,7 +238,7 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
         }
         return JSONResponse(content={"data": abstracts})
     else:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.patch("/api/user/preference/{edition}/{submission_id}")
@@ -234,7 +258,7 @@ async def update_user_votes(
     # TODOs: set preference on Firebase
     user_info = get_user_info(authorization)
     if user_info is None:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN)
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
     user_id = user_info.get("user_id")
     user_preference = get_data(user_id, preference_collection)  # all preferences
 
@@ -444,7 +468,7 @@ async def get_abstract(edition: str, submission_id: str):
     Get an abstract with submission id from a given edition
 
     Note: This will retrieve from ElasticSearch in case Airtable
-        is not specified
+        is not specified in es_config
     """
     base_id = es_config["editions"][edition].get("airtable_id")
     table_name = es_config["editions"][edition].get("table_name")
@@ -455,6 +479,8 @@ async def get_abstract(edition: str, submission_id: str):
         # query from Airtable
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         abstract = table.get(submission_id)  # return abstract from Airtable
+    if abstract is None:
+        abstract = {}
     return JSONResponse(content={"data": abstract})
 
 
@@ -465,6 +491,7 @@ async def create_abstract(
     """
     Submit an abstract to Airtable
     """
+    user_info = get_user_info(authorization)
     submission = submission.dict()
 
     if submission["starttime"] not in ["", None] and submission["endtime"] not in [
@@ -485,15 +512,15 @@ async def create_abstract(
         r = table.create(submission)  # create submission
         print(f"Set the record {r['id']} on Airtable")
 
-        user_info = get_user_info(authorization)
+        # update submission_id to user on Firebase
         if user_info is not None:
             user_id = user_info.get("user_id")
             update_data(
                 {"submission_id": r["id"]}, user_id, user_collection
             )  # update submission to a user
-            return JSONResponse(status=status.HTTP_200_OK)
+            return JSONResponse(status_code=status.HTTP_200_OK)
         else:
-            return JSONResponse(status=status.HTTP_403_FORBIDDEN)
+            return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
 
 @app.put("/api/abstract/{edition}/{submission_id}")
@@ -511,4 +538,4 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.update(submission_id, submission)  # create submission
         print(f"Set the record {r['id']} on Airtable")
-        return JSONResponse(status=status.HTTP_200_OK)
+        return JSONResponse(status_code=status.HTTP_200_OK)
