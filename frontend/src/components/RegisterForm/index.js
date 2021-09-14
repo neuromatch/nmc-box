@@ -600,7 +600,7 @@ RegisterForm.propTypes = {
     personal_page: PropTypes.string,
     meeting_platform: PropTypes.arrayOf(PropTypes.string),
     abstracts: PropTypes.arrayOf(PropTypes.string),
-    coi: PropTypes.arrayOf(PropTypes.string),
+    coi: PropTypes.string,
     collaboration_score: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,

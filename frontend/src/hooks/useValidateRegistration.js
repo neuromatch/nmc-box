@@ -21,18 +21,22 @@ function useValidateRegistration() {
 
   useEffect(() => {
     getUserData()
-      .then(res => res.json())
+      .then(res => res.ok
+        ? res.json()
+        : Promise.reject(res)
+      )
       .then(userData => {
-        setPrevUserData(userData)
+        setPrevUserData(userData?.data || {})
 
         // -- checking
         // if there is fullname or email, consider as registered
-        if (userData?.fullname || userData?.email) {
+        if (userData?.data?.fullname || userData?.data?.email) {
           setIsRegistered(true)
         } else {
           setIsRegistered(false)
         }
       })
+      .catch(() => {})
       .finally(() => setIsValidating(false))
   }, [getUserData])
 

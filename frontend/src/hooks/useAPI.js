@@ -24,15 +24,19 @@ function useAPI() {
     getAffiliation: useCallback(q => {
       return fetch(endpoints.affiliation + `?q=${q}`)
     }, []),
-    register: useCallback(data => {
-      return fetch(endpoints.user, {
-        method: "POST",
-        headers: {
-          ...contentTypeHeader,
-        },
-        body: JSON.stringify(data),
-      })
-    }, []),
+    register: useCallback(
+      data => {
+        return fetch(endpoints.user, {
+          method: "POST",
+          headers: {
+            ...contentTypeHeader,
+            ...authHeader(idToken),
+          },
+          body: JSON.stringify(data),
+        })
+      },
+      [idToken]
+    ),
     getUserData: useCallback(() => {
       return fetch(endpoints.user, {
         headers: {
