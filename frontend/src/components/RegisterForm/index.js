@@ -11,7 +11,7 @@ import AvailableTimePicker, {
   timeBoundary,
   timeOptions,
   timezoneParser,
-} from "../../pages/abstract-submission/components/AvailableTimePicker"
+} from "../AvailableTimePicker"
 import {
   common,
   confirmPromise,

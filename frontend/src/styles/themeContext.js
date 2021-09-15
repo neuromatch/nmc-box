@@ -35,6 +35,18 @@ const ThemeProvider = ({ children }) => {
         color: ${p => p.theme.colors.secondary};
       }
 
+      h3 {
+        margin-bottom: ${1.56 * 3 / 4}rem;
+      }
+
+      h4 {
+        margin-bottom: ${1.56 * 2 / 4}rem;
+      }
+
+      h5, h6 {
+        margin-bottom: ${1.56 * 1 / 4}rem;
+      }
+
       hr {
         background-color: ${p => p.theme.colors.secondary};
       }
