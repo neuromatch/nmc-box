@@ -35,9 +35,12 @@ function useValidateRegistration() {
         } else {
           setIsRegistered(false)
         }
+
+        // cannot place this in finally because even if it enters catch
+        // it will then enters finally
+        setIsValidating(false)
       })
       .catch(() => {})
-      .finally(() => setIsValidating(false))
   }, [getUserData])
 
   return {
