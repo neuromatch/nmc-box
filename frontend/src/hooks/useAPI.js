@@ -3,6 +3,7 @@ import useFirebaseWrapper from "./useFirebaseWrapper"
 
 const endpoints = {
   affiliation: "/api/affiliation",
+  abstract: '/api/abstract',
   user: "/api/user",
   userPreference: "/api/user/preference",
   confirmation: "/api/confirmation",
@@ -44,6 +45,44 @@ function useAPI() {
         },
       })
     }, [idToken]),
+    submitAbstract: useCallback(({ edition, data }) => {
+      return fetch(`${endpoints.abstract}/${edition}`, {
+        method: "POST",
+        headers: {
+          ...contentTypeHeader,
+          ...authHeader(idToken),
+        },
+        body: JSON.stringify(data),
+      })
+    }, [idToken]),
+    getAbstract: useCallback(({ edition, submissionId }) => {
+      return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
+        headers: {
+          ...authHeader(idToken),
+        },
+      })
+    }, [idToken]),
+    updateAbstract: useCallback(({ edition, data, submissionId }) => {
+      return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
+        method: "PUT",
+        headers: {
+          ...contentTypeHeader,
+          ...authHeader(idToken),
+        },
+        body: JSON.stringify(data),
+      })
+    }, [idToken]),
+    /**
+     * @param {('registration'|'submission'|'mindmatch')} type
+     */
+    sendConfirmationEmail: useCallback(type => {
+      return fetch(`${endpoints.confirmation}/${type}`, {
+        method: "POST",
+        headers: {
+          ...authHeader(idToken),
+        },
+      })
+    }, [idToken])
   }
 }
 

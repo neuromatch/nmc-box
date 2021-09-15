@@ -1,36 +1,31 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { navigate } from "gatsby"
-// import moment from 'moment';
 import PropTypes from "prop-types"
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Controller, ErrorMessage, useForm } from "react-hook-form"
 import styled from "styled-components"
-// import {
-//   ButtonsContainer,
-//   FormButton,
-// } from '../../components/BaseComponents/Buttons';
-import LoadingView from "../components/BaseComponents/LoadingView"
-import Toast, { toastTypes } from "../components/BaseComponents/Toast"
-import { ControlSelect } from "../components/FormComponents/SelectWrapper"
-import {
-  FormContainer,
-  InputContainer,
-  RequiredIcon,
-  WarningMessage,
-} from "../components/FormComponents"
-import Layout from "../components/layout"
-import useValidateRegistration from "../hooks/useValidateRegistration"
-import { media } from "../styles"
-import { useAuthenFetchGet } from "../hooks/useFetch"
-import { reactSelectHelpers, timePickerHelpers } from "../utils"
-import useSiteMetadata from "../hooks/gql/useSiteMetadata"
 import AvailableTimePicker from "../components/AvailableTimePicker"
 import {
   ButtonsContainer,
   FormButton,
 } from "../components/BaseComponents/Buttons"
+import LoadingView from "../components/BaseComponents/LoadingView"
+import Toast, { toastTypes } from "../components/BaseComponents/Toast"
+import {
+  FormContainer,
+  InputContainer,
+  RequiredIcon,
+  SubLabel,
+  WarningMessage,
+} from "../components/FormComponents"
+import { ControlSelect } from "../components/FormComponents/SelectWrapper"
+import Layout from "../components/layout"
+import useSiteMetadata from "../hooks/gql/useSiteMetadata"
+import useAPI from "../hooks/useAPI"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
+import useValidateRegistration from "../hooks/useValidateRegistration"
+import { common, Fa, reactSelectHelpers, timePickerHelpers } from "../utils"
 
 // -- CONSTANTS
 const talkFormatOptions = ["Traditional talk", "Interactive talk"]
@@ -42,11 +37,11 @@ TopicHeading.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 }
 
-const SubLabel = styled.label`
-  font-size: 14.4px;
-  line-height: 17px;
-  margin: 2px 0 8px;
-  font-style: italic;
+const LoadingSpinnerContainer = styled.div`
+  text-align: center;
+  color: ${p => p.theme.colors.secondary};
+
+  margin: 1.56rem auto;
 `
 
 export default () => {
@@ -64,6 +59,13 @@ export default () => {
   // get user info
   const { isValidating, isRegistered, prevUserData } = useValidateRegistration()
   const { isLoggedIn } = useFirebaseWrapper()
+  // api
+  const {
+    submitAbstract,
+    getAbstract,
+    updateAbstract,
+    sendConfirmationEmail,
+  } = useAPI()
 
   // manage form using hooks
   const {
@@ -75,47 +77,31 @@ export default () => {
     setError,
   } = useForm()
   const dynamicToastControl = useRef(null)
+  const [currentSubmission, setCurrentSubmission] = useState(null)
+  const [isLoadingCurrentData, setIsLoadingCurrentData] = useState(true)
 
-  // get existing submission (if there is) to render as default values
-  const { result: currentSubmission } = useAuthenFetchGet(
-    prevUserData?.submission_id
-      ? `/api/abstract/{edition}/${prevUserData?.submission_id}`
-      : undefined,
-    {}
-  )
+  useEffect(() => {
+    if (prevUserData?.submission_id) {
+      getAbstract({
+        edition: "2021-4",
+        submissionId: prevUserData.submission_id,
+      })
+        .then(res => res.json())
+        .then(resJson => setCurrentSubmission(resJson.data))
+        .catch(err => console.log("err", err))
+        .finally(() => setIsLoadingCurrentData(false))
+    }
+  }, [getAbstract, prevUserData])
 
   // set default values in each field
   useEffect(() => {
-    let timeoutRef
-
-    if (
-      currentSubmission &&
-      currentSubmission?.constructor === Object &&
-      Object.keys(currentSubmission).length > 0
-    ) {
-      // select components have to wait them rendered before setValue
-      timeoutRef = setTimeout(() => {
-        setValue([
-          {
-            talkFormatSelect: reactSelectHelpers.saveFormatToOptions(
-              currentSubmission?.talk_format
-            ),
-          },
-          {
-            theme: reactSelectHelpers.saveFormatToOptions(
-              currentSubmission?.theme
-            ),
-          },
-          {
-            topic: reactSelectHelpers.saveFormatToOptions(
-              currentSubmission?.topic
-            ),
-          },
-        ])
-      }, 2500)
-
-      // the rest don't need to wait
+    if (currentSubmission && !isLoadingCurrentData) {
       setValue([
+        {
+          talkFormatSelect: reactSelectHelpers.saveFormatToOptions(
+            currentSubmission?.talk_format
+          ),
+        },
         {
           availableDatetimePicker: timePickerHelpers.deserializeSelectedDatetime(
             currentSubmission?.available_dt
@@ -124,12 +110,10 @@ export default () => {
         { coauthors: currentSubmission?.coauthors },
         { title: currentSubmission?.title },
         { abstract: currentSubmission?.abstract },
+        { arxiv: currentSubmission?.arxiv },
       ])
     }
-
-    // clear timeout on unmount
-    return () => clearTimeout(timeoutRef)
-  }, [currentSubmission, setValue])
+  }, [currentSubmission, isLoadingCurrentData, setValue])
 
   const onSubmit = data => {
     setIsSending(true)
@@ -164,64 +148,83 @@ export default () => {
       ...restData,
     }
 
-    fetch("/api/abstract/{edition}/{submission_id}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(readyData),
-    })
-      .then(res => {
-        if (res.ok) {
-          // scroll to top
-          window &&
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: "smooth",
-            })
-          // // send confirmation email
-          // // dont send email now
-          // fetch('/api/confirmation/submission', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({
-          //     id: currentUserInfo.uid,
-          //   }),
-          // })
-          //   .then((submissionConRes) => {
-          //     // if (submissionConRes.ok) {
-          //     //   console.log('email sent!');
-          //     // }
-          //   })
-          //   .catch((err) => console.log('[/send_submission_email]', err));
-          // show success toast
-          dynamicToastControl.current.show(
-            toastTypes.success,
-            "You have successfully submitted the abstract to Neuromatch Conference."
-          )
-        } else {
-          // show not success toast
+    if (currentSubmission) {
+      updateAbstract({
+        edition: "2021-4",
+        data: readyData,
+        submissionId: prevUserData.submission_id,
+      })
+        .then(res => {
+          if (res.ok) {
+            // scroll to top
+            common.scrollTo()
+
+            // show success toast
+            dynamicToastControl.current.show(
+              toastTypes.success,
+              "You have successfully updated your abstract!"
+            )
+          } else {
+            // show not success toast
+            dynamicToastControl.current.show(
+              toastTypes.error,
+              `Something went wrong with status ${res.status}, please contact the admin.`
+            )
+          }
+          // reset
+          setIsSending(false)
+        })
+        .catch(err => {
+          console.log(err)
+
           dynamicToastControl.current.show(
             toastTypes.error,
-            `Something went wrong with status ${res.status}, please contact the admin.`
+            `Something went wrong with error ${err}, please contact us.`
           )
-        }
-        // reset
-        setIsSending(false)
-      })
-      .catch(err => {
-        console.log(err)
+          // reset
+          setIsSending(false)
+        })
+    } else {
+      submitAbstract({ edition: "2021-4", data: readyData })
+        .then(res => {
+          if (res.ok) {
+            // scroll to top
+            common.scrollTo()
 
-        dynamicToastControl.current.show(
-          toastTypes.error,
-          `Something went wrong with error ${err}, please contact us.`
-        )
-        // reset
-        setIsSending(false)
-      })
+            sendConfirmationEmail("submission")
+              .then(res =>
+                res.ok
+                  ? console.log("email is sent!")
+                  : Promise.reject("email is not sent!")
+              )
+              .catch(err => console.log(err))
+
+            // show success toast
+            dynamicToastControl.current.show(
+              toastTypes.success,
+              "You have successfully submitted the abstract to Neuromatch Conference."
+            )
+          } else {
+            // show not success toast
+            dynamicToastControl.current.show(
+              toastTypes.error,
+              `Something went wrong with status ${res.status}, please contact the admin.`
+            )
+          }
+          // reset
+          setIsSending(false)
+        })
+        .catch(err => {
+          console.log(err)
+
+          dynamicToastControl.current.show(
+            toastTypes.error,
+            `Something went wrong with error ${err}, please contact us.`
+          )
+          // reset
+          setIsSending(false)
+        })
+    }
   }
 
   if (isLoggedIn === false) {
@@ -258,8 +261,7 @@ export default () => {
         within computational neuroscience! Abstracts will be screened only for
         obvious topical irrelevance to the neuroscience community. For each
         title and abstract submitted, the submitter will select the presentation
-        format <em>traditional talk</em> or
-        <em>interactive talk</em>.
+        format <em>traditional talk</em> or <em>interactive talk</em>.
       </p>
       <h3>Traditional Talks</h3>
       <p>
@@ -309,7 +311,12 @@ export default () => {
           {` ${submissionDate})`}
         </p>
       )}
-      {isExpired === false && (
+      {isLoadingCurrentData && (
+        <LoadingSpinnerContainer>
+          <Fa icon="sync" spin />
+        </LoadingSpinnerContainer>
+      )}
+      {isExpired === false && isLoadingCurrentData === false && (
         <FormContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
             <p>
@@ -346,7 +353,10 @@ export default () => {
             </InputContainer>
             <InputContainer>
               <label>Coauthors</label>
-              <SubLabel>Put your coauthor each separated with ;</SubLabel>
+              <SubLabel>
+                Put your coauthor each separated with ; (e.g. First Last,
+                Affiliation; First Last, Affiliation; ...)
+              </SubLabel>
               <input
                 type="text"
                 placeholder="name1, affiliation1; name2, affiliation2; ..."
@@ -441,7 +451,13 @@ export default () => {
             <ButtonsContainer>
               <FormButton
                 as="input"
-                value={isSending ? "Sending.." : "Submit"}
+                value={
+                  isSending
+                    ? "Submitting.."
+                    : currentSubmission
+                    ? "Update"
+                    : "Submit"
+                }
                 disabled={isSending}
               />
             </ButtonsContainer>
