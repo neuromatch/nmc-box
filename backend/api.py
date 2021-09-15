@@ -94,6 +94,7 @@ class Submission(BaseModel):
     theme: Optional[str] = None
     talk_format: Optional[str] = None
     arxiv: Optional[str] = None  # link to arXiv
+    available_dt: Optional[str] = None  # available datetime in UTC separated by ;
     # fields created by organizers for the conference
     starttime: Optional[str] = None
     endtime: Optional[str] = None
@@ -478,7 +479,7 @@ async def get_abstract(edition: str, submission_id: str):
     else:
         # query from Airtable
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        abstract = table.get(submission_id)  # return abstract from Airtable
+        abstract = table.get(submission_id).get("fields", {})  # return abstract from Airtable
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})
@@ -509,7 +510,7 @@ async def create_abstract(
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.create(submission)  # create submission
+        r = table.create(submission)  # create submission on Airtable
         print(f"Set the record {r['id']} on Airtable")
 
         # update submission_id to user on Firebase
@@ -517,7 +518,7 @@ async def create_abstract(
             user_id = user_info.get("user_id")
             update_data(
                 {"submission_id": r["id"]}, user_id, user_collection
-            )  # update submission to a user
+            )  # update submission id to a user on Firebase
             return JSONResponse(status_code=status.HTTP_200_OK)
         else:
             return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
@@ -536,6 +537,6 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.update(submission_id, submission)  # create submission
+        r = table.update(submission_id, submission.dict())  # update submission
         print(f"Set the record {r['id']} on Airtable")
         return JSONResponse(status_code=status.HTTP_200_OK)
