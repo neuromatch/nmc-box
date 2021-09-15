@@ -77,6 +77,8 @@ export default () => {
     setError,
   } = useForm()
   const dynamicToastControl = useRef(null)
+
+  // get existing submission
   const [currentSubmission, setCurrentSubmission] = useState(null)
   const [isLoadingCurrentData, setIsLoadingCurrentData] = useState(true)
 
