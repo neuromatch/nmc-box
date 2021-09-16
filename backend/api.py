@@ -91,7 +91,6 @@ class Submission(BaseModel):
     fullname: str = ""
     coauthors: Optional[str] = None
     institution: Optional[str] = None
-    theme: Optional[str] = None
     talk_format: Optional[str] = None
     arxiv: Optional[str] = None  # link to arXiv
     available_dt: Optional[str] = None  # available datetime in UTC separated by ;

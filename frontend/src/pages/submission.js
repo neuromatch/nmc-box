@@ -44,6 +44,68 @@ const LoadingSpinnerContainer = styled.div`
   margin: 1.56rem auto;
 `
 
+/**
+ * resolveHandler - a resolve wrapper for fetch promise
+ * @param {Object} res - a response
+ * @param {('submit'|'update')} action
+ * @param {Object} forwardProps
+ * @param {Function} forwardProps.sendConfirmationEmail
+ * @param {Object} forwardProps.dynamicToastControl
+ * @param {Function} forwardProps.setIsSending
+ */
+const resolveHandler = (
+  res,
+  action,
+  { sendConfirmationEmail, dynamicToastControl, setIsSending }
+) => {
+  if (res.ok) {
+    // scroll to top
+    common.scrollTo()
+
+    if (action === "submit") {
+      sendConfirmationEmail("submission")
+        .then(res =>
+          res.ok
+            ? console.log("email is sent!")
+            : Promise.reject("email is not sent!")
+        )
+        .catch(err => console.log(err))
+    }
+
+    // show success toast
+    dynamicToastControl.current.show(
+      toastTypes.success,
+      "You have successfully submitted the abstract to Neuromatch Conference."
+    )
+  } else {
+    // show not success toast
+    dynamicToastControl.current.show(
+      toastTypes.error,
+      `Something went wrong with status ${res.status}, please contact the admin.`
+    )
+  }
+  // reset
+  setIsSending(false)
+}
+
+/**
+ * rejectHandler - a reject wrapper for fetch promise
+ * @param {*} err
+ * @param {Object} forwardProps
+ * @param {Object} forwardProps.dynamicToastControl
+ * @param {Function} forwardProps.setIsSending
+ */
+const rejectHandler = (err, { dynamicToastControl, setIsSending }) => {
+  console.log(err)
+
+  dynamicToastControl.current.show(
+    toastTypes.error,
+    `Something went wrong with error ${err}, please contact us.`
+  )
+  // reset
+  setIsSending(false)
+}
+
 export default () => {
   const [isSending, setIsSending] = useState(false)
   const [isExpired, setIsExpired] = useState(null)
@@ -92,6 +154,10 @@ export default () => {
         .then(resJson => setCurrentSubmission(resJson.data))
         .catch(err => console.log("err", err))
         .finally(() => setIsLoadingCurrentData(false))
+    }
+
+    if (prevUserData && !prevUserData.submission_id) {
+      setIsLoadingCurrentData(false)
     }
   }, [getAbstract, prevUserData])
 
@@ -156,76 +222,24 @@ export default () => {
         data: readyData,
         submissionId: prevUserData.submission_id,
       })
-        .then(res => {
-          if (res.ok) {
-            // scroll to top
-            common.scrollTo()
-
-            // show success toast
-            dynamicToastControl.current.show(
-              toastTypes.success,
-              "You have successfully updated your abstract!"
-            )
-          } else {
-            // show not success toast
-            dynamicToastControl.current.show(
-              toastTypes.error,
-              `Something went wrong with status ${res.status}, please contact the admin.`
-            )
-          }
-          // reset
-          setIsSending(false)
-        })
-        .catch(err => {
-          console.log(err)
-
-          dynamicToastControl.current.show(
-            toastTypes.error,
-            `Something went wrong with error ${err}, please contact us.`
-          )
-          // reset
-          setIsSending(false)
-        })
+        .then(res =>
+          resolveHandler(res, "update", {
+            sendConfirmationEmail,
+            dynamicToastControl,
+            setIsSending,
+          })
+        )
+        .catch(err => rejectHandler(err, { dynamicToastControl, setIsSending }))
     } else {
       submitAbstract({ edition: "2021-4", data: readyData })
-        .then(res => {
-          if (res.ok) {
-            // scroll to top
-            common.scrollTo()
-
-            sendConfirmationEmail("submission")
-              .then(res =>
-                res.ok
-                  ? console.log("email is sent!")
-                  : Promise.reject("email is not sent!")
-              )
-              .catch(err => console.log(err))
-
-            // show success toast
-            dynamicToastControl.current.show(
-              toastTypes.success,
-              "You have successfully submitted the abstract to Neuromatch Conference."
-            )
-          } else {
-            // show not success toast
-            dynamicToastControl.current.show(
-              toastTypes.error,
-              `Something went wrong with status ${res.status}, please contact the admin.`
-            )
-          }
-          // reset
-          setIsSending(false)
-        })
-        .catch(err => {
-          console.log(err)
-
-          dynamicToastControl.current.show(
-            toastTypes.error,
-            `Something went wrong with error ${err}, please contact us.`
-          )
-          // reset
-          setIsSending(false)
-        })
+        .then(res =>
+          resolveHandler(res, "submit", {
+            sendConfirmationEmail,
+            dynamicToastControl,
+            setIsSending,
+          })
+        )
+        .catch(err => rejectHandler(err, { dynamicToastControl, setIsSending }))
     }
   }
 
