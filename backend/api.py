@@ -1,12 +1,14 @@
 import os
 import os.path as op
 import json
+from stripe.api_resources import payment_intent
 import yaml
 from glob import glob
 from typing import Optional
 from dotenv import load_dotenv
 import sendgrid  # sendgrid API
 from sendgrid.helpers.mail import *
+import stripe
 
 load_dotenv(dotenv_path="../.env")  # setting all credentials here
 assert os.environ.get(
@@ -21,6 +23,10 @@ if not SENDGRID_API:
         "You do not specify SENDGRID_API_KEY, we will not send email to user after \
         registration and submission"
     )
+
+STRIPE_API_KEY = os.environ.get("STRIPE_SECRET_KEY")
+if STRIPE_API_KEY:
+    stripe.api_key = STRIPE_API_KEY
 
 import joblib
 from elasticsearch import Elasticsearch
@@ -512,3 +518,87 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         r = table.update(submission_id, submission)  # create submission
         print(f"Set the record {r['id']} on Airtable")
         return JSONResponse(status=status.HTTP_200_OK)
+
+
+@app.post("/api/payment/{option}")
+async def update_payment(
+    option: str = "check",
+    payload: dict = {},
+    authorization: Optional[str] = Header(None),
+):
+    """
+    API for Stripe payment
+    """
+    collection = "payment"  # Firebase collection
+    amount = payload.get("amount", 1500)
+    currency = "USD"
+
+    user_info = get_user_info(authorization)
+    user_id = user_info.get("user_id")
+
+    if option == "check":
+        ref = get_data(user_id, collection)
+        if ref is None:
+            ref = {"payment_status": "wait", "amount": amount}
+        return ref
+
+    elif option == "create":
+        # create payment intent using Stripe API
+        amount = int(amount) if str(amount).isdigit() else amount
+        try:
+            session = stripe.PaymentIntent.create(
+                amount=amount,
+                currency=currency,
+                payment_method_types=["card"],
+                receipt_email=email,
+                metadata={"integration_check": "accept_a_payment"},
+            )
+            payment = {"payment_status": "wait", "payment_intent_id": session["id"]}
+            set_data(
+                payment, user_id, "payment",
+            )  # create payment
+            return {"client_secret": session["client_secret"]}
+        except Exception as e:
+            print(e)
+            return {}
+
+    elif option == "set":
+        # set the payment if payment is successful
+        payment_dict = get_data(user_id, "payment")
+        payment_intent_id = payload["id"]
+
+        # mismatch intent ID
+        if str(payment_dict["payment_intent_id"]) != str(payment_intent_id):
+            raise JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+
+        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        if payment_intent.status != "succeeded":
+            return {
+                "error": True,
+                "message": "Sorry, your payment was not successful. Please try again or contact us.",
+            }
+
+        # set payment to Firebase
+        set_data(
+            {
+                "payment_status": "paid",
+                "payment_intent_id": payment_intent_id,
+                "currency": payload["currency"],
+                "amount": payload["amount"],
+                "raw_payment_intent": payment_intent,
+            },
+            collection,
+        )
+        print(payment_intent)
+        return {}
+
+    elif option == "waive":
+        # set payment as waived
+        set_data(
+            {"payment_status": "waived", "amount": 0, "currency": "USD"},
+            user_id,
+            collection,
+        )
+
+    else:
+        return {}
