@@ -31,7 +31,7 @@ const ThemeProvider = ({ children }) => {
     body {
       background-color: ${p => p.theme.colors.primary};
 
-      h1, h2, h3, h4, h5, h6, label {
+      h1, h2, h3, h4, h5, h6, label, summary {
         color: ${p => p.theme.colors.secondary};
       }
 
@@ -65,7 +65,7 @@ const ThemeProvider = ({ children }) => {
         text-decoration: underline;
       }
 
-      p, span, dl, ul {
+      p, span, dl, ul, ol {
         /* slightly dimmer */
         color: ${p =>
           color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
