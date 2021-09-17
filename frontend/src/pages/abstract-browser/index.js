@@ -67,34 +67,34 @@ const fetchSubmissions = (
   setIsFlushing(true);
   setLoading(true);
 
-  fetch(fetchUrl,
-    {
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
-    })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
+  // fetch(fetchUrl,
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${idToken}`,
+  //     },
+  //   })
+  //   .then((res) => {
+  //     if (res.ok) {
+  //       return res.json();
+  //     }
 
-      console.log('err', res);
+  //     console.log('err', res);
 
-      return {
-        data: [],
-        meta: {},
-        links: {},
-      };
-    })
-    .then(({ data, meta, links }) => {
-      setSubmissionData(data);
-      setSubmissionMeta(meta);
-      setSubmissionLinks(links);
-    })
-    .finally(() => {
-      setLoading(false);
-      setIsFlushing(false);
-    });
+  //     return {
+  //       data: [],
+  //       meta: {},
+  //       links: {},
+  //     };
+  //   })
+  //   .then(({ data, meta, links }) => {
+  //     setSubmissionData(data);
+  //     setSubmissionMeta(meta);
+  //     setSubmissionLinks(links);
+  //   })
+  //   .finally(() => {
+  //     setLoading(false);
+  //     setIsFlushing(false);
+  //   });
 };
 
 // -- CONSTANTS

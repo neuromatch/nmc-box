@@ -197,10 +197,12 @@ export default () => {
   // add more edition in editionOptions and default will be changed
   const [displayEdition, setDisplayEdition] = useState(editionOptions[editionOptions.length - 1]);
   const [isLoading, setIsLoading] = useState(true);
-  const { result: agendaData, isLoading: isLoadingAgenda } = useFetchGet(
-    `/api/get_agenda?edition=${displayEdition.value}`,
-    [],
-  );
+  const agendaData = []
+  const isLoadingAgenda = false
+  // const { result: agendaData, isLoading: isLoadingAgenda } = useFetchGet(
+  //   `/api/get_agenda?edition=${displayEdition.value}`,
+  //   [],
+  // );
 
   // timezone and cookies
   const [cookies, setCookie] = useCookies([timeZoneCookieKey]);
@@ -289,37 +291,37 @@ export default () => {
     );
   }, [agendaData, timeZone, isLoadingAgenda, displayEdition.value]);
 
-  // side effect for v3.0+
-  useEffect(() => {
-    if (displayEdition.value !== '2020-3' || currentDate === null) {
-      return;
-    }
+  // // side effect for v3.0+
+  // useEffect(() => {
+  //   if (displayEdition.value !== '2020-3' || currentDate === null) {
+  //     return;
+  //   }
 
-    fetchGet(
-      undefined,
-      `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
-      () => {
-        setIsLoading(true);
-      },
-      (resJson) => {
-        const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
-        setTzAgendaData3Up(converted);
+  //   fetchGet(
+  //     undefined,
+  //     `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
+  //     () => {
+  //       setIsLoading(true);
+  //     },
+  //     (resJson) => {
+  //       const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
+  //       setTzAgendaData3Up(converted);
 
-        if (minT || maxT) {
-          setMinTime(minT);
-          setMaxTime(maxT);
-        } else {
-          // reduce calendar height when there are no events
-          setMinTime(new Date('Oct 31, 2020 00:00'));
-          setMaxTime(new Date('Oct 31, 2020 00:01'));
-        }
-      },
-      () => {},
-      () => {
-        setIsLoading(false);
-      },
-    );
-  }, [currentDate, displayEdition.value, timeZone]);
+  //       if (minT || maxT) {
+  //         setMinTime(minT);
+  //         setMaxTime(maxT);
+  //       } else {
+  //         // reduce calendar height when there are no events
+  //         setMinTime(new Date('Oct 31, 2020 00:00'));
+  //         setMaxTime(new Date('Oct 31, 2020 00:01'));
+  //       }
+  //     },
+  //     () => {},
+  //     () => {
+  //       setIsLoading(false);
+  //     },
+  //   );
+  // }, [currentDate, displayEdition.value, timeZone]);
 
   // metadata
   const {
