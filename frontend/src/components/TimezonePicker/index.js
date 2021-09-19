@@ -1,6 +1,7 @@
 import moment from "moment-timezone"
 import PropTypes from "prop-types"
 import React from "react"
+import useTimezone from "../../hooks/useTimezone"
 import { Select } from "../FormComponents/SelectWrapper"
 
 // -- CONSTANTS
@@ -13,32 +14,34 @@ const timezoneOptions = moment.tz
   }))
 
 // -- MAIN
-const TimezonePicker = ({ currentTimezone, onTimezoneChange }) => (
-  <Select
-    css={`
-      min-width: 200px;
-      margin-bottom: 10px;
-    `}
-    options={timezoneOptions}
-    defaultValue={timezoneOptions.find(
-      ({ value }) => value === currentTimezone
-    )}
-    onChange={x => {
-      onTimezoneChange(x.value)
-    }}
-    // components={{
-    //   IndicatorSeparator: () => null,
-    // }}
-  />
-)
+const TimezonePicker = ({ onChange }) => {
+  const { timezone, setTimezone } = useTimezone()
+
+  return (
+    <Select
+      css={`
+        min-width: 200px;
+        margin-bottom: 10px;
+      `}
+      options={timezoneOptions}
+      defaultValue={timezoneOptions.find(({ value }) => value === timezone)}
+      onChange={x => {
+        onChange(x.value)
+        setTimezone(x.value)
+      }}
+      // components={{
+      //   IndicatorSeparator: () => null,
+      // }}
+    />
+  )
+}
 
 TimezonePicker.propTypes = {
-  currentTimezone: PropTypes.string.isRequired,
-  onTimezoneChange: PropTypes.func,
+  onChange: PropTypes.func,
 }
 
 TimezonePicker.defaultProps = {
-  onTimezoneChange: () => {},
+  onChange: () => {},
 }
 
 export default TimezonePicker
