@@ -1,28 +1,28 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import moment from 'moment-timezone';
 import { debounce } from 'lodash/function';
-import React, {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
+import moment from 'moment-timezone';
 import PropTypes from 'prop-types';
-import { AutoSizer } from 'react-virtualized';
-import styled, { createGlobalStyle } from 'styled-components';
+import React, {
+  useCallback, useEffect, useRef, useState
+} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
+import { AutoSizer } from 'react-virtualized';
+import styled, { createGlobalStyle } from 'styled-components';
 import { ButtonsContainer, LineButton, ToggleLineButton } from '../../components/BaseComponents/Buttons';
 import CommonPageStyles from '../../components/BaseComponents/CommonPageStyles';
+import HeadingWithButtonContainer from '../../components/BaseComponents/HeadingWithButtonContainer';
+import LoadingView from '../../components/BaseComponents/LoadingView';
 import Layout from '../../components/layout';
+import TimezonePicker from '../../components/TimezonePicker';
 import { useAuthenFetchGet } from '../../hooks/useFetch';
+import useTimezone, { timezoneParser } from '../../hooks/useTimezone';
 import useValidateRegistration from '../../hooks/useValidateRegistration';
+import { basedStyles, growOverParentPadding, media } from '../../styles';
 import Fa from '../../utils/fontawesome';
-import { media, basedStyles, growOverParentPadding } from '../../styles';
 import AbstractModal from './components/AbstractModal';
 import AbstractVirtualizedList from './components/AbstractVirtualizedList';
-import LoadingView from '../../components/BaseComponents/LoadingView';
-import useTimezone from '../../hooks/useTimezone';
-import TimezonePicker from '../../components/TimezonePicker';
-import HeadingWithButtonContainer from '../../components/BaseComponents/HeadingWithButtonContainer';
 
 // -- TYPES
 /**
@@ -40,12 +40,6 @@ import HeadingWithButtonContainer from '../../components/BaseComponents/HeadingW
  */
 
 // -- FUNCTIONS
-const timezoneParser = (dtStr, tz) => moment.tz(
-  dtStr,
-  'MMMM DD, YYYY HH:mm',
-  tz,
-);
-
 const selectedDatetimeToISO = (dtStr, tz) => {
   // remove timezone from new Date()
   const pureDt = dtStr.toString().split(' GMT')?.[0];
@@ -463,7 +457,7 @@ export default () => {
           <h2>Abstract Browser</h2>
           <TimezonePicker
             currentTimezone={timezone}
-            onTimezoneChange={(tz) => {
+            onChange={(tz) => {
               setTimezone(tz);
             }}
           />

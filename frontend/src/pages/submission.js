@@ -21,8 +21,10 @@ import {
 } from "../components/FormComponents"
 import { ControlSelect } from "../components/FormComponents/SelectWrapper"
 import Layout from "../components/layout"
+import TimezonePicker from "../components/TimezonePicker"
 import useSiteMetadata from "../hooks/gql/useSiteMetadata"
 import useAPI from "../hooks/useAPI"
+import useEventTime from "../hooks/useEventTime"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useValidateRegistration from "../hooks/useValidateRegistration"
 import { common, Fa, reactSelectHelpers, timePickerHelpers } from "../utils"
@@ -128,6 +130,7 @@ export default () => {
     updateAbstract,
     sendConfirmationEmail,
   } = useAPI()
+  const { mainConfTimeBoundary } = useEventTime()
 
   // manage form using hooks
   const {
@@ -210,7 +213,8 @@ export default () => {
       institution: prevUserData.institution,
       talk_format: reactSelectHelpers.optionsToSaveFormat(talkFormatSelect),
       available_dt: timePickerHelpers.serializeSelectedDatetime(
-        availableDatetimePicker
+        availableDatetimePicker,
+        mainConfTimeBoundary,
       ),
       arxiv: prevUserData.arxiv,
       ...restData,
@@ -438,14 +442,21 @@ export default () => {
               />
             </InputContainer>
             <InputContainer>
+              <label>Preferred Time Zone</label>
+              <SubLabel>
+                Please select timezone based on your location or preferred
+                timezone. The form will be updated according to your chosen
+                location.
+              </SubLabel>
+              <TimezonePicker />
+            </InputContainer>
+            <InputContainer>
               <label>
                 Available Presentation Date-Time
                 <RequiredIcon />
               </label>
               <SubLabel>
-                Please select timezone based on your location or preferred
-                timezone. The form will be updated according to your chosen
-                location. Please select as many slots as you can. The more slots
+                Please select as many slots as you can. The more slots
                 you select, the larger your audience is likely to be. In extreme
                 cases, we may not be able to fit your talk into the schedule if
                 you only select a very small number of slots.

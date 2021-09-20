@@ -345,26 +345,8 @@ export default () => {
         <HeadingWithButtonContainer>
           <h2>Agenda</h2>
           <div>
-            <Select
-              css={`
-                min-width: 80px;
-              `}
-              options={editionOptions}
-              defaultValue={displayEdition}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-              onChange={(x) => setDisplayEdition(x)}
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary: 'rgba(34,34,34,1)',
-                  primary75: 'rgba(34,34,34,0.75)',
-                  primary50: 'rgba(34,34,34,0.5)',
-                  primary25: 'rgba(34,34,34,0.25)',
-                },
-              })}
+            <EditionPicker
+              onChange={(edition) => console.log('edition is changed!', edition)}
             />
           </div>
         </HeadingWithButtonContainer>

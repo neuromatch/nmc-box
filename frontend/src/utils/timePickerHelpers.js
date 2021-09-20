@@ -1,9 +1,8 @@
 import moment from "moment"
-import { timeBoundary } from "../components/AvailableTimePicker"
 import common from "./common"
 
 // this function convert selectedDatetimeObj to string dtISO1;dtISO2;...
-const serializeSelectedDatetime = selectedDatetimeObj =>
+const serializeSelectedDatetime = (selectedDatetimeObj, timeBoundary) =>
   common
     .flat(
       selectedDatetimeObj.map(eachPar =>

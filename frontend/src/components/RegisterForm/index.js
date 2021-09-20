@@ -3,21 +3,17 @@ import PropTypes from "prop-types"
 import React, { useEffect, useRef, useState } from "react"
 import { Controller, ErrorMessage, useForm } from "react-hook-form"
 import useAPI from "../../hooks/useAPI"
+import useEventTime from "../../hooks/useEventTime"
 import useFirebaseWrapper from "../../hooks/useFirebaseWrapper"
 import useTimezone from "../../hooks/useTimezone"
 import MindMatchingModule from "../../modules/mind-matching"
-import AvailableTimePicker, {
-  datesOptions,
-  timeBoundary,
-  timeOptions,
-  timezoneParser,
-} from "../AvailableTimePicker"
 import {
   common,
   confirmPromise,
   reactSelectHelpers,
   timePickerHelpers,
 } from "../../utils"
+import AvailableTimePicker from "../AvailableTimePicker"
 import { ButtonsContainer, FormButton } from "../BaseComponents/Buttons"
 import Toast, { toastTypes } from "../BaseComponents/Toast"
 import {
@@ -33,6 +29,7 @@ import {
   WarningMessage,
 } from "../FormComponents"
 import Layout from "../layout"
+import TimezonePicker from "../TimezonePicker"
 
 // -- CONSTANTS
 const originEnum = {
@@ -84,45 +81,6 @@ const defaultOptionalCheckers = {
   coi: "",
 }
 
-// -- FUNCTIONS
-// default values for available datetime
-const defaultTime = ["9:00", "18:00"]
-const defaultValues = timezone => {
-  if (!timezone) {
-    return []
-  }
-
-  return datesOptions.map(date => {
-    const accTime = []
-
-    timeOptions.forEach(time => {
-      const thisTime = timezoneParser(`${date} ${time}`, timezone)
-      const isBetweenDefault = thisTime.isBetween(
-        timezoneParser(`${date} ${defaultTime[0]}`, timezone),
-        timezoneParser(`${date} ${defaultTime[1]}`, timezone),
-        undefined,
-        "[]"
-      )
-      // also filter datetime to be during event active time
-      const isBetweenActiveEvent = thisTime.isBetween(
-        timeBoundary[0],
-        timeBoundary[1],
-        undefined,
-        "[)"
-      )
-
-      if (isBetweenDefault && isBetweenActiveEvent) {
-        accTime.push(timezoneParser(`${date} ${time}`, timezone).toISOString())
-      }
-    })
-
-    return {
-      date,
-      time: accTime,
-    }
-  })
-}
-
 const RegisterForm = ({ prevUserData, origin }) => {
   // get user info
   const { currentUserInfo: user } = useFirebaseWrapper()
@@ -132,13 +90,12 @@ const RegisterForm = ({ prevUserData, origin }) => {
   // warning is true only when there is some data in the optional fields
   const [optOutWarning, setOptOutWarning] = useState(false)
   const [isSending, setIsSending] = useState(false)
-  // timezone for available datetime picker
-  const { timezone: t } = useTimezone()
-  const [timezone, setTimezone] = useState(t)
-  // ref
-  const toastControl = useRef(null)
   // api
   const { register: registerAPI, getAffiliation } = useAPI()
+  // timeBoundary
+  const { mainConfTimeBoundary } = useEventTime()
+  // ref
+  const toastControl = useRef(null)
 
   const {
     register,
@@ -256,14 +213,14 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [prevUserData, setValue])
 
-  // watch for timezone change and update val accordingly
-  // this side effect should not watch prevUserData.available_dt directly
-  // as new user has prevUserData as undefined
-  useEffect(() => {
-    if (!prevUserData?.available_dt) {
-      setValue("availableDatetimePicker", defaultValues(timezone))
-    }
-  }, [prevUserData, setValue, timezone])
+  // // watch for timezone change and update val accordingly
+  // // this side effect should not watch prevUserData.available_dt directly
+  // // as new user has prevUserData as undefined
+  // useEffect(() => {
+  //   if (!prevUserData?.available_dt) {
+  //     setValue("availableDatetimePicker", defaultValues(timezone))
+  //   }
+  // }, [prevUserData, setValue, timezone])
 
   // -- onSubmit funtion
   const onSubmit = data => {
@@ -322,7 +279,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
           : abstracts
         : [],
       available_dt: !isPublic
-        ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
+        ? timePickerHelpers.serializeSelectedDatetime(
+            availableDatetimePicker,
+            mainConfTimeBoundary
+          )
         : "",
     }
 
@@ -533,6 +493,15 @@ const RegisterForm = ({ prevUserData, origin }) => {
                 />
               </InputContainer>
               <InputContainer>
+                <label>Preferred Time Zone</label>
+                <SubLabel>
+                  We will save your preferred time zome in the cookies of this
+                  site. You may change the time zone anytime later in agenda and
+                  abstract-browser pages by clicking on the gear icon.
+                </SubLabel>
+                <TimezonePicker />
+              </InputContainer>
+              <InputContainer>
                 <label>
                   Available Watching Time
                   <RequiredIcon />
@@ -544,11 +513,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
                 </SubLabel>
                 <Controller
                   name="availableDatetimePicker"
-                  as={
-                    <AvailableTimePicker
-                      onTimezoneChange={tz => setTimezone(tz)}
-                    />
-                  }
+                  as={<AvailableTimePicker />}
                   control={control}
                   rules={{
                     required: "Available Watching Time is required.",

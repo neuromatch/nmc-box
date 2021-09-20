@@ -2,35 +2,72 @@ import moment from "moment-timezone"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
-import TimezonePicker from "../TimezonePicker"
-import useTimezone from "../../hooks/useTimezone"
+import useTimezone, { timezoneParser } from "../../hooks/useTimezone"
 import { media } from "../../styles"
-import { color } from "../../utils"
+import { color, Fa } from "../../utils"
+import useEventTime from "../../hooks/useEventTime"
 
 // -- FUNCTIONS
-const timezoneParser = (dtStr, tz) =>
-  moment.tz(dtStr, "MMMM DD, YYYY HH:mm", tz)
+const getDateRange = (start, end) => {
+  const momentStart = moment(start)
+  const diff = moment(end).diff(momentStart, "d")
+  const range = []
+  // first date
+  range.push(momentStart.format("MMMM DD, YYYY"))
+
+  for (let i = 0; i < diff; i++) {
+    // add one day and push
+    momentStart.add(1, "d")
+    range.push(momentStart.format("MMMM DD, YYYY"))
+  }
+
+  return range
+}
 
 // -- CONSTANTS
-// TODO: this is supposed to be set in either gatsby-config or some yaml file
-// start -> lower boundary - 1 day
-// end -> upper boundary
-const datesOptions = [
-  "October 28, 2021",
-  "October 29, 2021",
-  "October 30, 2021",
-]
-
 // this will generate ["00:00", "01:00", ..., "23.00"]
 const timeOptions = Array.from({ length: 24 }).map((_, ind) =>
   ind < 10 ? `0${ind}:00` : `${ind}:00`
 )
+// this is a default range of available time to set for the user in each day
+// const defaultAvailableTime = ["9:00", "18:00"]
 
-// time boundary for picking available time
-const timeBoundary = [
-  timezoneParser("October 29, 2021 00:00", "UTC").toISOString(),
-  timezoneParser("October 30, 2021 12:00", "UTC").toISOString(),
-]
+// -- FUNCTION
+// const getDefaultValues = (dateRange, timeBoundary, timezone) => {
+//   if (!timezone) {
+//     return []
+//   }
+
+//   return dateRange.map(date => {
+//     const accTime = []
+
+//     timeOptions.forEach(time => {
+//       const thisTime = timezoneParser(`${date} ${time}`, timezone)
+//       const isBetweenDefault = thisTime.isBetween(
+//         timezoneParser(`${date} ${defaultAvailableTime[0]}`, timezone),
+//         timezoneParser(`${date} ${defaultAvailableTime[1]}`, timezone),
+//         undefined,
+//         "[]"
+//       )
+//       // also filter datetime to be during event active time
+//       const isBetweenActiveEvent = thisTime.isBetween(
+//         timeBoundary[0],
+//         timeBoundary[1],
+//         undefined,
+//         "[)"
+//       )
+
+//       if (isBetweenDefault && isBetweenActiveEvent) {
+//         accTime.push(timezoneParser(`${date} ${time}`, timezone).toISOString())
+//       }
+//     })
+
+//     return {
+//       date,
+//       time: accTime,
+//     }
+//   })
+// }
 
 // -- COMPONENTS
 const Container = styled.div`
@@ -68,32 +105,11 @@ const GridItem = styled.button.attrs(() => ({
   border-radius: 4px;
   padding: 8px;
 
-  /* based color for time text is lighter black */
-  p {
-    color: ${p => color.scale(p.theme.colors.black, 15)};
-    margin: 0;
-    font-size: 14px;
-  }
-
-  /* set color for disabled */
-  ${p =>
-    p.disabled &&
-    css`
-      p {
-        color: ${p => color.scale(p.theme.colors.grey, 30)};
-      }
-    `}
-
   /* set color/bg for active */
   ${p =>
     p.isActive &&
     css`
       background-color: ${p => p.theme.colors.succeed};
-
-      p {
-        color: ${p => color.contrast(p.theme.colors.succeed)};
-        font-weight: bold;
-      }
     `}
 
   /* handle hover/active */
@@ -118,6 +134,28 @@ const GridItem = styled.button.attrs(() => ({
     `}
 `
 
+const GridLabel = styled.p`
+  /* based color for time text is lighter black */
+  color: ${p => color.scale(p.theme.colors.black, 15)};
+  margin: 0;
+  font-size: 14px;
+
+  /* set color for disabled */
+  ${p =>
+    p.disabled &&
+    css`
+      color: ${p => color.scale(p.theme.colors.grey, 30)};
+    `}
+
+  /* set color/bg for active */
+  ${p =>
+    p.isActive &&
+    css`
+      color: ${p => color.contrast(p.theme.colors.succeed)};
+      font-weight: bold;
+    `}
+`
+
 const DateLabel = styled.p`
   font-size: 14px;
   font-weight: bold;
@@ -126,7 +164,13 @@ const DateLabel = styled.p`
   margin-bottom: 3px;
 `
 
-const EachDateBlock = ({ date, value, onChange, timezone }) => {
+/**
+ *
+ * @param {Object} props
+ * @param {String[]} props.timeBoundary - this boundary is used to check if the item is in date range or not
+ * @returns
+ */
+const EachDateBlock = ({ date, value, onChange, timeBoundary, timezone }) => {
   const [selected, setSelected] = useState(value)
 
   useEffect(() => {
@@ -144,19 +188,18 @@ const EachDateBlock = ({ date, value, onChange, timezone }) => {
             value: timezoneParser(`${date} ${time}`, timezone).toISOString(),
           }
           const exist = selected.includes(thisOption.value)
+          const disabled = !moment(thisOption.value).isBetween(
+            timeBoundary[0],
+            timeBoundary[1],
+            undefined,
+            "[)"
+          )
 
           return (
             <GridItem
-              disabled={
-                !moment(thisOption.value).isBetween(
-                  timeBoundary[0],
-                  timeBoundary[1],
-                  undefined,
-                  "[)"
-                )
-              }
-              key={thisOption.label}
+              disabled={disabled}
               isActive={exist}
+              key={thisOption.label}
               onClick={() => {
                 let updated
 
@@ -170,7 +213,9 @@ const EachDateBlock = ({ date, value, onChange, timezone }) => {
                 onChange(updated)
               }}
             >
-              <p>{time}</p>
+              <GridLabel disabled={disabled} isActive={exist}>
+                {time}
+              </GridLabel>
             </GridItem>
           )
         })}
@@ -183,6 +228,7 @@ EachDateBlock.propTypes = {
   date: PropTypes.string.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func,
+  timeBoundary: PropTypes.arrayOf(PropTypes.string).isRequired,
   timezone: PropTypes.string.isRequired,
 }
 
@@ -192,30 +238,48 @@ EachDateBlock.defaultProps = {
 }
 
 // -- MAIN
-const AvailableTimePicker = ({ value, onChange, onTimezoneChange }) => {
-  const [selectedDatetime, setSelectedDatetime] = useState(value)
-  const { timezone, setTimezone } = useTimezone()
+const AvailableTimePicker = ({ value, onChange }) => {
+  // local state
+  const [selectedDatetime, setSelectedDatetime] = useState([])
+  // constants but get from hook
+  const { timezone } = useTimezone()
+  const { startDate, endDate, mainConfTimeBoundary } = useEventTime()
+  const beforeStartDate = moment(startDate)
+    .subtract(1, "d")
+    .format("MMMM DD, YYYY")
+  const afterEndDate = moment(endDate)
+    .add(1, "d")
+    .format("MMMM DD, YYYY")
+  // date range to be used to create options and also default values
+  // start -> lower boundary - 1 day
+  // end -> upper boundary + 1 day
+  // this need padding on both start and end because it depends
+  // heavily on the main timezone
+  const dateRange = getDateRange(beforeStartDate, afterEndDate)
 
   useEffect(() => {
     // if value from origin changes, update here too
     setSelectedDatetime(value)
   }, [value])
 
+  if (!value) {
+    // this should never happen, but keep it just in case
+    return (
+      <p css="text-align: center; margin-top: 1.56rem;">
+        Now loading... <Fa icon="sync" spin />
+      </p>
+    )
+  }
+
   return (
     <Container>
-      <TimezonePicker
-        currentTimezone={timezone}
-        onTimezoneChange={tz => {
-          setTimezone(tz)
-          onTimezoneChange(tz)
-        }}
-      />
-      {datesOptions.map(date => (
+      {dateRange.map(date => (
         <EachDateBlock
           key={date}
           date={date}
           timezone={timezone}
-          value={selectedDatetime.find(x => x.date === date)?.time || []}
+          timeBoundary={mainConfTimeBoundary}
+          value={selectedDatetime?.find(x => x.date === date)?.time}
           onChange={updatedVal => {
             const exist = selectedDatetime.find(x => x.date === date)
             const selfInd = selectedDatetime.indexOf(exist)
@@ -259,14 +323,12 @@ AvailableTimePicker.propTypes = {
     })
   ),
   onChange: PropTypes.func,
-  onTimezoneChange: PropTypes.func,
 }
 
 AvailableTimePicker.defaultProps = {
-  value: datesOptions.map(d => ({ date: d, time: [] })),
+  value: [],
   onChange: () => {},
-  onTimezoneChange: () => {},
 }
 
 export default AvailableTimePicker
-export { datesOptions, timeOptions, timezoneParser, timeBoundary }
+export { timeOptions }
