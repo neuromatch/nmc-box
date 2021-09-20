@@ -1,21 +1,20 @@
-panels:
-  - title: Our goals
-    figures:
-      - path: static/simplify.png
-        description: Simplify conferences, reduce meeting and travel costs
-        size: medium
-      - path: static/reduce-carbon.png
-        description: Reduce carbon emissions
-        size: medium
-      - path: static/new-collaborator.png
-        description: Find new ideas or collaborators
-        size: medium
-
-  - title: Organizers and Sponsors
-    figures:
-      - path: static/upenn.png
-        size: small
-      - path: static/imperial-college.png
-        size: small
-      - path: static/pennstate.png
-        size: small
+# panels
+- title: Our goals
+  figures:
+    - path: static/simplify.png
+      description: Simplify conferences, reduce meeting and travel costs
+      size: medium
+    - path: static/reduce-carbon.png
+      description: Reduce carbon emissions
+      size: medium
+    - path: static/new-collaborator.png
+      description: Find new ideas or collaborators
+      size: medium
+- title: Organizers and Sponsors
+  figures:
+    - path: static/upenn.png
+      size: small
+    - path: static/imperial-college.png
+      size: small
+    - path: static/pennstate.png
+      size: small

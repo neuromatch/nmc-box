@@ -6,15 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -p 4000",
     "serve": "gatsby serve",
-    "hug-dev": "cd ../backend && hug -f hug_api.py -p 8888",
-    "gatsby-prod": "gatsby build && gatsby serve",
     "gatsby-prod-prefix": "gatsby build --prefix-paths && gatsby serve --prefix-paths",
-    "elasticsearch": "cd ../backend && ./serve_elasticsearch.sh",
-    "index-elastic": "cd ../backend && python index_elasticsearch.py",
-    "start": "concurrently -n 'hug,gatsby,elasticsearch' -c 'bgBlue,bgMagenta,bgGreen' 'npm run hug-dev' 'gatsby develop' 'npm run elasticsearch'",
-    "deploy": "concurrently -n 'hug,gatsby,elasticsearch' -c 'bgBlue,bgMagenta,bgGreen' 'npm run hug-dev' 'npm run gatsby-prod' 'npm run elasticsearch'",
     "format": "prettier --write src/**/*.{js,jsx}",
     "pretest": "./node_modules/eslint/bin/eslint.js ./src/**/*.js",
     "test": "jest"

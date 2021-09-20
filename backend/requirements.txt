@@ -18,3 +18,5 @@ black
 google-cloud-firestore
 sendgrid
 stripe
+torchvision
+python-dotenv

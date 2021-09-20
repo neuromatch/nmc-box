@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Fa from '../../utils/fontawesome';
+import PropTypes from "prop-types"
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
+import { color, Fa } from "../../utils"
 
 const StyledSpan = styled(Fa).attrs(() => ({
-  icon: 'check-square',
+  icon: "check-square",
 }))`
   position: absolute;
   top: 0;
@@ -15,13 +15,11 @@ const StyledSpan = styled(Fa).attrs(() => ({
   https://github.com/FortAwesome/react-fontawesome/issues/134#issuecomment-471940596
    */
   font-size: 25px !important;
-  color: #eee;
-  /* &:after {
-    content: "";
-    position: absolute;
-    display: none;
-  } */
-`;
+
+  path {
+    fill: ${p => color.transparentize(p.theme.colors.grey, 0.54)};
+  }
+`
 
 const Wrapper = styled.label`
   display: block;
@@ -46,23 +44,24 @@ const Wrapper = styled.label`
     width: 0;
   }
 
-  &:hover input ~ ${StyledSpan} {
-    color: #ccc;
-  }
-
   & input:checked ~ ${StyledSpan} {
-    color: #2196f3;
+    path {
+      fill: ${p => p.theme.colors.accent};
+    }
   }
-`;
+`
 
 const ControlledCheckbox = ({
-  name, defaultValue, onChangeCallback, register,
+  name,
+  defaultValue,
+  onChangeCallback,
+  register,
 }) => {
-  const [isChecked, setIsChecked] = useState(defaultValue);
+  const [isChecked, setIsChecked] = useState(defaultValue)
 
   useEffect(() => {
-    setIsChecked(defaultValue);
-  }, [defaultValue]);
+    setIsChecked(defaultValue)
+  }, [defaultValue])
 
   return (
     <Wrapper>
@@ -70,29 +69,29 @@ const ControlledCheckbox = ({
         name={name}
         type="checkbox"
         onChange={() => {
-          setIsChecked(!isChecked);
-          onChangeCallback(!isChecked);
+          setIsChecked(!isChecked)
+          onChangeCallback(!isChecked)
         }}
         checked={isChecked}
         ref={register}
       />
       <StyledSpan />
     </Wrapper>
-  );
-};
+  )
+}
 
 ControlledCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
   defaultValue: PropTypes.bool,
   onChangeCallback: PropTypes.func,
   register: PropTypes.func,
-};
+}
 
 ControlledCheckbox.defaultProps = {
   defaultValue: false,
   onChangeCallback: () => {},
   register: () => {},
-};
+}
 
 const UncontrolledCheckbox = ({ name, register, onChangeCallback }) => (
   <Wrapper>
@@ -100,20 +99,20 @@ const UncontrolledCheckbox = ({ name, register, onChangeCallback }) => (
       name={name}
       type="checkbox"
       ref={register}
-      onChange={(e) => onChangeCallback(e.target.checked)}
+      onChange={e => onChangeCallback(e.target.checked)}
     />
     <StyledSpan />
   </Wrapper>
-);
+)
 
 UncontrolledCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
   register: PropTypes.func.isRequired,
   onChangeCallback: PropTypes.func,
-};
+}
 
 UncontrolledCheckbox.defaultProps = {
   onChangeCallback: () => {},
-};
+}
 
-export { ControlledCheckbox, UncontrolledCheckbox };
+export { ControlledCheckbox, UncontrolledCheckbox }

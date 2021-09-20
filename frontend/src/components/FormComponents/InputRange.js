@@ -59,7 +59,7 @@ const disabled = css`
   background-color: #e0e0e0;
 `;
 
-const StyledInputRange = styled.input.attrs(() => ({
+const InputRange = styled.input.attrs(() => ({
   type: 'range',
 }))`
   -webkit-appearance: none;
@@ -160,4 +160,4 @@ const StyledInputRange = styled.input.attrs(() => ({
   }
 `;
 
-export default StyledInputRange;
+export default InputRange;

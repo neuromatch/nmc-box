@@ -8,7 +8,6 @@ import { useCookies } from 'react-cookie';
 import Select from 'react-select';
 import styled from 'styled-components';
 import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
-import { TextWithButtonsWrapper } from '../components/FormComponents/StyledFormComponents';
 import Layout from '../components/layout';
 import useSiteMetadata from '../hooks/gql/useSiteMetadata';
 import { fetchGet, useFetchGet } from '../hooks/useFetch';
@@ -17,6 +16,10 @@ import Fa from '../utils/fontawesome';
 import { media, growOverParentPadding } from '../styles';
 import { AgendaInADay, StyledTable } from '../components/AgendaComponents';
 import AbstractModal from './abstract-browser/components/AbstractModal';
+import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWithButtonContainer';
+import EditionPicker from '../components/EditionPicker';
+import TimezonePicker from '../components/TimezonePicker';
+import useTimezone from '../hooks/useTimezone';
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize);
@@ -197,16 +200,20 @@ export default () => {
   // add more edition in editionOptions and default will be changed
   const [displayEdition, setDisplayEdition] = useState(editionOptions[editionOptions.length - 1]);
   const [isLoading, setIsLoading] = useState(true);
-  const { result: agendaData, isLoading: isLoadingAgenda } = useFetchGet(
-    `/api/get_agenda?edition=${displayEdition.value}`,
-    [],
-  );
+  const agendaData = []
+  const isLoadingAgenda = false
+  // const { result: agendaData, isLoading: isLoadingAgenda } = useFetchGet(
+  //   `/api/get_agenda?edition=${displayEdition.value}`,
+  //   [],
+  // );
 
   // timezone and cookies
-  const [cookies, setCookie] = useCookies([timeZoneCookieKey]);
-  const [timeZone, setTimeZone] = useState(
-    cookies[timeZoneCookieKey] || defaultGuessZone,
-  );
+  // const [cookies, setCookie] = useCookies([timeZoneCookieKey]);
+  // const [timeZone, setTimeZone] = useState(
+  //   cookies[timeZoneCookieKey] || defaultGuessZone,
+  // );
+
+  const { timezone } = useTimezone();
 
   // agenda data of the current timezone
   const [defaultDate, setDefaultDate] = useState(null);
@@ -226,10 +233,10 @@ export default () => {
     if (now > timeBoundary[0] && now < timeBoundary[1]) {
       const tmp = `${now.toISOString().slice(0, -13)}00:00:00`;
       setDefaultDate(new Date(tmp));
-      setCurrentDate(moment.tz(tmp, timeZone));
+      setCurrentDate(moment.tz(tmp, timezone));
     } else {
       setDefaultDate(new Date('October 26, 2020 00:00'));
-      setCurrentDate(moment.tz('2020-10-26T00:00:00', timeZone));
+      setCurrentDate(moment.tz('2020-10-26T00:00:00', timezone));
     }
   }, []);
 
@@ -253,7 +260,7 @@ export default () => {
         );
 
         // get target datetime based on user selected timezone
-        const targetDatetime = edtDatetime.tz(timeZone);
+        const targetDatetime = edtDatetime.tz(timezone);
         // get date part of selected timezone to be grouped
         const targetDate = targetDatetime.format('MMMM DD, YYYY');
         // check if there is already a group of current date
@@ -287,39 +294,39 @@ export default () => {
         ];
       }, []),
     );
-  }, [agendaData, timeZone, isLoadingAgenda, displayEdition.value]);
+  }, [agendaData, timezone, isLoadingAgenda, displayEdition.value]);
 
-  // side effect for v3.0+
-  useEffect(() => {
-    if (displayEdition.value !== '2020-3' || currentDate === null) {
-      return;
-    }
+  // // side effect for v3.0+
+  // useEffect(() => {
+  //   if (displayEdition.value !== '2020-3' || currentDate === null) {
+  //     return;
+  //   }
 
-    fetchGet(
-      undefined,
-      `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
-      () => {
-        setIsLoading(true);
-      },
-      (resJson) => {
-        const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
-        setTzAgendaData3Up(converted);
+  //   fetchGet(
+  //     undefined,
+  //     `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
+  //     () => {
+  //       setIsLoading(true);
+  //     },
+  //     (resJson) => {
+  //       const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
+  //       setTzAgendaData3Up(converted);
 
-        if (minT || maxT) {
-          setMinTime(minT);
-          setMaxTime(maxT);
-        } else {
-          // reduce calendar height when there are no events
-          setMinTime(new Date('Oct 31, 2020 00:00'));
-          setMaxTime(new Date('Oct 31, 2020 00:01'));
-        }
-      },
-      () => {},
-      () => {
-        setIsLoading(false);
-      },
-    );
-  }, [currentDate, displayEdition.value, timeZone]);
+  //       if (minT || maxT) {
+  //         setMinTime(minT);
+  //         setMaxTime(maxT);
+  //       } else {
+  //         // reduce calendar height when there are no events
+  //         setMinTime(new Date('Oct 31, 2020 00:00'));
+  //         setMaxTime(new Date('Oct 31, 2020 00:01'));
+  //       }
+  //     },
+  //     () => {},
+  //     () => {
+  //       setIsLoading(false);
+  //     },
+  //   );
+  // }, [currentDate, displayEdition.value, timeZone]);
 
   // metadata
   const {
@@ -332,51 +339,26 @@ export default () => {
         data={pressedItemData}
         visible={detailModalVisible}
         handleClickClose={() => setDetailModalVisible(false)}
-        timezone={timeZone}
+        timezone={timezone}
       />
       <CommonPageStyles>
-        <TextWithButtonsWrapper>
+        <HeadingWithButtonContainer>
           <h2>Agenda</h2>
           <div>
-            <Select
-              css={`
-                min-width: 80px;
-              `}
-              options={editionOptions}
-              defaultValue={displayEdition}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-              onChange={(x) => setDisplayEdition(x)}
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary: 'rgba(34,34,34,1)',
-                  primary75: 'rgba(34,34,34,0.75)',
-                  primary50: 'rgba(34,34,34,0.5)',
-                  primary25: 'rgba(34,34,34,0.25)',
-                },
-              })}
+            <EditionPicker
+              onChange={(edition) => console.log('edition is changed!', edition)}
             />
           </div>
-        </TextWithButtonsWrapper>
+        </HeadingWithButtonContainer>
         <p>
-          Join our conference via Zoom Webinar and
-          {' '}
-          <a href="https://www.youtube.com/channel/UCcBKrxkfNv04R9PXLovjf5w/featured">
-            YouTube
-          </a>
-          . If you sign up and opt-in to the mind matching part,
+          Join our conference via Zoom Webinar, Crowdcast,
+          and YouTube. If you sign up and opt-in to the mindmatching,
           you will be automatically matched with 6 other
-          scientists working in related areas for one-to-one communication
-          You will get list of
-          {' '}
-          <Link to="/your-matches">your matches</Link>
-          {' '}
-          tab under your profile after the conference.
+          scientists working in related areas for one-to-one
+          communication. You can find them in your matches
+          tab under your profile before the conference.
         </p>
-        <TextWithButtonsWrapper
+        <HeadingWithButtonContainer
           css={`
             ${media.medium`
               display: block;
@@ -389,33 +371,9 @@ export default () => {
         >
           <h3>Main Conference</h3>
           <div>
-            <Select
-              css={`
-                min-width: 200px;
-                font-size: 0.8rem;
-              `}
-              options={timeZoneOptions}
-              defaultValue={timeZoneOptions.find(({ value }) => value === timeZone)}
-              onChange={(x) => {
-                setTimeZone(x.value);
-                setCookie(timeZoneCookieKey, x.value);
-              }}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary: 'rgba(34,34,34,1)',
-                  primary75: 'rgba(34,34,34,0.75)',
-                  primary50: 'rgba(34,34,34,0.5)',
-                  primary25: 'rgba(34,34,34,0.25)',
-                },
-              })}
-            />
+            <TimezonePicker />
           </div>
-        </TextWithButtonsWrapper>
+        </HeadingWithButtonContainer>
         <p>
           The main conference will be happening on
           {' '}
@@ -457,15 +415,6 @@ export default () => {
             {' '}
             <a href="https://neuromatch.io/abstract-browser">
               Abstract Browser page
-            </a>
-          </li>
-          <li>
-            <b>Backup</b>
-            {' · '}
-            If the view below does not work, please look for information on
-            {' '}
-            <a href="https://neural-reckoning.github.io/nmc3_provisional_schedule">
-              NMC3 Provisional Schedule by Neural Reckoning Group.
             </a>
           </li>
         </ul>
@@ -546,7 +495,7 @@ export default () => {
                         toGoDate += `${date.getDate()}T`;
                         toGoDate += '00:00:00';
 
-                        setCurrentDate(moment.tz(toGoDate, timeZone));
+                        setCurrentDate(moment.tz(toGoDate, timezone));
                       }}
                       components={{
                         toolbar: CustomBar,

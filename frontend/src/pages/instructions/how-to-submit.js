@@ -28,11 +28,7 @@ export default () => {
         Neuromatch 3.0 welcomes all abstracts in any topic area within
         neuroscience! Please register and submit your abstract under your
         profile (
-        <a
-          href="/abstract-submission"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/submission" target="_blank" rel="noopener noreferrer">
           submission button
         </a>{" "}
         is located on the top-right of the page).
