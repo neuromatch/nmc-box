@@ -5,7 +5,6 @@ import { Controller, ErrorMessage, useForm } from "react-hook-form"
 import useAPI from "../../hooks/useAPI"
 import useEventTime from "../../hooks/useEventTime"
 import useFirebaseWrapper from "../../hooks/useFirebaseWrapper"
-import useTimezone from "../../hooks/useTimezone"
 import MindMatchingModule from "../../modules/mind-matching"
 import {
   common,
@@ -93,7 +92,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
   // api
   const { register: registerAPI, getAffiliation } = useAPI()
   // timeBoundary
-  const { mainConfTimeBoundary } = useEventTime()
+  const { defaultAvailableTime } = useEventTime()
   // ref
   const toastControl = useRef(null)
 
@@ -132,13 +131,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [getValues, watchOptIns])
 
-  // TODO: this effect should be able to refactor entirely?
-  // -- fill values with prev data, except abstracts and cois
-  // -- for abstracts and cois, they will be set the size and trigger rerendering first
   useEffect(() => {
-    let isSubscribed = true
+    let isActive = true
 
-    if (prevUserData && isSubscribed) {
+    if (prevUserData && isActive) {
       // check if any of the prev optional field has value, if found even one
       // do not disable optional fields
       Object.entries(prevUserData).some(([key, val]) => {
@@ -159,68 +155,51 @@ const RegisterForm = ({ prevUserData, origin }) => {
         return false
       })
 
+      const selectFields = {
+        institution: "institutionSelect",
+        gender_status: "genderStatusSelect",
+        academic_status: "academicStatusSelect",
+        meeting_platform: "meetingPlatformSelect",
+      }
+
+      const datetimeFields = {
+        available_dt: "availableDatetimePicker",
+      }
+
       Object.entries(prevUserData).forEach(([key, val]) => {
-        switch (key) {
-          case "abstracts":
-            // setNumberOfAbstract(val.length === 0 ? 1 : val.length)
-            // console.log('abstract is set', val.length);
-            break
-          case "institution":
-            setValue(
-              "institutionSelect",
-              reactSelectHelpers.saveFormatToOptions(val)
-            )
-            break
-          case "gender_status":
-            setValue(
-              "genderStatusSelect",
-              reactSelectHelpers.saveFormatToOptions(val)
-            )
-            break
-          case "academic_status":
-            setValue(
-              "academicStatusSelect",
-              reactSelectHelpers.saveFormatToOptions(val)
-            )
-            break
-          case "meeting_platform":
-            setValue(
-              "meetingPlatformSelect",
-              reactSelectHelpers.saveFormatToOptions(val)
-            )
-            break
-          case "available_dt":
-            setValue(
-              "availableDatetimePicker",
-              timePickerHelpers.deserializeSelectedDatetime(val)
-            )
-            break
-          case "public":
-            setValue("public", val)
-            if (val) {
-              setIsPublic(true)
-            }
-            break
-          default:
-            setValue(key, val)
-            break
+        if (selectFields.hasOwnProperty(key)) {
+          setValue(
+            selectFields[key],
+            reactSelectHelpers.saveFormatToOptions(val)
+          )
+          return
         }
+
+        if (datetimeFields.hasOwnProperty(key)) {
+          setValue(
+            datetimeFields[key],
+            timePickerHelpers.deserializeSelectedDatetime(val)
+          )
+          return
+        }
+
+        setValue(key, val)
       })
     }
 
     return () => {
-      isSubscribed = false
+      isActive = false
     }
   }, [prevUserData, setValue])
 
-  // // watch for timezone change and update val accordingly
-  // // this side effect should not watch prevUserData.available_dt directly
-  // // as new user has prevUserData as undefined
-  // useEffect(() => {
-  //   if (!prevUserData?.available_dt) {
-  //     setValue("availableDatetimePicker", defaultValues(timezone))
-  //   }
-  // }, [prevUserData, setValue, timezone])
+  // watch for timezone change and update val accordingly
+  // this side effect should not watch prevUserData.available_dt directly
+  // as new user has prevUserData as undefined
+  useEffect(() => {
+    if (!prevUserData?.available_dt) {
+      setValue("availableDatetimePicker", defaultAvailableTime)
+    }
+  }, [defaultAvailableTime, prevUserData, setValue])
 
   // -- onSubmit funtion
   const onSubmit = data => {
@@ -279,10 +258,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
           : abstracts
         : [],
       available_dt: !isPublic
-        ? timePickerHelpers.serializeSelectedDatetime(
-            availableDatetimePicker,
-            mainConfTimeBoundary
-          )
+        ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
         : "",
     }
 

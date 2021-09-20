@@ -42,6 +42,12 @@ const MindMatchingModule = ({
 }) => {
   const [numberOfAbstract, setNumberOfAbstract] = useState(1)
 
+  useEffect(() => {
+    if (abstracts) {
+      setNumberOfAbstract(abstracts.length)
+    }
+  }, [abstracts])
+
   // set abstracts and cois when they are rerendered
   useEffect(() => {
     if (abstracts) {

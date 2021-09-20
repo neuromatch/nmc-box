@@ -2,27 +2,9 @@ import moment from "moment"
 import common from "./common"
 
 // this function convert selectedDatetimeObj to string dtISO1;dtISO2;...
-const serializeSelectedDatetime = (selectedDatetimeObj, timeBoundary) =>
+const serializeSelectedDatetime = (selectedDatetimeObj) =>
   common
-    .flat(
-      selectedDatetimeObj.map(eachPar =>
-        eachPar.time.map(eachTime => {
-          // filter only datetime in the valid range
-          const inValidRange = moment(eachTime).isBetween(
-            timeBoundary[0],
-            timeBoundary[1],
-            undefined,
-            "(]"
-          )
-
-          if (inValidRange) {
-            return eachTime
-          }
-
-          return null
-        })
-      )
-    )
+    .flat(selectedDatetimeObj.map(eachPar => eachPar.time))
     .filter(x => x)
     .sort()
     .join(";")

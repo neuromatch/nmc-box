@@ -24,7 +24,6 @@ import Layout from "../components/layout"
 import TimezonePicker from "../components/TimezonePicker"
 import useSiteMetadata from "../hooks/gql/useSiteMetadata"
 import useAPI from "../hooks/useAPI"
-import useEventTime from "../hooks/useEventTime"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useValidateRegistration from "../hooks/useValidateRegistration"
 import { common, Fa, reactSelectHelpers, timePickerHelpers } from "../utils"
@@ -130,7 +129,6 @@ export default () => {
     updateAbstract,
     sendConfirmationEmail,
   } = useAPI()
-  const { mainConfTimeBoundary } = useEventTime()
 
   // manage form using hooks
   const {
@@ -212,10 +210,7 @@ export default () => {
       email: prevUserData.email,
       institution: prevUserData.institution,
       talk_format: reactSelectHelpers.optionsToSaveFormat(talkFormatSelect),
-      available_dt: timePickerHelpers.serializeSelectedDatetime(
-        availableDatetimePicker,
-        mainConfTimeBoundary,
-      ),
+      available_dt: timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker),
       arxiv: prevUserData.arxiv,
       ...restData,
     }

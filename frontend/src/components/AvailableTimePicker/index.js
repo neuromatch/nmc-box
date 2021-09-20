@@ -2,72 +2,10 @@ import moment from "moment-timezone"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
+import useEventTime, { timeOptions } from "../../hooks/useEventTime"
 import useTimezone, { timezoneParser } from "../../hooks/useTimezone"
 import { media } from "../../styles"
 import { color, Fa } from "../../utils"
-import useEventTime from "../../hooks/useEventTime"
-
-// -- FUNCTIONS
-const getDateRange = (start, end) => {
-  const momentStart = moment(start)
-  const diff = moment(end).diff(momentStart, "d")
-  const range = []
-  // first date
-  range.push(momentStart.format("MMMM DD, YYYY"))
-
-  for (let i = 0; i < diff; i++) {
-    // add one day and push
-    momentStart.add(1, "d")
-    range.push(momentStart.format("MMMM DD, YYYY"))
-  }
-
-  return range
-}
-
-// -- CONSTANTS
-// this will generate ["00:00", "01:00", ..., "23.00"]
-const timeOptions = Array.from({ length: 24 }).map((_, ind) =>
-  ind < 10 ? `0${ind}:00` : `${ind}:00`
-)
-// this is a default range of available time to set for the user in each day
-// const defaultAvailableTime = ["9:00", "18:00"]
-
-// -- FUNCTION
-// const getDefaultValues = (dateRange, timeBoundary, timezone) => {
-//   if (!timezone) {
-//     return []
-//   }
-
-//   return dateRange.map(date => {
-//     const accTime = []
-
-//     timeOptions.forEach(time => {
-//       const thisTime = timezoneParser(`${date} ${time}`, timezone)
-//       const isBetweenDefault = thisTime.isBetween(
-//         timezoneParser(`${date} ${defaultAvailableTime[0]}`, timezone),
-//         timezoneParser(`${date} ${defaultAvailableTime[1]}`, timezone),
-//         undefined,
-//         "[]"
-//       )
-//       // also filter datetime to be during event active time
-//       const isBetweenActiveEvent = thisTime.isBetween(
-//         timeBoundary[0],
-//         timeBoundary[1],
-//         undefined,
-//         "[)"
-//       )
-
-//       if (isBetweenDefault && isBetweenActiveEvent) {
-//         accTime.push(timezoneParser(`${date} ${time}`, timezone).toISOString())
-//       }
-//     })
-
-//     return {
-//       date,
-//       time: accTime,
-//     }
-//   })
-// }
 
 // -- COMPONENTS
 const Container = styled.div`
@@ -243,19 +181,7 @@ const AvailableTimePicker = ({ value, onChange }) => {
   const [selectedDatetime, setSelectedDatetime] = useState([])
   // constants but get from hook
   const { timezone } = useTimezone()
-  const { startDate, endDate, mainConfTimeBoundary } = useEventTime()
-  const beforeStartDate = moment(startDate)
-    .subtract(1, "d")
-    .format("MMMM DD, YYYY")
-  const afterEndDate = moment(endDate)
-    .add(1, "d")
-    .format("MMMM DD, YYYY")
-  // date range to be used to create options and also default values
-  // start -> lower boundary - 1 day
-  // end -> upper boundary + 1 day
-  // this need padding on both start and end because it depends
-  // heavily on the main timezone
-  const dateRange = getDateRange(beforeStartDate, afterEndDate)
+  const { mainConfTimeBoundary, dateRange } = useEventTime()
 
   useEffect(() => {
     // if value from origin changes, update here too
@@ -331,4 +257,3 @@ AvailableTimePicker.defaultProps = {
 }
 
 export default AvailableTimePicker
-export { timeOptions }
