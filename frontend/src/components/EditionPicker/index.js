@@ -38,9 +38,9 @@ const EditionPicker = ({ onChange }) => {
       `}
       options={editionOptions}
       defaultValue={displayEdition}
-      components={{
-        IndicatorSeparator: () => null,
-      }}
+      // components={{
+      //   IndicatorSeparator: () => null,
+      // }}
       onChange={x => {
         setDisplayEdition(x)
         onChange(x)

@@ -4,8 +4,6 @@ import moment from 'moment-timezone';
 import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useCookies } from 'react-cookie';
-import Select from 'react-select';
 import styled from 'styled-components';
 import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
 import Layout from '../components/layout';
@@ -17,14 +15,12 @@ import { media, growOverParentPadding } from '../styles';
 import { AgendaInADay, StyledTable } from '../components/AgendaComponents';
 import AbstractModal from './abstract-browser/components/AbstractModal';
 import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWithButtonContainer';
-import EditionPicker from '../components/EditionPicker';
-import TimezonePicker from '../components/TimezonePicker';
 import useTimezone from '../hooks/useTimezone';
+import useEventTime from '../hooks/useEventTime';
+import TimezoneEditionModal from '../components/TimezoneEditionModal';
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize);
-
-const timeZoneCookieKey = 'timezone';
 
 const resourceMap = [
   { track: 'stage', resourceTitle: 'Stage' },
@@ -38,27 +34,6 @@ const resourceMap = [
   { track: 'room 8', resourceTitle: 'Room 8' },
   { track: 'room 9', resourceTitle: 'Room 9' },
 ];
-
-const editionOptions = [
-  { label: '1.0', value: '2020-1' },
-  { label: '2.0', value: '2020-2' },
-  { label: '3.0', value: '2020-3' },
-];
-
-const timeBoundary = [
-  new Date('October 25, 2020 12:00'),
-  new Date('October 31, 2020 12:00'),
-];
-
-const timeZoneOptions = moment.tz.names()
-  .filter((n) => n.includes('/')) // only those have /
-  .map((n) => ({
-    label: n.replace(/_/g, ' '),
-    value: n,
-  }));
-
-// guess user timezone
-const defaultGuessZone = moment.tz.guess();
 
 const talkFormatLabelColors = {
   'Interactive talk': '#d0f0fd',
@@ -160,35 +135,38 @@ const handleConvertDatetime = (data, tz) => {
 const CustomBar = ({
   // eslint-disable-next-line react/prop-types
   onNavigate, label, date,
-}) => (
-  <div className="rbc-toolbar">
-    <span className="rbc-btn-group">
-      {date >= timeBoundary[0]
-        ? (
-          <button
-            type="button"
-            onClick={() => onNavigate('PREV')}
-          >
-            &lt;
-          </button>
-        )
-        : null}
-    </span>
-    <span className="rbc-toolbar-label">{label}</span>
-    <span className="rbc-btn-group">
-      {date <= timeBoundary[1]
-        ? (
-          <button
-            type="button"
-            onClick={() => onNavigate('NEXT')}
-          >
-            &gt;
-          </button>
-        )
-        : null}
-    </span>
-  </div>
-);
+}) => {
+  const { mainConfTimeBoundary } = useEventTime()
+
+  return (
+    <div className="rbc-toolbar">
+      <span className="rbc-btn-group">
+        {date >= mainConfTimeBoundary[0]
+          ? (
+            <button
+              type="button"
+              onClick={() => onNavigate('PREV')}
+            >
+              &lt;
+            </button>
+          )
+          : null}
+      </span>
+      <span className="rbc-toolbar-label">{label}</span>
+      <span className="rbc-btn-group">
+        {date <= mainConfTimeBoundary[1]
+          ? (
+            <button
+              type="button"
+              onClick={() => onNavigate('NEXT')}
+            >
+              &gt;
+            </button>
+          )
+          : null}
+      </span>
+    </div>
+)};
 
 // -- PAGE component
 export default () => {
@@ -198,7 +176,8 @@ export default () => {
   // agenda
   // default value is always the last element of editionOptions
   // add more edition in editionOptions and default will be changed
-  const [displayEdition, setDisplayEdition] = useState(editionOptions[editionOptions.length - 1]);
+  const { currentEdition, mainConfTimeBoundary } = useEventTime()
+  // const [displayEdition, setDisplayEdition] = useState(currentEdition);
   const [isLoading, setIsLoading] = useState(true);
   const agendaData = []
   const isLoadingAgenda = false
@@ -230,7 +209,7 @@ export default () => {
   useEffect(() => {
     const now = new Date();
 
-    if (now > timeBoundary[0] && now < timeBoundary[1]) {
+    if (now > mainConfTimeBoundary[0] && now < mainConfTimeBoundary[1]) {
       const tmp = `${now.toISOString().slice(0, -13)}00:00:00`;
       setDefaultDate(new Date(tmp));
       setCurrentDate(moment.tz(tmp, timezone));
@@ -241,60 +220,60 @@ export default () => {
   }, []);
 
   // side effect for older versions
-  useEffect(() => {
-    if (displayEdition.value === '2020-3') {
-      return;
-    }
+  // useEffect(() => {
+  //   if (displayEdition.value === '2020-3') {
+  //     return;
+  //   }
 
-    // update isLoading
-    setIsLoading(isLoadingAgenda);
+  //   // update isLoading
+  //   setIsLoading(isLoadingAgenda);
 
-    // convert agenda data to timezone
-    setTzAgendaData(
-      agendaData.reduce((acc, cur) => {
-        // parse datetime from json, base timezone is America/New_York
-        const edtDatetime = moment.tz(
-          cur.datetime_edt,
-          'YYYY-MM-DD HH:mm:ss',
-          'America/New_York',
-        );
+  //   // convert agenda data to timezone
+  //   setTzAgendaData(
+  //     agendaData.reduce((acc, cur) => {
+  //       // parse datetime from json, base timezone is America/New_York
+  //       const edtDatetime = moment.tz(
+  //         cur.datetime_edt,
+  //         'YYYY-MM-DD HH:mm:ss',
+  //         'America/New_York',
+  //       );
 
-        // get target datetime based on user selected timezone
-        const targetDatetime = edtDatetime.tz(timezone);
-        // get date part of selected timezone to be grouped
-        const targetDate = targetDatetime.format('MMMM DD, YYYY');
-        // check if there is already a group of current date
-        const targetInd = acc.findIndex(({ date }) => date === targetDate);
+  //       // get target datetime based on user selected timezone
+  //       const targetDatetime = edtDatetime.tz(timezone);
+  //       // get date part of selected timezone to be grouped
+  //       const targetDate = targetDatetime.format('MMMM DD, YYYY');
+  //       // check if there is already a group of current date
+  //       const targetInd = acc.findIndex(({ date }) => date === targetDate);
 
-        // if no group already, create a new one
-        // also add tzTime which is a time of target timezone
-        if (targetInd === -1) {
-          return [
-            ...acc,
-            {
-              date: targetDate,
-              data: [
-                {
-                  ...cur,
-                  tzTime: targetDatetime.format('hh:mm a'),
-                },
-              ],
-            },
-          ];
-        }
+  //       // if no group already, create a new one
+  //       // also add tzTime which is a time of target timezone
+  //       if (targetInd === -1) {
+  //         return [
+  //           ...acc,
+  //           {
+  //             date: targetDate,
+  //             data: [
+  //               {
+  //                 ...cur,
+  //                 tzTime: targetDatetime.format('hh:mm a'),
+  //               },
+  //             ],
+  //           },
+  //         ];
+  //       }
 
-        // if there is already a group, push current obj into the data array
-        acc[targetInd].data.push({
-          ...cur,
-          tzTime: targetDatetime.format('hh:mm a'),
-        });
+  //       // if there is already a group, push current obj into the data array
+  //       acc[targetInd].data.push({
+  //         ...cur,
+  //         tzTime: targetDatetime.format('hh:mm a'),
+  //       });
 
-        return [
-          ...acc,
-        ];
-      }, []),
-    );
-  }, [agendaData, timezone, isLoadingAgenda, displayEdition.value]);
+  //       return [
+  //         ...acc,
+  //       ];
+  //     }, []),
+  //   );
+  // }, [agendaData, timezone, isLoadingAgenda, displayEdition.value]);
 
   // // side effect for v3.0+
   // useEffect(() => {
@@ -331,7 +310,7 @@ export default () => {
   // metadata
   const {
     mainConfDate,
-  } = useSiteMetadata(displayEdition.value);
+  } = useSiteMetadata(currentEdition);
 
   return (
     <Layout>
@@ -344,11 +323,9 @@ export default () => {
       <CommonPageStyles>
         <HeadingWithButtonContainer>
           <h2>Agenda</h2>
-          <div>
-            <EditionPicker
-              onChange={(edition) => console.log('edition is changed!', edition)}
-            />
-          </div>
+          <TimezoneEditionModal
+            onEditionChange={(edition) => {}}
+          />
         </HeadingWithButtonContainer>
         <p>
           Join our conference via Zoom Webinar, Crowdcast,
@@ -358,22 +335,7 @@ export default () => {
           communication. You can find them in your matches
           tab under your profile before the conference.
         </p>
-        <HeadingWithButtonContainer
-          css={`
-            ${media.medium`
-              display: block;
-
-              h3 {
-                margin-bottom: 0.5em;
-              }
-            `}
-          `}
-        >
-          <h3>Main Conference</h3>
-          <div>
-            <TimezonePicker />
-          </div>
-        </HeadingWithButtonContainer>
+        <h3>Main Conference</h3>
         <p>
           The main conference will be happening on
           {' '}
@@ -427,7 +389,7 @@ export default () => {
             </p>
           )
           : null}
-        {displayEdition.value !== '2020-3'
+        {currentEdition !== '2020-3'
           ? tzAgendaData.length === 0
             ? (
               <p css="text-align: center;">

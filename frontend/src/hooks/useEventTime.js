@@ -125,6 +125,7 @@ function useEventTime() {
     dateRange,
     mainConfTimeBoundary,
     defaultAvailableTime,
+    currentEdition,
   }
 }
 
