@@ -291,6 +291,21 @@ async def update_user_votes(
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
 
 
+def query_params_builder(
+    base_endpoint: str,
+    kvs: Optional[tuple] = None,
+):
+    """
+    Create query argument from a given base_endpoint
+    """
+    if kvs is not None:
+        for (k, v) in kvs:
+            if v is not None:
+                separator = "?" if "?" not in base_endpoint else "&"
+                base_endpoint += f"{separator}{k}={v}"
+    return base_endpoint
+
+
 # abstract search
 @app.get("/api/abstract/{edition}")
 async def get_abstracts(
@@ -361,8 +376,28 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("query", q),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("query", q),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit],
             }
@@ -382,8 +417,22 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -410,8 +459,26 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -436,8 +503,26 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -453,8 +538,22 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view=default&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view=default&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", "default"),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", "default"),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": [],
             }
@@ -478,7 +577,9 @@ async def get_abstract(edition: str, submission_id: str):
     else:
         # query from Airtable
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        abstract = table.get(submission_id).get("fields", {})  # return abstract from Airtable
+        abstract = table.get(submission_id).get(
+            "fields", {}
+        )  # return abstract from Airtable
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})
