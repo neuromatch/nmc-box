@@ -18,6 +18,8 @@ import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWith
 import useTimezone from '../hooks/useTimezone';
 import useEventTime from '../hooks/useEventTime';
 import TimezoneEditionModal from '../components/TimezoneEditionModal';
+import useAPI from '../hooks/useAPI';
+import useDisplayEdition from '../hooks/useDisplayEdition';
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize);
@@ -106,6 +108,9 @@ const handleConvertDatetime = (data, tz) => {
     const convertedStart = new Date(moment.utc(starttime).tz(tz).format('MMM DD, YYYY HH:mm'));
     const convertedEnd = new Date(moment.utc(endtime).tz(tz).format('MMM DD, YYYY HH:mm'));
 
+    // console.log('convertedStart', convertedStart)
+    // console.log('convertedEnd', convertedEnd)
+
     if (ind === 0) {
       minT = convertedStart;
     }
@@ -132,16 +137,21 @@ const handleConvertDatetime = (data, tz) => {
   };
 };
 
-const CustomBar = ({
+// need to make this a curry function to pass eventTimeBoundary in
+const CustomBar = (eventTimeBoundary) => ({
   // eslint-disable-next-line react/prop-types
   onNavigate, label, date,
 }) => {
-  const { mainConfTimeBoundary } = useEventTime()
+  if (!eventTimeBoundary) {
+    return null
+  }
+
+  // console.log('in CustomBar bound0/date/bound1', eventTimeBoundary[0], date, eventTimeBoundary[1])
 
   return (
     <div className="rbc-toolbar">
       <span className="rbc-btn-group">
-        {date >= mainConfTimeBoundary[0]
+        {date >= eventTimeBoundary[0]
           ? (
             <button
               type="button"
@@ -154,7 +164,7 @@ const CustomBar = ({
       </span>
       <span className="rbc-toolbar-label">{label}</span>
       <span className="rbc-btn-group">
-        {date <= mainConfTimeBoundary[1]
+        {date <= eventTimeBoundary[1]
           ? (
             <button
               type="button"
@@ -166,21 +176,48 @@ const CustomBar = ({
           : null}
       </span>
     </div>
-)};
+  )
+};
 
 // -- PAGE component
 export default () => {
-  // idToken is for debounce fetch for search
-  // const { isLoggedIn, idToken } = useValidateRegistration();
-
+  const { getAgenda } = useAPI()
   // agenda
   // default value is always the last element of editionOptions
   // add more edition in editionOptions and default will be changed
-  const { currentEdition, mainConfTimeBoundary } = useEventTime()
-  // const [displayEdition, setDisplayEdition] = useState(currentEdition);
+  const { currentEdition ,currentEditionName } = useEventTime()
+  const [displayEdition, setDisplayEdition] = useState({ label: currentEditionName, value: currentEdition })
+  const { mainConfMetadata } = useDisplayEdition(displayEdition.value);
+  const { text: mainConfDateText, start: mainConfStartDate, eventTimeBoundary } = mainConfMetadata
+  // metadata
+  // const { mainConfDate } = useSiteMetadata(currentEdition);
   const [isLoading, setIsLoading] = useState(true);
-  const agendaData = []
-  const isLoadingAgenda = false
+  const [agendaData, setAgendaData] = useState([]);
+  const [tzAgendaData, setTzAgendaData] = useState([]);
+  const { timezone } = useTimezone();
+
+  // calendar related states
+  // this is a moment object, used to fetch data
+  // const [currentDate, setCurrentDate] = useState(null);
+  const [currentDateToFetch, setCurrentDateToFetch] = useState(null);
+  // this is a Date object, used to set calendar date title
+  // const [defaultDate, setDefaultDate] = useState(null);
+  const [currentDateForCalendar, setCurrentDateForCalendar] = useState(null);
+  // this is time boundary for each day one the calendar
+  // const [currentISODate, setCurrentISODate] = useState(new Date('October 26, 2020').toISOString())
+  const [minTime, setMinTime] = useState(undefined);
+  const [maxTime, setMaxTime] = useState(undefined);
+
+  // modal visibility status and data to be displayed on modal
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [pressedItemData, setPressedItemData] = useState(null);
+
+  // idToken is for debounce fetch for search
+  // const { isLoggedIn, idToken } = useValidateRegistration();
+  // const [displayEdition, setDisplayEdition] = useState(currentEdition);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const agendaData = []
+  // const isLoadingAgenda = false
   // const { result: agendaData, isLoading: isLoadingAgenda } = useFetchGet(
   //   `/api/get_agenda?edition=${displayEdition.value}`,
   //   [],
@@ -192,32 +229,41 @@ export default () => {
   //   cookies[timeZoneCookieKey] || defaultGuessZone,
   // );
 
-  const { timezone } = useTimezone();
-
-  // agenda data of the current timezone
-  const [defaultDate, setDefaultDate] = useState(null);
-  const [currentDate, setCurrentDate] = useState(null);
-  const [minTime, setMinTime] = useState(undefined);
-  const [maxTime, setMaxTime] = useState(undefined);
-  const [tzAgendaData, setTzAgendaData] = useState([]);
+  // const [tzAgendaData, setTzAgendaData] = useState([]);
   const [tzAgendaData3Up, setTzAgendaData3Up] = useState([]);
 
-  // modal visibility status and data to be displayed on modal
-  const [detailModalVisible, setDetailModalVisible] = useState(false);
-  const [pressedItemData, setPressedItemData] = useState(null);
-
+  // TODO:
+  // this effect checks if today is in between conference dates or not
+  // if in set default/current date as today, if not set as first day of the event
   useEffect(() => {
+    if (!eventTimeBoundary) {
+      return
+    }
+
     const now = new Date();
 
-    if (now > mainConfTimeBoundary[0] && now < mainConfTimeBoundary[1]) {
+    if (now > eventTimeBoundary[0] && now < eventTimeBoundary[1]) {
+      console.log('--------- if')
+
       const tmp = `${now.toISOString().slice(0, -13)}00:00:00`;
-      setDefaultDate(new Date(tmp));
-      setCurrentDate(moment.tz(tmp, timezone));
+      setCurrentDateForCalendar(new Date(tmp))
+      setCurrentDateToFetch(moment.tz(new Date(tmp), timezone))
+      // setDefaultDate(new Date(tmp));
+      // setCurrentDate(moment.tz(tmp, timezone));
     } else {
-      setDefaultDate(new Date('October 26, 2020 00:00'));
-      setCurrentDate(moment.tz('2020-10-26T00:00:00', timezone));
+      console.log('--------- else', moment.tz(new Date(`${mainConfStartDate} 00:00z`), timezone))
+
+      setCurrentDateForCalendar(new Date(`${mainConfStartDate} 00:00`))
+      setCurrentDateToFetch(moment.tz(new Date(`${mainConfStartDate} 00:00`), timezone))
+      // setDefaultDate(new Date('October 26, 2020 00:00'));
+      // setCurrentDate(moment.tz('2020-10-26T00:00:00', timezone));
     }
-  }, []);
+  }, [eventTimeBoundary, mainConfStartDate, timezone]);
+
+  useEffect(() => {
+    console.log('mainConferenceMetadata', mainConfMetadata)
+    console.log('eventTimeBoundary', eventTimeBoundary)
+  }, [mainConfMetadata, eventTimeBoundary])
 
   // side effect for older versions
   // useEffect(() => {
@@ -275,42 +321,82 @@ export default () => {
   //   );
   // }, [agendaData, timezone, isLoadingAgenda, displayEdition.value]);
 
-  // // side effect for v3.0+
-  // useEffect(() => {
-  //   if (displayEdition.value !== '2020-3' || currentDate === null) {
-  //     return;
-  //   }
 
-  //   fetchGet(
-  //     undefined,
-  //     `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
-  //     () => {
-  //       setIsLoading(true);
-  //     },
-  //     (resJson) => {
-  //       const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
-  //       setTzAgendaData3Up(converted);
 
-  //       if (minT || maxT) {
-  //         setMinTime(minT);
-  //         setMaxTime(maxT);
-  //       } else {
-  //         // reduce calendar height when there are no events
-  //         setMinTime(new Date('Oct 31, 2020 00:00'));
-  //         setMaxTime(new Date('Oct 31, 2020 00:01'));
-  //       }
-  //     },
-  //     () => {},
-  //     () => {
-  //       setIsLoading(false);
-  //     },
-  //   );
-  // }, [currentDate, displayEdition.value, timeZone]);
 
-  // metadata
-  const {
-    mainConfDate,
-  } = useSiteMetadata(currentEdition);
+
+  // this effect fetch agenda data for all version now
+  useEffect(() => {
+    if (!currentDateToFetch) {
+      return
+    }
+
+    // if (displayEdition.value !== '2020-3' || currentDate === null) {
+    //   return;
+    // }
+    //
+
+    setIsLoading(true)
+
+    // fetch data from the server
+    getAgenda({
+      edition: displayEdition.value,
+      starttime: encodeURIComponent(currentDateToFetch.toISOString()),
+    })
+      .then(res => res.json())
+      .then(resJson => {
+        setAgendaData(resJson.data)
+        setIsLoading(false)
+      })
+      .catch(err => console.log(err))
+
+    // fetchGet(
+    //   undefined,
+    //   `/api/get_all_submissions_agenda?starttime=${encodeURIComponent(currentDate.toISOString())}`,
+    //   () => {
+    //     setIsLoading(true);
+    //   },
+    //   (resJson) => {
+    //     const { converted, minT, maxT } = handleConvertDatetime(resJson, timeZone);
+    //     setTzAgendaData3Up(converted);
+
+    //     if (minT || maxT) {
+    //       setMinTime(minT);
+    //       setMaxTime(maxT);
+    //     } else {
+    //       // reduce calendar height when there are no events
+    //       setMinTime(new Date('Oct 31, 2020 00:00'));
+    //       setMaxTime(new Date('Oct 31, 2020 00:01'));
+    //     }
+    //   },
+    //   () => {},
+    //   () => {
+    //     setIsLoading(false);
+    //   },
+    // );
+  }, [currentDateToFetch, displayEdition.value, getAgenda, timezone]);
+
+  useEffect(() => {
+    const { converted, minT, maxT } = handleConvertDatetime(agendaData, timezone);
+
+    // console.log('minT, maxT', minT, maxT);
+
+    setTzAgendaData(converted)
+
+    if (minT || maxT) {
+      setMinTime(minT);
+      setMaxTime(maxT);
+    } else {
+      // TODO: replace static date here
+      // reduce calendar height when there are no events
+      setMinTime(new Date('Oct 31, 2020 00:00'));
+      setMaxTime(new Date('Oct 31, 2020 00:01'));
+    }
+  }, [agendaData, timezone])
+
+  useEffect(() => {
+    console.log('tzAgendaData', tzAgendaData)
+  }, [tzAgendaData])
 
   return (
     <Layout>
@@ -324,7 +410,8 @@ export default () => {
         <HeadingWithButtonContainer>
           <h2>Agenda</h2>
           <TimezoneEditionModal
-            onEditionChange={(edition) => {}}
+            editionValue={displayEdition}
+            onEditionChange={(edition) => { setDisplayEdition(edition) }}
           />
         </HeadingWithButtonContainer>
         <p>
@@ -339,7 +426,7 @@ export default () => {
         <p>
           The main conference will be happening on
           {' '}
-          <BoldText>{mainConfDate}</BoldText>
+          <BoldText>{mainConfDateText}</BoldText>
           {' '}
           (starts at midnight GMT) followed by mind-matching session if
           you opt-in to participate. The main talks will happen in parallel
@@ -389,7 +476,67 @@ export default () => {
             </p>
           )
           : null}
-        {currentEdition !== '2020-3'
+        {tzAgendaData.length === 0 && !isLoading
+          ? (
+            <p
+              css={`
+                text-align: center;
+                border: 2px solid rgb(248, 42, 96);
+                padding: 12px 0;
+              `}
+            >
+              There are no events on this day
+              {' '}
+              <Fa icon="bullhorn" />
+            </p>
+          )
+          : null}
+        {currentDateForCalendar
+          ? (
+            <BigCalendarContainer>
+              <Calendar
+                localizer={localizer}
+                events={tzAgendaData}
+                defaultView={Views.DAY}
+                views={['day']}
+                step={5}
+                timeslots={2}
+                // defaultDate={currentDateForCalendar}
+                date={currentDateForCalendar}
+                resources={resourceMap}
+                resourceAccessor="track"
+                resourceIdAccessor="track"
+                resourceTitleAccessor="resourceTitle"
+                eventPropGetter={(event) => ({
+                  style: {
+                    borderLeftWidth: '4px',
+                    borderLeftColor: getColorOfTalkFormat(event.talk_format),
+                  },
+                })}
+                onNavigate={(date) => {
+                  console.log('date', date);
+                  // date is a Date() instance embedded with machine timezone
+                  // we need to completely override it
+                  const tmp = `${date.toISOString().slice(0, -13)}00:00:00`;
+
+                  // setCurrentDate(moment.tz(toGoDate, timezone));
+                  setCurrentDateForCalendar(date)
+                  setCurrentDateToFetch(moment.tz(date.toISOString(), timezone))
+                }}
+                components={{
+                  toolbar: CustomBar(eventTimeBoundary),
+                }}
+                min={minTime}
+                max={maxTime}
+                onSelectEvent={(selectedEvent) => {
+                  setDetailModalVisible(true);
+                  setPressedItemData(selectedEvent);
+                }}
+              />
+            </BigCalendarContainer>
+          )
+          : null}
+        {/* {currentEdition !== '2020-3'
           ? tzAgendaData.length === 0
             ? (
               <p css="text-align: center;">
@@ -473,7 +620,7 @@ export default () => {
                 )
                 : null}
             </>
-          )}
+          )} */}
       </CommonPageStyles>
     </Layout>
   );

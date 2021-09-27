@@ -43,6 +43,7 @@ function useEventTime() {
               main_conference {
                 start
                 end
+                text
               }
               event_time {
                 start
@@ -62,11 +63,15 @@ function useEventTime() {
     main_timezone: mainTimezone,
   } = sitedata
   const {
+    edition_name: currentEditionName,
     main_conference: { start: startDate, end: endDate },
     event_time: { start: startTime, end: endTime },
   } = editions.find(x => x.edition === currentEdition)
 
-  // time boundary of the main conference
+  /**
+   * @description this is always ISO strings. It is used to tell start and end time
+   * of the latest conference.
+   */
   const mainConfTimeBoundary = [
     timezoneParser(`${startDate} ${startTime}`, mainTimezone).toISOString(),
     timezoneParser(`${endDate} ${endTime}`, mainTimezone).toISOString(),
@@ -126,6 +131,10 @@ function useEventTime() {
     mainConfTimeBoundary,
     defaultAvailableTime,
     currentEdition,
+    currentEditionName,
+    // text of main conference date
+    // e.g. start = "December 1, 2021", end = "December 2, 2021"
+    // text is "December 1 - 2, 2021"
   }
 }
 
