@@ -28,6 +28,12 @@ const BoldText = styled.span`
   font-weight: bold;
 `
 
+const NoticeBox = styled.p`
+  text-align: center;
+  border: 2px solid rgb(248, 42, 96);
+  padding: 12px 0;
+`
+
 const BigCalendarContainer = styled.div`
   .rbc-allday-cell {
     display: none;
@@ -92,9 +98,6 @@ const handleConvertDatetime = (data, tz) => {
         .format("MMM DD, YYYY HH:mm")
     )
 
-    // console.log('convertedStart', convertedStart)
-    // console.log('convertedEnd', convertedEnd)
-
     if (ind === 0) {
       minT = convertedStart
     }
@@ -124,9 +127,7 @@ const handleConvertDatetime = (data, tz) => {
 // need to make this a curry function to pass eventTimeBoundary in
 const CustomBar = eventTimeBoundary => ({
   // eslint-disable-next-line react/prop-types
-  onNavigate,
-  label,
-  date,
+  onNavigate, label, date,
 }) => {
   if (!eventTimeBoundary) {
     return null
@@ -157,10 +158,10 @@ const CustomBar = eventTimeBoundary => ({
 
 // -- PAGE component
 export default () => {
+  // -- api
   const { getAgenda } = useAPI()
-  // agenda
-  // default value is always the last element of editionOptions
-  // add more edition in editionOptions and default will be changed
+  // -- edition related
+  const { timezone } = useTimezone()
   const { currentEdition, currentEditionName } = useEventTime()
   const [displayEdition, setDisplayEdition] = useState({
     label: currentEditionName,
@@ -172,25 +173,21 @@ export default () => {
     start: mainConfStartDate,
     end: mainConfEndDate,
     eventTimeBoundary,
+    resourceMap,
   } = mainConfMetadata
+  // -- local states
   const [isLoading, setIsLoading] = useState(true)
   const [agendaData, setAgendaData] = useState([])
   const [tzAgendaData, setTzAgendaData] = useState([])
-  const { timezone } = useTimezone()
-
-  // calendar related states
+  // -- calendar related states
   // this is a moment object, used to fetch data
-  // const [currentDate, setCurrentDate] = useState(null);
   const [currentDateToFetch, setCurrentDateToFetch] = useState(null)
   // this is a Date object, used to set calendar date title
-  // const [defaultDate, setDefaultDate] = useState(null);
   const [currentDateForCalendar, setCurrentDateForCalendar] = useState(null)
-  // this is time boundary for each day one the calendar
-  // const [currentISODate, setCurrentISODate] = useState(new Date('October 26, 2020').toISOString())
+  // this is time boundary for each day on the calendar
   const [minTime, setMinTime] = useState(undefined)
   const [maxTime, setMaxTime] = useState(undefined)
-
-  // modal visibility status and data to be displayed on modal
+  // -- modal states
   const [detailModalVisible, setDetailModalVisible] = useState(false)
   const [pressedItemData, setPressedItemData] = useState(null)
 
@@ -252,9 +249,9 @@ export default () => {
     }
   }, [agendaData, mainConfEndDate, timezone])
 
-  useEffect(() => {
-    console.log("tzAgendaData", tzAgendaData)
-  }, [tzAgendaData])
+  // useEffect(() => {
+  //   console.log("tzAgendaData", tzAgendaData)
+  // }, [tzAgendaData])
 
   return (
     <Layout>
@@ -317,22 +314,23 @@ export default () => {
           </li>
         </ul>
         {isLoading ? (
-          <p css="text-align: center;">
+          <NoticeBox>
             Now loading... <Fa icon="sync" spin />
-          </p>
+          </NoticeBox>
         ) : null}
         {tzAgendaData.length === 0 && !isLoading ? (
-          <p
-            css={`
-              text-align: center;
-              border: 2px solid rgb(248, 42, 96);
-              padding: 12px 0;
-            `}
-          >
-            There are no events on this day <Fa icon="bullhorn" />
-          </p>
+          <>
+            {/* <NoticeBox>
+              There are no events on this day <Fa icon="bullhorn" />
+            </NoticeBox> */}
+            <NoticeBox>
+              Agenda coming soon!
+              {' '}
+              <Fa icon="bullhorn" />
+            </NoticeBox>
+          </>
         ) : null}
-        {currentDateForCalendar ? (
+        {currentDateForCalendar && tzAgendaData.length !== 0 && !isLoading ? (
           <BigCalendarContainer>
             <Calendar
               localizer={localizer}
@@ -372,91 +370,6 @@ export default () => {
             />
           </BigCalendarContainer>
         ) : null}
-        {/* {currentEdition !== '2020-3'
-          ? tzAgendaData.length === 0
-            ? (
-              <p css="text-align: center;">
-                Agenda coming soon!
-                {' '}
-                <Fa icon="bullhorn" />
-              </p>
-            )
-            : (
-              <StyledTable>
-                {tzAgendaData.map((x) => (
-                  <AgendaInADay
-                    key={x.date}
-                    date={x.date}
-                    data={x.data}
-                  />
-                ))}
-              </StyledTable>
-            )
-          : (
-            <>
-              {tzAgendaData3Up.length === 0 && !isLoading
-                ? (
-                  <p
-                    css={`
-                      text-align: center;
-                      border: 2px solid rgb(248, 42, 96);
-                      padding: 12px 0;
-                    `}
-                  >
-                    There are no events on this day
-                    {' '}
-                    <Fa icon="bullhorn" />
-                  </p>
-                )
-                : null}
-              {defaultDate
-                ? (
-                  <BigCalendarContainer>
-                    <Calendar
-                      localizer={localizer}
-                      events={tzAgendaData3Up}
-                      defaultView={Views.DAY}
-                      views={['day']}
-                      step={5}
-                      timeslots={2}
-                      defaultDate={defaultDate}
-                      resources={resourceMap}
-                      resourceAccessor="track"
-                      resourceIdAccessor="track"
-                      resourceTitleAccessor="resourceTitle"
-                      eventPropGetter={(event) => ({
-                        style: {
-                          borderLeftWidth: '4px',
-                          borderLeftColor: getColorOfTalkFormat(event.talk_format),
-                        },
-                      })}
-                      onNavigate={(date) => {
-                        let toGoDate = '';
-
-                        // date is a Date() instance embedded with machine timezone
-                        // we need to completely override it
-                        toGoDate += `${date.getFullYear()}-`;
-                        toGoDate += `${date.getMonth() + 1}-`;
-                        toGoDate += `${date.getDate()}T`;
-                        toGoDate += '00:00:00';
-
-                        setCurrentDate(moment.tz(toGoDate, timezone));
-                      }}
-                      components={{
-                        toolbar: CustomBar,
-                      }}
-                      min={minTime}
-                      max={maxTime}
-                      onSelectEvent={(selectedEvent) => {
-                        setDetailModalVisible(true);
-                        setPressedItemData(selectedEvent);
-                      }}
-                    />
-                  </BigCalendarContainer>
-                )
-                : null}
-            </>
-          )} */}
       </CommonPageStyles>
     </Layout>
   )
