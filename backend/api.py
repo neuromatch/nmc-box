@@ -29,7 +29,7 @@ import pandas as pd
 from pydantic import BaseModel
 from pyairtable import Table
 import utils  # import utils as a library, make sure to load environment variables before
-from utils import get_user_info, get_data, set_data, update_data
+from utils import get_user_info, get_data, set_data, update_data, get_agenda
 
 from fastapi import FastAPI, Query, Header, status
 from fastapi.encoders import jsonable_encoder
@@ -304,6 +304,27 @@ def query_params_builder(
                 separator = "?" if "?" not in base_endpoint else "&"
                 base_endpoint += f"{separator}{k}={v}"
     return base_endpoint
+
+
+# abstract search
+@app.get("/api/agenda/{edition}")
+async def get_agenda(
+    edition: str,
+    starttime: Optional[str] = None
+):
+    """
+    Returns agenda one day after a given starttime from a given index
+
+    edition: str, conference edition such as 2020-1, 2020-2, 2020-3
+    starttime: str, string of starttime in UTC format such as
+        2020-10-26 10:00:00, 2020-10-26 10:00:00+00:00
+    """
+    if starttime is not None:
+        abstracts = utils.get_agenda(index=f"agenda-{edition}", starttime=starttime)
+    else:
+        abstracts = []
+
+    return JSONResponse(content={"data": abstracts})
 
 
 # abstract search

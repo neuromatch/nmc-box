@@ -101,31 +101,37 @@ def query_abstracts(
     return responses
 
 
-def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None):
+def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None, sort: bool = True):
     """
-    Returns agenda one day after a given starttime from a given index
+    Returns agenda one day after a given starttime from a given index.
+    Note: If starttime and endtime are not available, we will return empty agenda.
 
+    Parameters
+    ==========
     index: str, ElasticSearch index
     starttime: str, a given string of starttime such as
         2020-10-26 10:00:00, 2020-10-26 10:00:00+00:00
         assuming that starttime is in UTC
     """
-
     agenda = []
     for hit in Search(using=es, index=index).scan():
-        hit["starttime_sort"] = pd.to_datetime(hit["starttime"])
-        hit["endtime_sort"] = pd.to_datetime(hit["endtime"])
+        # check if starttime and endtime both available
+        if hit.to_dict().get("starttime") is not None and hit.to_dict().get("endtime") is not None:
+            dt_start = pd.to_datetime(hit["starttime"])
+            dt_end = pd.to_datetime(hit["endtime"])
 
-        if (starttime is not None) or (starttime == ""):
-            startday = convert_utc(starttime)
-            endday = startday + timedelta(days=1) - timedelta(minutes=1)
-            if hit["starttime_sort"] >= startday and hit["endtime_sort"] <= endday:
-                hit["starttime"] = hit["starttime_sort"].isoformat()
-                hit["endtime"] = hit["endtime_sort"].isoformat()
+            if (starttime is not None) or (starttime == ""):
+                startday = convert_utc(starttime)
+                endday = startday + timedelta(days=1) - timedelta(minutes=1)
+                if dt_start >= startday and dt_end <= endday:
+                    hit["starttime"] = dt_start.isoformat()
+                    hit["endtime"] = dt_end.isoformat()
+                    agenda.append(hit.to_dict())
+            else:
                 agenda.append(hit.to_dict())
-        else:
-            agenda.append(hit.to_dict())
-
+    # sort agenda if sort is True
+    if sort:
+        agenda = sorted(agenda, key=lambda x: pd.to_datetime(x["starttime"]))
     return agenda
 
 
