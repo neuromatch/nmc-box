@@ -9,7 +9,7 @@ import HeadingWithButtonContainer from "../components/BaseComponents/HeadingWith
 import Layout from "../components/layout"
 import TimezoneEditionModal from "../components/TimezoneEditionModal"
 import useAPI from "../hooks/useAPI"
-import useDisplayEdition from "../hooks/useDisplayEdition"
+import useDisplayEdition, { talkFormatLabelColors } from "../hooks/useDisplayEdition"
 import useEventTime from "../hooks/useEventTime"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
@@ -19,26 +19,6 @@ import AbstractModal from "./abstract-browser/components/AbstractModal"
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize)
-
-const resourceMap = [
-  { track: "stage", resourceTitle: "Stage" },
-  { track: "room 1", resourceTitle: "Room 1" },
-  { track: "room 2", resourceTitle: "Room 2" },
-  { track: "room 3", resourceTitle: "Room 3" },
-  { track: "room 4", resourceTitle: "Room 4" },
-  { track: "room 5", resourceTitle: "Room 5" },
-  { track: "room 6", resourceTitle: "Room 6" },
-  { track: "room 7", resourceTitle: "Room 7" },
-  { track: "room 8", resourceTitle: "Room 8" },
-  { track: "room 9", resourceTitle: "Room 9" },
-]
-
-const talkFormatLabelColors = {
-  "Interactive talk": "#d0f0fd",
-  "Traditional talk": "#d1f7c4",
-  "Keynote Event": "#fcb301",
-  "Special Event": "#f82a60",
-}
 
 // -- FUNCTIONS
 const getColorOfTalkFormat = talkFormat => talkFormatLabelColors[talkFormat]

@@ -2,6 +2,17 @@ import { graphql, useStaticQuery } from "gatsby"
 import { useEffect, useState } from "react"
 import { timezoneParser } from "./useTimezone"
 
+// -- CONSTANTS
+const talkFormatLabelColors = {
+  'Contributed talks': '#d0f0fd',
+  'Interactive talk': '#d0f0fd',
+  'Short talk': '#d1f7c4',
+  'Traditional talk': '#d1f7c4',
+  'Keynote': '#fcb301',
+  'Keynote Event': '#fcb301',
+  'Special Event': '#f82a60',
+};
+
 /**
  * @typedef {Object} MainConfMetadata
  * @property {String} edition - the edition of current data
@@ -9,6 +20,7 @@ import { timezoneParser } from "./useTimezone"
  * @property {String} end - end date for main conference
  * @property {String} text - text of organized date for main conference
  * @property {String[]} eventTimeBoundary - lower and upper boundary of main conference event time based on timezone
+ * @property {Object[]} resourceMap - resources mapping for each edition
  *
  * useDisplayEdition - a function to get data depended on display edition
  * @param {String} edition
@@ -35,6 +47,7 @@ function useDisplayEdition(edition) {
                 start
                 end
               }
+              tracks
             }
           }
         }
@@ -45,8 +58,6 @@ function useDisplayEdition(edition) {
   const [mainConfMetadata, setMainConferenceMetadata] = useState({})
 
   useEffect(() => {
-    console.log("edition", edition)
-
     const sitedata = data.allSitedataYaml.edges[0].node
     const {
       current_edition: currentEdition,
@@ -56,6 +67,7 @@ function useDisplayEdition(edition) {
     const {
       main_conference: mainConference,
       event_time: eventTime,
+      tracks,
     } = editions.find(x => x.edition === (edition || currentEdition))
 
     /**
@@ -78,14 +90,21 @@ function useDisplayEdition(edition) {
       ),
     ]
 
+    const resourceMap = tracks.map(x => ({
+      track: x,
+      resourceTitle: `${x.charAt(0).toUpperCase()}${x.slice(1)}`,
+    }))
+
     setMainConferenceMetadata({
       edition: edition || currentEdition,
       ...mainConference,
       eventTimeBoundary,
+      resourceMap,
     })
   }, [data.allSitedataYaml.edges, edition])
 
   return { mainConfMetadata }
 }
 
+export { talkFormatLabelColors }
 export default useDisplayEdition
