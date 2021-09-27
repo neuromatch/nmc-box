@@ -46,6 +46,8 @@ editions:
       - C
       - D
       - E
+      - F
+      - G
   - edition: 2020-2
     edition_name: "2.0"
     page_title: neuromatch 2.0
@@ -92,7 +94,7 @@ editions:
       end: "20:00"
     twitter_hashtag: nmc3
     tracks:
-      - main
+      - stage
       - room 1
       - room 2
       - room 3
