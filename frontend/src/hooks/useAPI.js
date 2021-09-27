@@ -4,6 +4,7 @@ import useFirebaseWrapper from "./useFirebaseWrapper"
 const endpoints = {
   affiliation: "/api/affiliation",
   abstract: '/api/abstract',
+  agenda: '/api/agenda',
   user: "/api/user",
   userPreference: "/api/user/preference",
   confirmation: "/api/confirmation",
@@ -78,6 +79,13 @@ function useAPI() {
     sendConfirmationEmail: useCallback(type => {
       return fetch(`${endpoints.confirmation}/${type}`, {
         method: "POST",
+        headers: {
+          ...authHeader(idToken),
+        },
+      })
+    }, [idToken]),
+    getAgenda: useCallback(({ edition, starttime }) => {
+      return fetch(`${endpoints.agenda}/${edition}?starttime=${starttime}`, {
         headers: {
           ...authHeader(idToken),
         },
