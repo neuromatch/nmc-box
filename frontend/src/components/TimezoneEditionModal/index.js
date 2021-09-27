@@ -47,7 +47,7 @@ const EachPickerContainer = styled.div`
   margin-bottom: 0.5em;
 `
 
-const TimezoneEditionModal = ({ onEditionChange }) => {
+const TimezoneEditionModal = ({ editionValue, onEditionChange }) => {
   const {
     ref: visibleRef,
     isComponentVisible,
@@ -64,7 +64,10 @@ const TimezoneEditionModal = ({ onEditionChange }) => {
               <label>
                 Edition
               </label>
-              <EditionPicker onChange={onEditionChange} />
+              <EditionPicker
+                value={editionValue}
+                onChange={onEditionChange}
+              />
             </EachPickerContainer>
             <EachPickerContainer>
               <label>
@@ -80,6 +83,10 @@ const TimezoneEditionModal = ({ onEditionChange }) => {
 }
 
 TimezoneEditionModal.propTypes = {
+  editionValue: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  }),
   onEditionChange: PropTypes.func.isRequired,
 }
 
