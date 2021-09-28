@@ -63,7 +63,7 @@ def query(
         responses = es_search.query("multi_match", query=q, fields=fields)
         search_responses = responses[0:n_results].execute()
         search_responses = search_responses.to_dict()["hits"]["hits"]
-        if not "grid":
+        if index != "grid":
             search_responses = convert_es_responses_to_list(search_responses)
     return search_responses
 

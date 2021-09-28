@@ -301,26 +301,33 @@ async def update_user_votes(
 
 
 def query_params_builder(
-    base_endpoint: str,
-    kvs: Optional[tuple] = None,
+    current_page: Optional[int] = None, total_pages: Optional[int] = None
 ):
     """
     Create query argument from a given base_endpoint
     """
-    if kvs is not None:
-        for (k, v) in kvs:
-            if v is not None:
-                separator = "?" if "?" not in base_endpoint else "&"
-                base_endpoint += f"{separator}{k}={v}"
-    return base_endpoint
+
+    def builder(
+        base_endpoint: str,
+        kvs: Optional[tuple] = None,
+    ):
+        if current_page is not None and total_pages is not None:
+            if current_page >= total_pages:
+                return None
+
+        if kvs is not None:
+            for (k, v) in kvs:
+                if v is not None:
+                    separator = "?" if "?" not in base_endpoint else "&"
+                    base_endpoint += f"{separator}{k}={v}"
+        return base_endpoint
+
+    return builder
 
 
 # abstract search
 @app.get("/api/agenda/{edition}")
-async def get_agenda(
-    edition: str,
-    starttime: Optional[str] = None
-):
+async def get_agenda(edition: str, starttime: Optional[str] = None):
     """
     Returns agenda one day after a given starttime from a given index
 
@@ -397,7 +404,6 @@ async def get_abstracts(
         submissions = utils.filter_startend_time(
             submissions, starttime, endtime
         )  # filter by start, end time
-
         return JSONResponse(
             content={
                 "meta": {
@@ -406,7 +412,7 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": query_params_builder(
+                    "current": query_params_builder()(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -417,7 +423,7 @@ async def get_abstracts(
                             ("limit", page_size),
                         ],
                     ),
-                    "next": query_params_builder(
+                    "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -447,7 +453,7 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": query_params_builder(
+                    "current": query_params_builder()(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -455,7 +461,7 @@ async def get_abstracts(
                             ("limit", page_size),
                         ],
                     ),
-                    "next": query_params_builder(
+                    "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -489,7 +495,7 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": query_params_builder(
+                    "current": query_params_builder()(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -499,7 +505,7 @@ async def get_abstracts(
                             ("limit", page_size),
                         ],
                     ),
-                    "next": query_params_builder(
+                    "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -533,7 +539,7 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": query_params_builder(
+                    "current": query_params_builder()(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -543,7 +549,7 @@ async def get_abstracts(
                             ("limit", page_size),
                         ],
                     ),
-                    "next": query_params_builder(
+                    "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
@@ -568,7 +574,7 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": query_params_builder(
+                    "current": query_params_builder()(
                         f"/api/abstract/{edition}",
                         [
                             ("view", "default"),
@@ -576,7 +582,7 @@ async def get_abstracts(
                             ("limit", page_size),
                         ],
                     ),
-                    "next": query_params_builder(
+                    "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
                         [
                             ("view", "default"),
