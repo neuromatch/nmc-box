@@ -15,7 +15,7 @@ import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
-import AbstractModal from "./abstract-browser/components/AbstractModal"
+import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize)
