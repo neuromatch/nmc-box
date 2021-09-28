@@ -101,6 +101,10 @@ class Submission(BaseModel):
     track: Optional[str] = None
 
 
+class Vote(BaseModel):
+    action: str = None
+
+
 # profile
 @app.get("/api/affiliation")
 async def get_affiliations(
@@ -210,17 +214,9 @@ async def get_user_votes(authorization: Optional[str] = Header(None)):
     if user_info is not None:
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection)  # all preferences
-        if user_preference is not None:
-            abstracts = [
-                {
-                    "edition": k,
-                    "abstracts": utils.get_abstract(edition=f"agenda-{k}", id=v),
-                }
-                for k, v in user_preference.items()
-            ]
-        else:
-            abstracts = []
-        return JSONResponse(content={"data": abstracts})
+        if user_preference is None:
+            user_preference = []
+        return JSONResponse(content={"data": user_preference})
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
@@ -236,13 +232,11 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
         user_preference = get_data(user_id, preference_collection)  # all preferences
 
         if user_preference is not None:
-            ids = user_preference[edition]
-            abstracts = {
-                "edition": edition,
-                "abstracts": [
-                    utils.get_abstract(index=f"agenda-{edition}", id=idx) for idx in ids
-                ],
-            }
+            ids = user_preference.get(edition, [])
+            if len(ids) > 0:
+                abstracts = ids
+            else:
+                abstracts = []
         else:
             abstracts = []
         return JSONResponse(content={"data": abstracts})
@@ -254,7 +248,7 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
 async def update_user_votes(
     edition: str,
     submission_id: str,
-    action: Optional[str] = None,
+    action: Vote,
     authorization: Optional[str] = Header(None),
 ):
     """
@@ -262,7 +256,7 @@ async def update_user_votes(
 
     edition: str
     submission_id: str
-    action: str (optional) can be "like" or "dislike"
+    action: Vote, string can be "like" or "dislike"
     """
     # TODOs: set preference on Firebase
     user_info = get_user_info(authorization)
@@ -270,6 +264,8 @@ async def update_user_votes(
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
     user_id = user_info.get("user_id")
     user_preference = get_data(user_id, preference_collection)  # all preferences
+
+    action = action.dict()["action"]
 
     if action == "like" and user_id is not None:
         if user_preference is None:
@@ -279,21 +275,24 @@ async def update_user_votes(
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref + [submission_id]))
-            try:
-                update_data({edition: update_pref}, user_id, preference_collection)
-            except (google.cloud.exceptions.NotFound, TypeError):
-                return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            current_pref = user_preference.get(edition, [])
+            update_pref = list(set([*current_pref, submission_id]))
+            if len(update_pref) > 0:
+                try:
+                    update_data({edition: update_pref}, user_id, preference_collection)
+                except (google.cloud.exceptions.NotFound, TypeError):
+                    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            else:
+                pass
     elif action == "dislike" and user_id is not None:
         if user_preference is None:
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref - [submission_id]))
+            current_pref = user_preference.get(edition, [])
+            update_pref = list(set(current_pref) - set([submission_id]))
             user_preference.update({edition: update_pref})
             try:
-                update_data({edition: update_pref}, user_id, preference_collection)
+                update_data(user_preference, user_id, preference_collection)
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     else:
@@ -371,7 +370,7 @@ async def get_abstracts(
         user_info = get_user_info(authorization)
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection).get(
-            "edition", []
+            edition, []
         )  # all preferences
     except:
         user_preference = []

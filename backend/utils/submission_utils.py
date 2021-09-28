@@ -101,7 +101,9 @@ def query_abstracts(
     return responses
 
 
-def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None, sort: bool = True):
+def get_agenda(
+    index: str = "agenda-2020-1", starttime: Optional[str] = None, sort: bool = True
+):
     """
     Returns agenda one day after a given starttime from a given index.
     Note: If starttime and endtime are not available, we will return empty agenda.
@@ -116,7 +118,10 @@ def get_agenda(index: str = "agenda-2020-1", starttime: Optional[str] = None, so
     agenda = []
     for hit in Search(using=es, index=index).scan():
         # check if starttime and endtime both available
-        if hit.to_dict().get("starttime") is not None and hit.to_dict().get("endtime") is not None:
+        if (
+            hit.to_dict().get("starttime") is not None
+            and hit.to_dict().get("endtime") is not None
+        ):
             dt_start = pd.to_datetime(hit["starttime"])
             dt_end = pd.to_datetime(hit["endtime"])
 
@@ -143,8 +148,6 @@ def filter_startend_time(
     """
     Filter a list by starttime and endtime
     """
-    print(f"Starttime = {starttime}")
-    print(f"Endtime = {endtime}")
     if starttime in ["", None] and endtime in ["", None]:
         return responses
     else:
