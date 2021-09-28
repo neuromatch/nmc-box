@@ -40,11 +40,17 @@ function useAPI() {
       [idToken]
     ),
     getUserData: useCallback(() => {
-      return fetch(endpoints.user, {
-        headers: {
-          ...authHeader(idToken),
-        },
-      })
+      // this one always return 401 at first because it is called
+      // on mounted in useValidateRegistration
+      // so we solve that by checking if idToken is available or not first
+      // if not return null
+      return idToken
+        ? fetch(endpoints.user, {
+            headers: {
+              ...authHeader(idToken),
+            },
+          })
+        : null
     }, [idToken]),
     submitAbstract: useCallback(({ edition, data }) => {
       return fetch(`${endpoints.abstract}/${edition}`, {
