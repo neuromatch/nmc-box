@@ -15,7 +15,6 @@ import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
 import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWithButtonContainer';
 import LoadingView from '../components/BaseComponents/LoadingView';
 import Layout from '../components/layout';
-import TimezonePicker from '../components/TimezonePicker';
 import { useAuthenFetchGet } from '../hooks/useFetch';
 import useTimezone, { timezoneParser } from '../hooks/useTimezone';
 import useValidateRegistration from '../hooks/useValidateRegistration';
@@ -23,6 +22,8 @@ import { basedStyles, growOverParentPadding, media } from '../styles';
 import Fa from '../utils/fontawesome';
 import AbstractModal from '../components/AbstractBrowser/AbstractModal';
 import AbstractVirtualizedList from '../components/AbstractBrowser/AbstractVirtualizedList';
+import useEventTime from '../hooks/useEventTime';
+import TimezoneEditionModal from '../components/TimezoneEditionModal';
 
 // -- TYPES
 /**
@@ -296,6 +297,13 @@ export default () => {
   const [queryString, setQueryString] = useState('');
   const searchInputRef = useRef(null);
 
+  // -- refactor
+  const { currentEdition, currentEditionName } = useEventTime()
+  const [displayEdition, setDisplayEdition] = useState({
+    label: currentEditionName,
+    value: currentEdition,
+  })
+
   // fetch my preferences from remote and update my preferences locally
   useEffect(() => {
     setMyPreferences(preferences);
@@ -455,10 +463,10 @@ export default () => {
         `}
         >
           <h2>Abstract Browser</h2>
-          <TimezonePicker
-            currentTimezone={timezone}
-            onChange={(tz) => {
-              setTimezone(tz);
+          <TimezoneEditionModal
+            editionValue={displayEdition}
+            onEditionChange={edition => {
+              setDisplayEdition(edition)
             }}
           />
         </HeadingWithButtonContainer>
