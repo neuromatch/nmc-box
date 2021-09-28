@@ -210,10 +210,16 @@ async def get_user_votes(authorization: Optional[str] = Header(None)):
     if user_info is not None:
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection)  # all preferences
-        abstracts = [
-            {"edition": k, "abstracts": utils.get_abstract(edition=f"agenda-{k}", id=v)}
-            for k, v in user_preference.items()
-        ]
+        if user_preference is not None:
+            abstracts = [
+                {
+                    "edition": k,
+                    "abstracts": utils.get_abstract(edition=f"agenda-{k}", id=v),
+                }
+                for k, v in user_preference.items()
+            ]
+        else:
+            abstracts = []
         return JSONResponse(content={"data": abstracts})
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
@@ -229,13 +235,16 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection)  # all preferences
 
-        ids = user_preference[edition]
-        abstracts = {
-            "edition": edition,
-            "abstracts": [
-                utils.get_abstract(index=f"agenda-{edition}", id=idx) for idx in ids
-            ],
-        }
+        if user_preference is not None:
+            ids = user_preference[edition]
+            abstracts = {
+                "edition": edition,
+                "abstracts": [
+                    utils.get_abstract(index=f"agenda-{edition}", id=idx) for idx in ids
+                ],
+            }
+        else:
+            abstracts = []
         return JSONResponse(content={"data": abstracts})
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
