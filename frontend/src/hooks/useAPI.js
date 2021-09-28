@@ -3,9 +3,10 @@ import useFirebaseWrapper from "./useFirebaseWrapper"
 
 const endpoints = {
   affiliation: "/api/affiliation",
-  abstract: '/api/abstract',
-  agenda: '/api/agenda',
+  abstract: "/api/abstract",
+  agenda: "/api/agenda",
   user: "/api/user",
+  preference: "/api/user/preference",
   userPreference: "/api/user/preference",
   confirmation: "/api/confirmation",
   migration: "/api/migration",
@@ -52,51 +53,103 @@ function useAPI() {
           })
         : null
     }, [idToken]),
-    submitAbstract: useCallback(({ edition, data }) => {
-      return fetch(`${endpoints.abstract}/${edition}`, {
-        method: "POST",
-        headers: {
-          ...contentTypeHeader,
-          ...authHeader(idToken),
-        },
-        body: JSON.stringify(data),
-      })
-    }, [idToken]),
-    getAbstract: useCallback(({ edition, submissionId }) => {
-      return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
-        headers: {
-          ...authHeader(idToken),
-        },
-      })
-    }, [idToken]),
-    updateAbstract: useCallback(({ edition, data, submissionId }) => {
-      return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
-        method: "PUT",
-        headers: {
-          ...contentTypeHeader,
-          ...authHeader(idToken),
-        },
-        body: JSON.stringify(data),
-      })
-    }, [idToken]),
+    submitAbstract: useCallback(
+      ({ edition, data }) => {
+        return fetch(`${endpoints.abstract}/${edition}`, {
+          method: "POST",
+          headers: {
+            ...contentTypeHeader,
+            ...authHeader(idToken),
+          },
+          body: JSON.stringify(data),
+        })
+      },
+      [idToken]
+    ),
+    getAbstract: useCallback(
+      ({ edition, submissionId }) => {
+        return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
+          headers: {
+            ...authHeader(idToken),
+          },
+        })
+      },
+      [idToken]
+    ),
+    updateAbstract: useCallback(
+      ({ edition, data, submissionId }) => {
+        return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
+          method: "PUT",
+          headers: {
+            ...contentTypeHeader,
+            ...authHeader(idToken),
+          },
+          body: JSON.stringify(data),
+        })
+      },
+      [idToken]
+    ),
     /**
      * @param {('registration'|'submission'|'mindmatch')} type
      */
-    sendConfirmationEmail: useCallback(type => {
-      return fetch(`${endpoints.confirmation}/${type}`, {
-        method: "POST",
-        headers: {
-          ...authHeader(idToken),
-        },
-      })
-    }, [idToken]),
-    getAgenda: useCallback(({ edition, starttime }) => {
-      return fetch(`${endpoints.agenda}/${edition}?starttime=${starttime}`, {
-        headers: {
-          ...authHeader(idToken),
-        },
-      })
-    }, [idToken])
+    sendConfirmationEmail: useCallback(
+      type => {
+        return fetch(`${endpoints.confirmation}/${type}`, {
+          method: "POST",
+          headers: {
+            ...authHeader(idToken),
+          },
+        })
+      },
+      [idToken]
+    ),
+    getAgenda: useCallback(
+      ({ edition, starttime }) => {
+        return fetch(`${endpoints.agenda}/${edition}?starttime=${starttime}`, {
+          headers: {
+            ...authHeader(idToken),
+          },
+        })
+      },
+      [idToken]
+    ),
+    getPreference: useCallback(
+      ({ edition }) => {
+        return idToken
+          ? fetch(`${endpoints.preference}/${edition}`, {
+              headers: {
+                ...authHeader(idToken),
+              },
+            })
+          : null
+      },
+      [idToken]
+    ),
+    getAbstractsForBrowser: useCallback(
+      ({ edition, qParams }) => {
+        return fetch(`${endpoints.abstract}/${edition}${qParams}`, {
+          headers: {
+            ...authHeader(idToken),
+          },
+        })
+      },
+      [idToken]
+    ),
+    reactOnAbstract: useCallback(
+      ({ edition, submissionId, action }) => {
+        return fetch(`${endpoints.preference}/${edition}/${submissionId}`, {
+          method: "PATCH",
+          headers: {
+            ...contentTypeHeader,
+            ...authHeader(idToken),
+          },
+          body: JSON.stringify({
+            action,
+          }),
+        })
+      },
+      [idToken]
+    ),
   }
 }
 
