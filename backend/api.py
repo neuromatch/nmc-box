@@ -772,4 +772,4 @@ async def update_payment(
         )
         return JSONResponse(status_code=status.HTTP_200_OK)
     else:
-        return JSONResponse(content=status.HTTP_404_NOT_FOUND)
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
