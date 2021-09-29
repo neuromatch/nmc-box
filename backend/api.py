@@ -725,10 +725,10 @@ async def update_payment(
             set_data(
                 payment, user_id, "payment",
             )  # create payment
-            return {"client_secret": session["client_secret"]}
+            return JSONResponse(data={"client_secret": session["client_secret"]})
         except Exception as e:
             print(e)
-            return {}
+            return JSONResponse(data={})
 
     elif option == "set":
         # set the payment if payment is successful
@@ -769,4 +769,4 @@ async def update_payment(
         )
 
     else:
-        return {}
+        return JSONResponse(data={})
