@@ -113,7 +113,7 @@ class Vote(BaseModel):
 
 class PaymentPayload(BaseModel):
     currency: str = "USD"
-    amount: int = 0
+    amount: int = 1500
     payment_intent_id: str = None
 
 
@@ -683,7 +683,7 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
 @app.post("/api/payment/{option}")
 async def update_payment(
     option: str = "check",
-    payload: PaymentPayload = {},
+    payload: PaymentPayload = None,
     authorization: Optional[str] = Header(None),
 ):
     """
@@ -691,10 +691,12 @@ async def update_payment(
     """
     collection = "payment"  # Firebase collection
     amount_options = [500, 1000, 1500, 2000, 2500, 3000]
+    if payload is None:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
     payload = payload.dict()
     amount = payload.get("amount", 1500)
     currency = payload.get("USD", "USD")
-    if payload.get("amount") not in amount_options:
+    if amount not in amount_options:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
     user_info = get_user_info(authorization)
@@ -720,7 +722,7 @@ async def update_payment(
             payment = {
                 "payment_status": "wait",
                 "payment_intent_id": session["id"],
-                "amount": amount
+                "amount": amount,
             }
             set_data(
                 payment, user_id, "payment",
