@@ -689,8 +689,11 @@ async def update_payment(
     API for Stripe payment
     """
     collection = "payment"  # Firebase collection
+    amount_options = [500, 1000, 1500, 2000, 2500, 3000]
     amount = payload.get("amount", 1500)
     currency = "USD"
+    if payload.get("amount") not in amount_options:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
     user_info = get_user_info(authorization)
     user_id = user_info.get("user_id")
