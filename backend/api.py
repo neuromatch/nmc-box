@@ -691,6 +691,7 @@ async def update_payment(
     """
     collection = "payment"  # Firebase collection
     amount_options = [500, 1000, 1500, 2000, 2500, 3000]
+    payload = payload.dict()
     amount = payload.get("amount", 1500)
     currency = payload.get("USD", "USD")
     if payload.get("amount") not in amount_options:
