@@ -743,10 +743,12 @@ async def update_payment(
 
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
         if payment_intent.status != "succeeded":
-            return {
-                "error": True,
-                "message": "Sorry, your payment was not successful. Please try again or contact us.",
-            }
+            return JSONResponse(
+                content={
+                    "error": True,
+                    "message": "Sorry, your payment was not successful. Please try again or contact us.",
+                }
+            )
 
         # set payment to Firebase
         set_data(
@@ -759,8 +761,7 @@ async def update_payment(
             },
             collection,
         )
-        print(payment_intent)
-        return {}
+        return JSONResponse(status_code=status.HTTP_200_OK)
 
     elif option == "waive":
         # set payment as waived
@@ -769,6 +770,6 @@ async def update_payment(
             user_id,
             collection,
         )
-
+        return JSONResponse(status_code=status.HTTP_200_OK)
     else:
-        return JSONResponse(content={})
+        return JSONResponse(content=status.HTTP_404_NOT_FOUND)
