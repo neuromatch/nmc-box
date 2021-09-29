@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { media, basedStyles } from '../../styles';
 import Fa from '../../utils/fontawesome';
 import { common } from '../../utils';
+import { talkFormatLabelColors } from '../../hooks/useDisplayEdition';
 // import RequiredAuthFragment from '../RequiredAuthFragment';
 
 // -- CONSTANTS
@@ -18,13 +19,6 @@ const labelColors = {
   D: '#a479ef',
   E: '#367ff9',
   F: '#31c640',
-};
-
-const talkFormatLabelColors = {
-  'Interactive talk': '#d0f0fd',
-  'Traditional talk': '#d1f7c4',
-  'Keynote Event': '#fcb301',
-  'Special Event': '#f82a60',
 };
 
 // -- FUNCTIONS

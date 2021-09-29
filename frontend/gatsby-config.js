@@ -1,10 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config({ path: '.frontend.env' });
+require('dotenv').config({ path: '../.env' });
 
 module.exports = {
   proxy: {
     prefix: '/api',
-    url: 'http://localhost:8888',
+    url: 'http://localhost:8000',
   },
   siteMetadata: {
     prevEdition: '2020-2',

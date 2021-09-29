@@ -1,11 +1,13 @@
 import { navigate } from 'gatsby';
 import React from 'react';
 import LoadingView from '../components/BaseComponents/LoadingView';
-import RegisterForm, { originEnum } from '../components/FormComponents/RegisterForm';
+import RegisterForm, { originEnum } from '../components/RegisterForm';
+import useFirebaseWrapper from '../hooks/useFirebaseWrapper';
 import useValidateRegistration from '../hooks/useValidateRegistration';
 
 export default () => {
-  const { isRegistered, isLoggedIn, isFormerUser } = useValidateRegistration();
+  const { isRegistered } = useValidateRegistration();
+  const { isLoggedIn } = useFirebaseWrapper();
 
   if (isLoggedIn === false) {
     setTimeout(() => {
@@ -31,19 +33,7 @@ export default () => {
     );
   }
 
-  if (isRegistered === false && isFormerUser === true) {
-    setTimeout(() => {
-      navigate('/edit-profile');
-    }, 2500);
-
-    return (
-      <LoadingView
-        message="We found your registration details from neuromatch 1.0!, migrating to 2.0.."
-      />
-    );
-  }
-
-  if (isRegistered === false && isFormerUser === false) {
+  if (isRegistered === false) {
     return (
       <RegisterForm
         origin={originEnum.register}

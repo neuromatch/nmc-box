@@ -1,8 +1,8 @@
 # Overall information about the conference
 name: Neuromatch Conference
-current_edition: 2020-4
+current_edition: 2021-4
 subtitle: A conference made for the whole neuroscience community
-description: " Based on the successful mind-matching session at the Cognitive\
+description: "Based on the successful mind-matching session at the Cognitive\
   \ Computational Neuroscience (CCN) conference and previous Neuromatch\
   \ conference with more than 6k attendees, we decided to create an online\
   \ unconference for all neuroscientists. We are building a better online\
@@ -10,49 +10,126 @@ description: " Based on the successful mind-matching session at the Cognitive\
   \ inclusive, and democratic.
 "
 
+# Find TZ database name here
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+main_timezone: America/New_York
+
 # Theme can be selected between light or dark, and accent control color
 theme: dark
 accent: #9dcfe3
 
-# Allow blind voting period where users can vote in a given period
-blind_vote:
-  use_blind_vote: False
-  blind_vote_start:
-  blind_vote_stop:
-
-# The front page will render according to the current edition
+# Information for each conference edition
 editions:
-  2020-1:
-    edition_name: 1.0
+  - edition: 2020-1
+    edition_name: "1.0"
     page_title: neuromatch 1.0
-    registration_date: Anytime before March 30, 2020
-    submission_date: March 25, 2020
-    main_conference: March 30 - April 1, 2020
+    registration_date:
+      text: Anytime before March 30, 2020
+      start: null
+      end: March 30, 2020
+    submission_date:
+      text: March 25, 2020
+      start: null
+      end: March 25, 2020
+    main_conference:
+      text: March 30 - April 1, 2020
+      start: March 30, 2020
+      end: April 1, 2020
+    event_time:
+      start: "08:00"
+      end: "20:00"
     twitter_hashtag: neuromatch2020
-
-  2020-2:
-    edition_name: 2.0
+    tracks:
+      - main
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+  - edition: 2020-2
+    edition_name: "2.0"
     page_title: neuromatch 2.0
-    registration_date: April 20 to May 20, 2020
-    submission_date: April 20 to May 20, 2020
-    main_conference: May 25 - 27, 2020
+    registration_date:
+      text: Anytime before May 20, 2020
+      start: null
+      end: May 20, 2020
+    submission_date:
+      text: April 20 to May 20, 2020
+      start: April 20, 2020
+      end: May 20, 2020
+    main_conference:
+      text: May 25 - 27, 2020
+      start: May 25, 2020
+      end: May 27, 2020
+    event_time:
+      start: "08:00"
+      end: "20:00"
     twitter_hashtag: neuromatch2020
-
-  2020-3:
-    edition_name: 3.0
+    tracks:
+      - main
+      - A
+      - B
+      - C
+      - D
+      - E
+  - edition: 2020-3
+    edition_name: "3.0"
     page_title: neuromatch 3.0
-    registration_date: Anytime before October 30, 2020
-    submission_date: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
-    main_conference: October 26 - 30, 2020
+    registration_date:
+      text: Anytime before October 30, 2020
+      start: null
+      end: October 30, 2020
+    submission_date:
+      text: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
+      start: null
+      end: October 7, 2020
+    main_conference:
+      text: October 26 - 30, 2020
+      start: October 26, 2020
+      end: October 30, 2020
+    event_time:
+      start: "08:00"
+      end: "20:00"
     twitter_hashtag: nmc3
-
-  2020-4:
-    edition_name: 4.0
+    tracks:
+      - stage
+      - room 1
+      - room 2
+      - room 3
+      - room 4
+      - room 5
+      - room 6
+      - room 7
+      - room 8
+      - room 9
+  - edition: 2021-4
+    edition_name: "4.0"
     page_title: neuromatch 4.0 [demo]
-    registration_date: Anytime before December 30, 2020
-    submission_date: November 7, 2020
-    main_conference: November 26 - 30, 2020
+    registration_date:
+      text: Anytime before December 2, 2021
+      start: null
+      end: December 2, 2020
+    submission_date:
+      text: October 25, 2021
+      start: null
+      end: October 25, 2021
+    main_conference:
+      text: December 1 - 2, 2021
+      start: December 1, 2021
+      end: December 2, 2021
+    event_time:
+      start: "08:00"
+      end: "20:00"
     twitter_hashtag: nmcboxdemo
+    tracks:
+      - main
+      - A
+      - B
+      - C
+      - D
+      - E
 
 # Firebase collection for users and votes
 firebase-collection:
@@ -65,8 +142,9 @@ firebase-collection:
   2020-3:
     users: "users"
     preferences: "preferences"
-  2020-4:
+  2021-4:
     users: "users"
     preferences: "preferences"
 
+# Google analytics key
 google_analytics: UA-XXXXXXXX

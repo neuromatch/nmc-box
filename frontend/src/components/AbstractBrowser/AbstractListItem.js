@@ -2,8 +2,7 @@ import moment from 'moment-timezone';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Fa from '../../../utils/fontawesome';
-import { common } from '../../../utils';
+import { common, Fa } from '../../utils';
 
 // -- CONSTANTS
 const starColor = {

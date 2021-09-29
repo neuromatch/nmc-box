@@ -10,8 +10,8 @@ const Card = styled.div`
 
   /* make this looks like a card */
   border-radius: 5px;
-  border: 1px solid #eee;
-  box-shadow: 2px 2px 6px 2px #ddd;
+  border: 1px solid ${p => p.theme.colors.secondary};
+  box-shadow: 2px 2px 6px 2px ${p => p.theme.colors.disabled};
 
   /* space between box */
   padding: 1.5em;

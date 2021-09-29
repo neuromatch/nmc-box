@@ -1,0 +1,164 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "install",
+      "path": "frontend/",
+      "problemMatcher": [],
+      "label": "frontend:install",
+      "detail": "install frontend dependencies"
+    },
+    {
+      "type": "npm",
+      "script": "develop",
+      "path": "frontend/",
+      "problemMatcher": ["$eslint-compact"],
+      "label": "frontend:develop",
+      "detail": "run frontend (gatsby) in development mode",
+      "presentation": {
+        "panel": "dedicated"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "path": "frontend/",
+      "problemMatcher": ["$eslint-compact"],
+      "label": "frontend:build",
+      "detail": "build frontend (gatsby)"
+    },
+    {
+      "type": "npm",
+      "script": "serve",
+      "path": "frontend/",
+      "problemMatcher": ["$eslint-compact"],
+      "label": "frontend:serve",
+      "detail": "serve frontend (gatsby) in production mode",
+      "dependsOn": ["frontend:build"],
+      "presentation": {
+        "panel": "dedicated"
+      }
+    },
+    {
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "pip", "install", "-r", "requirements.txt"],
+      "label": "backend:install",
+      "detail": "install backend dependencies",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      }
+    },
+    {
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["embeddings.py", "--option=lsa"],
+      "label": "backend:run:embeddings",
+      "detail": "run backend embeddings script for development (with --option=lsa)",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    },
+    {
+      "type": "process",
+      "command": "./es_serve.sh",
+      "args": ["-d"],
+      "label": "backend:run:download-resources",
+      "detail": "download resources for elasticsearch (es and grid data)",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    },
+    {
+      "type": "process",
+      "command": "./es_serve.sh",
+      "args": ["-s"],
+      "label": "backend:serve:es",
+      "detail": "serve elasticsearch server",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      },
+      "presentation": {
+        "panel": "dedicated"
+      }
+    },
+    {
+      "type": "process",
+      "command": "sleep",
+      "args": ["50"],
+      "label": "backend:wait:es",
+      "detail": "wait for elasticsearch server to be ready (~50 sec)"
+    },
+    {
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["es_index.py"],
+      "label": "backend:run:index-es-no-delay",
+      "detail": "create/update index for elasticsearch",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    },
+    {
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "uvicorn", "api:app", "--reload"],
+      "label": "backend:develop:fastapi",
+      "detail": "run FastAPI in development mode",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "backend:run:index-es",
+      "detail": "wait for elasticsearch server to be up (~50sec) and run indexing script",
+      "dependsOrder": "sequence",
+      "dependsOn": ["backend:wait:es", "backend:run:index-es-no-delay"]
+    },
+    {
+      "label": "frontend:setup",
+      "detail": "run scripts to setup frontend",
+      "dependsOn": ["frontend:install"]
+    },
+    {
+      "label": "backend:setup",
+      "detail": "run scripts to setup backend",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "backend:install",
+        "backend:run:embeddings",
+        "backend:run:download-resources"
+      ]
+    },
+    {
+      "label": "backend:develop",
+      "detail": "run development servers for backend",
+      "dependsOn": [
+        "backend:serve:es",
+        "backend:run:index-es",
+        "backend:develop:fastapi"
+      ]
+    },
+    {
+      "label": "run:setup",
+      "detail": "run setup scripts for both frontend and backend",
+      "dependsOn": ["frontend:setup", "backend:setup"]
+    },
+    {
+      "label": "run:development",
+      "detail": "run development servers for both frontend and backend",
+      "dependsOn": ["frontend:develop", "backend:develop"],
+      "problemMatcher": []
+    },
+    {
+      "label": "run:development:fresh",
+      "detail": "run setup scripts first then run development servers for both frontend and backend",
+      "dependsOrder": "sequence",
+      "dependsOn": ["run:setup", "run:development"]
+    }
+  ]
+}

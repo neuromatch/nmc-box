@@ -11,12 +11,12 @@ grid_version: 2021-06-15
 grid_index: grid
 
 # Path to file or Airtable ID to index submissions to ElasticSearch
-# This example has 3 abstracts from
+# This example has 3 abstracts from CSV files and one on
 editions:
-  2020-4:
+  2021-4:
     airtable_id: "appcidVUHiMD8TU0s"
     table_name: "submissions"
-    paper_index: agenda-2020-4
+    paper_index: agenda-2021-4
 
   2020-3:
     path: ../sitedata/agenda/agenda-2020-3.csv

@@ -1,38 +1,33 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import PropTypes from "prop-types"
+import React, { Component } from "react"
+import styled from "styled-components"
+import { color } from "../../utils"
 
 const toastTypes = {
-  success: 'rgba(0, 238, 119, 1)',
-  info: 'rgba(0, 130, 238, 1)',
-  warning: 'rgba(255, 195, 0, 1)',
-  error: 'rgba(241, 72, 82, 1)',
-};
-
-// opacity setter
-// https://stackoverflow.com/a/8179549/4010864
-const setRgbaOpacity = (rgbaString, opacity = 1) => (
-  rgbaString.replace(/[^,]+(?=\))/, String(opacity))
-);
+  success: "succeed",
+  info: "info",
+  warning: "warning",
+  error: "danger",
+}
 
 const Container = styled.div`
   margin-bottom: 1em;
   min-height: 40px;
   width: 100%;
-  background-color: ${(props) => setRgbaOpacity(props.type, 0.2)};
-  border: 1px solid ${(props) => props.type};
+  background-color: ${p => color.transparentize(p.theme.colors[p.type], 0.2)};
+  border: 1px solid ${p => p.theme.colors[p.type]};
   border-radius: 3px;
 
   display: flex;
   align-items: center;
-`;
+`
 
 const ToastText = styled.p`
   margin: 0;
   padding: 0 15px;
   font-size: 0.85em;
-  color: #333;
-`;
+  color: ${p => p.theme.colors.secondary};
+`
 
 /**
  * Toast
@@ -42,15 +37,15 @@ const ToastText = styled.p`
  */
 class Toast extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       visible: false,
       dynamicText: undefined,
       dynamicType: undefined,
-    };
+    }
 
     // second
-    this.displayDuration = 3;
+    this.displayDuration = 3
 
     // // to be clean
     // this.timeInstance = undefined;
@@ -65,7 +60,7 @@ class Toast extends Component {
       visible: true,
       dynamicType: type,
       dynamicText: text,
-    });
+    })
 
     // this.timeInstance = setTimeout(() => {
     //   this._hide();
@@ -75,35 +70,31 @@ class Toast extends Component {
   _hide() {
     this.setState({
       visible: false,
-    });
+    })
   }
 
   render() {
-    const { message, type } = this.props;
-    const { dynamicText, dynamicType } = this.state;
-    const { visible } = this.state;
+    const { message, type } = this.props
+    const { dynamicText, dynamicType } = this.state
+    const { visible } = this.state
 
-    return visible
-      ? (
-        <Container type={dynamicType || type}>
-          <ToastText>
-            {dynamicText || message}
-          </ToastText>
-        </Container>
-      )
-      : null;
+    return visible ? (
+      <Container type={dynamicType || type}>
+        <ToastText>{dynamicText || message}</ToastText>
+      </Container>
+    ) : null
   }
 }
 
 Toast.propTypes = {
   message: PropTypes.string,
   type: PropTypes.string,
-};
+}
 
 Toast.defaultProps = {
-  message: '',
+  message: "",
   type: toastTypes.info,
-};
+}
 
-export { toastTypes };
-export default Toast;
+export { toastTypes }
+export default Toast

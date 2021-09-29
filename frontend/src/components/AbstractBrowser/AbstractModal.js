@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import AbstractDetail from '../../../components/AgendaComponents/AbstractDetail';
-import { LineButton } from '../../../components/BaseComponents/Buttons';
-import useKeyPress from '../../../hooks/useKeyPress';
-import Fa from '../../../utils/fontawesome';
+import useKeyPress from '../../hooks/useKeyPress';
+import { Fa } from '../../utils';
+import AbstractDetail from '../AgendaComponents/AbstractDetail';
+import { LineButton } from '../BaseComponents/Buttons';
 
 // -- STYLES
 // this should block scrolling when modal is visible

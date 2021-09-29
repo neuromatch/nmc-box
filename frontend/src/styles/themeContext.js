@@ -31,8 +31,20 @@ const ThemeProvider = ({ children }) => {
     body {
       background-color: ${p => p.theme.colors.primary};
 
-      * {
+      h1, h2, h3, h4, h5, h6, label, summary {
         color: ${p => p.theme.colors.secondary};
+      }
+
+      h3 {
+        margin-bottom: ${1.56 * 3 / 4}rem;
+      }
+
+      h4 {
+        margin-bottom: ${1.56 * 2 / 4}rem;
+      }
+
+      h5, h6 {
+        margin-bottom: ${1.56 * 1 / 4}rem;
       }
 
       hr {
@@ -53,7 +65,7 @@ const ThemeProvider = ({ children }) => {
         text-decoration: underline;
       }
 
-      p {
+      p, span, dl, ul, ol {
         /* slightly dimmer */
         color: ${p =>
           color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};

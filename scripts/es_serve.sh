@@ -11,7 +11,7 @@ declare -r grid_dl_url="https://digitalscience.figshare.com/ndownloader/files/20
 declare -r grid_data_path="grid-${grid_version}"
 
 
-getDownloadName() {
+get_es_download_path() {
   local osname
 
   if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -26,36 +26,57 @@ getDownloadName() {
   echo elasticsearch-${version}-${osname}-x86_64
 }
 
-download() {
+download_es() {
   local dl_name
 
-  dl_name="$(getDownloadName)"
+  dl_name="$(get_es_download_path)"
 
   wget ${dl_url}/"${dl_name}".tar.gz
   tar -zxvf "${dl_name}".tar.gz
   rm "${dl_name}".tar.gz
 }
 
-downloadGridData() {
+download_grid() {
   wget ${grid_dl_url} -O "grid-${grid_version}.zip"
   unzip "grid-${grid_version}.zip" -d "grid-${grid_version}"
   rm "grid-${grid_version}.zip"
 }
 
-main() {
-  # main logic happens here
+download_all() {
   if [ ! -d "${app_path}" ]; then
-    download
+    download_es
   fi
 
-  # grid data
   if [ ! -d "${grid_data_path}" ]; then
-    downloadGridData
+    download_grid
   fi
+}
 
+serve_es() {
   # serve elasticsearch backend
   cd "${app_path}" || exit
   bin/elasticsearch
 }
 
+main() {
+  download_all
+  serve_es
+}
+
+while getopts ":ds" option; do
+  case $option in
+    d) # download only
+      echo execute with download only option..
+      download_all
+      exit;;
+    s) # serve only
+      serve_es
+      exit;;
+    \?) # invalid option
+      echo "Error: Invalid option"
+      exit;;
+  esac
+done
+
+# run all
 main
