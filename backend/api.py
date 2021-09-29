@@ -111,6 +111,11 @@ class Vote(BaseModel):
     action: str = None
 
 
+class PaymentPayload(BaseModel):
+    currency: str = "USD"
+    amount: int = 0
+
+
 # profile
 @app.get("/api/affiliation")
 async def get_affiliations(
@@ -313,8 +318,7 @@ def query_params_builder(
     """
 
     def builder(
-        base_endpoint: str,
-        kvs: Optional[tuple] = None,
+        base_endpoint: str, kvs: Optional[tuple] = None,
     ):
         if current_page is not None and total_pages is not None:
             if current_page >= total_pages:
@@ -460,11 +464,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", view),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", view), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -581,11 +581,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", "default"),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", "default"), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -686,7 +682,7 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
 @app.post("/api/payment/{option}")
 async def update_payment(
     option: str = "check",
-    payload: dict = {},
+    payload: PaymentPayload = {},
     authorization: Optional[str] = Header(None),
 ):
     """
@@ -713,10 +709,14 @@ async def update_payment(
                 amount=amount,
                 currency=currency,
                 payment_method_types=["card"],
-                receipt_email=email,
+                receipt_email=user_info["email"],
                 metadata={"integration_check": "accept_a_payment"},
             )
-            payment = {"payment_status": "wait", "payment_intent_id": session["id"]}
+            payment = {
+                "payment_status": "wait",
+                "payment_intent_id": session["id"],
+                "amount": amount
+            }
             set_data(
                 payment, user_id, "payment",
             )  # create payment
