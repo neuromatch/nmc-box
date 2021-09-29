@@ -114,6 +114,7 @@ class Vote(BaseModel):
 class PaymentPayload(BaseModel):
     currency: str = "USD"
     amount: int = 0
+    payment_intent_id: str = None
 
 
 # profile
@@ -691,7 +692,7 @@ async def update_payment(
     collection = "payment"  # Firebase collection
     amount_options = [500, 1000, 1500, 2000, 2500, 3000]
     amount = payload.get("amount", 1500)
-    currency = "USD"
+    currency = payload.get("USD", "USD")
     if payload.get("amount") not in amount_options:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
@@ -731,7 +732,7 @@ async def update_payment(
     elif option == "set":
         # set the payment if payment is successful
         payment_dict = get_data(user_id, "payment")
-        payment_intent_id = payload["id"]
+        payment_intent_id = payload["payment_intent_id"]
 
         # mismatch intent ID
         if str(payment_dict["payment_intent_id"]) != str(payment_intent_id):
@@ -749,8 +750,8 @@ async def update_payment(
             {
                 "payment_status": "paid",
                 "payment_intent_id": payment_intent_id,
-                "currency": payload["currency"],
-                "amount": payload["amount"],
+                "currency": currency,
+                "amount": amount,
                 "raw_payment_intent": payment_intent,
             },
             collection,
