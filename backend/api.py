@@ -35,7 +35,7 @@ import pandas as pd
 from pydantic import BaseModel
 from pyairtable import Table
 import utils  # import utils as a library, make sure to load environment variables before
-from utils import get_user_info, get_data, set_data, update_data
+from utils import get_user_info, get_data, set_data, update_data, get_agenda
 
 from fastapi import FastAPI, Query, Header, status
 from fastapi.encoders import jsonable_encoder
@@ -105,6 +105,10 @@ class Submission(BaseModel):
     endtime: Optional[str] = None
     url: Optional[str] = None
     track: Optional[str] = None
+
+
+class Vote(BaseModel):
+    action: str = None
 
 
 # profile
@@ -216,11 +220,9 @@ async def get_user_votes(authorization: Optional[str] = Header(None)):
     if user_info is not None:
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection)  # all preferences
-        abstracts = [
-            {"edition": k, "abstracts": utils.get_abstract(edition=f"agenda-{k}", id=v)}
-            for k, v in user_preference.items()
-        ]
-        return JSONResponse(content={"data": abstracts})
+        if user_preference is None:
+            user_preference = []
+        return JSONResponse(content={"data": user_preference})
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
 
@@ -235,13 +237,14 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection)  # all preferences
 
-        ids = user_preference[edition]
-        abstracts = {
-            "edition": edition,
-            "abstracts": [
-                utils.get_abstract(index=f"agenda-{edition}", id=idx) for idx in ids
-            ],
-        }
+        if user_preference is not None:
+            ids = user_preference.get(edition, [])
+            if len(ids) > 0:
+                abstracts = ids
+            else:
+                abstracts = []
+        else:
+            abstracts = []
         return JSONResponse(content={"data": abstracts})
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
@@ -251,7 +254,7 @@ async def get_user_votes(edition: str, authorization: Optional[str] = Header(Non
 async def update_user_votes(
     edition: str,
     submission_id: str,
-    action: Optional[str] = None,
+    action: Vote,
     authorization: Optional[str] = Header(None),
 ):
     """
@@ -259,7 +262,7 @@ async def update_user_votes(
 
     edition: str
     submission_id: str
-    action: str (optional) can be "like" or "dislike"
+    action: Vote, string can be "like" or "dislike"
     """
     # TODOs: set preference on Firebase
     user_info = get_user_info(authorization)
@@ -267,6 +270,8 @@ async def update_user_votes(
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
     user_id = user_info.get("user_id")
     user_preference = get_data(user_id, preference_collection)  # all preferences
+
+    action = action.dict()["action"]
 
     if action == "like" and user_id is not None:
         if user_preference is None:
@@ -276,25 +281,71 @@ async def update_user_votes(
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref + [submission_id]))
-            try:
-                update_data({edition: update_pref}, user_id, preference_collection)
-            except (google.cloud.exceptions.NotFound, TypeError):
-                return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            current_pref = user_preference.get(edition, [])
+            update_pref = list(set([*current_pref, submission_id]))
+            if len(update_pref) > 0:
+                try:
+                    update_data({edition: update_pref}, user_id, preference_collection)
+                except (google.cloud.exceptions.NotFound, TypeError):
+                    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
+            else:
+                pass
     elif action == "dislike" and user_id is not None:
         if user_preference is None:
             return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
         else:
-            current_pref = user_preference[edition]
-            update_pref = list(set(current_pref - [submission_id]))
+            current_pref = user_preference.get(edition, [])
+            update_pref = list(set(current_pref) - set([submission_id]))
             user_preference.update({edition: update_pref})
             try:
-                update_data({edition: update_pref}, user_id, preference_collection)
+                update_data(user_preference, user_id, preference_collection)
             except (google.cloud.exceptions.NotFound, TypeError):
                 return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
     else:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+
+
+def query_params_builder(
+    current_page: Optional[int] = None, total_pages: Optional[int] = None
+):
+    """
+    Create query argument from a given base_endpoint
+    """
+
+    def builder(
+        base_endpoint: str,
+        kvs: Optional[tuple] = None,
+    ):
+        if current_page is not None and total_pages is not None:
+            if current_page >= total_pages:
+                return None
+
+        if kvs is not None:
+            for (k, v) in kvs:
+                if v is not None:
+                    separator = "?" if "?" not in base_endpoint else "&"
+                    base_endpoint += f"{separator}{k}={v}"
+        return base_endpoint
+
+    return builder
+
+
+# abstract search
+@app.get("/api/agenda/{edition}")
+async def get_agenda(edition: str, starttime: Optional[str] = None):
+    """
+    Returns agenda one day after a given starttime from a given index
+
+    edition: str, conference edition such as 2020-1, 2020-2, 2020-3
+    starttime: str, string of starttime in UTC format such as
+        2020-10-26 10:00:00, 2020-10-26 10:00:00+00:00
+    """
+    if starttime is not None:
+        abstracts = utils.get_agenda(index=f"agenda-{edition}", starttime=starttime)
+    else:
+        abstracts = []
+
+    return JSONResponse(content={"data": abstracts})
 
 
 # abstract search
@@ -325,7 +376,7 @@ async def get_abstracts(
         user_info = get_user_info(authorization)
         user_id = user_info.get("user_id")
         user_preference = get_data(user_id, preference_collection).get(
-            "edition", []
+            edition, []
         )  # all preferences
     except:
         user_preference = []
@@ -358,7 +409,6 @@ async def get_abstracts(
         submissions = utils.filter_startend_time(
             submissions, starttime, endtime
         )  # filter by start, end time
-
         return JSONResponse(
             content={
                 "meta": {
@@ -367,8 +417,28 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&query={q}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder()(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("query", q),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(current_page, n_page)(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("query", q),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit],
             }
@@ -388,8 +458,22 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder()(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(current_page, n_page)(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -416,8 +500,26 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder()(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(current_page, n_page)(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -442,8 +544,26 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view={view}&starttime={starttime}&endtime={endtime}&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder()(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(current_page, n_page)(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", view),
+                            ("starttime", starttime),
+                            ("endtime", endtime),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": submissions[skip : skip + limit]
                 if len(submissions) > 0
@@ -459,8 +579,22 @@ async def get_abstracts(
                     "pageSize": page_size,
                 },
                 "links": {
-                    "current": f"/api/abstract/{edition}?view=default&skip={skip}&limit={page_size}",
-                    "next": f"/api/abstract/{edition}?view=default&skip={skip + page_size}&limit={page_size}",
+                    "current": query_params_builder()(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", "default"),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
+                    ),
+                    "next": query_params_builder(current_page, n_page)(
+                        f"/api/abstract/{edition}",
+                        [
+                            ("view", "default"),
+                            ("skip", skip + page_size),
+                            ("limit", page_size),
+                        ],
+                    ),
                 },
                 "data": [],
             }
@@ -484,7 +618,9 @@ async def get_abstract(edition: str, submission_id: str):
     else:
         # query from Airtable
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        abstract = table.get(submission_id).get("fields", {})  # return abstract from Airtable
+        abstract = table.get(submission_id).get(
+            "fields", {}
+        )  # return abstract from Airtable
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})

@@ -28,6 +28,7 @@ import {
   faChalkboardTeacher,
   faSun,
   faMoon,
+  faCog,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarPlus, faClock, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -69,6 +70,7 @@ function initFontAwesome() {
     faYoutube,
     faSun,
     faMoon,
+    faCog,
   ];
 
   library.add(...icons);

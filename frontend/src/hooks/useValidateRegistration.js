@@ -20,7 +20,13 @@ function useValidateRegistration() {
   const { getUserData } = useAPI()
 
   useEffect(() => {
-    getUserData()
+    const getUserDataPromise = getUserData()
+
+    if (!getUserDataPromise) {
+      return;
+    }
+
+    getUserDataPromise
       .then(res => res.ok
         ? res.json()
         : Promise.reject(res)

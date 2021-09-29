@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { Select } from "../FormComponents/SelectWrapper"
 import { graphql, useStaticQuery } from "gatsby"
 
-const EditionPicker = ({ onChange }) => {
+const EditionPicker = ({ value, onChange }) => {
   const data = useStaticQuery(graphql`
     query sitedata {
       allSitedataYaml {
@@ -29,20 +29,15 @@ const EditionPicker = ({ onChange }) => {
   }))
   const defaultEditionOption = editionOptions.find(({ value }) => value === currentEdition )
 
-  const [displayEdition, setDisplayEdition] = useState(defaultEditionOption)
-
   return (
     <Select
       css={`
         min-width: 100px;
       `}
       options={editionOptions}
-      defaultValue={displayEdition}
-      components={{
-        IndicatorSeparator: () => null,
-      }}
+      defaultValue={defaultEditionOption}
+      value={value}
       onChange={x => {
-        setDisplayEdition(x)
         onChange(x)
       }}
     />
@@ -50,6 +45,10 @@ const EditionPicker = ({ onChange }) => {
 }
 
 EditionPicker.propTypes = {
+  value: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  }),
   onChange: PropTypes.func.isRequired,
 }
 

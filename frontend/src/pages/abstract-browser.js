@@ -10,19 +10,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import { AutoSizer } from 'react-virtualized';
 import styled, { createGlobalStyle } from 'styled-components';
-import { ButtonsContainer, LineButton, ToggleLineButton } from '../../components/BaseComponents/Buttons';
-import CommonPageStyles from '../../components/BaseComponents/CommonPageStyles';
-import HeadingWithButtonContainer from '../../components/BaseComponents/HeadingWithButtonContainer';
-import LoadingView from '../../components/BaseComponents/LoadingView';
-import Layout from '../../components/layout';
-import TimezonePicker from '../../components/TimezonePicker';
-import { useAuthenFetchGet } from '../../hooks/useFetch';
-import useTimezone, { timezoneParser } from '../../hooks/useTimezone';
-import useValidateRegistration from '../../hooks/useValidateRegistration';
-import { basedStyles, growOverParentPadding, media } from '../../styles';
-import Fa from '../../utils/fontawesome';
-import AbstractModal from './components/AbstractModal';
-import AbstractVirtualizedList from './components/AbstractVirtualizedList';
+import AbstractModal from '../components/AbstractBrowser/AbstractModal';
+import AbstractVirtualizedList from '../components/AbstractBrowser/AbstractVirtualizedList';
+import { ButtonsContainer, LineButton, ToggleLineButton } from '../components/BaseComponents/Buttons';
+import CommonPageStyles from '../components/BaseComponents/CommonPageStyles';
+import HeadingWithButtonContainer from '../components/BaseComponents/HeadingWithButtonContainer';
+import LoadingView from '../components/BaseComponents/LoadingView';
+import Layout from '../components/layout';
+import TimezoneEditionModal from '../components/TimezoneEditionModal';
+import useAPI from '../hooks/useAPI';
+import useEventTime from '../hooks/useEventTime';
+import useFirebaseWrapper from '../hooks/useFirebaseWrapper';
+import useTimezone, { timezoneParser } from '../hooks/useTimezone';
+import useValidateRegistration from '../hooks/useValidateRegistration';
+import { basedStyles, growOverParentPadding, media } from '../styles';
+import Fa from '../utils/fontawesome';
 
 // -- TYPES
 /**
@@ -48,50 +50,50 @@ const selectedDatetimeToISO = (dtStr, tz) => {
   return momentObj.toISOString();
 };
 
-const fetchSubmissions = (
-  fetchUrl,
-  idToken,
+const addParam = (current, newParam) => current.includes('?')
+  ? `${current}&${newParam}`
+  : `?${newParam}`
+
+// a wrapper for fetch function
+const fetchWrapper = ({
+  fetchFunction,
   setLoading,
   setIsFlushing,
   setSubmissionData,
   setSubmissionMeta,
-  setSubmissionLinks,
-) => {
+  setSubmissionLinks
+}) => {
   // -- flush list and display loading indicator
   setIsFlushing(true);
   setLoading(true);
 
-  // fetch(fetchUrl,
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${idToken}`,
-  //     },
-  //   })
-  //   .then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
+  fetchFunction()
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
 
-  //     console.log('err', res);
+      console.log('[abstract-browser] res is not ok,', res)
 
-  //     return {
-  //       data: [],
-  //       meta: {},
-  //       links: {},
-  //     };
-  //   })
-  //   .then(({ data, meta, links }) => {
-  //     setSubmissionData(data);
-  //     setSubmissionMeta(meta);
-  //     setSubmissionLinks(links);
-  //   })
-  //   .finally(() => {
-  //     setLoading(false);
-  //     setIsFlushing(false);
-  //   });
-};
+      return {
+        data: [],
+        meta: {},
+        links: {},
+      };
+    })
+    .then(({ data, meta, links }) => {
+      setSubmissionData(data);
+      setSubmissionMeta(meta);
+      setSubmissionLinks(links);
+    })
+    .finally(() => {
+      setLoading(false);
+      setIsFlushing(false);
+    });
+}
 
 // -- CONSTANTS
+// TODO: replace with that in useEventTime
 const timeBoundary = [
   timezoneParser('October 26, 2020 00:00', 'UTC').toISOString(),
   timezoneParser('October 31, 2020 12:00', 'UTC').toISOString(),
@@ -101,6 +103,7 @@ const utcStartTime = moment.utc(timeBoundary[0]);
 const utcEndTime = moment.utc(timeBoundary[1]);
 
 // -- COMPONENTS
+// TODO: remove this
 const GlobalStyle = createGlobalStyle`
   body {
     ${basedStyles.scrollStyle}
@@ -260,8 +263,10 @@ const DatePickersContainer = styled.div`
 
 // -- MAIN
 export default () => {
+  const { getPreference, getAbstractsForBrowser, reactOnAbstract } = useAPI();
   // idToken is for debounce fetch for search
-  const { isLoggedIn, idToken } = useValidateRegistration();
+  const { idToken } = useValidateRegistration();
+  const { isLoggedIn } = useFirebaseWrapper();
 
   // state for holding current view 'default', 'your-votes', 'recommendations', 'personalized'
   const [currentView, setCurrentView] = useState('default');
@@ -281,14 +286,10 @@ export default () => {
   const [isFlushing, setIsFlushing] = useState(false);
   // -- preferences both local and remote
   const [myPreferences, setMyPreferences] = useState([]);
-  const { result: preferences } = useAuthenFetchGet(
-    '/api/preference',
-    [],
-  );
   // -- date time picker filter
   const [startDateTime, setStartDateTime] = useState(null);
   const [endDateTime, setEndDateTime] = useState(null);
-  const { timezone, setTimezone } = useTimezone();
+  const { timezone } = useTimezone();
   // -- sort checkbox
   // eslint-disable-next-line no-unused-vars
   const [sortBy, setSortBy] = useState('relevance');
@@ -296,132 +297,101 @@ export default () => {
   const [queryString, setQueryString] = useState('');
   const searchInputRef = useRef(null);
 
-  // fetch my preferences from remote and update my preferences locally
-  useEffect(() => {
-    setMyPreferences(preferences);
-  }, [preferences]);
-  // -- preferences both local and remote
+  // -- refactor
+  const { currentEdition, currentEditionName } = useEventTime()
+  const [displayEdition, setDisplayEdition] = useState({
+    label: currentEditionName,
+    value: currentEdition,
+  })
 
+  // -- debounce fetch for search
   const debounceInputQuery = useCallback(
     debounce((inputText) => {
       setQueryString(inputText);
     }, 1000),
     [],
   );
-  // -- debounce fetch for search
 
+  // fetch my preferences from remote and update my preferences locally
   useEffect(() => {
-    if (!idToken) {
-      return;
+    const getPreferencePromise = getPreference({ edition: displayEdition.value })
+
+    if (!getPreferencePromise) {
+      return
     }
 
-    if (queryString) {
-      // -- prevent re-fetch only by either start or end time
-      if ((startDateTime && !endDateTime) || (!startDateTime && endDateTime)) {
-        return;
-      }
+    getPreferencePromise
+      .then(res => res.json())
+      .then(resJson => {
+        console.log('resJson', resJson)
+        setMyPreferences(resJson.data)
+      })
+      .catch(err => console.log('[abstract-browser][getPreference]', err))
+  }, [displayEdition.value, getPreference])
 
-      // -- move to default view
-      setCurrentView('default');
-
-      let fetchUrl = `/api/abstract?view=default&query=${encodeURI(queryString)}`;
-
-      if (startDateTime && endDateTime) {
-        fetchUrl += `&starttime=${encodeURIComponent(selectedDatetimeToISO(startDateTime, timezone))}&endtime=${encodeURIComponent(selectedDatetimeToISO(endDateTime, timezone))}`;
-      }
-
-      // switch (sortBy) {
-      //   case 'time':
-      //     fetchUrl += '&sort=true';
-      //     break;
-      //   default:
-      //     fetchUrl += '&sort=false';
-      //     break;
-      // }
-
-      // start fetching
-      fetchSubmissions(
-        fetchUrl,
-        idToken,
-        setLoading,
-        setIsFlushing,
-        setSubmissionData,
-        setSubmissionMeta,
-        setSubmissionLinks,
-      );
-    }
-
-    // a block to handle a case where queryString is ''
-    // and currentView is 'default'
-    if (currentView === 'default' && queryString === '') {
-      // -- prevent re-fetch only by either start or end time
-      if ((startDateTime && !endDateTime) || (!startDateTime && endDateTime)) {
-        return;
-      }
-
-      let fetchUrl = '/api/abstract?view=default';
-
-      if (startDateTime && endDateTime) {
-        fetchUrl += `&starttime=${encodeURIComponent(selectedDatetimeToISO(startDateTime, timezone))}&endtime=${encodeURIComponent(selectedDatetimeToISO(endDateTime, timezone))}`;
-      }
-
-      // start fetching
-      fetchSubmissions(
-        fetchUrl,
-        idToken,
-        setLoading,
-        setIsFlushing,
-        setSubmissionData,
-        setSubmissionMeta,
-        setSubmissionLinks,
-      );
-    }
-  }, [idToken, endDateTime, queryString, startDateTime]);
-
+  // handle fetch abstracts to browse
   useEffect(() => {
-    // -- handle special case, stop this effect when there is queryString and in default view
-    if (currentView === 'default' && queryString !== '') {
-      return;
-    }
     // -- prevent re-fetch only by either start or end time
     if ((startDateTime && !endDateTime) || (!startDateTime && endDateTime)) {
       return;
     }
 
-    // fetch once and update those 3 state;
-    if (idToken) {
-      let fetchUrl = `/api/abstract?view=${currentView}`;
+    // to collect params to send
+    const params = new Map()
 
-      // your-votes is always sorted
-      if (currentView === 'your-votes') {
-        fetchUrl += '&sort=true';
-      }
+    // set view in params
+    params.set('view', currentView)
 
-      if (startDateTime && endDateTime) {
-        fetchUrl += `&starttime=${encodeURIComponent(selectedDatetimeToISO(startDateTime, timezone))}&endtime=${encodeURIComponent(selectedDatetimeToISO(endDateTime, timezone))}`;
-      }
-
-      // switch (sortBy) {
-      //   case 'time':
-      //     fetchUrl += '&sort=true';
-      //     break;
-      //   default:
-      //     fetchUrl += '&sort=false';
-      //     break;
-      // }
-
-      // start fetching
-      fetchSubmissions(
-        fetchUrl,
-        idToken,
-        setLoading,
-        setIsFlushing,
-        setSubmissionData,
-        setSubmissionMeta,
-        setSubmissionLinks,
-      );
+    if (queryString) {
+      // -- move to default view
+      setCurrentView('default');
+      params.set('q', encodeURI(queryString))
+    } else {
+      params.set('q', '')
     }
-  }, [idToken, currentView, startDateTime, endDateTime]);
+
+    if (startDateTime && endDateTime) {
+      params.set('starttime', encodeURIComponent(selectedDatetimeToISO(startDateTime, timezone)))
+      params.set('endtime', encodeURIComponent(selectedDatetimeToISO(endDateTime, timezone)))
+    }
+
+    // always sort your-votes
+    if (params.get('view') === 'your-votes') {
+      params.set('sort', 'true')
+    }
+
+    // do NOT add q if view is not default
+    if (params.get('view') !== 'default') {
+      params.delete('q')
+    }
+
+    let fetchParams = ''
+    params.forEach((v, k) => {
+      fetchParams = addParam(fetchParams, `${k}=${v}`)
+    })
+
+    // console.log('before sending', fetchParams);
+
+    fetchWrapper({
+      fetchFunction: () => getAbstractsForBrowser({
+        edition: displayEdition.value,
+        qParams: fetchParams,
+      }),
+      setLoading,
+      setIsFlushing,
+      setSubmissionData,
+      setSubmissionMeta,
+      setSubmissionLinks,
+    })
+  }, [
+    currentView,
+    displayEdition.value,
+    endDateTime,
+    getAbstractsForBrowser,
+    queryString,
+    startDateTime,
+    timezone,
+  ])
 
   const { currentPage, totalPage } = submissionMeta;
   const { next } = submissionLinks;
@@ -455,10 +425,10 @@ export default () => {
         `}
         >
           <h2>Abstract Browser</h2>
-          <TimezonePicker
-            currentTimezone={timezone}
-            onChange={(tz) => {
-              setTimezone(tz);
+          <TimezoneEditionModal
+            editionValue={displayEdition}
+            onEditionChange={edition => {
+              setDisplayEdition(edition)
             }}
           />
         </HeadingWithButtonContainer>
@@ -612,6 +582,7 @@ export default () => {
                   />
                   &nbsp;
                 </DatePickersContainer>
+                {/* it is disabled for now */}
                 {false && (currentView === 'default' || currentView === 'recommendations')
                   ? (
                     <div
@@ -666,6 +637,7 @@ export default () => {
                               isNextPageLoading={loading}
                               list={submissionData}
                               loadNextPage={() => {
+                                // TODO:
                                 // dont set loading true here because we dont' want LoadingView
                                 if (next && idToken) {
                                   fetch(next,
@@ -685,7 +657,9 @@ export default () => {
                                 }
                               }}
                               handleClickVote={(submissionId) => {
-                                const action = myPreferences.includes(submissionId) ? 'unlike' : 'like';
+                                const action = myPreferences.includes(submissionId) ? 'dislike' : 'like';
+
+                                console.log('action here', action)
 
                                 if (action === 'like') {
                                   // add to list
@@ -695,36 +669,26 @@ export default () => {
                                   setMyPreferences(myPreferences.filter((x) => x !== submissionId));
                                 }
 
-                                // dont set loading true here because we dont' want LoadingView
-                                if (next && idToken) {
-                                  fetch('/api/abstract',
-                                    {
-                                      method: 'POST',
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                        Authorization: `Bearer ${idToken}`,
-                                      },
-                                      body: JSON.stringify({
-                                        submission_id: submissionId,
-                                        action,
-                                      }),
-                                    })
-                                    .catch((err) => {
-                                      console.log('err', err);
+                                reactOnAbstract({
+                                  edition: displayEdition.value,
+                                  submissionId,
+                                  action,
+                                })
+                                  .catch((err) => {
+                                    console.log('err', err);
 
-                                      // if update failed, revert like status locally
-                                      if (action === 'like') {
-                                        // remove from list
-                                        setMyPreferences(
-                                          myPreferences.filter((x) => x !== submissionId),
-                                        );
-                                      } else {
-                                        // add to list
-                                        setMyPreferences([...myPreferences, submissionId]);
-                                      }
-                                    })
-                                    .finally(() => setLoading(false));
-                                }
+                                    // if update failed, revert like status locally
+                                    if (action === 'like') {
+                                      // remove from list
+                                      setMyPreferences(
+                                        myPreferences.filter((x) => x !== submissionId),
+                                      );
+                                    } else {
+                                      // add to list
+                                      setMyPreferences([...myPreferences, submissionId]);
+                                    }
+                                  })
+                                  .finally(() => setLoading(false));
                               }}
                               myVotes={myPreferences}
                               timezone={timezone}
@@ -734,7 +698,13 @@ export default () => {
                       )
                       : (
                         <NoResultText>
-                          Sorry, there are no abstracts that match your search query.
+                          {currentView === 'personalized'
+                            ? 'Please vote at least one abstract to get personalized recommendation.'
+                            : currentView === 'your-votes'
+                              ? 'You have not voted any abstract yet.'
+                              : currentView === 'recommendations'
+                                ? 'Please vote at least one abstract to get recommendation.'
+                                : 'Sorry, there are no abstracts that match your search query.'}
                         </NoResultText>
                       )
                 }

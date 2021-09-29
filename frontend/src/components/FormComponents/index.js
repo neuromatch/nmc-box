@@ -16,7 +16,7 @@ import LabelContainer from "./LabelContainer"
 import RequiredIcon from "./RequiredIcon"
 import StarScore from "./StarScore"
 import StarScoreContainer from "./StarScoreContainer"
-import SubLabel from "./Sublabel"
+import SubLabel from "./SubLabel"
 import WarningMessage from "./WarningMessage"
 
 export {
