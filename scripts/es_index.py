@@ -21,15 +21,22 @@ airtable_key = os.environ.get("AIRTABLE_KEY")
 with open("es_config.yml") as f:
     es_config = yaml.load(f, Loader=yaml.FullLoader)
 
-es = Elasticsearch([{
-    'host': es_config["host"],
-    'port': es_config["port"]
-}])
+es = Elasticsearch([{"host": es_config["host"], "port": es_config["port"]}])
 
 keys_airtable = [
-    "submission_id", "title", "abstract", "fullname", "coauthors",
-    "institution", "theme", "talk_format", "starttime", "endtime",
-    "url", "track", "arxiv"
+    "submission_id",
+    "title",
+    "abstract",
+    "fullname",
+    "coauthors",
+    "institution",
+    "theme",
+    "talk_format",
+    "starttime",
+    "endtime",
+    "url",
+    "track",
+    "arxiv",
 ]  # keys that we are interested from Airtable
 
 settings_affiliation = {
@@ -38,55 +45,34 @@ settings_affiliation = {
             "analysis": {
                 "filter": {},
                 "analyzer": {
-                    "analyzer_keyword": {
-                        "tokenizer": "keyword",
-                        "filter": "lowercase"
-                    },
+                    "analyzer_keyword": {"tokenizer": "keyword", "filter": "lowercase"},
                     "edge_ngram_analyzer": {
-                        "filter": [
-                            "lowercase"
-                        ],
-                        "tokenizer": "edge_ngram_tokenizer"
-                    }
+                        "filter": ["lowercase"],
+                        "tokenizer": "edge_ngram_tokenizer",
+                    },
                 },
                 "tokenizer": {
                     "edge_ngram_tokenizer": {
                         "type": "edge_ngram",
                         "min_gram": 2,
                         "max_gram": 5,
-                        "token_chars": [
-                            "letter"
-                        ]
+                        "token_chars": ["letter"],
                     }
-                }
+                },
             }
         }
     },
     "mappings": {
         "affiliation": {
             "properties": {
-                "ID": {
-                    "type": "text"
-                },
-                "Name": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "City": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "State": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "Country": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                }
+                "ID": {"type": "text"},
+                "Name": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "City": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "State": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "Country": {"type": "text", "analyzer": "edge_ngram_analyzer"},
             }
         }
-    }
+    },
 }
 
 settings_submission = {
@@ -95,97 +81,79 @@ settings_submission = {
             "analysis": {
                 "filter": {},
                 "analyzer": {
-                    "analyzer_keyword": {
-                        "tokenizer": "keyword",
-                        "filter": "lowercase"
-                    },
+                    "analyzer_keyword": {"tokenizer": "keyword", "filter": "lowercase"},
                     "edge_ngram_analyzer": {
-                        "filter": [
-                            "lowercase"
-                        ],
-                        "tokenizer": "edge_ngram_tokenizer"
-                    }
+                        "filter": ["lowercase"],
+                        "tokenizer": "edge_ngram_tokenizer",
+                    },
                 },
                 "tokenizer": {
                     "edge_ngram_tokenizer": {
                         "type": "edge_ngram",
                         "min_gram": 2,
                         "max_gram": 5,
-                        "token_chars": [
-                            "letter"
-                        ]
+                        "token_chars": ["letter"],
                     }
-                }
+                },
             }
         }
     },
     "mappings": {
         "submission": {
             "properties": {
-                "submission_id": {
-                    "type": "text"
-                },
-                "title": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "abstract": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "fullname": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                },
-                "talk_format": {
-                    "type": "text",
-                    "analyzer": "edge_ngram_analyzer"
-                }
+                "submission_id": {"type": "text"},
+                "title": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "abstract": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "fullname": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "talk_format": {"type": "text", "analyzer": "edge_ngram_analyzer"},
             }
         }
-    }
+    },
 }
 
 
-def generate_rows(rows: list, index: str = "grid", row_type: str = "affiliation", id: str = "ID", keys: list = None):
+def generate_rows(
+    rows: list,
+    index: str = "grid",
+    row_type: str = "affiliation",
+    id: str = "ID",
+    keys: list = None,
+):
     """
     Generate dictionary to ingest to Elasticsearch.
     """
     for _, row in enumerate(rows):
         if isinstance(keys, list):
             row = {k: str(v) for k, v in row.items() if k in keys}
-        yield {
-            '_index': index,
-            '_type': row_type,
-            '_id': row[id],
-            '_source': row
-        }
+        yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 
 def index_grid():
     """
     Index GRID affiliations to elasticsearch index
     """
-    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
-    affiliations = grid_df.to_dict(orient='records')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna("")
+    affiliations = grid_df.to_dict(orient="records")
 
-    es.indices.delete(
-        index=es_config["grid_index"],
-        ignore=[400, 404]
-    )
+    es.indices.delete(index=es_config["grid_index"], ignore=[400, 404])
 
-    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna('')
-    affiliations = grid_df.to_dict(orient='records')
+    grid_df = pd.read_csv(f"grid-{es_config['grid_version']}/grid.csv").fillna("")
+    affiliations = grid_df.to_dict(orient="records")
     es.indices.create(
-        index=es_config["grid_index"],
-        body=settings_affiliation,
-        include_type_name=True
+        index=es_config["grid_index"], body=settings_affiliation, include_type_name=True
     )
     helpers.bulk(es, generate_rows(affiliations, row_type="affiliation", id="ID"))
-    print('Done indexing GRID affiliations')
+    print("Done indexing GRID affiliations")
 
 
-def read_submissions(submissions: list, keys: list = None):
+def read_submissions(
+    submissions: list, keys: list = None, filter_accepted: bool = False
+):
+    """
+    Function to process submiossion from Airtable.
+    If filter_accepted is True, check value in the key `submission_status`
+    that it is 'Accecpted'
+    """
     submissions_flatten = []
     for submission in submissions:
         if keys is not None:
@@ -193,30 +161,38 @@ def read_submissions(submissions: list, keys: list = None):
         else:
             d = submission["fields"]
         d["submission_id"] = submission["id"]
-        submissions_flatten.append(d)
+        if filter_accepted:
+            # assume on
+            if d.get("submission_status") == "Accepted":
+                submissions_flatten.append(d)
+        else:
+            submissions_flatten.append(d)
     return submissions_flatten
 
 
 def index_submissions():
     """
-    Index all submissions listed in es_config.yml
+    Index all submissions listed in a ``es_config.yml`` file
     """
     for _, v in tqdm(es_config["editions"].items()):
         if "path" in v.keys():
             submission_df = pd.read_csv(v["path"]).fillna("")
         elif "airtable_id" in v.keys():
+            # check if filter accepted key is available
+            filter_accepted = v.get("filter_accepted", False)
             submissions = Table(airtable_key, v["airtable_id"], v["table_name"]).all()
-            submission_df = pd.DataFrame(read_submissions(submissions, keys=keys_airtable)).fillna("")
+            submission_df = pd.DataFrame(
+                read_submissions(
+                    submissions, keys=keys_airtable, filter_accepted=filter_accepted
+                )
+            ).fillna("")
         else:
-            raise RuntimeError("Please put the path to CSV file or Airtable ID in es_config.yml")
-        es.indices.delete(
-            index=v["paper_index"],
-            ignore=[400, 404]
-        )
+            raise RuntimeError(
+                "Please put the path to CSV file or Airtable ID in es_config.yml"
+            )
+        es.indices.delete(index=v["paper_index"], ignore=[400, 404])
         es.indices.create(
-            index=v["paper_index"],
-            body=settings_submission,
-            include_type_name=True
+            index=v["paper_index"], body=settings_submission, include_type_name=True
         )
         submissions = submission_df.to_dict(orient="records")
         helpers.bulk(
@@ -226,11 +202,11 @@ def index_submissions():
                 index=v["paper_index"],
                 row_type="submission",
                 id="submission_id",
-            )
+            ),
         )
         print(f'Done indexing submissions to {v["paper_index"]}')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     index_grid()  # index GRID database
     index_submissions()  # index submissions

@@ -17,6 +17,7 @@ editions:
     airtable_id: "appcidVUHiMD8TU0s"
     table_name: "submissions"
     paper_index: agenda-2021-4
+    filter_accepted: False  # if filter_accepted is True, only index "Accepted" submission
 
   2020-3:
     path: ../sitedata/agenda/agenda-2020-3.csv

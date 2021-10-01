@@ -67,6 +67,10 @@ if len(embedding_paths) > 0:
         for path in embedding_paths
     }
 airtable_key = os.environ.get("AIRTABLE_KEY")
+# map between "edition" and "filter_accepted", default as False
+FILTER_ACCEPTED = {
+    k: v.get("filter_accepted", False) for k, v in es_config["editions"].items()
+}
 
 
 app = FastAPI()
@@ -307,8 +311,7 @@ def query_params_builder(
     """
 
     def builder(
-        base_endpoint: str,
-        kvs: Optional[tuple] = None,
+        base_endpoint: str, kvs: Optional[tuple] = None,
     ):
         if current_page is not None and total_pages is not None:
             if current_page >= total_pages:
@@ -454,11 +457,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", view),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", view), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -575,11 +574,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", "default"),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", "default"), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -615,6 +610,10 @@ async def get_abstract(edition: str, submission_id: str):
         abstract = table.get(submission_id).get(
             "fields", {}
         )  # return abstract from Airtable
+        if FILTER_ACCEPTED.get("edtion", False):
+            abstract = (
+                abstract if abstract.get("submission_status") == "Accepted" else {}
+            )
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})
