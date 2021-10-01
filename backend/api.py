@@ -114,7 +114,7 @@ class Vote(BaseModel):
 class PaymentPayload(BaseModel):
     currency: str = "USD"
     amount: int = 1500
-    payment_intent_id: str = None
+    client_secret: str = None
 
 
 # profile
@@ -706,7 +706,7 @@ async def update_payment(
         ref = get_data(user_id, collection)
         if ref is None:
             ref = {"payment_status": "wait", "amount": amount}
-        return ref
+        return JSONResponse(content=ref)
 
     elif option == "create":
         # create payment intent using Stripe API
@@ -735,10 +735,11 @@ async def update_payment(
     elif option == "set":
         # set the payment if payment is successful
         payment_dict = get_data(user_id, "payment")
-        payment_intent_id = payload["payment_intent_id"]
+        payment_intent_id = payment_dict["payment_intent_id"]
+        client_secret = payload["client_secret"]
 
         # mismatch intent ID
-        if str(payment_dict["payment_intent_id"]) != str(payment_intent_id):
+        if str(payment_intent_id) not in str(client_secret):
             raise JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
 
         payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
@@ -759,9 +760,15 @@ async def update_payment(
                 "amount": amount,
                 "raw_payment_intent": payment_intent,
             },
+            user_id,
             collection,
         )
-        return JSONResponse(status_code=status.HTTP_200_OK)
+        return JSONResponse(
+            content={
+                "message": "Your payment was successful!",
+            },
+            status_code=status.HTTP_200_OK,
+        )
 
     elif option == "waive":
         # set payment as waived
@@ -770,6 +777,11 @@ async def update_payment(
             user_id,
             collection,
         )
-        return JSONResponse(status_code=status.HTTP_200_OK)
+        return JSONResponse(
+            content={
+                "message": "You payment has been waived.",
+            },
+            status_code=status.HTTP_200_OK,
+        )
     else:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)
