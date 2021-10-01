@@ -150,9 +150,9 @@ def read_submissions(
     submissions: list, keys: list = None, filter_accepted: bool = False
 ):
     """
-    Function to process submiossion from Airtable.
-    If filter_accepted is True, check value in the key `submission_status`
-    that it is 'Accecpted'
+    Function to process submissions from Airtable.
+    If `filter_accepted` is True, check value in `submission_status`
+    that it is 'Accecpted'. Otherwise, 
     """
     submissions_flatten = []
     for submission in submissions:
@@ -162,7 +162,7 @@ def read_submissions(
             d = submission["fields"]
         d["submission_id"] = submission["id"]
         if filter_accepted:
-            # assume on
+            # if submission_status is "Accepted", append to list
             if d.get("submission_status") == "Accepted":
                 submissions_flatten.append(d)
         else:
@@ -181,11 +181,13 @@ def index_submissions():
             # check if filter accepted key is available
             filter_accepted = v.get("filter_accepted", False)
             submissions = Table(airtable_key, v["airtable_id"], v["table_name"]).all()
-            submission_df = pd.DataFrame(
-                read_submissions(
-                    submissions, keys=keys_airtable, filter_accepted=filter_accepted
+            submissions = read_submissions(
+                submissions, keys=keys_airtable, filter_accepted=filter_accepted
+            )
+            if len(submissions) == 0 and filter_accepted:
+                print(
+                    "Seems like there are no accepted submissions yet. Check on Airtable"
                 )
-            ).fillna("")
         else:
             raise RuntimeError(
                 "Please put the path to CSV file or Airtable ID in es_config.yml"
@@ -194,17 +196,19 @@ def index_submissions():
         es.indices.create(
             index=v["paper_index"], body=settings_submission, include_type_name=True
         )
-        submissions = submission_df.to_dict(orient="records")
-        helpers.bulk(
-            es,
-            generate_rows(
-                submissions,
-                index=v["paper_index"],
-                row_type="submission",
-                id="submission_id",
-            ),
-        )
-        print(f'Done indexing submissions to {v["paper_index"]}')
+        if len(submissions) > 0:
+            submission_df = pd.DataFrame(submissions).fillna("")
+            submissions = submission_df.to_dict(orient="records")
+            helpers.bulk(
+                es,
+                generate_rows(
+                    submissions,
+                    index=v["paper_index"],
+                    row_type="submission",
+                    id="submission_id",
+                ),
+            )
+            print(f'Done indexing submissions to {v["paper_index"]}')
 
 
 if __name__ == "__main__":

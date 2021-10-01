@@ -479,14 +479,17 @@ async def get_abstracts(
     elif view == "recommendations":
         # TODOs: get votes for generating recommendations
         submission_ids = user_preference
-        submissions = utils.generate_recommendations(
-            submission_ids,
-            data=embeddings,
-            index=f"agenda-{edition}",
-            nbrs_model=nbrs_models[f"agenda-{edition}"],
-            exploration=False,
-            abstract_info=True,
-        )
+        try:
+            submissions = utils.generate_recommendations(
+                submission_ids,
+                data=embeddings,
+                index=f"agenda-{edition}",
+                nbrs_model=nbrs_models[f"agenda-{edition}"],
+                exploration=False,
+                abstract_info=True,
+            )
+        except:
+            submissions = []
         submissions = utils.filter_startend_time(submissions, starttime, endtime)
         return JSONResponse(
             content={
@@ -597,7 +600,7 @@ async def get_abstracts(
 @app.get("/api/abstract/{edition}/{submission_id}")
 async def get_abstract(edition: str, submission_id: str):
     """
-    Get an abstract with submission id from a given edition
+    Get an abstract with submission id from a given edition.
 
     Note: This will retrieve from ElasticSearch in case Airtable
         is not specified in es_config
@@ -613,10 +616,6 @@ async def get_abstract(edition: str, submission_id: str):
         abstract = table.get(submission_id).get(
             "fields", {}
         )  # return abstract from Airtable
-        if FILTER_ACCEPTED.get("edtion", False):
-            abstract = (
-                abstract if abstract.get("submission_status") == "Accepted" else {}
-            )
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})

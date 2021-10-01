@@ -28,9 +28,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from sklearn.neighbors import NearestNeighbors
 
-print("Download SPECTER model for creating embedding\n")
-tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
-model = AutoModel.from_pretrained('allenai/specter')
 MAX_BATCH_SIZE = 16
 
 
@@ -52,7 +49,7 @@ def preprocess(text):
     return text.lower()
 
 
-def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE):
+def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE, n_components=30):
     """Calculates embeddings from a given dataframe
     assume dataframe has title and abstract in the columns
 
@@ -63,15 +60,23 @@ def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE):
         Larger one takes too long on regular laptop
     """
     assert option in ["lsa", "sent_embed"]
+    if len(df) < n_components:
+        print(
+            "Length of dataframe is less than number of projected components, \
+            set option to sent_embed instead"
+        )
+        option = "sent_embed"
     if option == "sent_embed":
+        print("Download SPECTER model for creating embedding\n")
+        tokenizer = AutoTokenizer.from_pretrained("allenai/specter")
+        model = AutoModel.from_pretrained("allenai/specter")
         papers = list(df["title"] + "[SEP]" + df["abstract"])
         # group papers
         embeddings = []
         for g in tqdm(chunks(papers, chunk_size=n_papers)):
-            inputs = tokenizer(g, padding=True,
-                               truncation=True,
-                               return_tensors="pt",
-                               max_length=512)
+            inputs = tokenizer(
+                g, padding=True, truncation=True, return_tensors="pt", max_length=512
+            )
             result = model(**inputs)
             embeddings.extend(result.last_hidden_state[:, 0, :])
         embeddings = [emb.tolist() for emb in embeddings]
@@ -81,14 +86,17 @@ def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE):
         ]
     elif option == "lsa":
         tfidf_model = TfidfVectorizer(
-            min_df=3, max_df=0.85,
-            lowercase=True, norm='l2',
+            min_df=3,
+            max_df=0.85,
+            lowercase=True,
+            norm="l2",
             ngram_range=(1, 2),
-            use_idf=True, smooth_idf=True,
+            use_idf=True,
+            smooth_idf=True,
             sublinear_tf=True,
-            stop_words='english'
+            stop_words="english",
         )
-        topic_model = TruncatedSVD(n_components=30, algorithm='arpack')
+        topic_model = TruncatedSVD(n_components=n_components, algorithm="arpack")
         papers = (df["title"] + " " + df["abstract"]).map(preprocess)
         X_tfidf = tfidf_model.fit_transform(papers)
         X_topic = topic_model.fit_transform(X_tfidf)
@@ -108,16 +116,18 @@ if __name__ == "__main__":
     # create embeddings
     if not op.exists(save_path):
         os.makedirs(save_path)
-    paths = glob(op.join("..", "sitedata", "agenda", "*.csv")) + glob(op.join("..", "sitedata", "agenda", "*.json"))
+    paths = glob(op.join("..", "sitedata", "agenda", "*.csv")) + glob(
+        op.join("..", "sitedata", "agenda", "*.json")
+    )
 
     # option if not specified, set option as `sent_embed`
-    option = arguments.get('--option')
+    option = arguments.get("--option")
     if option is None:
         option = "sent_embed"
 
     for path in tqdm(paths):
         print(f"Calculate embeddings for {path}\n")
-        basename = op.basename(path).split('.')[0]
+        basename = op.basename(path).split(".")[0]
 
         if path.lower().endswith(".json"):
             df = pd.read_json(path).fillna("")
@@ -129,11 +139,12 @@ if __name__ == "__main__":
         # calculate embeddings, save in JSON with the same basename
         paper_embeddings = calculate_embeddings(df, option=option)
         json.dump(
-            paper_embeddings, open(op.join(save_path, basename + '.json'), "w"),
-            indent=2
+            paper_embeddings,
+            open(op.join(save_path, basename + ".json"), "w"),
+            indent=2,
         )
 
         # nearest neighbors, save in joblib with the same basename
         X = np.vstack([p["embedding"] for p in paper_embeddings])
         nbrs_model = NearestNeighbors(n_neighbors=len(X)).fit(X)
-        joblib.dump(nbrs_model, op.join(save_path, basename + '.joblib'))
+        joblib.dump(nbrs_model, op.join(save_path, basename + ".joblib"))
