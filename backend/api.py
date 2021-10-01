@@ -1,12 +1,14 @@
 import os
 import os.path as op
 import json
+from stripe.api_resources import payment_intent
 import yaml
 from glob import glob
 from typing import Optional
 from dotenv import load_dotenv
 import sendgrid  # sendgrid API
 from sendgrid.helpers.mail import *
+import stripe
 
 load_dotenv(dotenv_path="../.env")  # setting all credentials here
 assert os.environ.get(
@@ -21,6 +23,10 @@ if not SENDGRID_API:
         "You do not specify SENDGRID_API_KEY, we will not send email to user after \
         registration and submission"
     )
+
+STRIPE_API_KEY = os.environ.get("STRIPE_SECRET_KEY")
+if STRIPE_API_KEY:
+    stripe.api_key = STRIPE_API_KEY
 
 import joblib
 from elasticsearch import Elasticsearch
@@ -103,6 +109,12 @@ class Submission(BaseModel):
 
 class Vote(BaseModel):
     action: str = None
+
+
+class PaymentPayload(BaseModel):
+    currency: str = "USD"
+    amount: int = 1500
+    client_secret: str = None
 
 
 # profile
@@ -307,8 +319,7 @@ def query_params_builder(
     """
 
     def builder(
-        base_endpoint: str,
-        kvs: Optional[tuple] = None,
+        base_endpoint: str, kvs: Optional[tuple] = None,
     ):
         if current_page is not None and total_pages is not None:
             if current_page >= total_pages:
@@ -454,11 +465,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", view),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", view), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -575,11 +582,7 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [
-                            ("view", "default"),
-                            ("skip", skip),
-                            ("limit", page_size),
-                        ],
+                        [("view", "default"), ("skip", skip), ("limit", page_size),],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -674,4 +677,111 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.update(submission_id, submission.dict())  # update submission
         print(f"Set the record {r['id']} on Airtable")
-        return JSONResponse(status_code=status.HTTP_200_OK)
+        return JSONResponse(status=status.HTTP_200_OK)
+
+
+@app.post("/api/payment/{option}")
+async def update_payment(
+    option: str = "check",
+    payload: PaymentPayload = None,
+    authorization: Optional[str] = Header(None),
+):
+    """
+    API for Stripe payment
+    """
+    collection = "payment"  # Firebase collection
+    amount_options = [500, 1000, 1500, 2000, 2500, 3000]
+    if payload is None:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
+    payload = payload.dict()
+    amount = payload.get("amount", 1500)
+    currency = payload.get("USD", "USD")
+    if amount not in amount_options:
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
+
+    user_info = get_user_info(authorization)
+    user_id = user_info.get("user_id")
+
+    if option == "check":
+        ref = get_data(user_id, collection)
+        if ref is None:
+            ref = {"payment_status": "wait", "amount": amount}
+        return JSONResponse(content=ref)
+
+    elif option == "create":
+        # create payment intent using Stripe API
+        amount = int(amount) if str(amount).isdigit() else amount
+        try:
+            session = stripe.PaymentIntent.create(
+                amount=amount,
+                currency=currency,
+                payment_method_types=["card"],
+                receipt_email=user_info["email"],
+                metadata={"integration_check": "accept_a_payment"},
+            )
+            payment = {
+                "payment_status": "wait",
+                "payment_intent_id": session["id"],
+                "amount": amount,
+            }
+            set_data(
+                payment, user_id, "payment",
+            )  # create payment
+            return JSONResponse(content={"client_secret": session["client_secret"]})
+        except Exception as e:
+            print(e)
+            return JSONResponse(content={})
+
+    elif option == "set":
+        # set the payment if payment is successful
+        payment_dict = get_data(user_id, "payment")
+        payment_intent_id = payment_dict["payment_intent_id"]
+        client_secret = payload["client_secret"]
+
+        # mismatch intent ID
+        if str(payment_intent_id) not in str(client_secret):
+            raise JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+
+        payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        if payment_intent.status != "succeeded":
+            return JSONResponse(
+                content={
+                    "error": True,
+                    "message": "Sorry, your payment was not successful. Please try again or contact us.",
+                }
+            )
+
+        # set payment to Firebase
+        set_data(
+            {
+                "payment_status": "paid",
+                "payment_intent_id": payment_intent_id,
+                "currency": currency,
+                "amount": amount,
+                "raw_payment_intent": payment_intent,
+            },
+            user_id,
+            collection,
+        )
+        return JSONResponse(
+            content={
+                "message": "Your payment was successful!",
+            },
+            status_code=status.HTTP_200_OK,
+        )
+
+    elif option == "waive":
+        # set payment as waived
+        set_data(
+            {"payment_status": "waived", "amount": 0, "currency": "USD"},
+            user_id,
+            collection,
+        )
+        return JSONResponse(
+            content={
+                "message": "You payment has been waived.",
+            },
+            status_code=status.HTTP_200_OK,
+        )
+    else:
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND)

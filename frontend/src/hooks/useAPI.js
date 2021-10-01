@@ -10,6 +10,7 @@ const endpoints = {
   userPreference: "/api/user/preference",
   confirmation: "/api/confirmation",
   migration: "/api/migration",
+  payment: "/api/payment",
 }
 
 const contentTypeHeader = {
@@ -147,6 +148,24 @@ function useAPI() {
             action,
           }),
         })
+      },
+      [idToken]
+    ),
+    /**
+     * @param {('check'|'create'|'set'|'waive')} option
+     */
+    payment: useCallback(
+      ({ option, payload }) => {
+        return idToken
+          ? fetch(`${endpoints.payment}/${option}`, {
+              method: "POST",
+              headers: {
+                ...contentTypeHeader,
+                ...authHeader(idToken),
+              },
+              body: JSON.stringify(payload),
+            })
+          : null
       },
       [idToken]
     ),

@@ -17,6 +17,6 @@ transformers
 black
 google-cloud-firestore
 sendgrid
-torch
+stripe
 torchvision
 python-dotenv
