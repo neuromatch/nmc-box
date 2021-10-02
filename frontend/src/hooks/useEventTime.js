@@ -78,12 +78,12 @@ function useEventTime() {
   ]
 
   // dateRange is used in AvailableTimePicker to generate picker in the range of an event
-  const beforeStartDate = moment(startDate)
+  const beforeStartDate = moment(new Date(startDate).toISOString())
     .subtract(1, "d")
-    .format("MMMM DD, YYYY")
-  const afterEndDate = moment(endDate)
+    .toISOString()
+  const afterEndDate = moment(new Date(endDate).toISOString())
     .add(1, "d")
-    .format("MMMM DD, YYYY")
+    .toISOString()
   // date range to be used to create options and also default values
   // start -> lower boundary - 1 day
   // end -> upper boundary + 1 day
