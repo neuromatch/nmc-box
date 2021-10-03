@@ -155,7 +155,7 @@ if __name__ == "__main__":
             df = pd.read_csv(path).fillna("")
 
         # calculate embeddings, save in JSON with the same basename
-        if len(df) > 0:
+        if len(df) > 0 and v.get("index", True):
             paper_embeddings = calculate_embeddings(df, option=option)
             json.dump(
                 paper_embeddings,
@@ -169,4 +169,9 @@ if __name__ == "__main__":
             joblib.dump(nbrs_model, op.join(save_path, basename + ".joblib"))
             print(f"Saved embeddings and nearest neighbor model for edition {k}")
         else:
-            print("Length of dataframe is 0, please recheck the data")
+            if not v.get("index"):
+                print(
+                    f"Index is set to False, we will not calculate the embeddings for edition {k}."
+                )
+            else:
+                print("Length of dataframe is 0, please recheck the data.")
