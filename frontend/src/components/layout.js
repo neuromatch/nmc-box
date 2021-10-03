@@ -63,6 +63,10 @@ const Layout = ({
                 text: 'How to submit',
                 onClick: '/instructions/how-to-submit',
               },
+              {
+                text: 'How to meetups',
+                onClick: '/instructions/how-to-meetups',
+              },
             ],
           },
           {
