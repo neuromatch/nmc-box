@@ -1,13 +1,20 @@
 # Overall information about the conference
 name: Neuromatch Conference
 current_edition: 2021-4
-subtitle: A conference made for the whole neuroscience community
-description: "Based on the successful mind-matching session at the Cognitive\
-  \ Computational Neuroscience (CCN) conference and previous Neuromatch\
-  \ conference with more than 6k attendees, we decided to create an online\
-  \ unconference for all neuroscientists. We are building a better online\
-  \ experience for neuroscience conferences by making them more open,\
-  \ inclusive, and democratic.
+subtitle: A conference for the computational neuroscience community
+description: "After three conferences in 2020, Neuromatch is pleased to be holding\
+  \ our fourth. Each of our conferences has led the way in providing new innovations\
+  \ to the virtual conference space, and with this one we are pleased to combine the\
+  \ virtual with the in-person experiences. Participants are encouraged to host or attend\
+  \ a local meetup, bringing people together to enjoy the conference in hybrid mode,\
+  \ and without the incredible economic and environmental costs of flying around the world.\
+  \ __newline__ \
+  Neuromatch 4.0 will be focused on Computational Neuroscience broadly construed,\
+  \ following in the model of the first two NMC events. The scope includes machine\
+  \ learning work that has an explicit biological link. The main series of talks\
+  \ will be hosted within Crowdcast. Instead of posters, we offer flash talks,\
+  \ which are brief pre-recorded videos, and dedicated meet up times for discussion\
+  \ within discord.
 "
 
 # Find TZ database name here
@@ -106,7 +113,7 @@ editions:
       - room 9
   - edition: 2021-4
     edition_name: "4.0"
-    page_title: neuromatch 4.0 [demo]
+    page_title: neuromatch 4.0
     registration_date:
       text: Anytime before December 2, 2021
       start: null
@@ -120,9 +127,9 @@ editions:
       start: December 1, 2021
       end: December 2, 2021
     event_time:
-      start: "08:00"
-      end: "20:00"
-    twitter_hashtag: nmcboxdemo
+      start: "07:00"
+      end: "21:00"
+    twitter_hashtag: nmc4
     tracks:
       - main
       - A
@@ -145,6 +152,3 @@ firebase-collection:
   2021-4:
     users: "users"
     preferences: "preferences"
-
-# Google analytics key
-google_analytics: UA-XXXXXXXX
