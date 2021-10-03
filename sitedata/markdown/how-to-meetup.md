@@ -1,6 +1,6 @@
 ---
 title: "Meetups"
-slug: "/how-to-meetups"
+slug: "/instructions/how-to-meetups"
 ---
 
 We are bringing the Neuromatch community together by encouraging participants to form meetups: physical (or virtual/hybrid) groups that gather to watch and participate in the conference together. Think “watch party”, but for science.
@@ -12,7 +12,7 @@ Any participant can volunteer to be a local host, and they themselves decide the
 - Massively reduced CO2 emissions, since most travel will be local (train/car/public transport)
 - Shorter/local travel makes it easier for people with travel restrictions (e.g. those with small children and other caregivers) to still attend in-person
 - Build local communities
-- In-person meetups may help increase engagement and reduce Zoom fatigue. They also can make it easier to carry the conference forward: before/after/during, local attendees can gather over food/drinks and continue the discussion.
+- In-person meetups may help increase engagement and reduce Zoom fatigue. They also can make it easier to carry the conference forward: before/after/during, local attendees can gather over food/snacks and continue the discussion.
 - Since the core of the meeting is still virtual, meetups can immediately be canceled or scaled-down, if the local COVID situation and health regulations change.
 
 ## Host sign-ups
@@ -25,3 +25,5 @@ Neuromatch conference 4 allows you to join a meetup near you. You can find all t
 
 **Note**
 Neuromatch Conference meetups are encouraged and recommended to improve community involvement and experience with the conference, but ultimately are organized and hosted by the community. You are responsible for deciding whether to take part in a local meetup as a host or participant, including your own assessment of the host and the location’s safety and suitability. Neuromatch does not organize meetups, and cannot be held liable for activities or consequences of local meetups; this includes health and safety consequences (e.g., Neuromatch cannot be held liable if your local meetup results in a COVID exposure). If you have concerns about a meetup host or location, either before the conference or afterwards, please provide details of your concerns via email to `nmc@neuromatch.io`.
+
+**Local meetups features:** Coming soon!

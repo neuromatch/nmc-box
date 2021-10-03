@@ -22,7 +22,7 @@ import {
 import { ControlSelect } from "../components/FormComponents/SelectWrapper"
 import Layout from "../components/layout"
 import TimezonePicker from "../components/TimezonePicker"
-import useSiteMetadata from "../hooks/gql/useSiteMetadata"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import useAPI from "../hooks/useAPI"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useValidateRegistration from "../hooks/useValidateRegistration"

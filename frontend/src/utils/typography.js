@@ -18,6 +18,24 @@ moragaTheme.googleFonts = [
     ],
   },
 ];
+moragaTheme.overrideThemeStyles = ({ rhythm }) => ({
+  'h3': {
+    marginBottom: rhythm(2/3),
+  },
+  'h4': {
+    fontSize: rhythm(3/4),
+  },
+  'h5': {
+    fontSize: rhythm(5/8),
+  },
+  'h6': {
+    fontSize: rhythm(3/8),
+  },
+  'h4,h5,h6': {
+    marginBottom: rhythm(1/2),
+  },
+
+});
 
 const typography = new Typography(moragaTheme);
 
