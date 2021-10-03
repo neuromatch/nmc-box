@@ -64,6 +64,26 @@ const sponsors = [
     light: require("../../static/logos/sponsors/light/uc-irvine-logo.png"),
     text: "UC Irvine",
   },
+  {
+    dark: require('../../static/logos/sponsors/dark/leiden-logo.png'),
+    light: require('../../static/logos/sponsors/light/leiden-logo.png'),
+    text: 'University of Leiden',
+  },
+  {
+    dark: require('../../static/logos/sponsors/dark/uw-logo.png'),
+    light: require('../../static/logos/sponsors/light/uw-logo.png'),
+    text: 'University of Washington',
+  },
+  {
+    dark: require('../../static/logos/sponsors/dark/ucl-logo.png'),
+    light: require('../../static/logos/sponsors/light/ucl-logo.png'),
+    text: 'University of Washington',
+  },
+  {
+    dark: require('../../static/logos/sponsors/dark/mahidol-logo.png'),
+    light: require('../../static/logos/sponsors/light/mahidol-logo.png'),
+    text: 'Mahidol University',
+  },
 ]
 
 // -- COMPONENTS
