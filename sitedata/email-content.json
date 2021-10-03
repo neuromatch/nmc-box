@@ -1,53 +1,53 @@
 {
-    "registration": {
-        "personalizations": [
-            {
-                "subject": "Registered to Neuromatch conference"
-            }
-        ],
-        "from": {
-            "email": "neuromatchconf@neuromatch.io",
-            "name": "Neuromatch Conference in a box [Demo]"
-        },
-        "content": [
-            {
-                "type": "text/html",
-                "value": "<p>Dear participant,</p><p>Congratulation! you are registered to Neuromatch conference in a box (demo). This is not a real event. It is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizers</p>"
-            }
-        ]
+  "registration": {
+    "personalizations": [
+      {
+        "subject": "Registered to Neuromatch conference 4"
+      }
+    ],
+    "from": {
+      "email": "neuromatchconf@neuromatch.io",
+      "name": "Neuromatch Conference Organizers"
     },
-    "submission": {
-        "personalizations": [
-            {
-                "subject": "Submitted abstract to Neuromatch Conference in a box [demo]"
-            }
-        ],
-        "from": {
-            "email": "neuromatchconf@neuromatch.io",
-            "name": "Neuromatch Conference in a box [Demo]"
-        },
-        "content": [
-            {
-                "type": "text/html",
-                "value": "<p>Dear participant,</p><p>Thank you for submitting your abstract to Neuromatch conference in a box (demo). This is created mainly for demo. You do not have to reply to this email.</p><p>NMC Organizers</p>"
-            }
-        ]
+    "content": [
+      {
+        "type": "text/html",
+        "value": "<p>Dear participant,</p><p>Congratulations! You are registered to Neuromatch Conference 4 (NMC4). Please stay tune for the full agenda on <a href='https://conference.neuromatch.io/'>conference.neuromatch.io</a>. We are looking forward to see you on December 1-2, 2021.</p><p>Best,<br>NMC Organizers</p>"
+      }
+    ]
+  },
+  "submission": {
+    "personalizations": [
+      {
+        "subject": "Submitted abstract to Neuromatch Conference in a box [demo]"
+      }
+    ],
+    "from": {
+      "email": "neuromatchconf@neuromatch.io",
+      "name": "Neuromatch Conference Organizers"
     },
-    "mindmatch": {
-        "personalizations": [
-            {
-                "subject": "Your mind-match at Neuromatch Conference is ready [demo]"
-            }
-        ],
-        "from": {
-            "email": "neuromatchconf@neuromatch.io",
-            "name": "Neuromatch Conference in a box [Demo]"
-        },
-        "content": [
-            {
-                "type": "text/html",
-                "value": "<p>Dear participant,</p><p>We have matched you to 6 more participants at the conference. Please log-in and check your match at https://neuromatch.io/your-matches. You can see the instructions how to start your conversation with your peers on https://neuromatch.io/instructions/how-to-register.</p><p>NMC Organizers</p>"
-            }
-        ]
-    }
+    "content": [
+      {
+        "type": "text/html",
+        "value": "<p>Dear participant,</p><p>Thank you for submitting your abstract to Neuromatch Conference 4 (NMC4). We look forward to have you in the conference. We will send you a confirmation email a few days after the deadline..</p><p>Best,<br>NMC Organizers</p>"
+      }
+    ]
+  },
+  "mindmatch": {
+    "personalizations": [
+      {
+        "subject": "Your mind-match at Neuromatch Conference is ready [demo]"
+      }
+    ],
+    "from": {
+      "email": "neuromatchconf@neuromatch.io",
+      "name": "Neuromatch Conference Organizers"
+    },
+    "content": [
+      {
+        "type": "text/html",
+        "value": "<p>Dear participant,</p><p>We have matched you to 6 more participants at the conference. Please log-in and check your match at https://neuromatch.io/your-matches. You can see the instructions how to start your conversation with your peers on https://conference.neuromatch.io/instructions/how-to-register.</p><p>Best,<br>NMC Organizers</p>"
+      }
+    ]
+  }
 }
