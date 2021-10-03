@@ -1,39 +1,38 @@
 ---
 title: "Registration Instructions"
-slug: "/how-to-register"
+slug: "/instructions/how-to-register"
 ---
 
-## Registration / Signup
+### Registration / Signup
 
-- You can register on top of this page forneuromatch conferenceusing your email, Gmail, or GitHub handle.
-- If you previously signed up for neuromatch conferences, you still have to edit your profile under your
-  log-in profile to register for the neuromatch conference 4.0.
-- After signing up, provide basic information about you, including your abstracts if you want to participate
-  in themind-matching(1-on-1 matching) part of the conference.
+- You can register on top of this page for Neuromatch conference using your email, Gmail, or GitHub handle.
+
+![Profile](../../frontend/static/markdown-images/instructions/profile.png)
+
+- If you previously signed up for Neuromatch conferences, you still have to [edit your profile](/edit-profile) under your log-in profile to register for the Neuromatch conference 4 (NMC4).
+- After signing up, provide basic information about you, including your abstracts if you want to participate in the **mind-matching** (1-on-1 matching) part of the conference.
 - You can always come back to edit your profile anytime before the registration ends.
-- Make sure to choose if you want to participate in the matching component. That is where the fun is.
-  But make sure you do it before the registration ends.
-- After the registration ends, we will perform a matching algorithm. You will have an access to your
-  matches under your profile to see your partners.
+- Make sure to choose if you want to participate in the matching component. That is where the fun is. But make sure you do it before the registration ends.
+- After the registration ends, we will perform a matching algorithm. You will have an access to your matches under your profile to see your partners.
 - We also add local meetups features (coming soon) where you can host or attend local meetups near you at NMC4.
 
-## Registration Fees
+----
 
-Registration is required to attend the conference, including to have an abstract presented.
-**The registration fee is $15 per person and a fee waiver is available** for those who cannot have
-their fee covered by either their institution, company, or lab and cannot pay on their own (no validation
-necessary) or lack the technical means to use our payment portal. Consistent with our values of making
-the meeting accessible as possible, we have minimizedthe cost to attend while still providing the financial
-support necessary to increase the scope and impact of the meeting beyond previous offerings. With the
-fee waiver, we want to explicitly guarantee that no one is unable to participate due to funding status.
+### Registration Fees
 
-## Mind-matching Instructions (1-on-1 meeting)
+Registration is required to attend the conference, including to have an abstract presented. *The registration fee is $15 per person and a fee waiver is available* for those who cannot have their fee covered by either their institution, company, or lab and cannot pay on their own (no validation necessary) or lack the technical means to use our payment portal. Consistent with our values of making the meeting accessible as possible, we have minimized the cost to attend while still providing the financial support necessary to increase the scope and impact of the meeting beyond previous offerings. With the fee waiver, we want to explicitly guarantee that no one is unable to participate due to funding status.
 
-We use machine learning algorithm to match conference attendees together for one-on-one meeting, so called
-"mind-matching". To sign up, opt-in to the matching part to matching part in your registration profile and
-provide us your representative abstract.
+![Payment](../../frontend/static/markdown-images/instructions/payment.png)
 
-### Preparation
+----
+
+### Mind-matching Instructions (1-on-1 meeting)
+
+We use machine learning algorithm to match conference attendees together for one-on-one meeting, so called "mind-matching". To sign up, opt-in to the matching part to matching part in your registration profile and provide us your representative abstract.
+
+![Mind-matching Registration](../../frontend/static/markdown-images/instructions/mind-match-reg.png)
+
+#### Preparation
 
 - Preparation
   - If you signed up for mind-match, we will send your match partners on your matches page a few days after the registration ends. You will get who your partners are and suggestions on how to e-meet them before, during, or after the main conference.
@@ -51,6 +50,8 @@ provide us your representative abstract.
   - Please be kind and respectful during your meeting (see more on our code of conduct page).
   - Don’t worry if you don’t find something, our algorithms aren’t perfect and you’re not being judged on how well you do - have fun!
 
-## Further questions
+----
 
-If you have further questions, please consult our FAQ page first. If you cannot find your solution, you can contact us at `nmc@neuromatch.io`.
+### Further questions
+
+If you have further questions, please consult our [FAQ page](/faq) first. If you cannot find your solution, you can contact us at `nmc@neuromatch.io`.
