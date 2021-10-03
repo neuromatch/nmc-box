@@ -55,30 +55,8 @@ const Footer = () => (
         Neural Reckoning Lab (Imperial College)
       </StyledLink>
       <br />
-      <StyledInternalLink to="/terms-of-use">
+      <StyledInternalLink to="https://neuromatch.io/terms-of-use">
         Terms of Use | Code of Conduct
-      </StyledInternalLink>
-    </StyledFooterText>
-  </StyledFooter>
-);
-
-export const IndexFooter = () => (
-  <StyledFooter>
-    <StyledFooterText>
-      <StyledInternalLink to="/terms-of-use">
-        Terms of Use
-      </StyledInternalLink>
-      { ' | ' }
-      <StyledInternalLink to="https://www.neuromatchacademy.org/privacy">
-        Privacy Policy
-      </StyledInternalLink>
-      { ' | ' }
-      <StyledInternalLink to="https://www.neuromatchacademy.org/code-of-conduct">
-        Code of Conduct
-      </StyledInternalLink>
-      { ' | Contact: ' }
-      <StyledInternalLink to="mailto:info@neuromatch.io">
-        info@neuromatch.io
       </StyledInternalLink>
     </StyledFooterText>
   </StyledFooter>
