@@ -6,8 +6,7 @@ import { ReactSVG } from "react-svg"
 import styled from "styled-components"
 import { Container } from "../components/BaseComponents/container"
 import Layout from "../components/layout"
-import useProgramCommitteesData from "../hooks/gql/useProgramCommitteesData"
-import useSiteMetadata from "../hooks/gql/useSiteMetadata"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import { growOverParentPadding, media } from "../styles"
 import { useThemeContext } from "../styles/themeContext"
 import { color } from "../utils"
@@ -182,51 +181,50 @@ SponsorLogo.propTypes = {
   }).isRequired,
 }
 
-// program committees
-const CommitteesBlock = ({ data }) => (
-  <dl>
-    {data.map(({ theme, committees }) => (
-      <React.Fragment key={theme}>
-        <dt>{theme}</dt>
-        <dd>
-          {committees.map(({ fullname, institution }, ind) => (
-            <React.Fragment key={fullname}>
-              {fullname}
-              <i>{` (${institution})`}</i>
-              {ind !== committees.length - 1 && ", "}
-            </React.Fragment>
-          ))}
-        </dd>
-      </React.Fragment>
-    ))}
-  </dl>
-)
+// // program committees
+// const CommitteesBlock = ({ data }) => (
+//   <dl>
+//     {data.map(({ theme, committees }) => (
+//       <React.Fragment key={theme}>
+//         <dt>{theme}</dt>
+//         <dd>
+//           {committees.map(({ fullname, institution }, ind) => (
+//             <React.Fragment key={fullname}>
+//               {fullname}
+//               <i>{` (${institution})`}</i>
+//               {ind !== committees.length - 1 && ", "}
+//             </React.Fragment>
+//           ))}
+//         </dd>
+//       </React.Fragment>
+//     ))}
+//   </dl>
+// )
 
-CommitteesBlock.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
+// CommitteesBlock.propTypes = {
+//   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+// }
 
 // -- MAIN
 export default () => {
   const {
     title,
+    subtitle,
     description,
-    longDescription,
     mainConfDate,
     registrationDate,
     submissionDate,
-    twitter,
+    twitterHashtag,
   } = useSiteMetadata()
-
-  const committteesData = useProgramCommitteesData()
 
   return (
     <Layout>
       <MainBlock>
         <TitleHeading>{title}</TitleHeading>
         <section>
-          <h3>{description}</h3>
-          <p>{longDescription}</p>
+          <h3>{subtitle}</h3>
+          {/* a little hack here */}
+          {description?.split('__newline__').map(x => <p key={x.substring(0, 15)}>{x}</p>)}
         </section>
         <hr />
         <section>
@@ -235,10 +233,10 @@ export default () => {
             <TopicHeading>Registration date</TopicHeading>
             {registrationDate}
             <br />
-            <TopicHeading>Submission date</TopicHeading>
+            <TopicHeading>Submission deadline</TopicHeading>
             {submissionDate}
             {" | "}
-            We welcome all abstracts in any topic area within neuroscience!
+            We welcome all abstracts from the computational science field.
             <br />
             <TopicHeading>Main Conference</TopicHeading>
             {mainConfDate}
@@ -249,21 +247,16 @@ export default () => {
             <Link to="/abstract-browser">Abstract Browser</Link>
             <br />
             <TopicHeading>Registration Fees</TopicHeading>
-            $25 | Pay after registration on{" "}
-            {/* <Link to="/payment">payment page</Link> */}
-            payment page, fee waiver is available, free for non-scientists
+            $15 | A fee waiver is available | Pay after registration on
+            {" "}
+            <Link to="/payment">payment page</Link>
             <br />
             <Fa icon={["fab", "twitter"]} />
-            {" · "}
-            <a target="_blank" rel="noopener noreferrer" href={twitter.url}>
-              {twitter.hashtag}
+            {" · @neuromatch with "}
+            <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/hashtag/${twitterHashtag}`}>
+              {twitterHashtag}
             </a>
           </p>
-        </section>
-        <hr />
-        <section>
-          <h3>Program Committees</h3>
-          <CommitteesBlock data={committteesData} />
         </section>
       </MainBlock>
       <GoalBlock>
