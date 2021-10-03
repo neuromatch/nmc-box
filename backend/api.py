@@ -73,6 +73,10 @@ if len(embedding_paths) > 0:
         for path in embedding_paths
     }
 airtable_key = os.environ.get("AIRTABLE_KEY")
+# map between "edition" and "filter_accepted", default as False
+FILTER_ACCEPTED = {
+    k: v.get("filter_accepted", False) for k, v in es_config["editions"].items()
+}
 
 
 app = FastAPI()
@@ -95,6 +99,7 @@ class Submission(BaseModel):
     title: str = ""
     abstract: str = ""
     fullname: str = ""
+    email: str = ""
     coauthors: Optional[str] = None
     institution: Optional[str] = None
     talk_format: Optional[str] = None
@@ -105,6 +110,8 @@ class Submission(BaseModel):
     endtime: Optional[str] = None
     url: Optional[str] = None
     track: Optional[str] = None
+    # assume options from ["Accepted", "Rejected", "Waived", "Duplicated"]
+    submission_status: Optional[str] = None
 
 
 class Vote(BaseModel):
@@ -484,14 +491,17 @@ async def get_abstracts(
     elif view == "recommendations":
         # TODOs: get votes for generating recommendations
         submission_ids = user_preference
-        submissions = utils.generate_recommendations(
-            submission_ids,
-            data=embeddings,
-            index=f"agenda-{edition}",
-            nbrs_model=nbrs_models[f"agenda-{edition}"],
-            exploration=False,
-            abstract_info=True,
-        )
+        try:
+            submissions = utils.generate_recommendations(
+                submission_ids,
+                data=embeddings,
+                index=f"agenda-{edition}",
+                nbrs_model=nbrs_models[f"agenda-{edition}"],
+                exploration=False,
+                abstract_info=True,
+            )
+        except:
+            submissions = []
         submissions = utils.filter_startend_time(submissions, starttime, endtime)
         return JSONResponse(
             content={
@@ -602,7 +612,7 @@ async def get_abstracts(
 @app.get("/api/abstract/{edition}/{submission_id}")
 async def get_abstract(edition: str, submission_id: str):
     """
-    Get an abstract with submission id from a given edition
+    Get an abstract with submission id from a given edition.
 
     Note: This will retrieve from ElasticSearch in case Airtable
         is not specified in es_config
@@ -631,7 +641,6 @@ async def create_abstract(
     Submit an abstract to Airtable
     """
     user_info = get_user_info(authorization)
-    submission = submission.dict()
 
     if submission["starttime"] not in ["", None] and submission["endtime"] not in [
         "",
@@ -648,7 +657,7 @@ async def create_abstract(
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.create(submission)  # create submission on Airtable
+        r = table.create(submission.dict())  # create submission on Airtable
         print(f"Set the record {r['id']} on Airtable")
 
         # update submission_id to user on Firebase
@@ -667,6 +676,24 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
     """
     Update an abstract on Airtable with a given submission ID
     """
+    # only allow some keys to be updated by the presenter
+    submission = {
+        k: v
+        for k, v in submission.dict().items()
+        if k
+        in [
+            "title",
+            "abstract",
+            "fullname",
+            "email",
+            "coauthors",
+            "institution",
+            "talk_format",
+            "arxiv",
+            "available_dt",
+        ]
+    }
+
     # look for base_id for a given "edition"
     base_id = es_config["editions"][edition].get("airtable_id")
     table_name = es_config["editions"][edition].get("table_name")
@@ -675,7 +702,7 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.update(submission_id, submission.dict())  # update submission
+        r = table.update(submission_id, submission)  # update submission
         print(f"Set the record {r['id']} on Airtable")
         return JSONResponse(status=status.HTTP_200_OK)
 
