@@ -135,7 +135,7 @@ export default ({ data }) => {
       <h2>FAQ</h2>
       <Section>
         {faqs.map(f => (
-          <Details key={f.node.question + f.node.answer}>
+          <Details open key={f.node.question + f.node.answer}>
             <Summary>
               {f.node.question}{" "}
               <b>
