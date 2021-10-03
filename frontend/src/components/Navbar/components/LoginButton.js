@@ -38,6 +38,10 @@ const LoginButton = () => {
                 onClick: "/submission",
               },
               {
+                text: "Payment",
+                onClick: "/payment",
+              },
+              {
                 text: "Logout",
                 onClick: () =>
                   confirmPromise("Are you sure to log out?")
