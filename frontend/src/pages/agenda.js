@@ -272,10 +272,9 @@ export default () => {
           />
         </HeadingWithButtonContainer>
         <p>
-          Join our conference via Zoom Webinar, Crowdcast, and YouTube. If you
-          sign up and opt-in to the mindmatching, you will be automatically
-          matched with 6 other scientists working in related areas for
-          one-to-one communication. You can find them in your matches tab under
+          Join our conference via Crowdcast. If you sign up and opt-in to the mind matching,
+          you will be automatically matched with 6 other scientists working in related areas
+          for one-to-one communication. You can find them in your matches tab under
           your profile before the conference.
         </p>
         <h3>Main Conference</h3>
