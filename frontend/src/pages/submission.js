@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { navigate } from "gatsby"
+import { navigate, Link } from "gatsby"
 import PropTypes from "prop-types"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Controller, ErrorMessage, useForm } from "react-hook-form"
 import styled from "styled-components"
 import AvailableTimePicker from "../components/AvailableTimePicker"
@@ -19,17 +19,22 @@ import {
   SubLabel,
   WarningMessage,
 } from "../components/FormComponents"
-import { ControlSelect } from "../components/FormComponents/SelectWrapper"
+// import { ControlSelect } from "../components/FormComponents/SelectWrapper"
 import Layout from "../components/layout"
 import TimezonePicker from "../components/TimezonePicker"
 import useSiteMetadata from "../hooks/useSiteMetadata"
 import useAPI from "../hooks/useAPI"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useValidateRegistration from "../hooks/useValidateRegistration"
-import { common, Fa, reactSelectHelpers, timePickerHelpers } from "../utils"
+import {
+  common,
+  Fa,
+  timePickerHelpers,
+  // reactSelectHelpers,
+} from "../utils"
 
 // -- CONSTANTS
-const talkFormatOptions = ["Traditional talk", "Interactive talk"]
+// const talkFormatOptions = ["Traditional talk", "Flash talk"]
 
 // -- COMPONENTS
 const TopicHeading = ({ children }) => <b>{`${children} · `}</b>
@@ -166,11 +171,11 @@ export default () => {
   useEffect(() => {
     if (currentSubmission && !isLoadingCurrentData) {
       setValue([
-        {
-          talkFormatSelect: reactSelectHelpers.saveFormatToOptions(
-            currentSubmission?.talk_format
-          ),
-        },
+        // {
+        //   talkFormatSelect: reactSelectHelpers.saveFormatToOptions(
+        //     currentSubmission?.talk_format
+        //   ),
+        // },
         {
           availableDatetimePicker: timePickerHelpers.deserializeSelectedDatetime(
             currentSubmission?.available_dt
@@ -184,63 +189,88 @@ export default () => {
     }
   }, [currentSubmission, isLoadingCurrentData, setValue])
 
-  const onSubmit = data => {
-    setIsSending(true)
+  const onSubmit = useCallback(
+    data => {
+      // console.log('[submission] check render trigger in onSubmit')
 
-    const { talkFormatSelect, availableDatetimePicker, ...restData } = data
+      setIsSending(true)
 
-    const numberOfSlots = 5
-    const pickNotEnoughAvailableTime =
-      availableDatetimePicker.reduce((acc, cur) => acc.concat(cur.time), [])
-        .length < numberOfSlots
+      const {
+        // talkFormatSelect,
+        availableDatetimePicker,
+        ...restData
+      } = data
 
-    // if no datetime is selected, set form error and do not submit to the server
-    if (Array.isArray(availableDatetimePicker) && pickNotEnoughAvailableTime) {
-      setError(
-        "availableDatetimePicker",
-        "isRequired",
-        `Available Watching Time is required at least ${numberOfSlots} slots.`
-      )
-      setIsSending(false)
-      return
-    }
+      const numberOfSlots = 5
+      const pickNotEnoughAvailableTime =
+        availableDatetimePicker.reduce((acc, cur) => acc.concat(cur.time), [])
+          .length < numberOfSlots
 
-    const readyData = {
-      fullname: prevUserData.fullname,
-      email: prevUserData.email,
-      institution: prevUserData.institution,
-      talk_format: reactSelectHelpers.optionsToSaveFormat(talkFormatSelect),
-      available_dt: timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker),
-      arxiv: prevUserData.arxiv,
-      ...restData,
-    }
-
-    if (currentSubmission) {
-      updateAbstract({
-        edition: "2021-4",
-        data: readyData,
-        submissionId: prevUserData.submission_id,
-      })
-        .then(res =>
-          resolveHandler(res, "update", {
-            sendConfirmationEmail,
-            dynamicToastControl,
-            setIsSending,
-          })
+      // if no datetime is selected, set form error and do not submit to the server
+      if (
+        Array.isArray(availableDatetimePicker) &&
+        pickNotEnoughAvailableTime
+      ) {
+        setError(
+          "availableDatetimePicker",
+          "isRequired",
+          `Available Presentation Time is required at least ${numberOfSlots} slots.`
         )
-        .catch(err => rejectHandler(err, { dynamicToastControl, setIsSending }))
-    } else {
-      submitAbstract({ edition: "2021-4", data: readyData })
-        .then(res =>
-          resolveHandler(res, "submit", {
-            sendConfirmationEmail,
-            dynamicToastControl,
-            setIsSending,
-          })
-        )
-        .catch(err => rejectHandler(err, { dynamicToastControl, setIsSending }))
-    }
-  }
+        setIsSending(false)
+        return
+      }
+
+      const readyData = {
+        fullname: prevUserData.fullname,
+        email: prevUserData.email,
+        institution: prevUserData.institution,
+        // talk_format: reactSelectHelpers.optionsToSaveFormat(talkFormatSelect),
+        available_dt: timePickerHelpers.serializeSelectedDatetime(
+          availableDatetimePicker
+        ),
+        arxiv: prevUserData.arxiv,
+        ...restData,
+      }
+
+      if (currentSubmission) {
+        updateAbstract({
+          edition: "2021-4",
+          data: readyData,
+          submissionId: prevUserData.submission_id,
+        })
+          .then(res =>
+            resolveHandler(res, "update", {
+              sendConfirmationEmail,
+              dynamicToastControl,
+              setIsSending,
+            })
+          )
+          .catch(err =>
+            rejectHandler(err, { dynamicToastControl, setIsSending })
+          )
+      } else {
+        submitAbstract({ edition: "2021-4", data: readyData })
+          .then(res =>
+            resolveHandler(res, "submit", {
+              sendConfirmationEmail,
+              dynamicToastControl,
+              setIsSending,
+            })
+          )
+          .catch(err =>
+            rejectHandler(err, { dynamicToastControl, setIsSending })
+          )
+      }
+    },
+    [
+      currentSubmission,
+      prevUserData,
+      sendConfirmationEmail,
+      setError,
+      submitAbstract,
+      updateAbstract,
+    ]
+  )
 
   if (isLoggedIn === false) {
     setTimeout(() => {
@@ -272,51 +302,22 @@ export default () => {
       <Toast ref={dynamicToastControl} />
       <h2>Abstract submission form</h2>
       <p>
-        Neuromatch conference 3.0 welcomes all abstracts in any topic area
-        within computational neuroscience! Abstracts will be screened only for
-        obvious topical irrelevance to the neuroscience community. For each
-        title and abstract submitted, the submitter will select the presentation
-        format <em>traditional talk</em> or <em>interactive talk</em>.
-      </p>
-      <h3>Traditional Talks</h3>
-      <p>
-        will be scheduled for a single <em>15 minutes time slot</em>, consisting
-        of a <em>12 minutes presentation</em> and <em>3 minutes of Q&amp;A</em>
-        . Speakers are expected to show up 5 minutes before their session starts
-        and attend the full session to allow for great discussions.
-        <br />
-      </p>
-      <h3>Interactive talks</h3>
-      <p>
-        will be a single <em>roughly 5 minute introduction to the research</em>{" "}
-        followed by a <em> 10 minute discussion</em>. This format is meant to
-        allow more intensive discussions and feel similar to poster
-        presentations in traditional conferences. There will be 5-7 such
-        presentations in a 2-hours block. Every presenter is expected to attend
-        the whole 2 hours and participate in the discussions.
+        Neuromatch 4.0 welcomes abstracts in any topic area within computational
+        neuroscience! Please register and submit your abstract under your
+        profile. Submission deadline is on October 25, 2021.
       </p>
       <p>
-        All abstracts are limited to 300 words and are assigned to one of the
-        themes. Each submission will require the submitter to indicate the time
-        slots where they are available to attend. Each abstract submitter must
-        also participate in the abstract feedback process after the submission
-        window where one indicates which abstracts one is are most interested in
-        attending, which also helps us make individualized schedules. Abstracts
-        will be viewed without author names or institutions to increase fairness
-        and reduce prestige bias. This information will be used to aid in
-        determining the conference schedule.{" "}
-        <em>
-          Abstracts will be withdrawn and not presented if the submitter does
-          not participate in the feedback period.
-        </em>
+        Abstracts will be screened only for obvious topical irrelevance to the
+        computational neuroscience community. Our program committee will select{" "}
+        <em>traditional talk presentation</em> from the submitted abstracts and
+        all other presentations will be <em>recorded flash talk (poster)</em>.
+        All abstracts will be considered for talks, but if selected you will
+        have the opportunity to accept or switch to a flash talk.
       </p>
       <p>
-        <TopicHeading>Submission deadline</TopicHeading>
-        {submissionDate}
-        <br />
-        <TopicHeading>Note</TopicHeading>
-        We only allow one submission per attendee. An additional submission will
-        replace the former one.
+        Please see
+        <Link to="/instructions/how-to-submit"> how to submit page </Link>
+        for more information.
       </p>
       {isExpired === true && (
         <p
@@ -344,41 +345,6 @@ export default () => {
               <TopicHeading>Affiliation</TopicHeading>
               {prevUserData.institution}
             </p>
-            <InputContainer>
-              <label>
-                Talk format
-                <RequiredIcon />
-              </label>
-              <ControlSelect
-                name="talkFormatSelect"
-                control={control}
-                options={talkFormatOptions.map(k => ({
-                  value: k,
-                  label: k,
-                }))}
-                placeholder="Select talk format"
-                allowCreate={false}
-                isRequired="Talk format is required."
-              />
-              <ErrorMessage
-                errors={errors}
-                name="talkFormatSelect"
-                as={<WarningMessage />}
-              />
-            </InputContainer>
-            <InputContainer>
-              <label>Coauthors</label>
-              <SubLabel>
-                Put your coauthor each separated with ; (e.g. First Last,
-                Affiliation; First Last, Affiliation; ...)
-              </SubLabel>
-              <input
-                type="text"
-                placeholder="name1, affiliation1; name2, affiliation2; ..."
-                name="coauthors"
-                ref={register()}
-              />
-            </InputContainer>
             {/* use textinput */}
             <InputContainer>
               <label>
@@ -423,11 +389,52 @@ export default () => {
               />
             </InputContainer>
             <InputContainer>
-              <label>Link to Arxiv, BioArxiv, MedArxiv, or PsycArxiv</label>
+              <label>Coauthors</label>
               <SubLabel>
-                If you want to include preprint in NMC submission, please add
-                the URLs here separated by ;. You can opt-in to have your
-                comments/discussion on BioArxiv after the event.
+                Put your coauthor each separated with ; (e.g. First Last,
+                Affiliation; First Last, Affiliation; ...)
+              </SubLabel>
+              <input
+                type="text"
+                placeholder="name1, affiliation1; name2, affiliation2; ..."
+                name="coauthors"
+                ref={register()}
+              />
+            </InputContainer>
+            {/* <InputContainer>
+              <label>
+                Preferred talk format
+                <RequiredIcon />
+              </label>
+              <ControlSelect
+                name="talkFormatSelect"
+                control={control}
+                options={talkFormatOptions.map(k => ({
+                  value: k,
+                  label: k,
+                }))}
+                placeholder="Select talk format"
+                allowCreate={false}
+                isRequired="Talk format is required."
+              />
+              <ErrorMessage
+                errors={errors}
+                name="talkFormatSelect"
+                as={<WarningMessage />}
+              />
+            </InputContainer> */}
+            <InputContainer>
+              <label>
+                Please provide a link to your preprint(s) related to your
+                conference talk (posted on any server bioRxiv, medRxiv, arXiv,
+                PsyArxiv, etc)
+              </label>
+              <SubLabel>
+                If you want to include links to articles or preprints, please
+                add the URLs here separated by ;. We are developing new
+                mechanisms to connect NMC4 talks to corresponding preprints. If
+                your article or preprint comes out after you submit, let us know
+                by email and we will include it.
               </SubLabel>
               <input
                 type="text"
@@ -451,10 +458,8 @@ export default () => {
                 <RequiredIcon />
               </label>
               <SubLabel>
-                Please select as many slots as you can. The more slots
-                you select, the larger your audience is likely to be. In extreme
-                cases, we may not be able to fit your talk into the schedule if
-                you only select a very small number of slots.
+                Please select as many slots as you can. We can allocate
+                presentation slots that are good for everyone.
               </SubLabel>
               <Controller
                 name="availableDatetimePicker"

@@ -152,7 +152,7 @@ def read_submissions(
     """
     Function to process submissions from Airtable.
     If `filter_accepted` is True, check value in `submission_status`
-    that it is 'Accecpted'. Otherwise, 
+    that it is 'Accecpted'. Otherwise,
     """
     submissions_flatten = []
     for submission in submissions:
@@ -177,6 +177,7 @@ def index_submissions():
     for _, v in tqdm(es_config["editions"].items()):
         if "path" in v.keys():
             submission_df = pd.read_csv(v["path"]).fillna("")
+            submissions = submission_df.to_dict(orient="records")
         elif "airtable_id" in v.keys():
             # check if filter accepted key is available
             filter_accepted = v.get("filter_accepted", False)
@@ -196,7 +197,8 @@ def index_submissions():
         es.indices.create(
             index=v["paper_index"], body=settings_submission, include_type_name=True
         )
-        if len(submissions) > 0:
+        # if no index, set as True
+        if len(submissions) > 0 and v.get("index", True):
             submission_df = pd.DataFrame(submissions).fillna("")
             submissions = submission_df.to_dict(orient="records")
             helpers.bulk(
@@ -208,7 +210,9 @@ def index_submissions():
                     id="submission_id",
                 ),
             )
-            print(f'Done indexing submissions to {v["paper_index"]}')
+            print(f'Done indexing {len(submissions)} submissions to {v["paper_index"]}')
+        else:
+            print(f'Skip indexing submissions to {v["paper_index"]}')
 
 
 if __name__ == "__main__":

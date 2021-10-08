@@ -1,18 +1,20 @@
 import debounce from "lodash/debounce"
 import PropTypes from "prop-types"
-import React, { useEffect, useRef, useState } from "react"
-import { Controller, ErrorMessage, useForm } from "react-hook-form"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { ErrorMessage, useForm } from "react-hook-form"
 import useAPI from "../../hooks/useAPI"
 import useEventTime from "../../hooks/useEventTime"
 import useFirebaseWrapper from "../../hooks/useFirebaseWrapper"
-import MindMatchingModule from "../../modules/mind-matching"
+// import MindMatchingModule, {
+//   defaultOptionalFields,
+// } from "../../modules/mind-matching"
 import {
   common,
   confirmPromise,
   reactSelectHelpers,
   timePickerHelpers,
 } from "../../utils"
-import AvailableTimePicker from "../AvailableTimePicker"
+// import AvailableTimePicker from "../AvailableTimePicker"
 import { ButtonsContainer, FormButton } from "../BaseComponents/Buttons"
 import Toast, { toastTypes } from "../BaseComponents/Toast"
 import {
@@ -52,49 +54,27 @@ const genderChoices = [
   "Female",
   "Non-Binary",
   "Gender non conforming",
-  "Transgender male",
-  "Transgender female",
   "Prefer not to say",
 ]
-
-const defaultOptionalFields = {
-  google_scholar: "",
-  personal_page: "",
-  collaboration_score: "0.5",
-  computational_score: "0.5",
-  meeting_platform: [],
-  abstracts: [],
-  coi: "",
-  participate_mind_match: false,
-  participate_grouped_mind: false,
-}
-
-const defaultOptionalCheckers = {
-  google_scholar: "",
-  personal_page: "",
-  collaboration_score: "0.5",
-  computational_score: "0.5",
-  meetingPlatformSelect: [],
-  // a bit hacky here as there is no way to have default text as none
-  abstracts: [""],
-  coi: "",
-}
 
 const RegisterForm = ({ prevUserData, origin }) => {
   // get user info
   const { currentUserInfo: user } = useFirebaseWrapper()
   // state
-  const [isOptedOut, setIsOptedOut] = useState(false)
   const [isPublic, setIsPublic] = useState(false)
-  // warning is true only when there is some data in the optional fields
-  const [optOutWarning, setOptOutWarning] = useState(false)
   const [isSending, setIsSending] = useState(false)
   // api
-  const { register: registerAPI, getAffiliation } = useAPI()
+  const {
+    register: registerAPI,
+    editProfile: editProfileAPI,
+    getAffiliation,
+  } = useAPI()
   // timeBoundary
   const { defaultAvailableTime } = useEventTime()
   // ref
   const toastControl = useRef(null)
+  // module states
+  // const [isOptedOutMindMatching, setIsOptedOutMindMatching] = useState(false)
 
   const {
     register,
@@ -102,69 +82,25 @@ const RegisterForm = ({ prevUserData, origin }) => {
     errors,
     setValue,
     control,
-    watch,
-    getValues,
+    // watch,
+    // getValues,
     setError,
   } = useForm()
-
-  const watchOptIns = watch([
-    "participate_mind_match",
-    // 'participate_grouped_mind',
-  ])
-
-  // side effect to track opt-in checkbox
-  useEffect(() => {
-    // isOptedOut is determined by 2 checkboxes
-    setIsOptedOut(Object.entries(watchOptIns).every(([_, v]) => v === false))
-
-    const optionalFields = getValues({ nest: true })
-
-    // check if any optional field is filled
-    const someIsFilled = Object.entries(defaultOptionalCheckers).some(
-      ([k, v]) => JSON.stringify(optionalFields[k]) !== JSON.stringify(v)
-    )
-
-    if (someIsFilled) {
-      setOptOutWarning(true)
-    } else {
-      setOptOutWarning(false)
-    }
-  }, [getValues, watchOptIns])
 
   useEffect(() => {
     let isActive = true
 
     if (prevUserData && isActive) {
-      // check if any of the prev optional field has value, if found even one
-      // do not disable optional fields
-      Object.entries(prevUserData).some(([key, val]) => {
-        // check only those optional fields
-        if (Object.keys(defaultOptionalFields).includes(key)) {
-          // in case of string
-          if (!Array.isArray(val) && defaultOptionalFields[key] !== val) {
-            setIsOptedOut(false)
-            return true
-          }
-          // in case of array
-          if (Array.isArray(val) && val.length > 0) {
-            setIsOptedOut(false)
-            return true
-          }
-        }
-
-        return false
-      })
-
       const selectFields = {
         institution: "institutionSelect",
         gender_status: "genderStatusSelect",
         academic_status: "academicStatusSelect",
-        meeting_platform: "meetingPlatformSelect",
+        // meeting_platform: "meetingPlatformSelect",
       }
 
-      const datetimeFields = {
-        available_dt: "availableDatetimePicker",
-      }
+      // const datetimeFields = {
+      //   available_dt: "availableDatetimePicker",
+      // }
 
       Object.entries(prevUserData).forEach(([key, val]) => {
         if (selectFields.hasOwnProperty(key)) {
@@ -175,13 +111,13 @@ const RegisterForm = ({ prevUserData, origin }) => {
           return
         }
 
-        if (datetimeFields.hasOwnProperty(key)) {
-          setValue(
-            datetimeFields[key],
-            timePickerHelpers.deserializeSelectedDatetime(val)
-          )
-          return
-        }
+        // if (datetimeFields.hasOwnProperty(key)) {
+        //   setValue(
+        //     datetimeFields[key],
+        //     timePickerHelpers.deserializeSelectedDatetime(val)
+        //   )
+        //   return
+        // }
 
         setValue(key, val)
       })
@@ -192,115 +128,129 @@ const RegisterForm = ({ prevUserData, origin }) => {
     }
   }, [prevUserData, setValue])
 
-  // watch for timezone change and update val accordingly
-  // this side effect should not watch prevUserData.available_dt directly
-  // as new user has prevUserData as undefined
-  useEffect(() => {
-    if (!prevUserData?.available_dt) {
-      setValue("availableDatetimePicker", defaultAvailableTime)
-    }
-  }, [defaultAvailableTime, prevUserData, setValue])
+  // // watch for timezone change and update val accordingly
+  // // this side effect should not watch prevUserData.available_dt directly
+  // // as new user has prevUserData as undefined
+  // useEffect(() => {
+  //   if (!prevUserData?.available_dt) {
+  //     setValue("availableDatetimePicker", defaultAvailableTime)
+  //   }
+  // }, [defaultAvailableTime, prevUserData, setValue])
 
   // -- onSubmit funtion
-  const onSubmit = data => {
-    // to label button
-    setIsSending(true)
+  const onSubmit = useCallback(
+    data => {
+      // console.log('[registerForm] check render trigger in onSubmit')
 
-    // before submit we need to reshape value from react-select
-    const {
-      institutionSelect,
-      genderStatusSelect,
-      academicStatusSelect,
-      meetingPlatformSelect,
-      abstracts,
-      availableDatetimePicker,
-      ...rest
-    } = data
+      // to label button
+      setIsSending(true)
 
-    const numberOfSlots = 5
-    const pickNotEnoughAvailableTime =
-      availableDatetimePicker?.reduce((acc, cur) => acc.concat(cur.time), [])
-        .length < numberOfSlots
+      // before submit we need to reshape value from react-select
+      const {
+        institutionSelect,
+        genderStatusSelect,
+        academicStatusSelect,
+        // availableDatetimePicker,
+        // meetingPlatformSelect,
+        // abstracts,
+        ...rest
+      } = data
 
-    // if no datetime is selected, set form error and do not submit to the server
-    if (
-      Array.isArray(availableDatetimePicker) &&
-      pickNotEnoughAvailableTime &&
-      !isPublic
-    ) {
-      setError(
-        "availableDatetimePicker",
-        "isRequired",
-        `Available Watching Time is required at least ${numberOfSlots} slots.`
-      )
-      setIsSending(false)
+      // const numberOfSlots = 5
+      // const pickNotEnoughAvailableTime =
+      //   availableDatetimePicker?.reduce((acc, cur) => acc.concat(cur.time), [])
+      //     .length < numberOfSlots
 
-      // scroll up to let user know what went wrong
-      common.scrollBy(-500)
-      return
-    }
+      // // if no datetime is selected, set form error and do not submit to the server
+      // if (
+      //   Array.isArray(availableDatetimePicker) &&
+      //   pickNotEnoughAvailableTime &&
+      //   !isPublic
+      // ) {
+      //   setError(
+      //     "availableDatetimePicker",
+      //     "isRequired",
+      //     `Available attending time is required at least ${numberOfSlots} slots.`
+      //   )
+      //   setIsSending(false)
 
-    const preparedPayload = {
-      ...rest,
-      gender_status: reactSelectHelpers.optionsToSaveFormat(genderStatusSelect),
-      institution: !isPublic
-        ? reactSelectHelpers.optionsToSaveFormat(institutionSelect)
-        : "",
-      academic_status: !isPublic
-        ? reactSelectHelpers.optionsToSaveFormat(academicStatusSelect)
-        : "",
-      meeting_platform: !isPublic
-        ? reactSelectHelpers.optionsToSaveFormat(meetingPlatformSelect)
-        : [],
-      abstracts: !isPublic
-        ? abstracts.every(x => x === "")
-          ? []
-          : abstracts
-        : [],
-      available_dt: !isPublic
-        ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
-        : "",
-    }
+      //   // scroll up to let user know what went wrong
+      //   common.scrollBy(-500)
+      //   return
+      // }
 
-    const readyData = {
-      id: user.uid,
-      payload: !isOptedOut
-        ? preparedPayload
-        : {
-            ...preparedPayload,
-            ...defaultOptionalFields,
-          },
-    }
+      const preparedPayload = {
+        ...rest,
+        gender_status: reactSelectHelpers.optionsToSaveFormat(
+          genderStatusSelect
+        ),
+        institution: !isPublic
+          ? reactSelectHelpers.optionsToSaveFormat(institutionSelect)
+          : "",
+        academic_status: !isPublic
+          ? reactSelectHelpers.optionsToSaveFormat(academicStatusSelect)
+          : "",
+        // available_dt: !isPublic
+        //   ? timePickerHelpers.serializeSelectedDatetime(availableDatetimePicker)
+        //   : "",
+        // meeting_platform: !isPublic
+        //   ? reactSelectHelpers.optionsToSaveFormat(meetingPlatformSelect)
+        //   : [],
+        // abstracts: !isPublic
+        //   ? abstracts.every(x => x === "")
+        //     ? []
+        //     : abstracts
+        //   : [],
+      }
 
-    console.log("readyData:", readyData)
+      const readyData = {
+        id: user.uid,
+        payload: preparedPayload,
+        // payload: !isOptedOutMindMatching
+        //   ? preparedPayload
+        //   : {
+        //       ...preparedPayload,
+        //       ...defaultOptionalFields,
+        //     },
+      }
 
-    registerAPI(readyData)
-      .then(res => {
-        // console.log('data is submitted!', x);
-        // scroll to top
-        common.scrollTo()
+      let submitPromise
 
-        if (res.ok) {
-          const message = originEnum.register
-            ? "Your profile has been registered."
-            : "Your profile has been updated."
+      if (origin === originEnum.register) {
+        submitPromise = registerAPI(readyData)
+      } else {
+        submitPromise = editProfileAPI(readyData)
+      }
 
-          toastControl.current.show(toastTypes.success, message)
-        } else {
-          toastControl.current.show(
-            toastTypes.error,
-            `Error ${res.status}: ${res.statusText}. Please contact our staff.`
-          )
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      .finally(() => {
-        // reset
-        setIsSending(false)
-      })
-  }
+      submitPromise
+        .then(res => {
+          // console.log('data is submitted!', x);
+          // scroll to top
+          common.scrollTo()
+
+          if (res.ok) {
+            const message = originEnum.register
+              ? "Your profile has been registered."
+              : "Your profile has been updated."
+
+            toastControl.current.show(toastTypes.success, message)
+          } else {
+            toastControl.current.show(
+              toastTypes.error,
+              `Error ${res.status}: ${res.statusText}. Please contact our staff.`
+            )
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => {
+          // reset
+          setIsSending(false)
+        })
+    },
+    [editProfileAPI, isPublic, origin, registerAPI, setError, user]
+  )
 
   return (
     <Layout>
@@ -468,7 +418,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
                   as={<WarningMessage />}
                 />
               </InputContainer>
-              <InputContainer>
+              {/* <InputContainer>
                 <label>Preferred Time Zone</label>
                 <SubLabel>
                   We will save your preferred time zome in the cookies of this
@@ -476,16 +426,15 @@ const RegisterForm = ({ prevUserData, origin }) => {
                   abstract-browser pages by clicking on the gear icon.
                 </SubLabel>
                 <TimezonePicker />
-              </InputContainer>
-              <InputContainer>
+              </InputContainer> */}
+              {/* <InputContainer>
                 <label>
                   Available Watching Time
                   <RequiredIcon />
                 </label>
                 <SubLabel>
                   Please tell us below time slots that work best for you to
-                  watch talks. We will use it to optimize schedule that best fit
-                  for everyone.
+                  attend the meeting. We collect them for overall statistics.
                 </SubLabel>
                 <Controller
                   name="availableDatetimePicker"
@@ -500,14 +449,19 @@ const RegisterForm = ({ prevUserData, origin }) => {
                   name="availableDatetimePicker"
                   as={<WarningMessage />}
                 />
-              </InputContainer>
-              <hr />
-              <MindMatchingModule
-                abstracts={prevUserData?.abstracts}
-                formControl={{ register, control, setValue, errors }}
-                isOptedOut={isOptedOut}
-                optOutWarning={optOutWarning}
-              />
+              </InputContainer> */}
+              {/* <MindMatchingModule
+                prevUserData={prevUserData}
+                onOptedOutChange={x => setIsOptedOutMindMatching(x)}
+                formControl={{
+                  register,
+                  control,
+                  setValue,
+                  errors,
+                  getValues,
+                  watch,
+                }}
+              /> */}
             </>
           )}
           <ButtonsContainer>

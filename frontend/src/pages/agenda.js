@@ -9,7 +9,9 @@ import HeadingWithButtonContainer from "../components/BaseComponents/HeadingWith
 import Layout from "../components/layout"
 import TimezoneEditionModal from "../components/TimezoneEditionModal"
 import useAPI from "../hooks/useAPI"
-import useDisplayEdition, { talkFormatLabelColors } from "../hooks/useDisplayEdition"
+import useDisplayEdition, {
+  talkFormatLabelColors,
+} from "../hooks/useDisplayEdition"
 import useEventTime from "../hooks/useEventTime"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
@@ -74,6 +76,17 @@ const BigCalendarContainer = styled.div`
     }
   }
 
+  .rbc-time-view-resources .rbc-time-gutter,
+  .rbc-time-view-resources .rbc-time-header-gutter {
+    background-color: ${p => p.theme.colors.primary};
+  }
+
+  .rbc-label,
+  .rbc-time-header,
+  .rbc-toolbar button {
+    color: ${p => p.theme.colors.secondary};
+  }
+
   ${growOverParentPadding(96)}
 `
 
@@ -126,19 +139,27 @@ const handleConvertDatetime = (data, tz) => {
 
 // need to make this a curry function to pass eventTimeBoundary in
 const CustomBar = eventTimeBoundary => ({
-  // eslint-disable-next-line react/prop-types
-  onNavigate, label, date,
+  /* eslint-disable react/prop-types */
+  onNavigate,
+  label,
+  date,
+  /* eslint-enable react/prop-types */
 }) => {
   if (!eventTimeBoundary) {
     return null
   }
 
-  // console.log('in CustomBar bound0/date/bound1', eventTimeBoundary[0], date, eventTimeBoundary[1])
+  // eslint-disable-next-line react/prop-types
+  const current = new Date(date.toDateString())
+  const lowerBound = new Date(eventTimeBoundary[0].toDateString())
+  const upperBound = new Date(eventTimeBoundary[1].toDateString())
+
+  // console.log('in CustomBar bound0/date/bound1', lowerBound, current, upperBound)
 
   return (
     <div className="rbc-toolbar">
       <span className="rbc-btn-group">
-        {date >= eventTimeBoundary[0] ? (
+        {current > lowerBound ? (
           <button type="button" onClick={() => onNavigate("PREV")}>
             &lt;
           </button>
@@ -146,7 +167,7 @@ const CustomBar = eventTimeBoundary => ({
       </span>
       <span className="rbc-toolbar-label">{label}</span>
       <span className="rbc-btn-group">
-        {date <= eventTimeBoundary[1] ? (
+        {current < upperBound ? (
           <button type="button" onClick={() => onNavigate("NEXT")}>
             &gt;
           </button>
@@ -271,18 +292,12 @@ export default () => {
             }}
           />
         </HeadingWithButtonContainer>
-        <p>
-          Join our conference via Crowdcast. If you sign up and opt-in to the mind matching,
-          you will be automatically matched with 6 other scientists working in related areas
-          for one-to-one communication. You can find them in your matches tab under
-          your profile before the conference.
-        </p>
+        <p>Join Neuromatch Conference via Crowdcast.</p>
         <h3>Main Conference</h3>
         <p>
           The main conference will be happening on{" "}
-          <BoldText>{mainConfDateText}</BoldText> (starts at midnight GMT)
-          followed by mind-matching session if you opt-in to participate. The
-          main talks will happen in parallel on Zoom Webinar. The sessions will
+          <BoldText>{mainConfDateText}</BoldText> (starts at midnight GMT). The
+          main talks will happen in parallel on Crowdcast. The sessions will
           always be on and function as a lobby during short talks.
         </p>
         <ul>
@@ -294,9 +309,9 @@ export default () => {
             according to your chosen location. You can click each event to
             access event details and <Fa icon={["far", "calendar-plus"]} />
             {" to add to Google calendar. "}
-            When you expand, you will also see links to Zoom (
+            When you expand, you will also see links to Crowdcast (
             <Fa icon="chalkboard-teacher" />
-            ). There are one stage and 9 rooms.{" "}
+            ). There are one stage and parallel rooms.{" "}
             <b>
               If you change the timezone, please change the date to refresh this
               calendar view.
@@ -308,7 +323,7 @@ export default () => {
             We also provide search engine, personal schedule, and recommendation
             engine on our{" "}
             <a href="https://neuromatch.io/abstract-browser">
-              Abstract Browser page
+              Abstract Browser page.
             </a>
           </li>
         </ul>
@@ -323,9 +338,7 @@ export default () => {
               There are no events on this day <Fa icon="bullhorn" />
             </NoticeBox> */}
             <NoticeBox>
-              Agenda coming soon!
-              {' '}
-              <Fa icon="bullhorn" />
+              Agenda coming soon! <Fa icon="bullhorn" />
             </NoticeBox>
           </>
         ) : null}

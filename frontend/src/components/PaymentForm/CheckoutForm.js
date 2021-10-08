@@ -3,7 +3,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import PropTypes from "prop-types"
 import React, { useState } from "react"
 import styled from "styled-components"
-import { LineButton } from "../BaseComponents/Buttons"
+import { ButtonsContainer, LineButton } from "../BaseComponents/Buttons"
 import LoadingView from "../BaseComponents/LoadingView"
 import { Spinner, SpinnerContainer } from "./SpinnerComponents"
 
@@ -72,12 +72,6 @@ const LabelInputContainer = styled.div`
   }
 `
 
-const SubmitButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 const CheckoutForm = ({ onSubmit, onHideModal, isConfirmingPayment }) => {
   // this isn't used yet
   const [, setError] = useState(null)
@@ -107,7 +101,7 @@ const CheckoutForm = ({ onSubmit, onHideModal, isConfirmingPayment }) => {
             }}
           />
         </LabelInputContainer>
-        <SubmitButtonContainer>
+        <ButtonsContainer>
           {isConfirmingPayment ? (
             <SpinnerContainer>
               <Spinner />
@@ -132,7 +126,7 @@ const CheckoutForm = ({ onSubmit, onHideModal, isConfirmingPayment }) => {
               </LineButton>
             </>
           )}
-        </SubmitButtonContainer>
+        </ButtonsContainer>
       </div>
     </StripeCardContainer>
   )

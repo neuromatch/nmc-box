@@ -98,7 +98,8 @@ class Submission(BaseModel):
     # fields provided by users
     title: str = ""
     abstract: str = ""
-    fullname: str = ""
+    firstname: str = ""
+    lastname: str = ""
     email: str = ""
     coauthors: Optional[str] = None
     institution: Optional[str] = None
@@ -218,7 +219,7 @@ async def update_user(
     user_info = get_user_info(authorization)
     if user_info is not None:
         user_id = user_info.get("user_id")
-        update_data(user_data, user_id, user_collection)  # update data
+        update_data(user_data["payload"], user_id, user_collection)  # update data
         print(f"Done setting user with ID = {user_id}")
     else:
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED)
@@ -640,14 +641,13 @@ async def create_abstract(
     """
     Submit an abstract to Airtable
     """
+    submission = submission.dict()
     user_info = get_user_info(authorization)
-
-    if submission["starttime"] not in ["", None] and submission["endtime"] not in [
-        "",
-        None,
-    ]:
-        submission["starttime"] = str(pd.to_datetime(submission["starttime"]))
-        submission["endtime"] = str(pd.to_datetime(submission["endtime"]))
+    user_id = get_user_info(authorization).get("user_id")
+    if user_id is not None:
+        user = get_data(user_id, user_collection)
+        submission["firstname"] = user.get("firstname", "")
+        submission["lastname"] = user.get("lastname", "")
 
     # look for base_id for a given "edition"
     base_id = es_config["editions"][edition].get("airtable_id")
@@ -657,7 +657,7 @@ async def create_abstract(
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
     else:
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
-        r = table.create(submission.dict())  # create submission on Airtable
+        r = table.create(submission)  # create submission on Airtable
         print(f"Set the record {r['id']} on Airtable")
 
         # update submission_id to user on Firebase
@@ -672,19 +672,36 @@ async def create_abstract(
 
 
 @app.put("/api/abstract/{edition}/{submission_id}")
-async def update_abstract(submission_id: str, submission: Submission, edition: str):
+async def update_abstract(
+    submission_id: str,
+    submission: Submission,
+    edition: str,
+    authorization: Optional[str] = Header(None),
+):
     """
     Update an abstract on Airtable with a given submission ID
     """
     # only allow some keys to be updated by the presenter
+    submission = submission.dict()
+    user_info = get_user_info(authorization)
+    user_id = user_info.get("user_id")
+    print("Usedr Info: ", user_info)
+    print("User ID: ", user_id)
+    if user_id is not None:
+        user = get_data(user_id, user_collection)
+        print(user)
+        submission["firstname"] = user.get("firstname", "")
+        submission["lastname"] = user.get("lastname", "")
+    print(submission)
     submission = {
         k: v
-        for k, v in submission.dict().items()
+        for k, v in submission.items()
         if k
         in [
             "title",
             "abstract",
-            "fullname",
+            "firstname",
+            "lastname",
             "email",
             "coauthors",
             "institution",
@@ -704,7 +721,7 @@ async def update_abstract(submission_id: str, submission: Submission, edition: s
         table = Table(api_key=airtable_key, base_id=base_id, table_name=table_name)
         r = table.update(submission_id, submission)  # update submission
         print(f"Set the record {r['id']} on Airtable")
-        return JSONResponse(status=status.HTTP_200_OK)
+        return JSONResponse(status_code=status.HTTP_200_OK)
 
 
 @app.post("/api/payment/{option}")
@@ -791,9 +808,7 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={
-                "message": "Your payment was successful!",
-            },
+            content={"message": "Your payment was successful!",},
             status_code=status.HTTP_200_OK,
         )
 
@@ -805,9 +820,7 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={
-                "message": "You payment has been waived.",
-            },
+            content={"message": "You payment has been waived.",},
             status_code=status.HTTP_200_OK,
         )
     else:
