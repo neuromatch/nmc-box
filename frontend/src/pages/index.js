@@ -72,7 +72,7 @@ const sponsors = [
   {
     dark: require('../../static/logos/sponsors/dark/uw-logo.png'),
     light: require('../../static/logos/sponsors/light/uw-logo.png'),
-    text: 'University of Washington',
+    text: 'University College London',
   },
   {
     dark: require('../../static/logos/sponsors/dark/ucl-logo.png'),
@@ -265,16 +265,26 @@ export default () => {
             Available on <Link to="/agenda">Agenda</Link>
             {" | "}
             <Link to="/abstract-browser">Abstract Browser</Link>
+            {" (TBD)"}
             <br />
             <TopicHeading>Registration Fees</TopicHeading>
             $15 | A fee waiver is available | Pay after registration on
             {" "}
             <Link to="/payment">payment page</Link>
             <br />
+            <TopicHeading>Local meetups</TopicHeading>
+            Coming soon! Host your local meetups | Join local meetups near you
+            {" "}
+            <br />
+            <TopicHeading>Kid sessions</TopicHeading>
+            Inaugural session for kids. This will consist of three talks aimed at a younger
+            audience interested in neuroscience.
+            {" "}
+            <br />
             <Fa icon={["fab", "twitter"]} />
             {" · @neuromatch with "}
             <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/hashtag/${twitterHashtag}`}>
-              {twitterHashtag}
+              #{twitterHashtag}
             </a>
           </p>
         </section>

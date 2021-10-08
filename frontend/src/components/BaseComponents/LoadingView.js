@@ -1,10 +1,10 @@
-import React from 'react';
-import HashLoader from 'react-spinners/HashLoader';
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
-import { media } from '../../styles';
-import { useThemeContext } from '../../styles/themeContext';
-import { color } from '../../utils';
+import React from "react"
+import HashLoader from "react-spinners/HashLoader"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { media } from "../../styles"
+import { useThemeContext } from "../../styles/themeContext"
+import { color } from "../../utils"
 
 const Container = styled.div`
   flex: 1;
@@ -13,13 +13,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  min-height: 100vh;
 
   background-color: ${p => p.theme.colors.primary};
-
-  ${(p) => !p.growInFlex && css`
-    min-height: 100vh;
-  `}
-`;
+`
 
 const Message = styled.p`
   margin: 0;
@@ -33,38 +30,28 @@ const Message = styled.p`
   ${media.extraSmall`
     font-size: 18px;
   `}
-`;
+`
 
-const LoadingView = ({ message, growInFlex }) => {
-  const { themeObject } = useThemeContext();
+const LoadingView = ({ message, ...restProps }) => {
+  const { themeObject } = useThemeContext()
 
   return (
-    <Container growInFlex={growInFlex}>
+    <Container {...restProps}>
       <HashLoader
         color={color.format(themeObject.colors.secondary, color.hexFormatter)}
         size={75}
       />
-      {
-        message
-          ? (
-            <Message>
-              { message }
-            </Message>
-          )
-          : null
-      }
+      {message ? <Message>{message}</Message> : null}
     </Container>
-  );
-};
+  )
+}
 
 LoadingView.propTypes = {
   message: PropTypes.string,
-  growInFlex: PropTypes.bool,
-};
+}
 
 LoadingView.defaultProps = {
-  message: 'Loading..',
-  growInFlex: false,
-};
+  message: "Loading..",
+}
 
-export default LoadingView;
+export default LoadingView

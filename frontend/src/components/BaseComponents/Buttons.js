@@ -37,9 +37,11 @@ const commonButtonStyle = css`
 `
 
 const toggledButtonColor = css`
-  background-color: ${p => p.color};
-  border-color: ${p => p.hoverBgColor};
-  color: ${p => p.hoverColor};
+  background-color: ${p =>
+    p.color || color.transparentize(p.theme.colors.secondary, 0.75)};
+  border-color: ${p =>
+    p.hoverBgColor || color.transparentize(p.theme.colors.secondary, 0.25)};
+  color: ${p => p.hoverColor || p.theme.colors.primary};
 `
 
 const commonLinkStyle = css`
@@ -73,9 +75,13 @@ const commonLinkStyle = css`
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 1.56rem;
 
   padding: 5px;
+
+  & > :not(:first-child) {
+    margin-left: 5px;
+  }
 `
 
 // -- button components consuming base styles

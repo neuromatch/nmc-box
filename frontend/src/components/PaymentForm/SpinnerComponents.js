@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components"
 
 const Spinner = styled.div`
   border: 6px solid #ccc; /* Light grey */
-  border-top: 6px solid #3498db; /* Blue */
+  border-top: 6px solid ${p => p.theme.colors.accent}; /* Blue */
   border-radius: 50%;
   width: 25px;
   height: 25px;
