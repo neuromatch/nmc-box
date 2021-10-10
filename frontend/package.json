@@ -89,9 +89,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/titipata/neuromatch"
+    "url": "https://github.com/neuromatch/nmc-box"
   },
   "bugs": {
-    "url": "https://github.com/titipata/neuromatch/issues"
+    "url": "https://github.com/neuromatch/nmc-box/issues"
   }
 }
