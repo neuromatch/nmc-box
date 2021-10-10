@@ -62,7 +62,7 @@ python embeddings.py --option=sent_embed
 - Then, serve and index ElasticSearch
 
 ```sh
-bash es_serve.sh # serve
+bash es_serve.sh # serve Elasticsearch server
 python es_index.py # index
 ```
 
@@ -76,7 +76,12 @@ To serve backend with FastAPI library.
 
 ### Set up frontend
 
-(TBA)
+Download node, npm and gatsby. Then run the following scripts in `frontend`:
+
+```sh
+npm install
+gatsby develop && gatsby serve --port 4000
+```
 
 ## Set up authentication, database, and Airtable
 
