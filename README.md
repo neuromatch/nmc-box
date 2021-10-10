@@ -33,7 +33,10 @@ There are multiple steps for setting up the environment. We roughly write down a
 - Install backend dependencies in `backend/requirements.txt`
 - Create Airtable base for submission, specify `base_id` in `scripts/es_config.yml`
   and Airtable key in `.env` file.
-- Download Firebase authentication JSON file in the root of `backend`. To download,
+- Add frontend environment by going to Project settings on Firebase.
+  Then go to `General` > `Add app` > add Web App.
+  Copy keys to `.env` matches to provided `.env.example` file.
+- Download Firebase authentication JSON file in the root of this repository. To download,
   you can go to Project settings on Firebase. Choose `Service accounts` >
   `Firebase Admin SDK` > `Generate new private key` in Python.
 - Adapt basic information in `sitedata/config.yml` for the page and `scripts/es_config.yml`
