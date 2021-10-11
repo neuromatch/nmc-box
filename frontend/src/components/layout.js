@@ -56,6 +56,10 @@ const Layout = ({
             text: 'Instructions',
             dropdown: [
               {
+                text: 'How to run',
+                onClick: '/instructions/how-to-run',
+              },
+              {
                 text: 'How to register',
                 onClick: '/instructions/how-to-register',
               },
@@ -64,8 +68,8 @@ const Layout = ({
                 onClick: '/instructions/how-to-submit',
               },
               {
-                text: 'How to meetups',
-                onClick: '/instructions/how-to-meetups',
+                text: 'Other markdown',
+                onClick: '/instructions/other-markdown',
               },
             ],
           },
@@ -85,16 +89,16 @@ const Layout = ({
           {
             text: 'About',
             dropdown:
-            [
-              {
-                text: 'FAQ',
-                onClick: '/faq',
-              },
-              {
-                text: 'About',
-                onClick: '/about',
-              },
-            ],
+              [
+                {
+                  text: 'FAQ',
+                  onClick: '/faq',
+                },
+                {
+                  text: 'About',
+                  onClick: '/about',
+                },
+              ],
           },
         ]}
       />

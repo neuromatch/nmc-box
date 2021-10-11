@@ -1,11 +1,9 @@
-# Neuromatch Conference in a Box
+---
+title: "Install and deploy"
+slug: "/instructions/how-to-run"
+---
 
-Making an online conference requires some technologies backbone to run it.
-We built [Neuromatch conferences (NMCs)](https://conference.neuromatch.io/)
-which allow organizers to automate many aspects of the conference and incorporate
-ML algorithms to the workflow. Here, we open-source most of our implementations
-at NMC so that online organizers can adapt to make the better online conference
-in the future.
+Here, we describe project structures, stacks, and how to run NMC Box.
 
 ## Project Structure
 

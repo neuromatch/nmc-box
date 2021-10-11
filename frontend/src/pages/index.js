@@ -250,13 +250,16 @@ export default () => {
         <section>
           <h3>Registration &amp; Submission</h3>
           <p>
+            <TopicHeading>Instructions</TopicHeading>
+            Check out{' '}
+            <Link to="instructions/how-to-run">how to run</Link>
+            {' '}page for project structures and how to run the website.
+            <br />
             <TopicHeading>Registration date</TopicHeading>
             {registrationDate}
             <br />
             <TopicHeading>Submission deadline</TopicHeading>
             {submissionDate}
-            {" | "}
-            We welcome all abstracts from the computational science field.
             <br />
             <TopicHeading>Main Conference</TopicHeading>
             {mainConfDate}
@@ -265,27 +268,18 @@ export default () => {
             Available on <Link to="/agenda">Agenda</Link>
             {" | "}
             <Link to="/abstract-browser">Abstract Browser</Link>
-            {" (TBD)"}
             <br />
             <TopicHeading>Registration Fees</TopicHeading>
-            $15 | A fee waiver is available | Pay after registration on
+            $0 | This is a demo | A fee waiver is available | Pay after registration on
             {" "}
             <Link to="/payment">payment page</Link>
-            <br />
-            <TopicHeading>Local meetups</TopicHeading>
-            Coming soon! Host your local meetups | Join local meetups near you
-            {" "}
-            <br />
-            <TopicHeading>Kid sessions</TopicHeading>
-            Inaugural session for kids. This will consist of three talks aimed at a younger
-            audience interested in neuroscience.
-            {" "}
             <br />
             <Fa icon={["fab", "twitter"]} />
             {" · @neuromatch with "}
             <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/hashtag/${twitterHashtag}`}>
               #{twitterHashtag}
             </a>
+            {' if you use our code at your conference!'}
           </p>
         </section>
       </MainBlock>

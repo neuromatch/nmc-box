@@ -292,13 +292,11 @@ export default () => {
             }}
           />
         </HeadingWithButtonContainer>
-        <p>Join Neuromatch Conference via Crowdcast.</p>
-        <h3>Main Conference</h3>
         <p>
+          This is a demo page for agenda. You can click the gear icon
+          on the top-right corner to see previouse Neuromatch Conference agenda.
           The main conference will be happening on{" "}
-          <BoldText>{mainConfDateText}</BoldText> (starts at midnight GMT). The
-          main talks will happen in parallel on Crowdcast. The sessions will
-          always be on and function as a lobby during short talks.
+          <BoldText>{mainConfDateText}</BoldText>.
         </p>
         <ul>
           <li>

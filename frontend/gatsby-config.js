@@ -7,8 +7,8 @@ module.exports = {
     url: "http://localhost:8000",
   },
   siteMetadata: {
-    title: "neuromatch 4.0",
-    description: "A conference made for the whole neuroscience community",
+    title: "NMC Box",
+    description: "A demo website for Neuromatch Conference",
     siteUrl: "https://conference.neuromatch.io",
     image: "https://conference.neuromatch.io/neuromatch-og-img.png",
     logo: "https://conference.neuromatch.io/svgs/logos/Logo_mark_Bl.svg",
