@@ -274,6 +274,10 @@ export default () => {
             {" "}
             <Link to="/payment">payment page</Link>
             <br />
+            <TopicHeading>Github</TopicHeading>
+            {" "}
+            <Link to="https://github.com/neuromatch/nmc-box">github.com/neuromatch/nmc-box</Link>
+            <br />
             <Fa icon={["fab", "twitter"]} />
             {" · @neuromatch with "}
             <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/hashtag/${twitterHashtag}`}>

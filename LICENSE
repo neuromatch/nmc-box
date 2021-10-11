@@ -3,7 +3,7 @@
 This Neuromatch conference dataset provided in this repository is granted by
 Neuromatch (https://neuromatch.io/) and Neuromatch Conference
 (https://conference.neuromatch.io/).
-The dataset ramains a property of Neuromatch and Neuromatch Conference.
+The dataset remains a property of Neuromatch and Neuromatch Conference.
 Its use and transfer outside this repository, e.g. for redistribution
 or publication, is prohibited without written consent to the organization.
 
@@ -11,7 +11,7 @@ If you have further questions, please contact Neuromatch Conference Organizers
 (nmc@neuromatch.io).
 
 If you reference this dataset after the permission in your publications, please
-cite the following articles:
+cite the following articles (Bibtex is provided):
 
 @article{achakulvisut2021towards,
 title={Towards Democratizing and Automating Online Conferences: Lessons from the Neuromatch Conferences},
