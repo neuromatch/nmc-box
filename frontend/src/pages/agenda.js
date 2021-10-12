@@ -1,5 +1,6 @@
 import momentLocalize from "moment"
 import moment from "moment-timezone"
+import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { Calendar, momentLocalizer, Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -320,9 +321,7 @@ export default () => {
             {" · "}
             We also provide search engine, personal schedule, and recommendation
             engine on our{" "}
-            <a href="https://neuromatch.io/abstract-browser">
-              Abstract Browser page.
-            </a>
+            <Link to="/abstract-browser">Abstract Browser page</Link>.
           </li>
         </ul>
         {isLoading ? (
