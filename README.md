@@ -1,30 +1,38 @@
 # Neuromatch Conference in a Box
 
-Making an online conference requires some technologies backbone to run it.
-We built [Neuromatch conferences (NMCs)](https://conference.neuromatch.io/)
-which allow organizers to automate many aspects of the conference and incorporate
-ML algorithms to the workflow. Here, we open-source most of our implementations
-at NMC so that online organizers can adapt to make the better online conference
-in the future.
+Neuromatch Conference (NMC) held multiple virtual conferences during the COVID pandemic.
+Each of our conferences has led the way in providing new innovations to the virtual conference space.
+Many scientific conferences adopted our pipeline and framework to their own conferences.
+However, to date, most organizers have to develop their own tech stack for organizing the virtual conference.
+Here, we provide our framework for organizing Neuromatch Conference, Neuromatch Conference in a Box (**NMC Box**).
+We hope that other organizers, not limited to neuroscientists, can adapt our code to create their own
+virtual conferences in the future.
 
-## Project Structure
-
-- Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
-- Frontend: implemented using [ReactJS](https://reactjs.org/)
-- Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
+<img src="images/nmc-box.png" alt="alt text" width="500"/>
 
 ## Components
 
-NMC in-a-box provides some functionalities as follows:
+NMC Box provides following functionalities:
 
-- Registration - ask for basic information and available times during the conference
+- Registration - ask for basic information, search institution with [GRID database](https://www.grid.ac/)
+
+<img src="images/registration.png" alt="alt text" width="300"/>
+
 - Submission - submit abstracts to Airtable
   - Ask for available times, talk format, theme
   - Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
 - Search and recommendation engine with infinite scroll design
-- Mind matching script - run separately to produce output matches between registered attendees
+- [Mind matching script](https://github.com/titipata/paper-reviewer-matcher), run separately to produce output matches between registered attendees
+
+<img src="images/recommendation.png" alt="alt text" width="400"/>
 
 ## Workflow
+
+### Project Structure
+
+- Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
+- Frontend: implemented using [ReactJS](https://reactjs.org/)
+- Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
 
 ### Set up enviroment
 
@@ -43,10 +51,10 @@ There are multiple steps for setting up the environment. We roughly write down a
   for data to be indexed
 - See below for the instructions to set up Firebase authentication and Cloud Firestore.
 
-### Set up backend APIs
+### Set up backend
 
-Before running API, we have put the data, create embeddings (used for recommendation),
-and index them on ElasticSearch.
+We have to create embeddings and index talks to elastic search before
+running the web application.
 
 - First, put data in `sitedata/agenda/*.csv`
 - Change information in `scripts/es_config.yml` where you can put path to CSV files or Airtable ID
@@ -69,14 +77,14 @@ python es_index.py # index
 - Go to `backend` and serve APIs using
 
 ```sh
-uvicorn api:app --reload
+uvicorn api:app --reload  # run on port 8000
 ```
 
 To serve backend with FastAPI library.
 
 ### Set up frontend
 
-Download node, npm and gatsby. Then run the following scripts in `frontend`:
+Download `node`, `npm` and `gatsby`. Then run the following scripts in `frontend`:
 
 ```sh
 npm install
