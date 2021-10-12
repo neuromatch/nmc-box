@@ -77,6 +77,10 @@ const Layout = ({
             text: 'Agenda',
             dropdown: [
               {
+                text: 'Schedule',
+                onClick: '/schedule',
+              },
+              {
                 text: 'Agenda',
                 onClick: '/agenda',
               },

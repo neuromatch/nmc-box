@@ -108,7 +108,7 @@ function format(color, formatter) {
     && ['r', 'g', 'b', 'a'].every(((prop) => Object.prototype.hasOwnProperty.call(color, prop)))
   ) {
     if (['r', 'g', 'b'].every((prop) => Number.isInteger(color[prop]))
-    && typeof color.a === 'number') {
+      && typeof color.a === 'number') {
       parsed = color;
     }
   }
@@ -130,7 +130,7 @@ function hexFormatter(parsed) {
   // https://www.w3schools.com/lib/w3color.js
   function toHex(n) {
     let hex = n.toString(16);
-    while (hex.length < 2) {hex = "0" + hex; }
+    while (hex.length < 2) { hex = "0" + hex; }
     return hex;
   }
 

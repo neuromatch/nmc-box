@@ -724,6 +724,25 @@ async def update_abstract(
         return JSONResponse(status_code=status.HTTP_200_OK)
 
 
+@app.get("/api/school/schedule")
+async def get_school_schedule(
+    edition: str = "2021-4", authorization: Optional[str] = Header(None),
+):
+    """
+    Returns school agenda from Airtable. Current function only
+    return an edition 2021-1 since we made just for ACML 2021.
+    """
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        table = Table(
+            airtable_key, es_config["editions"][edition]["airtable_id"], "school"
+        )
+        submissions = [r.get("fields") for r in table.all() if len(r.get("fields")) > 0]
+    else:
+        submissions = []
+    return JSONResponse(content={"data": submissions})
+
+
 @app.post("/api/payment/{option}")
 async def update_payment(
     option: str = "check",

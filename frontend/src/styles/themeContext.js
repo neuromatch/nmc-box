@@ -19,7 +19,7 @@ const themeCookieKey = "theme"
 // -- CONTEXT
 const ThemeContext = createContext({
   theme: defaultTheme,
-  setTheme: () => {},
+  setTheme: () => { },
 })
 
 // eslint-disable-next-line react/prop-types
@@ -31,7 +31,7 @@ const ThemeProvider = ({ children }) => {
     body {
       background-color: ${p => p.theme.colors.primary};
 
-      h1, h2, h3, h4, h5, h6, label, summary {
+      h1, h2, h3, h4, h5, h6, label, summary, th, thead {
         color: ${p => p.theme.colors.secondary};
       }
 
@@ -46,17 +46,17 @@ const ThemeProvider = ({ children }) => {
       b, em, code {
         /* slightly brighter */
         color: ${p =>
-          color.scale(p.theme.colors.secondary, p.theme.colors.factor * 7)};
+      color.scale(p.theme.colors.secondary, p.theme.colors.factor * 7)};
       }
 
       em {
         text-decoration: underline;
       }
 
-      p, span, dl, ul, ol {
+      p, span, dl, ul, ol, td, tbody {
         /* slightly dimmer */
         color: ${p =>
-          color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
+      color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
       }
     }
   `
