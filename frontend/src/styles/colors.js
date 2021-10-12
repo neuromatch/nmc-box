@@ -10,8 +10,8 @@
 const colors = {
   light: {
     primary: 'rgba(255,255,255,1)',
-    secondary: 'rgba(34,34,34,1)',
-    accent: 'rgba(65,158,218,1)',
+    secondary: 'rgba(65,76,86,1)',
+    accent: 'rgba(192,134,253)',
     disabled: 'rgba(187,187,187,1)',
     succeed: 'rgba(34,204,34,1)',
     danger: 'rgba(226,63,63,1)',
@@ -23,9 +23,9 @@ const colors = {
     factor: -1,
   },
   dark: {
-    primary: 'rgba(34,34,34,1)',
-    secondary: 'rgba(238,238,238,1)',
-    accent: 'rgba(91,184,244,1)',
+    primary: 'rgba(65,76,86,1)',
+    secondary: 'rgba(255,255,255,1)',
+    accent: 'rgba(192,134,253)',
     disabled: 'rgba(187,187,187,1)',
     succeed: 'rgba(98,255,98,1)',
     danger: 'rgba(255,101,101,1)',
