@@ -58,6 +58,15 @@ const ThemeProvider = ({ children }) => {
         color: ${p =>
           color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
       }
+
+      code:not(pre *) {
+        font-family: 'Roboto Mono', monospace;
+        background-color: ${p => color.transparentize(p.theme.colors.secondary, 0.15)};
+        border: 1px solid ${p => p.theme.colors.accent};
+        border-radius: 4px;
+
+        padding: 1px 4px;
+      }
     }
   `
 
