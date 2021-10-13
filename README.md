@@ -34,7 +34,7 @@ NMC Box provides following functionalities:
 - Frontend: implemented using [ReactJS](https://reactjs.org/)
 - Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
 
-### Set up enviroment
+### Set up environment
 
 There are multiple steps for setting up the environment. We roughly write down as follows:
 
@@ -84,7 +84,7 @@ To serve backend with FastAPI library.
 
 ### Set up frontend
 
-Download `node`, `npm` and `gatsby`. Then run the following scripts in `frontend`:
+Download `Node` and `Gatsby`. Then run the following scripts in `frontend`:
 
 ```sh
 npm install
@@ -95,7 +95,7 @@ gatsby develop && gatsby serve --port 4000
 
 We use Firebase for authentication and Cloud Firestore for storing user data and their preferences (votes).
 You can set up authentication and Cloud Firestore on [Firebase](https://firebase.google.com/).
-We use Airtable to recieve our submission (submission, follow by review process, filter, show in recommendation).
+We use Airtable to recieive our submission (submission, follow by review process, filter, show in recommendation).
 Here, we list down a general ideas on how to create authentication for the registration.
 
 ### Google authentication
