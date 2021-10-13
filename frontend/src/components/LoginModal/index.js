@@ -3,6 +3,7 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import styled, { createGlobalStyle } from 'styled-components';
 import useFirebaseWrapper from '../../hooks/useFirebaseWrapper';
+import useSiteMetadata from '../../hooks/useSiteMetadata';
 import Fa from '../../utils/fontawesome';
 import { media } from '../../styles';
 
@@ -81,6 +82,7 @@ const uiConfig = (firebase) => ({
 
 const LoginModal = ({ modalVisible, hideModal }) => {
   const { firebaseInstance: firebase } = useFirebaseWrapper();
+  const { title } = useSiteMetadata();
 
   if (!firebase) {
     return null;
@@ -94,7 +96,7 @@ const LoginModal = ({ modalVisible, hideModal }) => {
           onClick={() => hideModal()}
         />
         <HeaderText>
-          neuromatch conference
+          {title}
         </HeaderText>
         <ButtonsContainer>
           <StyledFirebaseAuth
