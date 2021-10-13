@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import React, { useCallback, useEffect } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import useKeyPress from '../../hooks/useKeyPress';
-import { Fa } from '../../utils';
-import AbstractDetail from '../AgendaComponents/AbstractDetail';
-import { LineButton } from '../BaseComponents/Buttons';
+import PropTypes from "prop-types"
+import React, { useCallback, useEffect } from "react"
+import styled, { createGlobalStyle } from "styled-components"
+import useKeyPress from "../../hooks/useKeyPress"
+import { color, Fa } from "../../utils"
+import AbstractDetail from "../AgendaComponents/AbstractDetail"
+import { LineButton } from "../BaseComponents/Buttons"
 
 // -- STYLES
 // this should block scrolling when modal is visible
@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     overflow-y: hidden;
   }
-`;
+`
 
 // -- COMPONENTS
 const Container = styled.div`
@@ -27,28 +27,29 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: rgba(0,0,0,0.25);
-`;
+  background-color: ${p =>
+    color.transparentize(p.theme.colors.secondary, 0.25)};
+`
 
 const Modal = styled.div`
   width: 800px;
   max-height: 90vh;
 
-  background-color: white;
+  background-color: ${p => p.theme.colors.primary};
   border-radius: 6px;
 
   padding: 20px;
   padding-bottom: 30px;
 
-  -webkit-box-shadow: 0px 0px 23px 0px rgba(110,110,110,1);
-  -moz-box-shadow: 0px 0px 23px 0px rgba(110,110,110,1);
-  box-shadow: 0px 0px 23px 0px rgba(110,110,110,1);
+  -webkit-box-shadow: 0px 0px 23px 0px rgba(110, 110, 110, 1);
+  -moz-box-shadow: 0px 0px 23px 0px rgba(110, 110, 110, 1);
+  box-shadow: 0px 0px 23px 0px rgba(110, 110, 110, 1);
 
   position: relative;
-`;
+`
 
-const ModalCloseButton = styled(LineButton).attrs(() => ({
-  color: '#ee1133',
+const ModalCloseButton = styled(LineButton).attrs(p => ({
+  color: p.theme.colors.danger,
 }))`
   position: absolute;
   top: 10px;
@@ -57,48 +58,41 @@ const ModalCloseButton = styled(LineButton).attrs(() => ({
   border-radius: 9999px;
   border-width: 2px;
 
-  background-color: white;
+  background-color: transparent;
 
   /* make the button as round as possible */
   padding: 7px 10px;
   line-height: 0;
-`;
+`
 
-const AbstractModal = ({
-  data, visible, handleClickClose, timezone,
-}) => {
+const AbstractModal = ({ data, visible, handleClickClose, timezone }) => {
   // allow closing modal by pressing ESC
-  const escPress = useKeyPress('Escape');
-  const memoizedCloseModal = useCallback(() => handleClickClose(), [handleClickClose]);
+  const escPress = useKeyPress("Escape")
+  const memoizedCloseModal = useCallback(() => handleClickClose(), [
+    handleClickClose,
+  ])
 
   useEffect(() => {
     if (escPress) {
-      memoizedCloseModal();
+      memoizedCloseModal()
     }
-  }, [escPress, memoizedCloseModal]);
+  }, [escPress, memoizedCloseModal])
 
   // add google calendar sync button
   // style author-coauthors
   // add abstract label (bold)
-  return visible
-    ? (
-      <Container>
-        <GlobalStyle />
-        <Modal>
-          <ModalCloseButton
-            onClick={handleClickClose}
-          >
-            <Fa size="lg" icon="times" />
-          </ModalCloseButton>
-          <AbstractDetail
-            data={data}
-            timezone={timezone}
-          />
-        </Modal>
-      </Container>
-    )
-    : null;
-};
+  return visible ? (
+    <Container>
+      <GlobalStyle />
+      <Modal>
+        <ModalCloseButton onClick={handleClickClose}>
+          <Fa size="lg" icon="times" />
+        </ModalCloseButton>
+        <AbstractDetail data={data} timezone={timezone} />
+      </Modal>
+    </Container>
+  ) : null
+}
 
 AbstractModal.propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -108,11 +102,11 @@ AbstractModal.propTypes = {
     abstract: PropTypes.string,
   }),
   timezone: PropTypes.string.isRequired,
-};
+}
 
 AbstractModal.defaultProps = {
   handleClickClose: () => {},
   data: {},
-};
+}
 
-export default AbstractModal;
+export default AbstractModal

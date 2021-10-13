@@ -2,19 +2,10 @@
 import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons"
 import PropTypes from "prop-types"
 import React, { useState } from "react"
-import styled from "styled-components"
 import useValidateRegistration from "../../hooks/useValidateRegistration"
-import { LineButton } from "../BaseComponents/Buttons"
+import { ButtonsContainer, LineButton } from "../BaseComponents/Buttons"
 import { CheckboxContainer, ControlledCheckbox } from "../FormComponents"
 import { Spinner, SpinnerContainer } from "./SpinnerComponents"
-
-const SubmitButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 15px;
-`
 
 const WaivingForm = ({ onConfirmWaive, onCancel, isConfirmingWaiving }) => {
   const [certified, setCertified] = useState(false)
@@ -54,11 +45,11 @@ const WaivingForm = ({ onConfirmWaive, onCancel, isConfirmingWaiving }) => {
         ) : (
           <label>
             I certify that I&apos;ve asked my advisor or supervisor that my lab
-            orcompany cannot pay for this conference fee.
+            or company cannot pay for this conference fee.
           </label>
         )}
       </CheckboxContainer>
-      <SubmitButtonContainer>
+      <ButtonsContainer>
         {isConfirmingWaiving ? (
           <SpinnerContainer>
             <Spinner />
@@ -86,7 +77,7 @@ const WaivingForm = ({ onConfirmWaive, onCancel, isConfirmingWaiving }) => {
             </LineButton>
           </>
         )}
-      </SubmitButtonContainer>
+      </ButtonsContainer>
     </div>
   )
 }

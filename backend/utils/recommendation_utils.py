@@ -10,11 +10,7 @@ from elasticsearch import Elasticsearch
 
 np.random.seed(seed=126)  # apply seed for exploration sampling
 
-es = Elasticsearch(
-    [
-        {"host": "localhost", "port": 9200},
-    ]
-)
+es = Elasticsearch([{"host": "localhost", "port": 9200},])
 
 
 def get_abstract(index: str = "agenda-2020-1", id: str = "1"):
@@ -114,10 +110,7 @@ def generate_recommendations(
 
 
 def generate_personalized_recommendations(
-    submission_ids: list,
-    data: list,
-    index: str,
-    nbrs_model: NearestNeighbors = None,
+    submission_ids: list, data: list, index: str, nbrs_model: NearestNeighbors = None,
 ):
     """
     Generate personalized recommendations
@@ -140,6 +133,8 @@ def generate_personalized_recommendations(
     rec_submissions = generate_recommendations(
         submission_ids, data, index, nbrs_model, n_recommend=None, abstract_info=True
     )
+    if len(rec_submissions) == 0:
+        return []
     rec_submissions_df = pd.DataFrame(rec_submissions)
     rec_submissions_df["starttime_sort"] = pd.to_datetime(rec_submissions_df.starttime)
 

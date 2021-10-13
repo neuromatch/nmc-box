@@ -30,32 +30,115 @@ const meetingPlatformChoices = [
   "Go To Meeting",
 ]
 
+export const defaultOptionalFields = {
+  google_scholar: "",
+  personal_page: "",
+  collaboration_score: "0.5",
+  computational_score: "0.5",
+  meeting_platform: [],
+  abstracts: [],
+  coi: "",
+  participate_mind_match: false,
+  participate_grouped_mind: false,
+}
+
+const defaultOptionalCheckers = {
+  google_scholar: "",
+  personal_page: "",
+  collaboration_score: "0.5",
+  computational_score: "0.5",
+  meetingPlatformSelect: [],
+  // a bit hacky here as there is no way to have default text as none
+  abstracts: [""],
+  coi: "",
+}
+
 // -- FUNCTIONS
 const createArrayWithNumbers = length => Array.from({ length }, (_, k) => k + 1)
 
 // -- MAIN
 const MindMatchingModule = ({
-  abstracts,
-  formControl: { register, control, setValue, errors },
-  isOptedOut,
-  optOutWarning,
+  prevUserData,
+  onOptedOutChange,
+  formControl: { register, control, setValue, errors, watch, getValues },
 }) => {
+  // warning is true only when there is some data in the optional fields
+  const [isOptedOut, setIsOptedOut] = useState(false)
+  const [optOutWarning, setOptOutWarning] = useState(false)
   const [numberOfAbstract, setNumberOfAbstract] = useState(1)
 
+  const watchOptIns = watch([
+    "participate_mind_match",
+    // 'participate_grouped_mind',
+  ])
+
+  // side effect to track opt-in checkbox
   useEffect(() => {
-    if (abstracts) {
-      setNumberOfAbstract(abstracts.length)
+    // isOptedOut is determined by 2 checkboxes
+    const currentOptedOutStatus = Object.entries(watchOptIns).every(
+      ([_, v]) => v === false
+    )
+    setIsOptedOut(currentOptedOutStatus)
+    onOptedOutChange(currentOptedOutStatus)
+
+    const optionalFields = getValues({ nest: true })
+
+    // check if any optional field is filled
+    const someIsFilled = Object.entries(defaultOptionalCheckers).some(
+      ([k, v]) => JSON.stringify(optionalFields[k]) !== JSON.stringify(v)
+    )
+
+    if (someIsFilled) {
+      setOptOutWarning(true)
+    } else {
+      setOptOutWarning(false)
     }
-  }, [abstracts])
+  }, [getValues, onOptedOutChange, watchOptIns])
+
+  useEffect(() => {
+    let isActive = true
+
+    if (prevUserData && isActive) {
+      // check if any of the prev optional field has value, if found even one
+      // do not disable optional fields
+      Object.entries(prevUserData).some(([key, val]) => {
+        // check only those optional fields
+        if (Object.keys(defaultOptionalFields).includes(key)) {
+          // in case of string
+          if (!Array.isArray(val) && defaultOptionalFields[key] !== val) {
+            setIsOptedOut(false)
+            return true
+          }
+          // in case of array
+          if (Array.isArray(val) && val.length > 0) {
+            setIsOptedOut(false)
+            return true
+          }
+        }
+
+        return false
+      })
+    }
+
+    return () => {
+      isActive = false
+    }
+  }, [prevUserData])
+
+  useEffect(() => {
+    if (prevUserData?.abstracts?.length > 0) {
+      setNumberOfAbstract(prevUserData.abstracts.length)
+    }
+  }, [prevUserData.abstracts])
 
   // set abstracts and cois when they are rerendered
   useEffect(() => {
-    if (abstracts) {
-      abstracts.forEach((x, ind) => {
+    if (prevUserData?.abstracts) {
+      prevUserData.abstracts.forEach((x, ind) => {
         setValue(`abstracts[${ind}]`, x)
       })
     }
-  }, [abstracts, setValue, numberOfAbstract])
+  }, [prevUserData.abstracts, setValue, numberOfAbstract])
 
   return (
     <>
@@ -241,9 +324,7 @@ const MindMatchingModule = ({
             the un-conference. We will try best not to match you with person you
             already know.
           </InstructionText>
-          <SubLabel>
-            Please separate each name with ;
-          </SubLabel>
+          <SubLabel>Please separate each name with ;</SubLabel>
           <input
             type="text"
             placeholder="name1, affiliation1; name2, affiliation2; ..."
@@ -258,19 +339,26 @@ const MindMatchingModule = ({
 }
 
 MindMatchingModule.propTypes = {
-  abstracts: PropTypes.arrayOf(PropTypes.string),
+  prevUserData: PropTypes.shape({
+    abstracts: PropTypes.arrayOf(PropTypes.string),
+    coi: PropTypes.string,
+    collaboration_score: PropTypes.string,
+    computational_score: PropTypes.string,
+    google_scholar: PropTypes.string,
+    meeting_platform: PropTypes.arrayOf(PropTypes.string),
+    participate_grouped_mind: PropTypes.bool,
+    participate_mind_match: PropTypes.bool,
+    personal_page: PropTypes.string,
+  }).isRequired,
   formControl: PropTypes.shape({
     register: PropTypes.func,
     control: PropTypes.object,
     setValue: PropTypes.func,
     errors: PropTypes.object,
+    watch: PropTypes.func,
+    getValues: PropTypes.func,
   }).isRequired,
-  isOptedOut: PropTypes.bool.isRequired,
-  optOutWarning: PropTypes.bool.isRequired,
-}
-
-MindMatchingModule.defaultProps = {
-  abstracts: null,
+  onOptedOutChange: PropTypes.func.isRequired,
 }
 
 export default MindMatchingModule

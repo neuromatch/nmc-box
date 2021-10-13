@@ -41,6 +41,19 @@ function useAPI() {
       },
       [idToken]
     ),
+    editProfile: useCallback(
+      data => {
+        return fetch(endpoints.user, {
+          method: "PUT",
+          headers: {
+            ...contentTypeHeader,
+            ...authHeader(idToken),
+          },
+          body: JSON.stringify(data),
+        })
+      },
+      [idToken]
+    ),
     getUserData: useCallback(() => {
       // this one always return 401 at first because it is called
       // on mounted in useValidateRegistration
@@ -129,6 +142,16 @@ function useAPI() {
     getAbstractsForBrowser: useCallback(
       ({ edition, qParams }) => {
         return fetch(`${endpoints.abstract}/${edition}${qParams}`, {
+          headers: {
+            ...authHeader(idToken),
+          },
+        })
+      },
+      [idToken]
+    ),
+    getPaginatedAbstractsForBrowser: useCallback(
+      ({ next }) => {
+        return fetch(next, {
           headers: {
             ...authHeader(idToken),
           },

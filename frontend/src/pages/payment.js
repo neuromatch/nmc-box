@@ -4,7 +4,10 @@ import { loadStripe } from "@stripe/stripe-js"
 import { navigate } from "gatsby"
 import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import { LineButton } from "../components/BaseComponents/Buttons"
+import {
+  ButtonsContainer,
+  LineButton,
+} from "../components/BaseComponents/Buttons"
 import LoadingView from "../components/BaseComponents/LoadingView"
 import Toast, { toastTypes } from "../components/BaseComponents/Toast"
 import Layout from "../components/layout"
@@ -37,22 +40,16 @@ const ModalContentContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: #fff;
+  /* color: ${p => p.theme.colors.black}; */
+  background-color: ${p => p.theme.colors.primary};
+  border: 1px solid ${p => p.theme.colors.secondary};
   max-width: 480px;
   border-radius: 4px;
   padding: 20px;
 
-  -webkit-box-shadow: 2px 2px 10px 0px rgba(25, 25, 25, 0.65);
-  -moz-box-shadow: 2px 2px 10px 0px rgba(25, 25, 25, 0.65);
-  box-shadow: 2px 2px 10px 0px rgba(25, 25, 25, 0.65);
-`
-
-const SubmitButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 50px;
+  -webkit-box-shadow: 2px 2px 10px 0px ${p => p.theme.colors.secondary};
+  -moz-box-shadow: 2px 2px 10px 0px ${p => p.theme.colors.secondary};
+  box-shadow: 2px 2px 10px 0px ${p => p.theme.colors.secondary};
 `
 
 export default () => {
@@ -228,20 +225,20 @@ export default () => {
         <h2>Payment</h2>
         {prevUserData?.public === true ? (
           <p>
-            The conference is open for free to the general public, but if you do
-            feel able to contribute 25 USD to help cover our streaming costs and
-            organise future events, that would be a great help. If not, feel
-            free to just tick the button to waive the fee and no need to worry.
-            We are really happy to have you here!
+            The Neuromatch Conference is open for free to the general public,
+            but if you do feel able to contribute 15 USD to help cover our
+            streaming costs and organise future events, that would be a great
+            help. If not, feel free to just tick the button to waive the fee and
+            no need to worry. We are really happy to have you here!
           </p>
         ) : (
           <p>
-            In this neuromatch conference, we are expecting the scale to be much
-            larger, so we need to cover streaming costs (none of the organizers
-            are being paid for our time). However, it will be free for anyone
-            who cannot pay. If you can afford to pay the conference fees, we
-            would encourage you to pay us below. Otherwise, please request
-            waiving below if you are not from a well-funded lab or a well-funded
+            At Neuromatch Conference, we need to cover streaming costs and tech
+            infrastructure such as our server. None of the organizers are being
+            paid for our time. However, it will be free for anyone who cannot
+            pay. If you can afford to pay the conference fees, we would
+            encourage you to pay us below. Otherwise, please request waiving
+            below if you are not from a well-funded lab or a well-funded
             company. This payment will make our conference sustains better in
             the long run.
           </p>
@@ -259,9 +256,8 @@ export default () => {
         ) : (
           // if wait for payment, show buttons
           <>
-            <SubmitButtonContainer>
+            <ButtonsContainer>
               <LineButton
-                color="#222"
                 onClick={() => {
                   setModalContent("payment")
                   setModalVisible(true)
@@ -270,7 +266,6 @@ export default () => {
                 {`Pay fee (${paymentAmount / 100} USD)`}
               </LineButton>
               <LineButton
-                color="#222"
                 onClick={() => {
                   setModalContent("waiving")
                   setModalVisible(true)
@@ -278,7 +273,7 @@ export default () => {
               >
                 Request waiving
               </LineButton>
-            </SubmitButtonContainer>
+            </ButtonsContainer>
           </>
         )}
       </Layout>

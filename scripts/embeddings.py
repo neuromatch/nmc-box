@@ -1,5 +1,5 @@
 """
-Transform text to embeddings using 
+Transform text to embeddings using
 Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
 
 Usage:
@@ -91,7 +91,7 @@ def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE, n_components
             embeddings.extend(result.last_hidden_state[:, 0, :])
         embeddings = [emb.tolist() for emb in embeddings]
         paper_embeddings = [
-            {"submission_id": pid, "embedding": embedding}
+            {"submission_id": str(pid), "embedding": embedding}
             for pid, embedding in zip(df.submission_id, embeddings)
         ]
     elif option == "lsa":
@@ -111,7 +111,7 @@ def calculate_embeddings(df, option="lsa", n_papers=MAX_BATCH_SIZE, n_components
         X_tfidf = tfidf_model.fit_transform(papers)
         X_topic = topic_model.fit_transform(X_tfidf)
         paper_embeddings = [
-            {"submission_id": pid, "embedding": list(embedding)}
+            {"submission_id": str(pid), "embedding": list(embedding)}
             for pid, embedding in zip(df.submission_id, X_topic)
         ]
     else:
