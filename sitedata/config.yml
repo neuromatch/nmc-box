@@ -1,24 +1,20 @@
 # Overall information about the conference
-name: Neuromatch Conference
+name: Neuromatch Conference Box
 current_edition: 2021-4
-subtitle: A conference for the computational neuroscience community
-description: "After three conferences in 2020, Neuromatch is pleased to be holding\
-  \ our fourth. Each of our conferences has led the way in providing new innovations\
-  \ to the virtual conference space, and with this one we are pleased to combine the\
-  \ virtual with the in-person experiences. Participants are encouraged to host or attend\
-  \ a local meetup, bringing people together to enjoy the conference in hybrid mode,\
-  \ and without the incredible economic and environmental costs of flying around the world.\
-  \ __newline__ \
-  Neuromatch 4.0 will be focused on Computational Neuroscience broadly construed,\
-  \ following in the model of the first two NMC events. The scope includes machine\
-  \ learning work that has an explicit biological link. The main series of talks\
-  \ will be hosted within Crowdcast. Instead of posters, we offer flash talks,\
-  \ which are brief pre-recorded videos, and dedicated meet up times for discussion\
-  \ within discord.
+subtitle: A Demo Website for Neuromatch Conference (NMC), NMC Box
+description: "Neuromatch Conference (NMC) held multiple virtual conferences during the COVID\
+  \ pandemic. Each of our conferences has led the way in providing new innovations\
+  \ to the virtual conference space. Many scientific conferences adopted our pipeline and\
+  \ framework to their own conferences. However, to date, most organizers have to develop\
+  \ their own tech stack for organizing the virtual conference. Here, we provide our framework\
+  \ for organizing Neuromatch Conference, Neuromatch Conference (in a) Box.\
+  \ We hope that other organizers, not limited to neuroscientists, can adapt our code\
+  \ to create their own virtual conferences in the future.
 "
 
-# Find TZ database name here
+# Find TZ name here
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# We use the TZ to parse information for each conference
 main_timezone: America/New_York
 
 # Theme can be selected between light or dark, and accent control color
@@ -113,23 +109,23 @@ editions:
       - room 9
   - edition: 2021-4
     edition_name: "4.0"
-    page_title: neuromatch 4.0
+    page_title: neuromatch box
     registration_date:
-      text: Anytime before December 2, 2021
+      text: Anytime since this is a demo website
       start: null
-      end: December 2, 2020
+      end: null
     submission_date:
-      text: October 25, 2021
+      text: Anytime, try submitting abstract below your profile
       start: null
-      end: October 25, 2021
+      end: null
     main_conference:
-      text: December 1 - 2, 2021
-      start: December 1, 2021
-      end: December 2, 2021
+      text: Put main conference text in config file
+      start: null
+      end: null
     event_time:
       start: "07:00"
       end: "21:00"
-    twitter_hashtag: nmc4
+    twitter_hashtag: nmcbox
     tracks:
       - main
       - A

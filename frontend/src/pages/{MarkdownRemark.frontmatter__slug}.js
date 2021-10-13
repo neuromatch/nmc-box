@@ -1,7 +1,17 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
-import styled from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
+import { basedStyles } from "../styles"
+
+const GlobalStyles = createGlobalStyle`
+  ${basedStyles.simpleTableStyle}
+  /* overwrite basedStyles to keep table of markdown align to the left */
+  table {
+    margin-left: 0;
+    margin-right: 0;
+  }
+`
 
 const MarkdownContainer = styled.div`
   /* image style */
@@ -21,10 +31,9 @@ export default function Template({
   const { frontmatter, html } = markdownRemark
   return (
     <Layout>
+      <GlobalStyles />
       <h2>{frontmatter.title}</h2>
-      <MarkdownContainer
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <MarkdownContainer dangerouslySetInnerHTML={{ __html: html }} />
     </Layout>
   )
 }

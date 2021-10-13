@@ -31,7 +31,7 @@ const ThemeProvider = ({ children }) => {
     body {
       background-color: ${p => p.theme.colors.primary};
 
-      h1, h2, h3, h4, h5, h6, label, summary {
+      h1, h2, h3, h4, h5, h6, label, summary, th, thead {
         color: ${p => p.theme.colors.secondary};
       }
 
@@ -53,10 +53,23 @@ const ThemeProvider = ({ children }) => {
         text-decoration: underline;
       }
 
-      p, span, dl, ul, ol {
+      p, span, dl, ul, ol, td, tbody {
         /* slightly dimmer */
         color: ${p =>
           color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
+      }
+
+      code {
+        font-family: 'Roboto Mono', monospace;
+
+        &:not(pre *) {
+          background-color: ${p =>
+            color.transparentize(p.theme.colors.secondary, 0.15)};
+          border: 1px solid ${p => p.theme.colors.accent};
+          border-radius: 4px;
+
+          padding: 1px 4px;
+        }
       }
     }
   `

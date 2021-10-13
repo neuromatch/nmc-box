@@ -17,6 +17,12 @@ moragaTheme.googleFonts = [
       300, 400, 600,
     ],
   },
+  {
+    name: 'Roboto Mono',
+    styles: [
+      300, 400,
+    ],
+  },
 ];
 moragaTheme.overrideThemeStyles = ({ rhythm }) => ({
   'h3': {

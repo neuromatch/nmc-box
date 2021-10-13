@@ -192,6 +192,18 @@ function useAPI() {
       },
       [idToken]
     ),
+    /**
+     * @description this endpoint is implemented specifically for ACML website
+     */
+    getSchoolSchedule: useCallback(() => {
+      return idToken
+        ? fetch("/api/school/schedule", {
+            headers: {
+              ...authHeader(idToken),
+            },
+          })
+        : null
+    }, [idToken]),
   }
 }
 

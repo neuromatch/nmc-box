@@ -1,4 +1,4 @@
-import logger from './logger';
+import logger from "./logger"
 
 /**
  * @typedef ColorObj
@@ -13,20 +13,23 @@ import logger from './logger';
  */
 function parse(colorString) {
   // validate the input pattern
-  const valid = colorString.match(/^#?(?<hex>[0-9a-fA-F]{3,8})$|^rgba?\((?<r>[0-9]{1,3}),\s?(?<g>[0-9]{1,3})\s?,(?<b>[0-9]{1,3})\s?(,(?<a>0|1|0\.[0-9]{0,4}|1\.0{0,4}))?\)$/);
+  const valid = colorString.match(
+    /^#?(?<hex>[0-9a-fA-F]{3,8})$|^rgba?\((?<r>[0-9]{1,3}),\s?(?<g>[0-9]{1,3})\s?,(?<b>[0-9]{1,3})\s?(,(?<a>0|1|0\.[0-9]{0,4}|1\.0{0,4}))?\)$/
+  )
 
   // doesn't match anything
   if (!valid) {
-    logger.warn(parse.name, `colorString does not match the support pattern (${colorString})`);
-    return null;
+    logger.warn(
+      parse.name,
+      `colorString does not match the support pattern (${colorString})`
+    )
+    return null
   }
 
-  let rgba;
+  let rgba
 
   if (valid) {
-    const {
-      hex, r, g, b, a,
-    } = valid.groups;
+    const { hex, r, g, b, a } = valid.groups
 
     if (!hex) {
       rgba = {
@@ -35,31 +38,37 @@ function parse(colorString) {
         g: parseInt(g, 10),
         b: parseInt(b, 10),
         a: parseFloat(a),
-      };
+      }
     }
 
     if (!a) {
-      rgba = { ...rgba, a: 1 };
+      rgba = { ...rgba, a: 1 }
     }
 
     if (hex) {
-      let parsedHex;
+      let parsedHex
       // convert 3 or 4 to 6 or 8
       if (hex.length === 3 || hex.length === 4) {
-        parsedHex = hex.split('').map((x) => x.repeat(2)).join('');
+        parsedHex = hex
+          .split("")
+          .map(x => x.repeat(2))
+          .join("")
       }
 
       if (hex.length === 6 || hex.length === 8) {
-        parsedHex = hex;
+        parsedHex = hex
       }
 
       if (!parsedHex) {
-        logger.warn(parse.name, `colorString does not match the support pattern (${colorString})`);
-        return null;
+        logger.warn(
+          parse.name,
+          `colorString does not match the support pattern (${colorString})`
+        )
+        return null
       }
 
       if (parsedHex.length === 6) {
-        parsedHex = `${parsedHex}FF`;
+        parsedHex = `${parsedHex}FF`
       }
 
       rgba = {
@@ -68,11 +77,11 @@ function parse(colorString) {
         g: parseInt(parsedHex.slice(2, 4), 16),
         b: parseInt(parsedHex.slice(4, 6), 16),
         a: Math.round((parseInt(parsedHex.slice(6, 8), 16) / 255) * 100) / 100,
-      };
+      }
     }
   }
 
-  return rgba;
+  return rgba
 }
 
 /**
@@ -97,49 +106,58 @@ function parse(colorString) {
  * @returns {string|null} formatted color string
  */
 function format(color, formatter) {
-  let parsed;
+  let parsed
 
-  if (typeof color === 'string') {
-    parsed = parse(color);
+  if (typeof color === "string") {
+    parsed = parse(color)
   }
 
   if (
-    typeof color === 'object'
-    && ['r', 'g', 'b', 'a'].every(((prop) => Object.prototype.hasOwnProperty.call(color, prop)))
+    typeof color === "object" &&
+    ["r", "g", "b", "a"].every(prop =>
+      Object.prototype.hasOwnProperty.call(color, prop)
+    )
   ) {
-    if (['r', 'g', 'b'].every((prop) => Number.isInteger(color[prop]))
-    && typeof color.a === 'number') {
-      parsed = color;
+    if (
+      ["r", "g", "b"].every(prop => Number.isInteger(color[prop])) &&
+      typeof color.a === "number"
+    ) {
+      parsed = color
     }
   }
 
   if (!parsed) {
-    logger.warn(format.name, `incorrect color input format (${JSON.stringify(color)})`);
-    return null;
+    logger.warn(
+      format.name,
+      `incorrect color input format (${JSON.stringify(color)})`
+    )
+    return null
   }
 
   if (formatter) {
-    return formatter(parsed);
+    return formatter(parsed)
   }
 
-  return `rgba(${parsed.r},${parsed.g},${parsed.b},${parsed.a})`;
+  return `rgba(${parsed.r},${parsed.g},${parsed.b},${parsed.a})`
 }
 
 // an only formatter available now
 function hexFormatter(parsed) {
   // https://www.w3schools.com/lib/w3color.js
   function toHex(n) {
-    let hex = n.toString(16);
-    while (hex.length < 2) {hex = "0" + hex; }
-    return hex;
+    let hex = n.toString(16)
+    while (hex.length < 2) {
+      hex = "0" + hex
+    }
+    return hex
   }
 
-  const r = toHex(parsed.r);
-  const g = toHex(parsed.g);
-  const b = toHex(parsed.b);
+  const r = toHex(parsed.r)
+  const g = toHex(parsed.g)
+  const b = toHex(parsed.b)
 
-  return `#${r}${g}${b}`;
-};
+  return `#${r}${g}${b}`
+}
 
 /**
  * contrast - a function to find contrast color, especially useful for finding
@@ -150,17 +168,17 @@ function hexFormatter(parsed) {
  * @see https://24ways.org/2010/calculating-color-contrast/
  */
 function contrast(colorString) {
-  const parsed = parse(colorString);
+  const parsed = parse(colorString)
 
   if (!parsed) {
-    logger.warn(contrast.name, `incorrect color input format ${colorString}`);
-    return null;
+    logger.warn(contrast.name, `incorrect color input format ${colorString}`)
+    return null
   }
 
-  const { r, g, b } = parsed;
-  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  const { r, g, b } = parsed
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000
 
-  return yiq >= 128 ? format('#000') : format('#fff');
+  return yiq >= 128 ? format("#000") : format("#fff")
 }
 
 /**
@@ -171,33 +189,33 @@ function contrast(colorString) {
  * @returns {string} a string of scaled color (in rgba format)
  */
 function scale(colorString, scalePercent = 100) {
-  const parsed = parse(colorString);
+  const parsed = parse(colorString)
 
   if (!parsed) {
-    logger.warn(scale.name, `incorrect color input format (${colorString})`);
-    return null;
+    logger.warn(scale.name, `incorrect color input format (${colorString})`)
+    return null
   }
 
-  const scaler = (origin) => {
-    const scaled = Number(origin) + ((scalePercent * 255) / 100);
+  const scaler = origin => {
+    const scaled = Number(origin) + (scalePercent * 255) / 100
 
     if (scaled > 255) {
-      return 255;
+      return 255
     }
 
     if (scaled < 0) {
-      return 0;
+      return 0
     }
 
-    return Math.round(scaled);
-  };
+    return Math.round(scaled)
+  }
 
   return format({
     ...parsed,
     r: scaler(parsed.r),
     g: scaler(parsed.g),
     b: scaler(parsed.b),
-  });
+  })
 }
 
 /**
@@ -206,22 +224,25 @@ function scale(colorString, scalePercent = 100) {
  * @param {number} [alpha=1] - alpha to be adjusted (float with range 0 to 1)
  */
 function transparentize(colorString, alpha = 1) {
-  const parsed = parse(colorString);
+  const parsed = parse(colorString)
 
   if (!parsed) {
-    logger.warn(transparentize.name, `incorrect color input format (${colorString})`);
-    return null;
+    logger.warn(
+      transparentize.name,
+      `incorrect color input format (${colorString})`
+    )
+    return null
   }
 
   if (alpha < 0 || alpha > 1) {
-    console.warn('[color.transparentize] alpha must be in range of 0 to 1');
-    return null;
+    console.warn("[color.transparentize] alpha must be in range of 0 to 1")
+    return null
   }
 
   return format({
     ...parsed,
     a: alpha,
-  });
+  })
 }
 
 export default {
@@ -231,4 +252,4 @@ export default {
   scale,
   transparentize,
   hexFormatter,
-};
+}

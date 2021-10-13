@@ -65,24 +65,24 @@ const sponsors = [
     text: "UC Irvine",
   },
   {
-    dark: require('../../static/logos/sponsors/dark/leiden-logo.png'),
-    light: require('../../static/logos/sponsors/light/leiden-logo.png'),
-    text: 'University of Leiden',
+    dark: require("../../static/logos/sponsors/dark/leiden-logo.png"),
+    light: require("../../static/logos/sponsors/light/leiden-logo.png"),
+    text: "University of Leiden",
   },
   {
-    dark: require('../../static/logos/sponsors/dark/uw-logo.png'),
-    light: require('../../static/logos/sponsors/light/uw-logo.png'),
-    text: 'University College London',
+    dark: require("../../static/logos/sponsors/dark/uw-logo.png"),
+    light: require("../../static/logos/sponsors/light/uw-logo.png"),
+    text: "University College London",
   },
   {
-    dark: require('../../static/logos/sponsors/dark/ucl-logo.png'),
-    light: require('../../static/logos/sponsors/light/ucl-logo.png'),
-    text: 'University of Washington',
+    dark: require("../../static/logos/sponsors/dark/ucl-logo.png"),
+    light: require("../../static/logos/sponsors/light/ucl-logo.png"),
+    text: "University of Washington",
   },
   {
-    dark: require('../../static/logos/sponsors/dark/mahidol-logo.png'),
-    light: require('../../static/logos/sponsors/light/mahidol-logo.png'),
-    text: 'Mahidol University',
+    dark: require("../../static/logos/sponsors/dark/mahidol-logo.png"),
+    light: require("../../static/logos/sponsors/light/mahidol-logo.png"),
+    text: "Mahidol University",
   },
 ]
 
@@ -244,19 +244,23 @@ export default () => {
         <section>
           <h3>{subtitle}</h3>
           {/* a little hack here */}
-          {description?.split('__newline__').map(x => <p key={x.substring(0, 15)}>{x}</p>)}
+          {description?.split("__newline__").map(x => (
+            <p key={x.substring(0, 15)}>{x}</p>
+          ))}
         </section>
         <hr />
         <section>
           <h3>Registration &amp; Submission</h3>
           <p>
+            <TopicHeading>Instructions</TopicHeading>
+            Check out <Link to="instructions/how-to-run">how to run</Link> page
+            for project structures and how to run the website.
+            <br />
             <TopicHeading>Registration date</TopicHeading>
             {registrationDate}
             <br />
             <TopicHeading>Submission deadline</TopicHeading>
             {submissionDate}
-            {" | "}
-            We welcome all abstracts from the computational science field.
             <br />
             <TopicHeading>Main Conference</TopicHeading>
             {mainConfDate}
@@ -265,27 +269,26 @@ export default () => {
             Available on <Link to="/agenda">Agenda</Link>
             {" | "}
             <Link to="/abstract-browser">Abstract Browser</Link>
-            {" (TBD)"}
             <br />
             <TopicHeading>Registration Fees</TopicHeading>
-            $15 | A fee waiver is available | Pay after registration on
-            {" "}
-            <Link to="/payment">payment page</Link>
+            $0 | This is a demo | A fee waiver is available | Pay after
+            registration on <Link to="/payment">payment page</Link>
             <br />
-            <TopicHeading>Local meetups</TopicHeading>
-            Coming soon! Host your local meetups | Join local meetups near you
-            {" "}
-            <br />
-            <TopicHeading>Kid sessions</TopicHeading>
-            Inaugural session for kids. This will consist of three talks aimed at a younger
-            audience interested in neuroscience.
-            {" "}
+            <TopicHeading>Github</TopicHeading>{" "}
+            <Link to="https://github.com/neuromatch/nmc-box">
+              github.com/neuromatch/nmc-box
+            </Link>
             <br />
             <Fa icon={["fab", "twitter"]} />
             {" · @neuromatch with "}
-            <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/hashtag/${twitterHashtag}`}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://twitter.com/hashtag/${twitterHashtag}`}
+            >
               #{twitterHashtag}
             </a>
+            {" if you use our code at your conference!"}
           </p>
         </section>
       </MainBlock>

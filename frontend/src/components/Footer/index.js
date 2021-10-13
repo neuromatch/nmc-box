@@ -49,9 +49,9 @@ const Footer = () => (
       {"by "}
       <StyledLink href="https://neuromatch.io/">NMC organizers</StyledLink>
       <br />
-      <StyledLink to="https://neuromatch.io/terms-of-use">
+      <Link to="/terms-of-use">
         Terms of Use | Code of Conduct
-      </StyledLink>
+      </Link>
     </StyledFooterText>
   </StyledFooter>
 )

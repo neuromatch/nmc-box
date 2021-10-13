@@ -1,38 +1,28 @@
-# Neuromatch Conference in a Box
+---
+title: "Install and deploy"
+slug: "/instructions/how-to-run"
+---
 
-Neuromatch Conference (NMC) held multiple virtual conferences during the COVID pandemic.
-Each of our conferences has led the way in providing new innovations to the virtual conference space.
-Many scientific conferences adopted our pipeline and framework to their own conferences.
-However, to date, most organizers have to develop their own tech stack for organizing the virtual conference.
-Here, we provide our framework for organizing Neuromatch Conference, Neuromatch Conference in a Box (**NMC Box**).
-We hope that other organizers, not limited to neuroscientists, can adapt our code to create their own
-virtual conferences in the future.
+Here, we describe project structures, stacks, and how to run NMC Box.
 
-<img src="images/nmc-box.png" alt="alt text" width="500"/>
-
-## Components
-
-NMC Box provides following functionalities:
-
-- Registration - ask for basic information, search institution with [GRID database](https://www.grid.ac/)
-
-<img src="images/registration.png" alt="alt text" width="300"/>
-
-- Submission - submit abstracts to Airtable
-  - Ask for available times, talk format, theme
-  - Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
-- Search and recommendation engine with infinite scroll design
-- [Mind matching script](https://github.com/titipata/paper-reviewer-matcher), run separately to produce output matches between registered attendees
-
-<img src="images/recommendation.png" alt="alt text" width="400"/>
-
-## Workflow
-
-### Project Structure
+## Project Structure
 
 - Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
 - Frontend: implemented using [ReactJS](https://reactjs.org/)
 - Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
+
+## Components
+
+NMC in-a-box provides some functionalities as follows:
+
+- Registration - ask for basic information and available times during the conference
+- Submission - submit abstracts to Airtable
+  - Ask for available times, talk format, theme
+  - Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
+- Search and recommendation engine with infinite scroll design
+- Mind matching script - run separately to produce output matches between registered attendees
+
+## Workflow
 
 ### Set up environment
 
@@ -51,10 +41,10 @@ There are multiple steps for setting up the environment. We roughly write down a
   for data to be indexed
 - See below for the instructions to set up Firebase authentication and Cloud Firestore.
 
-### Set up backend
+### Set up backend APIs
 
-We have to create embeddings and index talks to elastic search before
-running the web application.
+Before running API, we have put the data, create embeddings (used for recommendation),
+and index them on ElasticSearch.
 
 - First, put data in `sitedata/agenda/*.csv`
 - Change information in `scripts/es_config.yml` where you can put path to CSV files or Airtable ID
@@ -77,14 +67,14 @@ python es_index.py # index
 - Go to `backend` and serve APIs using
 
 ```sh
-uvicorn api:app --reload  # run on port 8000
+uvicorn api:app --reload
 ```
 
 To serve backend with FastAPI library.
 
 ### Set up frontend
 
-Download `Node` and `Gatsby`. Then run the following scripts in `frontend`:
+Download Node and Gatsby. Then run the following scripts in `frontend`:
 
 ```sh
 npm install
@@ -95,7 +85,7 @@ gatsby develop && gatsby serve --port 4000
 
 We use Firebase for authentication and Cloud Firestore for storing user data and their preferences (votes).
 You can set up authentication and Cloud Firestore on [Firebase](https://firebase.google.com/).
-We use Airtable to recieive our submission (submission, follow by review process, filter, show in recommendation).
+We use Airtable to receive our submission (submission, follow by review process, filter, show in recommendation).
 Here, we list down a general ideas on how to create authentication for the registration.
 
 ### Google authentication

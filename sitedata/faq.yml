@@ -1,16 +1,11 @@
-- question: If I sign up for mind-matching, when will I know my partners?
-  answer: We will put on your matches in https://neuromatch.io/your-matches if you
-    sign up for it. You will see the list around 3 days after the registration ends.
-    You are responsible of contacting your match partners.
-  tag: registration
 - question: How can I register to Neuromatch Conference?
   answer: You can register to Neuromatch conference on the top-right of the page using
     your email, Google account, or Github account. We only ask you to provide basic
-    information for the registration. Please see https://conference.neuromatch.io/instructions/how-to-register.
+    information for the registration.
   tag: registration
 - question: 'Does the conference have submission fee?'
-  answer: Yes ($15, waivable). You can pay the fee after registration at Payment page
-    located under your profile.
+  answer: No, this is a demo page. You should not pay for this conference.
+    You can pay the fee after registration at Payment page located under your profile.
   tag: registration
 - question: 'Can the registration fee be waived?'
   answer: Yes, if you cannot pay the registration fee for any reason, then you do
@@ -23,12 +18,6 @@
     section. Alternatively, if you're an undergraduate  student as well as as research
     assistant, you may identify yourself as "Research Assistant".
   tag: registration
-- question: How much do I need to pay for the conference?
-  answer: The cost for the conference is $15 but you can always sign a waiver form
-    if you are not from a well-funded lab. You don't have to prove us if you cannot
-    pay for the conference. However, if you can pay for the conference, it will help
-    us a lot to keep sustaining the neuromatch conference in the future.
-  tag: registration
 - question: Can I register/attend if I am not submitting an abstract?
   answer: Yes! You do not need to submit an abstract to participate in Neuromatch
     Conference
@@ -38,35 +27,10 @@
   answer: Credit cards are processed through the secure Stripe service; see [Stripe](https://stripe.com/docs/security/stripe)
     for information on encryption and security of financial information.
   tag: other
-- question: Will these abstracts be published in any kind of journal?
-  answer: "Unfortunately that's not something we are able to do at this point, though\
-    \ we are always looking for ways to innovate."
-  tag: submission
-- question: When will I know my schedule after I submit my abstract?
-  answer: This will be around a few weeks after the submissions. We will put your
-    schedule on our site for you to check. We will allow you to swap your presentation
-    time slot if it does not work best for you.
-  tag: submission
-- answer: "If you think some references are absolutely crucial you may include them,\
-    \ but try to avoid using them in general. The submission portal will not block\
-    \ you from submitting more than 300 words, so the references will not count against\
-    \ that limit."
-  question: Can I include references in my abstract and will they count against the
-    suggested word limit?
-  tag: submission
-- question: I heard that all talks are accepted, does this mean there is no review?
-  answer: "We will review abstracts only to the extent of verifying that they are\
-    \ scientific in some sense (i.e. not advertisements or otherwise off-target contributions)\
-    \ but there is no peer review in the traditional sense, or filtering for novelty/importance,\
-    \ etc."
-  tag: submission
 - question: Will I receive an email confirmation that I have submitted an abstract?
   answer: 'We do not send an email confirmation, but you can just log back in and
     view your abstract to make sure it was submitted. You can edit the submission
     up until the submission deadline elapses.'
-  tag: submission
-- question: On what time zones do submissions close?
-  answer: 'The last time zone on earth (UTC-12)'
   tag: submission
 - question: I cannot see agenda or abstract browser, what should I do?
   answer: First, try to log in on your top-right if you are not logged-in yet. If

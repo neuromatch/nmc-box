@@ -1,0 +1,32 @@
+## License
+
+This Neuromatch conference dataset provided in this repository is granted by
+Neuromatch (https://neuromatch.io/) and Neuromatch Conference
+(https://conference.neuromatch.io/).
+The dataset remains a property of Neuromatch and Neuromatch Conference.
+Its use and transfer outside this repository, e.g. for redistribution
+or publication, is prohibited without written consent to the organization.
+
+If you have further questions, please contact Neuromatch Conference Organizers
+(nmc@neuromatch.io).
+
+If you reference this dataset after the permission in your publications, please
+cite the following articles (Bibtex is provided):
+
+@article{achakulvisut2021towards,
+title={Towards Democratizing and Automating Online Conferences: Lessons from the Neuromatch Conferences},
+author={Achakulvisut, Titipat and Ruangrong, Tulakan and Mineault, Patrick and Vogels, Tim P and Peters, Megan AK and Poirazi, Panayiota and Rozell, Christopher and Wyble, Brad and Goodman, Dan FM and Kording, Konrad Paul},
+journal={Trends in Cognitive Sciences},
+year={2021},
+publisher={Elsevier}
+}
+
+@article{achakulvisut2020point,
+title={Point of view: Improving on legacy conferences by moving online},
+author={Achakulvisut, Titipat and Ruangrong, Tulakan and Bilgin, Isil and Van Den Bossche, Sofie and Wyble, Brad and Goodman, Dan FM and Kording, Konrad P},
+journal={Elife},
+volume={9},
+pages={e57892},
+year={2020},
+publisher={eLife Sciences Publications Limited}
+}

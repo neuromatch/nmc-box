@@ -327,7 +327,8 @@ def query_params_builder(
     """
 
     def builder(
-        base_endpoint: str, kvs: Optional[tuple] = None,
+        base_endpoint: str,
+        kvs: Optional[tuple] = None,
     ):
         if current_page is not None and total_pages is not None:
             if current_page >= total_pages:
@@ -473,7 +474,11 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [("view", view), ("skip", skip), ("limit", page_size),],
+                        [
+                            ("view", view),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -593,7 +598,11 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [("view", "default"), ("skip", skip), ("limit", page_size),],
+                        [
+                            ("view", "default"),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -724,6 +733,26 @@ async def update_abstract(
         return JSONResponse(status_code=status.HTTP_200_OK)
 
 
+@app.get("/api/school/schedule")
+async def get_school_schedule(
+    edition: str = "2021-4",
+    authorization: Optional[str] = Header(None),
+):
+    """
+    Returns school agenda from Airtable. Current function only
+    return an edition 2021-1 since we made just for ACML 2021.
+    """
+    user_info = get_user_info(authorization)
+    if user_info is not None:
+        table = Table(
+            airtable_key, es_config["editions"][edition]["airtable_id"], "school"
+        )
+        submissions = [r.get("fields") for r in table.all() if len(r.get("fields")) > 0]
+    else:
+        submissions = []
+    return JSONResponse(content={"data": submissions})
+
+
 @app.post("/api/payment/{option}")
 async def update_payment(
     option: str = "check",
@@ -769,7 +798,9 @@ async def update_payment(
                 "amount": amount,
             }
             set_data(
-                payment, user_id, "payment",
+                payment,
+                user_id,
+                "payment",
             )  # create payment
             return JSONResponse(content={"client_secret": session["client_secret"]})
         except Exception as e:
@@ -808,7 +839,9 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={"message": "Your payment was successful!",},
+            content={
+                "message": "Your payment was successful!",
+            },
             status_code=status.HTTP_200_OK,
         )
 
@@ -820,7 +853,9 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={"message": "You payment has been waived.",},
+            content={
+                "message": "You payment has been waived.",
+            },
             status_code=status.HTTP_200_OK,
         )
     else:

@@ -1,5 +1,6 @@
 import momentLocalize from "moment"
 import moment from "moment-timezone"
+import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { Calendar, momentLocalizer, Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -292,13 +293,11 @@ export default () => {
             }}
           />
         </HeadingWithButtonContainer>
-        <p>Join Neuromatch Conference via Crowdcast.</p>
-        <h3>Main Conference</h3>
         <p>
-          The main conference will be happening on{" "}
-          <BoldText>{mainConfDateText}</BoldText> (starts at midnight GMT). The
-          main talks will happen in parallel on Crowdcast. The sessions will
-          always be on and function as a lobby during short talks.
+          This is a demo page for agenda. You can click the gear icon on the
+          top-right corner to see previouse Neuromatch Conference agenda. The
+          main conference will be happening on{" "}
+          <BoldText>{mainConfDateText}</BoldText>.
         </p>
         <ul>
           <li>
@@ -322,9 +321,7 @@ export default () => {
             {" · "}
             We also provide search engine, personal schedule, and recommendation
             engine on our{" "}
-            <a href="https://neuromatch.io/abstract-browser">
-              Abstract Browser page.
-            </a>
+            <Link to="/abstract-browser">Abstract Browser page</Link>.
           </li>
         </ul>
         {isLoading ? (
