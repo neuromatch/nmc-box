@@ -302,16 +302,17 @@ export default () => {
       <Toast ref={dynamicToastControl} />
       <h2>Submission form</h2>
       <p>
-        This is a demo page for submission. We use Airtable to store the submission
-        since we find it easier for organizers to check the submissions
-        or build a page for reviewers. We put submission instructions on
+        This is a demo page for submission. We use Airtable to store the
+        submission since we find it easier for organizers to check the
+        submissions or build a page for reviewers. We put submission
+        instructions on
         <Link to="/instructions/how-to-submit"> how to submit page </Link>
         where attendees can find more information there.
       </p>
       <p>
         We only allow one submission per attendee. An additional submission will
-        replace the former one. Attendees can come back to this page
-        to edit their information.
+        replace the former one. Attendees can come back to this page to edit
+        their information.
       </p>
       {isExpired === true && (
         <p
@@ -476,8 +477,8 @@ export default () => {
                   isSending
                     ? "Submitting.."
                     : currentSubmission
-                      ? "Update"
-                      : "Submit"
+                    ? "Update"
+                    : "Submit"
                 }
                 disabled={isSending}
               />

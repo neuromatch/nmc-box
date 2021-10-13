@@ -327,7 +327,8 @@ def query_params_builder(
     """
 
     def builder(
-        base_endpoint: str, kvs: Optional[tuple] = None,
+        base_endpoint: str,
+        kvs: Optional[tuple] = None,
     ):
         if current_page is not None and total_pages is not None:
             if current_page >= total_pages:
@@ -473,7 +474,11 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [("view", view), ("skip", skip), ("limit", page_size),],
+                        [
+                            ("view", view),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -593,7 +598,11 @@ async def get_abstracts(
                 "links": {
                     "current": query_params_builder()(
                         f"/api/abstract/{edition}",
-                        [("view", "default"), ("skip", skip), ("limit", page_size),],
+                        [
+                            ("view", "default"),
+                            ("skip", skip),
+                            ("limit", page_size),
+                        ],
                     ),
                     "next": query_params_builder(current_page, n_page)(
                         f"/api/abstract/{edition}",
@@ -726,7 +735,8 @@ async def update_abstract(
 
 @app.get("/api/school/schedule")
 async def get_school_schedule(
-    edition: str = "2021-4", authorization: Optional[str] = Header(None),
+    edition: str = "2021-4",
+    authorization: Optional[str] = Header(None),
 ):
     """
     Returns school agenda from Airtable. Current function only
@@ -788,7 +798,9 @@ async def update_payment(
                 "amount": amount,
             }
             set_data(
-                payment, user_id, "payment",
+                payment,
+                user_id,
+                "payment",
             )  # create payment
             return JSONResponse(content={"client_secret": session["client_secret"]})
         except Exception as e:
@@ -827,7 +839,9 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={"message": "Your payment was successful!",},
+            content={
+                "message": "Your payment was successful!",
+            },
             status_code=status.HTTP_200_OK,
         )
 
@@ -839,7 +853,9 @@ async def update_payment(
             collection,
         )
         return JSONResponse(
-            content={"message": "You payment has been waived.",},
+            content={
+                "message": "You payment has been waived.",
+            },
             status_code=status.HTTP_200_OK,
         )
     else:

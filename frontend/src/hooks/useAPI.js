@@ -61,10 +61,10 @@ function useAPI() {
       // if not return null
       return idToken
         ? fetch(endpoints.user, {
-          headers: {
-            ...authHeader(idToken),
-          },
-        })
+            headers: {
+              ...authHeader(idToken),
+            },
+          })
         : null
     }, [idToken]),
     submitAbstract: useCallback(
@@ -131,10 +131,10 @@ function useAPI() {
       ({ edition }) => {
         return idToken
           ? fetch(`${endpoints.preference}/${edition}`, {
-            headers: {
-              ...authHeader(idToken),
-            },
-          })
+              headers: {
+                ...authHeader(idToken),
+              },
+            })
           : null
       },
       [idToken]
@@ -181,13 +181,13 @@ function useAPI() {
       ({ option, payload }) => {
         return idToken
           ? fetch(`${endpoints.payment}/${option}`, {
-            method: "POST",
-            headers: {
-              ...contentTypeHeader,
-              ...authHeader(idToken),
-            },
-            body: JSON.stringify(payload),
-          })
+              method: "POST",
+              headers: {
+                ...contentTypeHeader,
+                ...authHeader(idToken),
+              },
+              body: JSON.stringify(payload),
+            })
           : null
       },
       [idToken]
@@ -197,11 +197,11 @@ function useAPI() {
      */
     getSchoolSchedule: useCallback(() => {
       return idToken
-        ? fetch('/api/school/schedule', {
-          headers: {
-            ...authHeader(idToken),
-          },
-        })
+        ? fetch("/api/school/schedule", {
+            headers: {
+              ...authHeader(idToken),
+            },
+          })
         : null
     }, [idToken]),
   }

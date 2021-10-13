@@ -225,20 +225,19 @@ export default () => {
         <h2>Payment</h2>
         {prevUserData?.public === true ? (
           <p>
-            This is displayed for non-neuroscientist audience.
-            We use Stripe to gather the payment at the conference.
+            This is displayed for non-neuroscientist audience. We use Stripe to
+            gather the payment at the conference.
           </p>
         ) : (
           <p>
-            We use Stripe to collect payment at our conference.
-            At Neuromatch Conference, we need to cover streaming costs and tech
-            infrastructure such as our server. None of the organizers are being
-            paid for our time. However, it will be free for anyone who cannot
-            pay. If you can afford to pay the conference fees, we would
-            encourage you to pay us below. Otherwise, please request waiving
-            below if you are not from a well-funded lab or a well-funded
-            company. This payment will make our conference sustains better in
-            the long run.
+            We use Stripe to collect payment at our conference. At Neuromatch
+            Conference, we need to cover streaming costs and tech infrastructure
+            such as our server. None of the organizers are being paid for our
+            time. However, it will be free for anyone who cannot pay. If you can
+            afford to pay the conference fees, we would encourage you to pay us
+            below. Otherwise, please request waiving below if you are not from a
+            well-funded lab or a well-funded company. This payment will make our
+            conference sustains better in the long run.
           </p>
         )}
         {paymentStatus !== "wait" ? (

@@ -33,9 +33,7 @@ export default function Template({
     <Layout>
       <GlobalStyles />
       <h2>{frontmatter.title}</h2>
-      <MarkdownContainer
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <MarkdownContainer dangerouslySetInnerHTML={{ __html: html }} />
     </Layout>
   )
 }
