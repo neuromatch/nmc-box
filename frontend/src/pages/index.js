@@ -107,6 +107,11 @@ TopicHeading.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 }
 
+const A = styled.a.attrs(() => ({
+  target: "_blank",
+  rel: "noopener noreferrer",
+}))``
+
 const GoalBlock = styled.section`
   text-align: center;
   background-color: ${p =>
@@ -275,19 +280,15 @@ export default () => {
             registration on <Link to="/payment">payment page</Link>
             <br />
             <TopicHeading>Github</TopicHeading>{" "}
-            <Link to="https://github.com/neuromatch/nmc-box">
+            <A href="https://github.com/neuromatch/nmc-box">
               github.com/neuromatch/nmc-box
-            </Link>
+            </A>
             <br />
             <Fa icon={["fab", "twitter"]} />
             {" · @neuromatch with "}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`https://twitter.com/hashtag/${twitterHashtag}`}
-            >
+            <A href={`https://twitter.com/hashtag/${twitterHashtag}`}>
               #{twitterHashtag}
-            </a>
+            </A>
             {" if you use our code at your conference!"}
           </p>
         </section>
