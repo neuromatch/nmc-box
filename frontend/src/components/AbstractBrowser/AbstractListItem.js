@@ -1,9 +1,10 @@
 import moment from "moment-timezone"
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
 import styled, { css } from "styled-components"
-import { common, Fa } from "../../utils"
+import { talkFormatLabelColors } from "../../hooks/useDisplayEdition"
 import { basedStyles } from "../../styles"
+import { common, Fa } from "../../utils"
 
 // -- CONSTANTS
 const starColor = {
@@ -19,13 +20,6 @@ const themeLabelColors = {
   D: "#a479ef",
   E: "#367ff9",
   F: "#31c640",
-}
-
-const talkFormatLabelColors = {
-  "Interactive talk": "#d0f0fd",
-  "Traditional talk": "#d1f7c4",
-  "Keynote Event": "#fcb301",
-  "Special Event": "#f82a60",
 }
 
 // -- FUNCTIONS
