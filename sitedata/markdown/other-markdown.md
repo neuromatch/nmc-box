@@ -1,6 +1,7 @@
 ---
 title: "Other markdown page"
 slug: "/instructions/other-markdown"
+requiredLogin: false
 ---
 
 This page is rendered from Markdown file located in `sitedata` folder. You can edit information in the

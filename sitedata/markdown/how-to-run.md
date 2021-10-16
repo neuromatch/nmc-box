@@ -1,6 +1,7 @@
 ---
 title: "Install and deploy"
 slug: "/instructions/how-to-run"
+requiredLogin: false
 ---
 
 Here, we describe project structures, stacks, and how to run NMC Box.

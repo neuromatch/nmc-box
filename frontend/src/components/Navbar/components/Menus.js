@@ -1,23 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled, { css, keyframes } from 'styled-components';
-import PropTypes from 'prop-types';
-import { basedStyles, media } from '../../../styles';
-import { Link } from 'gatsby';
-import { useThemeContext, themes } from '../../../styles/themeContext';
-import DropdownButton from './DropdownButton';
-import { Fa } from '../../../utils';
-import LoginButton from './LoginButton';
+import { Link } from "gatsby"
+import PropTypes from "prop-types"
+import React, { useRef } from "react"
+import styled, { css } from "styled-components"
+import { basedStyles, media } from "../../../styles"
+import { themes, useThemeContext } from "../../../styles/themeContext"
+import { Fa } from "../../../utils"
+import RequiredAuthFragment from "../../RequiredAuthFragment"
+import DropdownButton from "./DropdownButton"
+import LoginButton from "./LoginButton"
 
 // variables
-const navHeight = 60;
-const animateMenu = (startH, endH) => keyframes`
-  0% {
-    height: ${startH}px;
-  }
-  100% {
-    height: ${endH}px;
-  }
-`;
+const navHeight = 60
 
 // nav items container using ul/li
 const NavList = styled.ul`
@@ -40,9 +33,11 @@ const NavList = styled.ul`
     justify-content: flex-end;
   `}
   ${media.medium`
-    ${(props) => props.hidden && css`
-      overflow: hidden;
-    `}
+    ${props =>
+      props.hidden &&
+      css`
+        overflow: hidden;
+      `}
 
     display: block;
     flex-direction: column;
@@ -53,14 +48,13 @@ const NavList = styled.ul`
       height: ${navHeight - 10}px;
     }
 
-    ${(props) => (props.hidden
-    ? css`
-      animation: ${props.hideDuration || 0}s ${props.animateHide} forwards;
-    ` : css`
-      animation: 0.15s ${props.animateShow} forwards;
-    `)}
+    ${props =>
+      props.hidden &&
+      css`
+        display: none;
+      `}
   `}
-`;
+`
 
 const NavItem = styled.li`
   display: flex;
@@ -81,7 +75,7 @@ const NavItem = styled.li`
       padding-right: 10px;
     }
   `}
-`;
+`
 
 const NavLinkButton = styled(Link)`
   display: flex;
@@ -105,10 +99,10 @@ const NavLinkButton = styled(Link)`
   }
 
   ${basedStyles.interxEffect}
-`;
+`
 
 const ChangeThemeButton = styled.button.attrs(() => ({
-  type: 'button',
+  type: "button",
 }))`
   cursor: pointer;
   outline: none;
@@ -118,92 +112,74 @@ const ChangeThemeButton = styled.button.attrs(() => ({
   background-color: transparent;
 
   ${basedStyles.interxEffect}
-`;
+`
 
 const Menus = ({ items, hidden }) => {
-  // workaround for hiding hiccup on first load
-  const [hideDuration, setHideDuration] = useState(false);
-  const [menuHeight, setMenuHeight] = useState(null);
-  const navListRef = useRef(null);
+  const navListRef = useRef(null)
 
-  const { theme, setTheme } = useThemeContext();
-
-  useEffect(() => {
-    setMenuHeight(navListRef.current.scrollHeight);
-    const timeoutRef = setTimeout(() => {
-      setHideDuration(0.5);
-    }, 1500);
-
-    return () => clearTimeout(timeoutRef);
-  }, [navListRef]);
+  const { theme, setTheme } = useThemeContext()
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
   return (
-    <NavList
-      hidden={hidden}
-      animateHide={animateMenu(menuHeight, 0)}
-      animateShow={animateMenu(0, menuHeight)}
-      hideDuration={hideDuration}
-      ref={navListRef}
-    >
+    <NavList hidden={hidden} ref={navListRef}>
       <NavItem key="theme-switch">
         <ChangeThemeButton
-          onClick={() => setTheme(theme === themes.light ? themes.dark : themes.light)}
+          onClick={() =>
+            setTheme(theme === themes.light ? themes.dark : themes.light)
+          }
         >
           <Fa icon={theme === themes.light ? "moon" : "sun"} />
         </ChangeThemeButton>
       </NavItem>
-      {
-        items.map((item) => (
-          <NavItem key={item.text || `now-loading-${Math.random()}`}>
-            {item?.dropdown
-              ? (
-                <DropdownButton
-                  noButtonBorder
-                  dropdownContent={item.dropdown}
-                >
-                  {item.text}
-                </DropdownButton>
-              )
-              : (typeof(item.onClick) === 'function')
-                ? (
-                  <NavLinkButton
-                    type="button"
-                    as="button"
-                    onClick={item.onClick}
-                  >
-                    {item.text}
-                  </NavLinkButton>
-                )
-                : <NavLinkButton to={item.onClick}>{item.text}</NavLinkButton> }
+      {items.map(item => (
+        <RequiredAuthFragment
+          key={item.text || `now-loading-${Math.random()}`}
+          enable={item.requiredLogin}
+        >
+          <NavItem>
+            {item?.dropdown ? (
+              <DropdownButton noButtonBorder dropdownContent={item.dropdown}>
+                {item.text}
+              </DropdownButton>
+            ) : typeof item.onClick === "function" ? (
+              <NavLinkButton type="button" as="button" onClick={item.onClick}>
+                {item.text}
+              </NavLinkButton>
+            ) : (
+              <NavLinkButton to={item.onClick}>{item.text}</NavLinkButton>
+            )}
           </NavItem>
-        ))
-      }
+        </RequiredAuthFragment>
+      ))}
       <NavItem>
         <LoginButton />
       </NavItem>
     </NavList>
-  );
-};
+  )
+}
 
 Menus.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    dropdown: PropTypes.arrayOf(PropTypes.shape({
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
       text: PropTypes.string.isRequired,
       onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    })),
-  })),
+      dropdown: PropTypes.arrayOf(
+        PropTypes.shape({
+          text: PropTypes.string.isRequired,
+          onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+        })
+      ),
+    })
+  ),
   hidden: PropTypes.bool,
-};
+}
 
 Menus.defaultProps = {
   items: [],
   hidden: true,
-};
+}
 
-export default Menus;
+export default Menus

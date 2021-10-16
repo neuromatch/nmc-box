@@ -1,6 +1,7 @@
 ---
 title: "About"
 slug: "/about"
+requiredLogin: false
 ---
 
 **Scientific conferences and meetings have an important role in research, but they also suffer from disadvantages that are barriers to the open and inclusive nature that is the ideal of many scientists. In particular, they can have prohibitive costs (financial, time away from home, carbon footprint) and they are often viewed as exclusive by scientists and trainees on the outside of existing powerful social networks. The COVID-19 pandemic has led to the cancellation of many conferences, forcing the scientific community to explore online alternatives. The Neuromatch Conference (NMC) vision is to foster inclusive global interactions for learning, mentorship, networking, and professional development in neuroscience through online community interactions and events.**

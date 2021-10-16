@@ -95,9 +95,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/neuromatch/nmc-box"
+    "url": "https://github.com/neuromatch/acml-2021"
   },
   "bugs": {
-    "url": "https://github.com/neuromatch/nmc-box/issues"
+    "url": "https://github.com/neuromatch/acml-2021/issues"
   }
 }

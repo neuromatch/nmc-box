@@ -39,6 +39,9 @@ const Layout = ({ children, noPadding, containerStyle, hideFooter }) => (
     <StickyFooterWrapper>
       <NavBar
         menuItems={[
+          // The item object can be set to be hidden if the user is not logged in
+          // requireLogin: boolean
+          //
           // onClick: string -> use Gatsby Link to navigate to site path
           // onClick: function -> use <button> to perform action
           // ----
