@@ -82,11 +82,13 @@ function useAPI() {
     ),
     getAbstract: useCallback(
       ({ edition, submissionId }) => {
-        return fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
-          headers: {
-            ...authHeader(idToken),
-          },
-        })
+        return idToken
+          ? fetch(`${endpoints.abstract}/${edition}/${submissionId}`, {
+              headers: {
+                ...authHeader(idToken),
+              },
+            })
+          : null
       },
       [idToken]
     ),

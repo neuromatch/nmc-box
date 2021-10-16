@@ -15,6 +15,7 @@ module.exports = {
     type: "website",
   },
   plugins: [
+    "gatsby-plugin-use-query-params",
     {
       resolve: "gatsby-plugin-typography",
       options: {

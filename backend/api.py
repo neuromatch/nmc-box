@@ -623,7 +623,6 @@ async def get_abstracts(
 async def get_abstract(edition: str, submission_id: str):
     """
     Get an abstract with submission id from a given edition.
-
     Note: This will retrieve from ElasticSearch in case Airtable
         is not specified in es_config
     """
@@ -638,6 +637,9 @@ async def get_abstract(edition: str, submission_id: str):
         abstract = table.get(submission_id).get(
             "fields", {}
         )  # return abstract from Airtable
+    # add missing fields
+    abstract["edition"] = edition
+    abstract["submission_id"] = submission_id
     if abstract is None:
         abstract = {}
     return JSONResponse(content={"data": abstract})
