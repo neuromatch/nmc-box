@@ -3,7 +3,7 @@ Transform text to embeddings using
 Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
 
 Usage:
-    embeddings.py [--option=<option>]
+    embeddings.py [--option=<option>] [--n_components=<n_components>]
     embeddings.py [-h | --help]
     embeddings.py [-v | --version]
 
@@ -135,6 +135,12 @@ if __name__ == "__main__":
     if option is None:
         option = "lsa"
 
+    # number of LSA components
+    n_components = arguments.get("--n_components")
+    if n_components is None:
+        n_components = 30
+    n_components = int(n_components)
+
     for k, v in tqdm(es_config["editions"].items()):
         print(f"Calculate embeddings for edition {k}\n")
         basename = f"agenda-{k}"
@@ -156,7 +162,9 @@ if __name__ == "__main__":
 
         # calculate embeddings, save in JSON with the same basename
         if len(df) > 0 and v.get("index", True):
-            paper_embeddings = calculate_embeddings(df, option=option)
+            paper_embeddings = calculate_embeddings(
+                df, option=option, n_components=n_components
+            )
             json.dump(
                 paper_embeddings,
                 open(op.join(save_path, basename + ".json"), "w"),
