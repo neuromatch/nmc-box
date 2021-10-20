@@ -12,7 +12,7 @@ supervisord -c devops/neuromatch.supervisor.conf
 This will run the following processes
 
 - `supervisor-gatsby`: build and serve Gatsby frontend in port 9000
-- `supervisor-hug`: serve Hug API at port 8888
+- `supervisor-fastapi`: serve backend FastAPI at port 8888
 - `supervisor-elasticsearch`: serve Elasticsearch at port 9200
 
 ## Nginx
