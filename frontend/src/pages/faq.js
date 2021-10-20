@@ -134,10 +134,10 @@ export default ({ data }) => {
     <Layout>
       <h2>FAQ</h2>
       <p>
-        Some page like FAQ page is easily maintained by a YAML or JSON file.
-        Here, we give an example to display information with YAML file.
-        You can edit <code>faq.yml</code> in <code>sitedata</code> folder
-        to update this page.
+        Some pages such as FAQ page can be displayed using a YAML or JSON file.
+        Here, we give an example to display FAQ information with YAML file. You
+        can edit <code>faq.yml</code> in <code>sitedata</code> folder to update
+        this page.
       </p>
       <Section>
         {faqs.map(f => (
