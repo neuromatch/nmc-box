@@ -7,6 +7,7 @@ Usage:
 import os
 import yaml
 from tqdm.auto import tqdm
+import numpy as np
 import pandas as pd
 from pyairtable import Table
 from elasticsearch import Elasticsearch, helpers
@@ -124,7 +125,7 @@ def generate_rows(
     """
     for _, row in enumerate(rows):
         if isinstance(keys, list):
-            row = {k: str(v) for k, v in row.items() if k in keys}
+            row = {k: v for k, v in row.items() if k in keys and v is not np.nan}
         yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 
@@ -199,7 +200,7 @@ def index_submissions():
         )
         # if no index, set as True
         if len(submissions) > 0 and v.get("index", True):
-            submission_df = pd.DataFrame(submissions).fillna("")
+            submission_df = pd.DataFrame(submissions)
             submission_df["edition"] = edition
             submissions = submission_df.to_dict(orient="records")
             helpers.bulk(
@@ -209,6 +210,7 @@ def index_submissions():
                     index=v["paper_index"],
                     row_type="submission",
                     id="submission_id",
+                    keys=keys_airtable,
                 ),
             )
             print(f'Done indexing {len(submissions)} submissions to {v["paper_index"]}')
