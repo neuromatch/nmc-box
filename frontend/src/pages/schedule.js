@@ -90,10 +90,9 @@ export default () => {
       <GlobalStyles />
       <h2>Table Schedule</h2>
       <p>
-        You can create an API which fetch events directly
-        from Airtable and show the schedule here. We
-        provide an example in{' '}<code>schedule.js</code>
-        {' '}where you can find how we do it.
+        You can create an API which fetch events directly from Airtable and show
+        the schedule here. We provide an example in <code>schedule.js</code>{" "}
+        where you can find how we do it.
       </p>
       <TimezonePicker />
       {!isLoading ? (

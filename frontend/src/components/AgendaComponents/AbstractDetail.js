@@ -203,6 +203,7 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
     abstract,
     institution,
     coauthors,
+    edition,
     zoom_url: zoomUrl,
     youtube_url: youtubeUrl,
     submission_id: submissionId,
@@ -233,7 +234,7 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
       >
         <TalkFormatBox accent={getColorOfTalkFormat(talkFormat)}>
           <TalkFormatTrackText accent={getTextColorOfTalkFormat(talkFormat)}>
-            {talkFormat.replace(" Event", "")}
+            {talkFormat?.replace(" Event", "") || talkFormat}
           </TalkFormatTrackText>
         </TalkFormatBox>
         {track ? (
@@ -292,13 +293,15 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
               {coauthors}
             </AuthorText>
           ) : null}
-          <TimeText>
-            <Fa icon={["far", "clock"]} />
-            {` ${isoToTimezone(starttime, timezone)} - ${isoToTimezone(
-              endtime,
-              timezone
-            )} `}
-          </TimeText>
+          {starttime ? (
+            <TimeText>
+              <Fa icon={["far", "clock"]} />
+              {` ${isoToTimezone(starttime, timezone)} - ${isoToTimezone(
+                endtime,
+                timezone
+              )} `}
+            </TimeText>
+          ) : null}
           <TimeText bottomSpace>
             {/* <RequiredAuthFragment> */}
             {zoomUrl ? (
@@ -341,8 +344,8 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
                 onClick={() => {
                   const isClient = typeof window === "object"
                   const url = isClient
-                    ? `${window.location.origin}/abstract?submission_id=${submissionId}`
-                    : `https://neuromatch.io/abstract?submission_id=${submissionId}`
+                    ? `${window.location.origin}/abstract?edition=${edition}&submission_id=${submissionId}`
+                    : `/abstract?edition=${edition}&submission_id=${submissionId}`
 
                   // copy!
                   copy(url) && toast("🦖🍞 Copied a URL! 🍞🦖")

@@ -1,6 +1,7 @@
 ---
 title: "Registration Instructions"
 slug: "/instructions/how-to-register"
+requiredLogin: false
 ---
 
 This page is rendered from Markdown file in `sitedata` folder. You can edit information in the markdown file

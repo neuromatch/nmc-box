@@ -174,7 +174,7 @@ def index_submissions():
     """
     Index all submissions listed in a ``es_config.yml`` file
     """
-    for _, v in tqdm(es_config["editions"].items()):
+    for edition, v in tqdm(es_config["editions"].items()):
         if "path" in v.keys():
             submission_df = pd.read_csv(v["path"]).fillna("")
             submissions = submission_df.to_dict(orient="records")
@@ -200,6 +200,7 @@ def index_submissions():
         # if no index, set as True
         if len(submissions) > 0 and v.get("index", True):
             submission_df = pd.DataFrame(submissions).fillna("")
+            submission_df["edition"] = edition
             submissions = submission_df.to_dict(orient="records")
             helpers.bulk(
                 es,

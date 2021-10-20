@@ -1,9 +1,9 @@
 import useFirebaseWrapper from '../../hooks/useFirebaseWrapper';
 
-const RequiredAuthFragment = ({ children }) => {
+const RequiredAuthFragment = ({ enable, children }) => {
   const { isLoggedIn } = useFirebaseWrapper();
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && enable) {
     return null;
   }
 

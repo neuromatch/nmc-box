@@ -3,9 +3,11 @@ import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import styled, { createGlobalStyle } from "styled-components"
 import { basedStyles } from "../styles"
+import RequiredAuthView from "../components/RequiredAuthView"
 
 const GlobalStyles = createGlobalStyle`
   ${basedStyles.simpleTableStyle}
+
   /* overwrite basedStyles to keep table of markdown align to the left */
   table {
     margin-left: 0;
@@ -29,14 +31,17 @@ export default function Template({
 }) {
   const { markdownRemark } = data // data.markdownRemark holds your post data
   const { frontmatter, html } = markdownRemark
+
   return (
-    <Layout>
-      <GlobalStyles />
-      <h2>{frontmatter.title}</h2>
-      <MarkdownContainer
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </Layout>
+    <RequiredAuthView enable={frontmatter.requiredLogin}>
+      <Layout>
+        <GlobalStyles />
+        <h2>{frontmatter.title}</h2>
+        <MarkdownContainer
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </Layout>
+    </RequiredAuthView>
   )
 }
 
@@ -47,6 +52,7 @@ export const pageQuery = graphql`
       frontmatter {
         slug
         title
+        requiredLogin
       }
     }
   }

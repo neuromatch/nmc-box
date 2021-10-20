@@ -294,9 +294,9 @@ export default () => {
           />
         </HeadingWithButtonContainer>
         <p>
-          This is a demo page for agenda. You can click the gear icon
-          on the top-right corner to see previouse Neuromatch Conference agenda.
-          The main conference will be happening on{" "}
+          This is a demo page for agenda. You can click the gear icon on the
+          top-right corner to see previouse Neuromatch Conference agenda. The
+          main conference will be happening on{" "}
           <BoldText>{mainConfDateText}</BoldText>.
         </p>
         <ul>

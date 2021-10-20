@@ -1,0 +1,34 @@
+name: Format code
+on:
+  pull_request:
+    paths:
+      - "**.js"
+      # - "**.py"
+
+jobs:
+  prettier-eslint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        # Make sure the actual branch is checked out when running on pull requests
+        ref: ${{ github.head_ref }}
+        # This is important to fetch the changes to the previous commit
+        fetch-depth: 0
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Node
+      run: npm install
+      working-directory: frontend
+
+    - name: Run format
+      run: npm run format
+      working-directory: frontend

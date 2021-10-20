@@ -1,9 +1,10 @@
 import moment from "moment-timezone"
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
 import styled, { css } from "styled-components"
-import { common, Fa } from "../../utils"
+import { talkFormatLabelColors } from "../../hooks/useDisplayEdition"
 import { basedStyles } from "../../styles"
+import { common, Fa } from "../../utils"
 
 // -- CONSTANTS
 const starColor = {
@@ -19,13 +20,6 @@ const themeLabelColors = {
   D: "#a479ef",
   E: "#367ff9",
   F: "#31c640",
-}
-
-const talkFormatLabelColors = {
-  "Interactive talk": "#d0f0fd",
-  "Traditional talk": "#d1f7c4",
-  "Keynote Event": "#fcb301",
-  "Special Event": "#f82a60",
 }
 
 // -- FUNCTIONS
@@ -209,7 +203,7 @@ const AbstractListItem = ({ data, handleClickVote, isLiked, timezone }) => {
   }
 
   return (
-    <Container accent={getColorOfTalkFormat(data.talk_format)}>
+    <Container accent={getColorOfTalkFormat(data?.talk_format)}>
       <FavIconContainer
         onClick={e => {
           handleClickVote(data?.submission_id)
@@ -233,7 +227,7 @@ const AbstractListItem = ({ data, handleClickVote, isLiked, timezone }) => {
             line-height: 1em;
           `}
         >
-          <TitleText>{data.title}</TitleText>
+          <TitleText>{data?.title}</TitleText>
           <div
             css={`
               margin-top: 3px;
@@ -247,43 +241,45 @@ const AbstractListItem = ({ data, handleClickVote, isLiked, timezone }) => {
                   : null}
               </NameText>
             ) : null}
-            <TimeText>
-              <Fa icon={["far", "clock"]} />
-              {` ${isoToTimezone(data?.starttime, timezone)} - ${isoToTimezone(
-                data?.endtime,
-                timezone
-              )} `}
-              {data?.zoom_url ? (
-                <ButtonAsLink
-                  type="button"
-                  onClick={e => {
-                    e.stopPropagation()
+            {data?.starttime ? (
+              <TimeText>
+                <Fa icon={["far", "clock"]} />
+                {` ${isoToTimezone(
+                  data?.starttime,
+                  timezone
+                )} - ${isoToTimezone(data?.endtime, timezone)} `}
+                {data?.zoom_url ? (
+                  <ButtonAsLink
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation()
 
-                    const isClient = typeof window === "object"
-                    if (isClient) {
-                      window.open(common.decodeBase64(data?.zoom_url))
-                    }
-                  }}
-                >
-                  [ Zoom ]
-                </ButtonAsLink>
-              ) : null}
-              {data?.youtube_url ? (
-                <ButtonAsLink
-                  type="button"
-                  onClick={e => {
-                    e.stopPropagation()
+                      const isClient = typeof window === "object"
+                      if (isClient) {
+                        window.open(common.decodeBase64(data?.zoom_url))
+                      }
+                    }}
+                  >
+                    [ Zoom ]
+                  </ButtonAsLink>
+                ) : null}
+                {data?.youtube_url ? (
+                  <ButtonAsLink
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation()
 
-                    const isClient = typeof window === "object"
-                    if (isClient) {
-                      window.open(data?.youtube_url)
-                    }
-                  }}
-                >
-                  [ Youtube ]
-                </ButtonAsLink>
-              ) : null}
-            </TimeText>
+                      const isClient = typeof window === "object"
+                      if (isClient) {
+                        window.open(data?.youtube_url)
+                      }
+                    }}
+                  >
+                    [ Youtube ]
+                  </ButtonAsLink>
+                ) : null}
+              </TimeText>
+            ) : null}
           </div>
         </div>
 
@@ -299,22 +295,22 @@ const AbstractListItem = ({ data, handleClickVote, isLiked, timezone }) => {
             }
           `}
         >
-          <TalkFormatBox accent={getColorOfTalkFormat(data.talk_format)}>
+          <TalkFormatBox accent={getColorOfTalkFormat(data?.talk_format)}>
             <TalkFormatTrackText
-              accent={getTextColorOfTalkFormat(data.talk_format)}
+              accent={getTextColorOfTalkFormat(data?.talk_format)}
             >
-              {data.talk_format.replace(" Event", "")}
+              {data?.talk_format?.replace(" Event", "")}
             </TalkFormatTrackText>
           </TalkFormatBox>
-          {data.track ? (
+          {data?.track ? (
             <TrackBox>
-              <TalkFormatTrackText>{data.track}</TalkFormatTrackText>
+              <TalkFormatTrackText>{data?.track}</TalkFormatTrackText>
             </TrackBox>
           ) : null}
-          {data.theme ? (
-            <ThemeBox accent={getColorOfTheme(data.theme)}>
-              <ThemeText accent={getColorOfTheme(data.theme)}>
-                {data.theme}
+          {data?.theme ? (
+            <ThemeBox accent={getColorOfTheme(data?.theme)}>
+              <ThemeText accent={getColorOfTheme(data?.theme)}>
+                {data?.theme}
               </ThemeText>
             </ThemeBox>
           ) : null}
@@ -325,7 +321,20 @@ const AbstractListItem = ({ data, handleClickVote, isLiked, timezone }) => {
 }
 
 AbstractListItem.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  data: PropTypes.shape({
+    submission_id: PropTypes.string,
+    title: PropTypes.string,
+    talk_format: PropTypes.string,
+    theme: PropTypes.string,
+    track: PropTypes.string,
+    fullname: PropTypes.string,
+    authors: PropTypes.string,
+    institution: PropTypes.string,
+    starttime: PropTypes.string,
+    endtime: PropTypes.string,
+    youtube_url: PropTypes.string,
+    zoom_url: PropTypes.string,
+  }),
   handleClickVote: PropTypes.func,
   isLiked: PropTypes.bool,
   timezone: PropTypes.string.isRequired,

@@ -19,7 +19,7 @@ const themeCookieKey = "theme"
 // -- CONTEXT
 const ThemeContext = createContext({
   theme: defaultTheme,
-  setTheme: () => { },
+  setTheme: () => {},
 })
 
 // eslint-disable-next-line react/prop-types
@@ -46,7 +46,7 @@ const ThemeProvider = ({ children }) => {
       b, em, code {
         /* slightly brighter */
         color: ${p =>
-      color.scale(p.theme.colors.secondary, p.theme.colors.factor * 7)};
+          color.scale(p.theme.colors.secondary, p.theme.colors.factor * 7)};
       }
 
       em {
@@ -56,7 +56,20 @@ const ThemeProvider = ({ children }) => {
       p, span, dl, ul, ol, td, tbody {
         /* slightly dimmer */
         color: ${p =>
-      color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
+          color.scale(p.theme.colors.secondary, p.theme.colors.factor * -7)};
+      }
+
+      code {
+        font-family: 'Roboto Mono', monospace;
+
+        &:not(pre *) {
+          background-color: ${p =>
+            color.transparentize(p.theme.colors.secondary, 0.15)};
+          border: 1px solid ${p => p.theme.colors.accent};
+          border-radius: 4px;
+
+          padding: 1px 4px;
+        }
       }
     }
   `

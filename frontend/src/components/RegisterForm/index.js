@@ -229,7 +229,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
           common.scrollTo()
 
           if (res.ok) {
-            const message = originEnum.register
+            const message = origin === originEnum.register
               ? "Your profile has been registered."
               : "Your profile has been updated."
 
@@ -249,7 +249,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
           setIsSending(false)
         })
     },
-    [editProfileAPI, isPublic, origin, registerAPI, setError, user]
+    [editProfileAPI, isPublic, origin, registerAPI, user.uid]
   )
 
   return (
@@ -384,7 +384,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
                         .then(resJson =>
                           callback(
                             resJson?.data?.map(x => ({ value: x, label: x })) ||
-                              []
+                            []
                           )
                         )
                     }, 300),

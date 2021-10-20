@@ -15,6 +15,7 @@ module.exports = {
     type: "website",
   },
   plugins: [
+    "gatsby-plugin-use-query-params",
     {
       resolve: "gatsby-plugin-typography",
       options: {
@@ -62,6 +63,12 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          {
+            resolve: `gatsby-remark-vscode`,
+            options: {
+              theme: "Dark+ (default dark)",
+            },
+          },
           {
             resolve: `gatsby-remark-images`,
             options: {
