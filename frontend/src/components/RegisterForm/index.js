@@ -204,7 +204,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
       }
 
       const readyData = {
-        id: user.uid,
+        id: user?.uid,
         payload: preparedPayload,
         // payload: !isOptedOutMindMatching
         //   ? preparedPayload
@@ -249,7 +249,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
           setIsSending(false)
         })
     },
-    [editProfileAPI, isPublic, origin, registerAPI, user.uid]
+    [editProfileAPI, isPublic, origin, registerAPI, user]
   )
 
   return (
