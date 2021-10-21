@@ -209,6 +209,15 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
     submission_id: submissionId,
   } = data
 
+  const addToCalendarUrl = getUrlToAddEventToCalendar(
+    starttime,
+    endtime,
+    title,
+    fullname,
+    abstract,
+    talkFormat === "Special Event"
+  )
+
   return (
     <>
       <ToastContainer autoClose={1250} hideProgressBar closeOnClick draggable />
@@ -250,29 +259,26 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
       </div>
       <TitleText>
         {title}
-        &nbsp;
-        <a
-          href={getUrlToAddEventToCalendar(
-            starttime,
-            endtime,
-            title,
-            fullname,
-            abstract,
-            talkFormat === "Special Event"
-          )}
-          target="_blank"
-          rel="noopener noreferrer"
-          css={`
-            /* background-color: transparent; */
-            /* border: none; */
-            cursor: pointer;
-            outline: none;
+        {addToCalendarUrl ? (
+          <>
+            &nbsp;
+            <a
+              href={addToCalendarUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              css={`
+                /* background-color: transparent; */
+                /* border: none; */
+                cursor: pointer;
+                outline: none;
 
-            ${basedStyles.interxEffect}
-          `}
-        >
-          <Fa icon={["far", "calendar-plus"]} />
-        </a>
+                ${basedStyles.interxEffect}
+              `}
+            >
+              <Fa icon={["far", "calendar-plus"]} />
+            </a>
+          </>
+        ) : null}
       </TitleText>
       <ContentContainer unlimitedHeight={unlimitedContentHeight}>
         <div
