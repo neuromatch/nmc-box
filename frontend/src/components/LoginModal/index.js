@@ -21,7 +21,7 @@ const ModalContainer = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #222;
+  background-color: ${p => p.theme.colors.primary};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +38,6 @@ const ModalContainer = styled.div`
 const CloseModalButton = styled(Fa).attrs(() => ({
   icon: "times",
 }))`
-  color: #eee;
   font-size: 32px;
 
   position: absolute;
@@ -60,8 +59,7 @@ const ButtonsContainer = styled.div`
 `
 
 const HeaderText = styled.h1`
-  color: #eee;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid ${p => p.theme.colors.secondary};
   margin: 0;
 `
 
