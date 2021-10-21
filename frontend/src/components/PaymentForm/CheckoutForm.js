@@ -80,7 +80,15 @@ const CheckoutForm = ({ onSubmit, onHideModal, isConfirmingPayment }) => {
   const elements = useElements()
 
   if (!elements || !stripe) {
-    return <LoadingView />
+    return (
+      <p>
+        <code>GATSBY_STRIPE_PUBLIC_KEY</code> is missing from <code>.env</code>.
+        <br />
+        <br />
+        To see the payment form properly, please at least add{" "}
+        <code>GATSBY_STRIPE_PUBLIC_KEY=""</code> to the <code>.env</code> file.
+      </p>
+    )
   }
 
   return (
