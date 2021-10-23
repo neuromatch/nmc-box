@@ -4,31 +4,41 @@ slug: "/instructions/how-to-run"
 requiredLogin: false
 ---
 
-Here, we describe project structures, stacks, and how to run NMC Box.
+Neuromatch Conference (NMC) held multiple virtual conferences during the COVID pandemic.
+Each of our conferences has led the way in providing new innovations to the virtual conference space.
+Many scientific conferences adopted our pipeline and framework to their own conferences.
+However, to date, most organizers have to develop their own tech stack for organizing the virtual conference.
+Here, we provide our framework for organizing Neuromatch Conference, Neuromatch Conference in a Box (**NMC Box**).
+We hope that other organizers, not limited to neuroscientists, can adapt our code to create their own
+virtual conferences in the future.
 
-## Project Structure
+## Components
+
+NMC Box provides following functionalities:
+
+- Registration and log-in with [Firebase](https://firebase.google.com/)
+- Search for institution from [GRID database](https://www.grid.ac/)
+- Submission - submit abstracts to Airtable
+  - Options to ask presenter available times, talk format, theme
+  - Organizers is responsible to generate `track`, `url`, `starttime`, `endtime` on Airtable
+- Search and recommendation engine with infinite scroll design
+- [Mind matching script](https://github.com/titipata/paper-reviewer-matcher), run separately to produce output matches between registered attendees
+- Render for markdown and YAML files
+- Multiple edition of conferences. The user can still see abstracts from previous conference editions
+
+## Workflow
+
+### Project Structure
 
 - Scripts: Python scripts to generate embeddings and index submissions to ElasticSearch
 - Frontend: implemented using [ReactJS](https://reactjs.org/)
 - Backend: implemented using Python [FastAPI](https://fastapi.tiangolo.com/)
 
-## Components
-
-NMC in-a-box provides some functionalities as follows:
-
-- Registration - ask for basic information and available times during the conference
-- Submission - submit abstracts to Airtable
-  - Ask for available times, talk format, theme
-  - Then organizers is responsible to generate `track`, `url`, `starttime`, `endtime` (code or manual)
-- Search and recommendation engine with infinite scroll design
-- Mind matching script - run separately to produce output matches between registered attendees
-
-## Workflow
-
 ### Set up environment
 
 There are multiple steps for setting up the environment. We roughly write down as follows:
 
+- Set up Firebase authentication, Cloud Firestore, and Airtable (see instructions below)
 - Install backend dependencies in `backend/requirements.txt`
 - Create Airtable base for submission, specify `base_id` in `scripts/es_config.yml`
   and Airtable key in `.env` file.
@@ -38,14 +48,13 @@ There are multiple steps for setting up the environment. We roughly write down a
 - Download Firebase authentication JSON file in the root of this repository. To download,
   you can go to Project settings on Firebase. Choose `Service accounts` >
   `Firebase Admin SDK` > `Generate new private key` in Python.
-- Adapt basic information in `sitedata/config.yml` for the page and `scripts/es_config.yml`
+- Edit basic information in `sitedata/config.yml` for the page and `scripts/es_config.yml`
   for data to be indexed
-- See below for the instructions to set up Firebase authentication and Cloud Firestore.
 
-### Set up backend APIs
+### Set up backend
 
-Before running API, we have put the data, create embeddings (used for recommendation),
-and index them on ElasticSearch.
+We have to create embeddings and index talks to elastic search before
+running the web application.
 
 - First, put data in `sitedata/agenda/*.csv`
 - Change information in `scripts/es_config.yml` where you can put path to CSV files or Airtable ID
@@ -68,14 +77,15 @@ python es_index.py # index
 - Go to `backend` and serve APIs using
 
 ```sh
-uvicorn api:app --reload
+uvicorn api:app --reload  # run on port 8000
 ```
 
 To serve backend with FastAPI library.
 
 ### Set up frontend
 
-Download Node and Gatsby. Then run the following scripts in `frontend`:
+Install `Node` (see [NodeSource](https://github.com/nodesource/distributions)) and `Gatsby` (see [here](https://www.npmjs.com/package/gatsby)).
+Then run the following scripts in `frontend` folder:
 
 ```sh
 npm install
@@ -86,8 +96,7 @@ gatsby develop && gatsby serve --port 4000
 
 We use Firebase for authentication and Cloud Firestore for storing user data and their preferences (votes).
 You can set up authentication and Cloud Firestore on [Firebase](https://firebase.google.com/).
-We use Airtable to receive our submission (submission, follow by review process, filter, show in recommendation).
-Here, we list down a general ideas on how to create authentication for the registration.
+We use Airtable to recieive our submission (submission, follow by review process, filter, show in recommendation).
 
 ### Google authentication
 
@@ -107,10 +116,10 @@ We create `users`, `preferences` as a collection name as specified in `sitedata/
 
 ### Airtable
 
-For submission, we have a good experience with [Airtable](https://airtable.com/) so we implement
-the backend so that the submission is added to Airtable. Here, you only have to make sure that
-form on the website is the same with Airtable (see fields on `sitedata/agenda/README.md`).
-We set up Airtable base which you can view here (TBD).
+We use [Airtable](https://airtable.com/) to store NMC submissions.
+Here, you only have to make sure that form on the website is the same with Airtable
+(see fields in `sitedata/agenda/README.md`). Airtable allows organizers to
+quicky go through submissions and update information easily.
 
 ## Set up automatic email with SendGrid
 
