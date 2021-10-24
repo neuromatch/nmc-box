@@ -420,6 +420,8 @@ async def get_abstracts(
         submissions = utils.filter_startend_time(
             submissions, starttime, endtime
         )  # filter by start, end time
+        if q == "" or q is None:
+            submissions = sorted(submissions, key=lambda x: x["starttime"])
         return JSONResponse(
             content={
                 "meta": {
