@@ -168,4 +168,4 @@ def filter_startend_time(
                 and convert_utc(hit["endtime"]) <= endtime
             ):
                 submissions.append(hit)
-        return submissions
+        return sorted(submissions, key=lambda x: x["starttime"])

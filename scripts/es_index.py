@@ -139,10 +139,10 @@ def generate_rows(
         for k in ["starttime", "endtime"]:
             if row.get(k) is not None or row.get(k) != "":
                 try:
-                    dt = convert_utc(dt).isoformat()
-                    row[k] = dt
+                    dt = convert_utc(row.get(k))
+                    row[k] = dt.isoformat()
                 except:
-                    row.pop(k)
+                    pass
         yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 
