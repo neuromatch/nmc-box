@@ -3,14 +3,16 @@ Transform text to embeddings using
 Original code from https://github.com/Mini-Conf/Mini-Conf/blob/master/scripts/embeddings.py
 
 Usage:
-    embeddings.py [--option=<option>] [--n_components=<n_components>]
+    embeddings.py [--option=<option>] [--n_components=<n_components>] [--n_recommend=<n_recommend>]
     embeddings.py [-h | --help]
     embeddings.py [-v | --version]
 
 Options:
     -h --help       Show this screen
     --version       Show version
-    --option=<option>     Embedding option, can be ``lsa`` or ``sent_embed``, default ``lsa``
+    --option=<option>               Embedding calculation, can be ``lsa`` or ``sent_embed``, default ``lsa``
+    --n_components=<n_components>   Number of components for LSA
+    --n_recommend=<n_recommend>     Number of recommendation, if not defined, recommend all submissions
 """
 import os
 import os.path as op
@@ -160,6 +162,12 @@ if __name__ == "__main__":
         else:
             df = pd.read_csv(path).fillna("")
 
+        # number of recommendation
+        n_recommend = arguments.get("--n_recommend")
+        if n_recommend is None:
+            n_recommend = len(df)
+        n_recommend = min(int(n_recommend), len(df))
+
         # calculate embeddings, save in JSON with the same basename
         if len(df) > 0 and v.get("index", True):
             paper_embeddings = calculate_embeddings(
@@ -173,7 +181,7 @@ if __name__ == "__main__":
 
             # nearest neighbors, save in joblib with the same basename
             X = np.vstack([p["embedding"] for p in paper_embeddings])
-            nbrs_model = NearestNeighbors(n_neighbors=len(X)).fit(X)
+            nbrs_model = NearestNeighbors(n_neighbors=n_recommend).fit(X)
             joblib.dump(nbrs_model, op.join(save_path, basename + ".joblib"))
             print(f"Saved embeddings and nearest neighbor model for edition {k}")
         else:

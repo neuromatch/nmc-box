@@ -400,9 +400,6 @@ async def get_abstracts(
     page_size = limit  # set page size to equal to limit
     current_page = int(skip / page_size) + 1
     n_page = int(n_submissions / page_size) + 1
-    if starttime is not None and endtime is not None:
-        starttime = utils.convert_utc(starttime)
-        endtime = utils.convert_utc(endtime)
 
     if current_page > n_page:
         return JSONResponse(
@@ -423,11 +420,13 @@ async def get_abstracts(
         submissions = utils.filter_startend_time(
             submissions, starttime, endtime
         )  # filter by start, end time
+        if q == "" or q is None:
+            submissions = sorted(submissions, key=lambda x: x["starttime"])
         return JSONResponse(
             content={
                 "meta": {
                     "currentPage": current_page,
-                    "totalPage": n_page,
+                    "totalPage": int(len(submissions) / page_size) + 1,
                     "pageSize": page_size,
                 },
                 "links": {
@@ -435,7 +434,7 @@ async def get_abstracts(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
-                            ("query", q),
+                            ("q", q),
                             ("starttime", starttime),
                             ("endtime", endtime),
                             ("skip", skip),
@@ -446,7 +445,7 @@ async def get_abstracts(
                         f"/api/abstract/{edition}",
                         [
                             ("view", view),
-                            ("query", q),
+                            ("q", q),
                             ("starttime", starttime),
                             ("endtime", endtime),
                             ("skip", skip + page_size),

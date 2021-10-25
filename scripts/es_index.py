@@ -5,6 +5,7 @@ Usage:
     python elasticsearch.py
 """
 import os
+from pytz import timezone
 import yaml
 from tqdm.auto import tqdm
 import numpy as np
@@ -113,6 +114,15 @@ settings_submission = {
 }
 
 
+def convert_utc(dt: str):
+    """Convert datetime in string to UTC"""
+    utc = timezone("UTC")
+    dt = pd.to_datetime(dt)
+    if dt.tzinfo is None:
+        dt = utc.localize(dt)
+    return dt
+
+
 def generate_rows(
     rows: list,
     index: str = "grid",
@@ -126,6 +136,13 @@ def generate_rows(
     for _, row in enumerate(rows):
         if isinstance(keys, list):
             row = {k: v for k, v in row.items() if k in keys and v is not np.nan}
+        for k in ["starttime", "endtime"]:
+            if row.get(k) is not None or row.get(k) != "":
+                try:
+                    dt = convert_utc(row.get(k))
+                    row[k] = dt.isoformat()
+                except:
+                    pass
         yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 

@@ -15,6 +15,7 @@ es = Elasticsearch(
         {"host": "localhost", "port": 9200},
     ]
 )
+utc = timezone("UTC")
 
 
 def convert_utc(dt: str):
@@ -142,8 +143,8 @@ def get_agenda(
 
 def filter_startend_time(
     responses: list,
-    starttime: Optional[pd.Timestamp] = None,
-    endtime: Optional[pd.Timestamp] = None,
+    starttime: str = None,
+    endtime: str = None,
 ):
     """
     Filter a list by starttime and endtime
@@ -152,7 +153,8 @@ def filter_startend_time(
         return responses
     else:
         # assuming UTC for all given timezones if tzinfo is None, localize by UTC
-        utc = timezone("UTC")
+        starttime = pd.to_datetime(starttime)
+        endtime = pd.to_datetime(endtime)
         if starttime.tzinfo is None:
             starttime = utc.localize(starttime)
         if endtime.tzinfo is None:
