@@ -34,7 +34,7 @@ def get_abstract(index: str = "agenda-2020-1", id: str = "1"):
         return None
 
 
-def get_abstracts(index: str = "sfn2021", ids: list = []):
+def get_abstracts(index: str = "agenda-2020-1", ids: list = []):
     """
     Get multiple abstracts from a given list of submission ids.
 
