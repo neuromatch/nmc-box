@@ -9,7 +9,7 @@ import { media, basedStyles } from "../../styles"
 import Fa from "../../utils/fontawesome"
 import { common } from "../../utils"
 import { talkFormatLabelColors } from "../../hooks/useDisplayEdition"
-import RequiredAuthFragment from '../RequiredAuthFragment';
+import RequiredAuthFragment from "../RequiredAuthFragment"
 
 // -- CONSTANTS
 const labelColors = {
@@ -308,27 +308,29 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
             </TimeText>
           ) : null}
           <TimeText bottomSpace>
-            {urls ? urls.map(({ name, url }) => (
-              <RequiredAuthFragment
-                key={`${name}+${url}`}
-                enable={name.toLowerCase().includes("zoom")}
-              >
-                <ZoomLinkContainer>
-                  <Fa icon="chalkboard-teacher" />{" "}
-                  <ButtonAsLink
-                    type="button"
-                    onClick={() => {
-                      const isClient = typeof window === "object"
-                      if (isClient) {
-                        window.open(common.decodeBase64(url))
-                      }
-                    }}
+            {urls
+              ? urls.map(({ name, url }) => (
+                  <RequiredAuthFragment
+                    key={`${name}+${url}`}
+                    enable={name.toLowerCase().includes("zoom")}
                   >
-                    [ {name} ]
-                  </ButtonAsLink>
-                </ZoomLinkContainer>
-              </RequiredAuthFragment>
-            )) : null}
+                    <ZoomLinkContainer>
+                      <Fa icon="chalkboard-teacher" />{" "}
+                      <ButtonAsLink
+                        type="button"
+                        onClick={() => {
+                          const isClient = typeof window === "object"
+                          if (isClient) {
+                            window.open(common.decodeBase64(url))
+                          }
+                        }}
+                      >
+                        [ {name} ]
+                      </ButtonAsLink>
+                    </ZoomLinkContainer>
+                  </RequiredAuthFragment>
+                ))
+              : null}
             <>
               <Fa icon="share-alt" />{" "}
               <ButtonAsLink
