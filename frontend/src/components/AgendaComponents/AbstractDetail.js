@@ -9,7 +9,7 @@ import { media, basedStyles } from "../../styles"
 import Fa from "../../utils/fontawesome"
 import { common } from "../../utils"
 import { talkFormatLabelColors } from "../../hooks/useDisplayEdition"
-// import RequiredAuthFragment from '../RequiredAuthFragment';
+import RequiredAuthFragment from '../RequiredAuthFragment';
 
 // -- CONSTANTS
 const labelColors = {
@@ -204,8 +204,7 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
     institution,
     coauthors,
     edition,
-    zoom_url: zoomUrl,
-    youtube_url: youtubeUrl,
+    urls,
     submission_id: submissionId,
   } = data
 
@@ -309,40 +308,27 @@ const AbstractDetail = ({ data, timezone, unlimitedContentHeight }) => {
             </TimeText>
           ) : null}
           <TimeText bottomSpace>
-            {/* <RequiredAuthFragment> */}
-            {zoomUrl ? (
-              <ZoomLinkContainer>
-                <Fa icon="chalkboard-teacher" />{" "}
-                <ButtonAsLink
-                  type="button"
-                  onClick={() => {
-                    const isClient = typeof window === "object"
-                    if (isClient) {
-                      window.open(common.decodeBase64(zoomUrl))
-                    }
-                  }}
-                >
-                  [ Zoom ]
-                </ButtonAsLink>
-              </ZoomLinkContainer>
-            ) : null}
-            {/* </RequiredAuthFragment> */}
-            {youtubeUrl ? (
-              <ZoomLinkContainer>
-                <Fa icon={["fab", "youtube"]} />{" "}
-                <ButtonAsLink
-                  type="button"
-                  onClick={() => {
-                    const isClient = typeof window === "object"
-                    if (isClient) {
-                      window.open(youtubeUrl)
-                    }
-                  }}
-                >
-                  [ Youtube ]
-                </ButtonAsLink>
-              </ZoomLinkContainer>
-            ) : null}
+            {urls ? urls.map(({ name, url }) => (
+              <RequiredAuthFragment
+                key={`${name}+${url}`}
+                enable={name.toLowerCase().includes("zoom")}
+              >
+                <ZoomLinkContainer>
+                  <Fa icon="chalkboard-teacher" />{" "}
+                  <ButtonAsLink
+                    type="button"
+                    onClick={() => {
+                      const isClient = typeof window === "object"
+                      if (isClient) {
+                        window.open(common.decodeBase64(url))
+                      }
+                    }}
+                  >
+                    [ {name} ]
+                  </ButtonAsLink>
+                </ZoomLinkContainer>
+              </RequiredAuthFragment>
+            )) : null}
             <>
               <Fa icon="share-alt" />{" "}
               <ButtonAsLink
