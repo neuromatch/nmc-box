@@ -41,6 +41,9 @@ keys_airtable = [
     "arxiv",
 ]  # keys that we are interested from Airtable
 
+# all keys related to URL
+keys_url = ["url", "zoom_url", "youtube_url", "crowdcast_url"]
+
 settings_affiliation = {
     "settings": {
         "index": {
@@ -123,6 +126,34 @@ def convert_utc(dt: str):
     return dt
 
 
+def get_url_type(url: str):
+    """Get name for a given URL string"""
+    url = url.lower()
+    if "youtu" in url:
+        return "YouTube"
+    elif "crowdcast" in url:
+        return "Crowdcast"
+    elif "zoom" in url:
+        return "Zoom"
+    elif "meet.google" in url:
+        return "Google Meet"
+    elif "teams.microsoft" in url:
+        return "Microsoft Teams"
+    else:
+        return None
+
+
+def generate_urls(row):
+    """Generate list of URLS from a given row"""
+    urls = []
+    for k in keys_url:
+        url = row.get(k, "")
+        if url.strip() != "":
+            name = get_url_type(url)
+            urls.append({"name": name, "url": url})
+    return urls
+
+
 def generate_rows(
     rows: list,
     index: str = "grid",
@@ -143,6 +174,11 @@ def generate_rows(
                     row[k] = dt.isoformat()
                 except:
                     pass
+        # generate list of URLs
+        urls = generate_urls(row)
+        if len(urls) > 0:
+            row["urls"] = urls
+        row = {k: v for k, v in row.items() if k not in keys_url}  # remove URL keys
         yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 
