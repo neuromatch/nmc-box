@@ -5,6 +5,7 @@ Usage:
     python elasticsearch.py
 """
 import os
+import base64
 from pytz import timezone
 import yaml
 from tqdm.auto import tqdm
@@ -24,6 +25,7 @@ with open("es_config.yml") as f:
     es_config = yaml.load(f, Loader=yaml.FullLoader)
 
 es = Elasticsearch([{"host": es_config["host"], "port": es_config["port"]}])
+MAGIC_NUMBER = 9
 
 keys_airtable = [
     "submission_id",
@@ -117,6 +119,15 @@ settings_submission = {
 }
 
 
+def encode_base64(url: str):
+    """
+    Encode URL to base64
+    """
+    url_bytes = url.encode("ascii")
+    base64_bytes = base64.b64encode(url_bytes)
+    return (base64_bytes[MAGIC_NUMBER:] + base64_bytes[:MAGIC_NUMBER]).decode("utf-8")
+
+
 def convert_utc(dt: str):
     """Convert datetime in string to UTC"""
     utc = timezone("UTC")
@@ -150,7 +161,7 @@ def generate_urls(row):
         url = row.get(k, "")
         if url.strip() != "":
             name = get_url_type(url)
-            urls.append({"name": name, "url": url})
+            urls.append({"name": name, "url": encode_base64(url)})
     return urls
 
 
