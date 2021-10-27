@@ -171,7 +171,12 @@ def generate_personalized_recommendations(
         .reset_index()
         .sort_values("starttime_sort")
     )
-    personalized_abstracts = personalized_rec_df.drop("starttime_sort", axis=1).to_dict(
+    abstracts = personalized_rec_df.drop("starttime_sort", axis=1).to_dict(
         orient="records"
     )
+    personalized_abstracts = []
+    for row in abstracts:
+        personalized_abstracts.append(
+            {k: v for k, v in row.items() if not pd.isnull(v)}
+        )
     return personalized_abstracts
