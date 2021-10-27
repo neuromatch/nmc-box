@@ -190,6 +190,9 @@ def generate_rows(
         if len(urls) > 0:
             row["urls"] = urls
         row = {k: v for k, v in row.items() if k not in keys_url}  # remove URL keys
+        # for submission data, cast submission_id to string
+        if "submission_id" in row.keys():
+            row["submission_id"] = str(row["submission_id"])
         yield {"_index": index, "_type": row_type, "_id": row[id], "_source": row}
 
 

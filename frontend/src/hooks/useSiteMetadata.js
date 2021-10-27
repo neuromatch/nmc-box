@@ -9,15 +9,18 @@ import { useEffect, useState } from 'react';
  * @property {string} description
  * @property {string} edition
  * @property {string} editionName
- * @property {string} mainConfDate
- * @property {string} registrationDate
- * @property {string} submissionDate
+ * @property {string} mainConfDateText
+ * @property {string} registrationDateText
+ * @property {string} submissionDateText
+ * @property {string} endSubmissionDate
  * @property {string} twitterHashtag
  *
  * useSiteMetadata - this hooks is designed to always return metadata of
  * the latest edition.
  *
- * NOTE that this hook is used for landing page
+ * NOTE that this hook is used mostly for landing page but any page
+ * that needs the latest edition data can use it too (end submission
+ * date for example).
  * @returns {siteMetadataObj}
  */
 function useSiteMetadata() {
@@ -42,6 +45,7 @@ function useSiteMetadata() {
               }
               submission_date {
                 text
+                end
               }
               twitter_hashtag
             }
@@ -66,9 +70,9 @@ function useSiteMetadata() {
       page_title: title,
       edition,
       edition_name: editionName,
-      main_conference: { text: mainConfDate },
-      registration_date: { text: registrationDate },
-      submission_date: { text: submissionDate },
+      main_conference: { text: mainConfDateText },
+      registration_date: { text: registrationDateText },
+      submission_date: { text: submissionDateText, end: endSubmissionDate },
       twitter_hashtag: twitterHashtag,
     } = editions.find(x => x.edition === currentEdition)
 
@@ -79,9 +83,10 @@ function useSiteMetadata() {
       description,
       edition,
       editionName,
-      mainConfDate,
-      registrationDate,
-      submissionDate,
+      mainConfDateText,
+      registrationDateText,
+      submissionDateText,
+      endSubmissionDate,
       twitterHashtag,
     })
   }, [data.allSitedataYaml.edges])

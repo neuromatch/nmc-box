@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { navigate, Link } from "gatsby"
+import { Link, navigate } from "gatsby"
+import moment from "moment"
 import PropTypes from "prop-types"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Controller, ErrorMessage, useForm } from "react-hook-form"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import AvailableTimePicker from "../components/AvailableTimePicker"
 import {
   ButtonsContainer,
@@ -22,16 +23,11 @@ import {
 // import { ControlSelect } from "../components/FormComponents/SelectWrapper"
 import Layout from "../components/layout"
 import TimezonePicker from "../components/TimezonePicker"
-import useSiteMetadata from "../hooks/useSiteMetadata"
 import useAPI from "../hooks/useAPI"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import useValidateRegistration from "../hooks/useValidateRegistration"
-import {
-  common,
-  Fa,
-  timePickerHelpers,
-  // reactSelectHelpers,
-} from "../utils"
+import { common, Fa, timePickerHelpers } from "../utils"
 
 // -- CONSTANTS
 // const talkFormatOptions = ["Traditional talk", "Flash talk"]
@@ -113,17 +109,31 @@ const rejectHandler = (err, { dynamicToastControl, setIsSending }) => {
 }
 
 export default () => {
+  const { endSubmissionDate } = useSiteMetadata()
   const [isSending, setIsSending] = useState(false)
   const [isExpired, setIsExpired] = useState(null)
 
   useEffect(() => {
-    // TODO:
-    // implement logic to prevent new submission base on registration ending day
-    setIsExpired(false)
-  }, [])
+    // do not check if end submission date is not defined
+    if (!endSubmissionDate) {
+      setIsExpired(false)
+      return
+    }
+
+    // parse end date as the end of the day in UTC
+    const endDateUTC = moment(new Date(`${endSubmissionDate} 23:59Z`))
+    // add 12 hours for flexible ending
+    endDateUTC.add(12, "h")
+
+    if (new Date() > endDateUTC) {
+      setIsExpired(true)
+    } else {
+      setIsExpired(false)
+    }
+  }, [endSubmissionDate])
 
   // site metadata
-  const { submissionDate } = useSiteMetadata()
+  const { submissionDateText } = useSiteMetadata()
   // get user info
   const { isValidating, isRegistered, prevUserData } = useValidateRegistration()
   const { isLoggedIn } = useFirebaseWrapper()
@@ -316,10 +326,16 @@ export default () => {
       </p>
       {isExpired === true && (
         <p
-          style={{ textAlign: "center", color: "#ee1133", fontWeight: "bold" }}
+          css={css`
+            text-align: center;
+            font-weight: bold;
+            color: ${p => p.theme.colors.danger};
+            border: 2px solid ${p => p.theme.colors.danger};
+            padding: 12px 0;
+          `}
         >
           The submission is now closed (already pass the deadline on
-          {` ${submissionDate})`}
+          {` ${submissionDateText} - 23:59 UTC)`}
         </p>
       )}
       {isLoadingCurrentData && (
