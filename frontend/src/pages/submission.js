@@ -123,7 +123,7 @@ export default () => {
   }, [])
 
   // site metadata
-  const { submissionDate } = useSiteMetadata()
+  const { submissionDateText } = useSiteMetadata()
   // get user info
   const { isValidating, isRegistered, prevUserData } = useValidateRegistration()
   const { isLoggedIn } = useFirebaseWrapper()
@@ -319,7 +319,7 @@ export default () => {
           style={{ textAlign: "center", color: "#ee1133", fontWeight: "bold" }}
         >
           The submission is now closed (already pass the deadline on
-          {` ${submissionDate})`}
+          {` ${submissionDateText})`}
         </p>
       )}
       {isLoadingCurrentData && (

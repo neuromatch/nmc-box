@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
  * @property {string} description
  * @property {string} edition
  * @property {string} editionName
- * @property {string} mainConfDate
- * @property {string} registrationDate
- * @property {string} submissionDate
+ * @property {string} mainConfDateText
+ * @property {string} registrationDateText
+ * @property {string} submissionDateText
  * @property {string} twitterHashtag
  *
  * useSiteMetadata - this hooks is designed to always return metadata of
@@ -66,9 +66,9 @@ function useSiteMetadata() {
       page_title: title,
       edition,
       edition_name: editionName,
-      main_conference: { text: mainConfDate },
-      registration_date: { text: registrationDate },
-      submission_date: { text: submissionDate },
+      main_conference: { text: mainConfDateText },
+      registration_date: { text: registrationDateText },
+      submission_date: { text: submissionDateText },
       twitter_hashtag: twitterHashtag,
     } = editions.find(x => x.edition === currentEdition)
 
@@ -79,9 +79,9 @@ function useSiteMetadata() {
       description,
       edition,
       editionName,
-      mainConfDate,
-      registrationDate,
-      submissionDate,
+      mainConfDateText,
+      registrationDateText,
+      submissionDateText,
       twitterHashtag,
     })
   }, [data.allSitedataYaml.edges])

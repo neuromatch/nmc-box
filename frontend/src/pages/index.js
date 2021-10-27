@@ -236,9 +236,9 @@ export default () => {
     title,
     subtitle,
     description,
-    mainConfDate,
-    registrationDate,
-    submissionDate,
+    mainConfDateText,
+    registrationDateText,
+    submissionDateText,
     twitterHashtag,
   } = useSiteMetadata()
 
@@ -262,13 +262,13 @@ export default () => {
             for project structures and how to run the website.
             <br />
             <TopicHeading>Registration date</TopicHeading>
-            {registrationDate}
+            {registrationDateText}
             <br />
             <TopicHeading>Submission deadline</TopicHeading>
-            {submissionDate}
+            {submissionDateText}
             <br />
             <TopicHeading>Main Conference</TopicHeading>
-            {mainConfDate}
+            {mainConfDateText}
             <br />
             <TopicHeading>Agenda</TopicHeading>
             Available on <Link to="/agenda">Agenda</Link>
