@@ -26,6 +26,28 @@ const getDateRange = (start, end) => {
 }
 
 // -- MAIN
+/**
+ * TODO: this hook should include everything about time of the event
+ * we may have utils/datetime for parser, converter or something like that.
+ *
+ * Time of the event should be => start and end time of the first and the last
+ * abstract to be presented. We don't really care about the time of the event.
+ * Even the AvailableTimePicker should also use the same start and end time
+ * as an anchor.
+ *
+ * In order to get correct startend time, we should get from the backend
+ * which will try to get starttime of the first abstract and end time of the
+ * last abstract. This has a flaw because at the initial state, the abstracts
+ * are not assigned date time.
+ *
+ * To overcome this, AvailableTimePicker should rely on broad range of the event
+ * which is defined manually in config.yml with the main timezone provided.
+ *
+ * Another problem is default time of AvailableTimePicker. I would say we should
+ * set it to 9-18 of the user timezone everyday.
+ *
+ * Any other places in the application should use time from this hook.
+ */
 function useEventTime() {
   const { timezone } = useTimezone()
 
