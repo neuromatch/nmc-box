@@ -1,14 +1,9 @@
-import moment from "moment-timezone"
 import { useCookies } from "react-cookie"
 
 // -- CONSTANTS
 const timezoneCookieKey = "timezone"
 // guess user timezone
 const defaultGuessZone = moment.tz.guess()
-
-// -- FUNCTION
-const timezoneParser = (dtStr, tz) =>
-  moment.tz(dtStr, "MMMM DD, YYYY HH:mm", tz)
 
 // -- MAIN
 const useTimezone = () => {
@@ -21,5 +16,4 @@ const useTimezone = () => {
   }
 }
 
-export { timezoneParser }
 export default useTimezone

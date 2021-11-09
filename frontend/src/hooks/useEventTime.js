@@ -1,5 +1,8 @@
 import { graphql, useStaticQuery } from "gatsby"
 import moment from "moment"
+import { useEffect, useState } from "react"
+import useAPI from "./useAPI"
+import useSiteMetadata from "./useSiteMetadata"
 import useTimezone, { timezoneParser } from "./useTimezone"
 
 // -- CONSTANTS
@@ -49,6 +52,27 @@ const getDateRange = (start, end) => {
  * Any other places in the application should use time from this hook.
  */
 function useEventTime() {
+  const { edition } = useSiteMetadata()
+  const { getStartEndOfAbstracts } = useAPI()
+
+  const [startEndTime, setStartEnd] = useState({})
+
+  useEffect(() => {
+    const getTimePromise = getStartEndOfAbstracts({ edition })
+
+    if (!getTimePromise) {
+      return
+    }
+
+    getTimePromise
+    .then(res => res.json())
+    .then(resJson => setStartEnd(resJson))
+  }, [edition, getStartEndOfAbstracts])
+
+  useEffect(() => {
+    console.log('startEndTime', startEndTime)
+  }, [startEndTime])
+
   const { timezone } = useTimezone()
 
   const data = useStaticQuery(graphql`
