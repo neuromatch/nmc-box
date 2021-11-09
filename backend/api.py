@@ -344,6 +344,30 @@ def query_params_builder(
     return builder
 
 
+@app.get("/api/abstract/{edition}/startend")
+def get_startend_event(edition: str = "2021-1"):
+    """
+    Get starttime and endtime for all events from a given edition
+
+    edition: str, conference Edition such as "2021-1"
+    """
+    es_search = Search(using=es, index=f"agenda-{edition}")
+    try:
+        first_event = es_search.sort('starttime', {"starttime" : {"order" : "asc"}})
+        last_event = es_search.sort('-starttime', {"endtime" : {"order" : "asc"}})
+        first_event = first_event[0].execute().to_dict()
+        last_event = last_event[0].execute().to_dict()
+        return {
+            "starttime": first_event["hits"]["hits"][0]["_source"]["starttime"],
+            "endtime": last_event["hits"]["hits"][0]["_source"]["endtime"],
+        }
+    except:
+        return {
+            "starttime": None,
+            "endtime": None,
+        }
+
+
 # abstract search
 @app.get("/api/agenda/{edition}")
 async def get_agenda(edition: str, starttime: Optional[str] = None):
