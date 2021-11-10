@@ -1,6 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby"
 import { useEffect, useState } from "react"
-import { timezoneParser } from "./useTimezone"
+import { datetime } from "../utils"
 
 // -- CONSTANTS
 const talkFormatLabelColors = {
@@ -77,13 +77,13 @@ function useDisplayEdition(edition) {
      */
     const eventTimeBoundary = [
       new Date(
-        timezoneParser(
+        datetime.timezoneParser(
           `${mainConference.start} ${eventTime.start}`,
           mainTimezone
         ).toISOString()
       ),
       new Date(
-        timezoneParser(
+        datetime.timezoneParser(
           `${mainConference.end} ${eventTime.end}`,
           mainTimezone
         ).toISOString()

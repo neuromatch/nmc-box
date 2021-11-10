@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
 import useEventTime, { timeOptions } from "../../hooks/useEventTime"
-import useTimezone, { timezoneParser } from "../../hooks/useTimezone"
+import useTimezone from "../../hooks/useTimezone"
 import { media } from "../../styles"
-import { color, Fa } from "../../utils"
+import { color, datetime, Fa } from "../../utils"
 
 // -- COMPONENTS
 const Container = styled.div`
@@ -123,7 +123,7 @@ const EachDateBlock = ({ date, value, onChange, timeBoundary, timezone }) => {
         {timeOptions.map(time => {
           const thisOption = {
             label: time,
-            value: timezoneParser(`${date} ${time}`, timezone).toISOString(),
+            value: datetime.timezoneParser(`${date} ${time}`, timezone).toISOString(),
           }
           const exist = selected.includes(thisOption.value)
           const disabled = !moment(thisOption.value).isBetween(

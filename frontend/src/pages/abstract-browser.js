@@ -23,9 +23,10 @@ import TimezoneEditionModal from "../components/TimezoneEditionModal"
 import useAPI from "../hooks/useAPI"
 import useEventTime from "../hooks/useEventTime"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
-import useTimezone, { timezoneParser } from "../hooks/useTimezone"
+import useTimezone from "../hooks/useTimezone"
 import useValidateRegistration from "../hooks/useValidateRegistration"
 import { basedStyles, growOverParentPadding, media } from "../styles"
+import { datetime } from "../utils"
 import BasedFa from "../utils/fontawesome"
 
 // -- TYPES
@@ -96,8 +97,8 @@ const fetchWrapper = ({
 // -- CONSTANTS
 // TODO: replace with that in useEventTime
 const timeBoundary = [
-  timezoneParser("October 26, 2020 00:00", "UTC").toISOString(),
-  timezoneParser("October 31, 2020 12:00", "UTC").toISOString(),
+  datetime.timezoneParser("October 26, 2020 00:00", "UTC").toISOString(),
+  datetime.timezoneParser("October 31, 2020 12:00", "UTC").toISOString(),
 ]
 
 const utcStartTime = moment.utc(timeBoundary[0])

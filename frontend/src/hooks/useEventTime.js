@@ -1,9 +1,10 @@
 import { graphql, useStaticQuery } from "gatsby"
 import moment from "moment"
 import { useEffect, useState } from "react"
+import { datetime } from "../utils"
 import useAPI from "./useAPI"
 import useSiteMetadata from "./useSiteMetadata"
-import useTimezone, { timezoneParser } from "./useTimezone"
+import useTimezone from "./useTimezone"
 
 // -- CONSTANTS
 // this will generate ["00:00", "01:00", ..., "23.00"]
@@ -119,8 +120,8 @@ function useEventTime() {
    * of the latest conference.
    */
   const mainConfTimeBoundary = [
-    timezoneParser(`${startDate} ${startTime}`, mainTimezone).toISOString(),
-    timezoneParser(`${endDate} ${endTime}`, mainTimezone).toISOString(),
+    datetime.timezoneParser(`${startDate} ${startTime}`, mainTimezone).toISOString(),
+    datetime.timezoneParser(`${endDate} ${endTime}`, mainTimezone).toISOString(),
   ]
 
   // dateRange is used in AvailableTimePicker to generate picker in the range of an event
@@ -144,10 +145,10 @@ function useEventTime() {
     const accTime = []
 
     timeOptions.forEach(time => {
-      const thisTime = timezoneParser(`${date} ${time}`, timezone)
+      const thisTime = datetime.timezoneParser(`${date} ${time}`, timezone)
       const isBetweenDefault = thisTime.isBetween(
-        timezoneParser(`${date} ${presetShouldJoinTime[0]}`, timezone),
-        timezoneParser(`${date} ${presetShouldJoinTime[1]}`, timezone),
+        datetime.timezoneParser(`${date} ${presetShouldJoinTime[0]}`, timezone),
+        datetime.timezoneParser(`${date} ${presetShouldJoinTime[1]}`, timezone),
         undefined,
         "[]"
       )
@@ -160,7 +161,7 @@ function useEventTime() {
       )
 
       if (isBetweenDefault && isBetweenActiveEvent) {
-        accTime.push(timezoneParser(`${date} ${time}`, timezone).toISOString())
+        accTime.push(datetime.timezoneParser(`${date} ${time}`, timezone).toISOString())
       }
     })
 
