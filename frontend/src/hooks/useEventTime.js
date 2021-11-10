@@ -13,14 +13,31 @@ const timeOptions = Array.from({ length: 24 }).map((_, ind) =>
 )
 
 // -- FUNCTIONS
-const getDateRange = (start, end) => {
-  const momentStart = moment(start)
+/**
+ * getAvailableTimePickerRange - this function receives start and end as Date object.
+ * @param {Date} start
+ * @param {Date} end
+ * @returns {String[]}
+ * @description
+ * The conversion is as follows:
+ * - date from config.yml
+ *   -> November 10, 2021
+ * - parse using Date so it becomes 00:00 of local timezone
+ *   -> new Date('November 10, 2021') -> November 10, 2021 00:00 GMT+7 (Bangkok)
+ * - we only care about date (November 10, 2021) for AvailableTimePicker
+ *
+ * The result range will be [start-1, end+1], for example start date is
+ * November 10, 2021 and end date is November 12, 2021 the list will be
+ * ["November 9, 2021", "November 10, 2021" ..., "November 13, 2021"]
+ */
+const getAvailableTimePickerRange = (start, end) => {
+  const momentStart = moment(start).subtract(1, "day")
   const diff = moment(end).diff(momentStart, "d")
   const range = []
   // first date
   range.push(momentStart.format("MMMM DD, YYYY"))
 
-  for (let i = 0; i < diff; i++) {
+  for (let i = 0; i <= diff; i++) {
     // add one day and push
     momentStart.add(1, "d")
     range.push(momentStart.format("MMMM DD, YYYY"))
@@ -92,10 +109,6 @@ function useEventTime() {
                 end
                 text
               }
-              event_time {
-                start
-                end
-              }
             }
           }
         }
@@ -112,36 +125,29 @@ function useEventTime() {
   const {
     edition_name: currentEditionName,
     main_conference: { start: startDate, end: endDate },
-    event_time: { start: startTime, end: endTime },
   } = editions.find(x => x.edition === currentEdition)
 
-  /**
-   * @description this is always ISO strings. It is used to tell start and end time
-   * of the latest conference.
-   */
-  const mainConfTimeBoundary = [
-    datetime.timezoneParser(`${startDate} ${startTime}`, mainTimezone).toISOString(),
-    datetime.timezoneParser(`${endDate} ${endTime}`, mainTimezone).toISOString(),
+  // ---- FOR AvailableTimePicker
+  const mainTzStartISO = datetime.timezoneParser(`${startDate} 00:00`, mainTimezone)
+  const mainTzEndISO = datetime.timezoneParser(`${endDate} 23:59`, mainTimezone)
+
+  const availableTimePickerBoundary = [
+    mainTzStartISO.toISOString(),
+    mainTzEndISO.toISOString(),
   ]
 
-  // dateRange is used in AvailableTimePicker to generate picker in the range of an event
-  const beforeStartDate = moment(new Date(startDate).toISOString())
-    .subtract(1, "d")
-    .toISOString()
-  const afterEndDate = moment(new Date(endDate).toISOString())
-    .add(1, "d")
-    .toISOString()
-  // date range to be used to create options and also default values
-  // start -> lower boundary - 1 day
-  // end -> upper boundary + 1 day
-  // this need padding on both start and end because it depends
-  // heavily on the main timezone
-  const dateRange = getDateRange(beforeStartDate, afterEndDate)
+  // startDate format MMMM DD, YYYY
+  // new Date(startDate) gets the date at 00:00 local timezone
+  // new Date("November 11, 2021") at Bangkok will get 2021-11-10 00:00 GMT+7
+  const availableTimePickerRange = getAvailableTimePickerRange(
+    new Date(startDate),
+    new Date(endDate),
+  )
 
   // the first time user is about to register, we will pre-select
   // time slots in this period of their timezone in the AvailableTimePicker.
   const presetShouldJoinTime = ["9:00", "18:00"]
-  const defaultAvailableTime = dateRange.map(date => {
+  const defaultAvailableTime = availableTimePickerRange.map(date => {
     const accTime = []
 
     timeOptions.forEach(time => {
@@ -153,14 +159,14 @@ function useEventTime() {
         "[]"
       )
       // also filter datetime to be during event active time
-      const isBetweenActiveEvent = thisTime.isBetween(
-        mainConfTimeBoundary[0],
-        mainConfTimeBoundary[1],
+      const isBetweenEvent = thisTime.isBetween(
+        availableTimePickerBoundary[0],
+        availableTimePickerBoundary[1],
         undefined,
         "[)"
       )
 
-      if (isBetweenDefault && isBetweenActiveEvent) {
+      if (isBetweenDefault && isBetweenEvent) {
         accTime.push(datetime.timezoneParser(`${date} ${time}`, timezone).toISOString())
       }
     })
@@ -170,18 +176,27 @@ function useEventTime() {
       time: accTime,
     }
   })
+  // ---- ENDFOR AvailableTimePicker
+
+  /**
+   * TODO: TO BE REMOVED
+   * @description this is always ISO strings. It is used to tell start and end time
+   * of the latest conference.
+   */
+   const mainConfTimeBoundary = [
+    datetime.timezoneParser(`${startDate} 07:00`, mainTimezone).toISOString(),
+    datetime.timezoneParser(`${endDate} 21:00`, mainTimezone).toISOString(),
+  ]
 
   return {
     startDate: startDate,
     endDate: endDate,
-    dateRange,
     mainConfTimeBoundary,
-    defaultAvailableTime,
     currentEdition,
     currentEditionName,
-    // text of main conference date
-    // e.g. start = "December 1, 2021", end = "December 2, 2021"
-    // text is "December 1 - 2, 2021"
+    availableTimePickerRange,
+    availableTimePickerBoundary,
+    defaultAvailableTime,
   }
 }
 

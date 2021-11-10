@@ -43,10 +43,6 @@ function useDisplayEdition(edition) {
                 end
                 text
               }
-              event_time {
-                start
-                end
-              }
               tracks
             }
           }
@@ -66,11 +62,11 @@ function useDisplayEdition(edition) {
     } = sitedata
     const {
       main_conference: mainConference,
-      event_time: eventTime,
       tracks,
     } = editions.find(x => x.edition === (edition || currentEdition))
 
     /**
+     * TODO: TO BE REMOVED
      * @description this one is almost identical with mainConfTimeBoundary in useEventTime. There are 2 main differences:
      * 1) the time to be parsed here is dynamic based on selected edition
      * 2) this is an instance of Date() because it is only used in agenda (for big calendar component)
@@ -78,13 +74,13 @@ function useDisplayEdition(edition) {
     const eventTimeBoundary = [
       new Date(
         datetime.timezoneParser(
-          `${mainConference.start} ${eventTime.start}`,
+          `${mainConference.start} 07:00`,
           mainTimezone
         ).toISOString()
       ),
       new Date(
         datetime.timezoneParser(
-          `${mainConference.end} ${eventTime.end}`,
+          `${mainConference.end} 21:00`,
           mainTimezone
         ).toISOString()
       ),

@@ -36,6 +36,9 @@ editions:
       end: March 25, 2020
     main_conference:
       text: March 30 - April 1, 2020
+      # these date will be used for AvailableTimePicker
+      # meaning that if no AvailableTimePicker, this is useless
+      # and can be omitted
       start: March 30, 2020
       end: April 1, 2020
     event_time:

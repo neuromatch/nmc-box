@@ -18,7 +18,10 @@ const AvailableTimePicker = ({ value, onChange }) => {
   const [selectedDatetime, setSelectedDatetime] = useState([])
   // constants but get from hook
   const { timezone } = useTimezone()
-  const { mainConfTimeBoundary, dateRange } = useEventTime()
+  const {
+    availableTimePickerRange,
+    availableTimePickerBoundary,
+  } = useEventTime()
 
   useEffect(() => {
     // if value from origin changes, update here too
@@ -36,12 +39,12 @@ const AvailableTimePicker = ({ value, onChange }) => {
 
   return (
     <Container>
-      {dateRange.map(date => (
+      {availableTimePickerRange.map(date => (
         <EachDateBlock
           key={date}
           date={date}
           timezone={timezone}
-          timeBoundary={mainConfTimeBoundary}
+          timeBoundary={availableTimePickerBoundary}
           value={selectedDatetime?.find(x => x.date === date)?.time}
           onChange={updatedVal => {
             const exist = selectedDatetime.find(x => x.date === date)
