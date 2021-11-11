@@ -1,10 +1,7 @@
 import { graphql, useStaticQuery } from "gatsby"
 import moment from "moment"
-import { useEffect, useState } from "react"
-import { datetime } from "../utils"
-import useAPI from "./useAPI"
-import useSiteMetadata from "./useSiteMetadata"
-import useTimezone from "./useTimezone"
+import useTimezone from "../../hooks/useTimezone"
+import { datetime } from "../../utils"
 
 // -- CONSTANTS
 // this will generate ["00:00", "01:00", ..., "23.00"]
@@ -47,50 +44,7 @@ const getAvailableTimePickerRange = (start, end) => {
 }
 
 // -- MAIN
-/**
- * TODO: this hook should include everything about time of the event
- * we may have utils/datetime for parser, converter or something like that.
- *
- * Time of the event should be => start and end time of the first and the last
- * abstract to be presented. We don't really care about the time of the event.
- * Even the AvailableTimePicker should also use the same start and end time
- * as an anchor.
- *
- * In order to get correct startend time, we should get from the backend
- * which will try to get starttime of the first abstract and end time of the
- * last abstract. This has a flaw because at the initial state, the abstracts
- * are not assigned date time.
- *
- * To overcome this, AvailableTimePicker should rely on broad range of the event
- * which is defined manually in config.yml with the main timezone provided.
- *
- * Another problem is default time of AvailableTimePicker. I would say we should
- * set it to 9-18 of the user timezone everyday.
- *
- * Any other places in the application should use time from this hook.
- */
-function useEventTime() {
-  const { edition } = useSiteMetadata()
-  const { getStartEndOfAbstracts } = useAPI()
-
-  const [startEndTime, setStartEnd] = useState({})
-
-  useEffect(() => {
-    const getTimePromise = getStartEndOfAbstracts({ edition })
-
-    if (!getTimePromise) {
-      return
-    }
-
-    getTimePromise
-    .then(res => res.json())
-    .then(resJson => setStartEnd(resJson))
-  }, [edition, getStartEndOfAbstracts])
-
-  useEffect(() => {
-    console.log('startEndTime', startEndTime)
-  }, [startEndTime])
-
+function usePrepareAvailableTimeData() {
   const { timezone } = useTimezone()
 
   const data = useStaticQuery(graphql`
@@ -102,12 +56,9 @@ function useEventTime() {
             current_edition
             main_timezone
             editions {
-              edition
-              edition_name
               main_conference {
                 start
                 end
-                text
               }
             }
           }
@@ -118,22 +69,30 @@ function useEventTime() {
 
   const sitedata = data.allSitedataYaml.edges[0].node
   const {
+    // to get edition data of the current edition
     current_edition: currentEdition,
-    editions,
+    // to set boundary based on time of the main timezone
     main_timezone: mainTimezone,
+    // data of all edition
+    editions,
   } = sitedata
+  // get data of current edition
+  // for AvailableTimePicker we need start and end dates of the main conference
   const {
-    edition_name: currentEditionName,
     main_conference: { start: startDate, end: endDate },
   } = editions.find(x => x.edition === currentEdition)
 
-  // ---- FOR AvailableTimePicker
-  const mainTzStartISO = datetime.timezoneParser(`${startDate} 00:00`, mainTimezone)
-  const mainTzEndISO = datetime.timezoneParser(`${endDate} 23:59`, mainTimezone)
+  // boundary to select available time no matter what timezone the client is on
+  // will be limited at mainTimezone 00:00 of the start date to 23:59 of the end date
+  const mainTzStart = datetime.timezoneParser(
+    `${startDate} 00:00`,
+    mainTimezone
+  )
+  const mainTzEnd = datetime.timezoneParser(`${endDate} 23:59`, mainTimezone)
 
   const availableTimePickerBoundary = [
-    mainTzStartISO.toISOString(),
-    mainTzEndISO.toISOString(),
+    mainTzStart.toISOString(),
+    mainTzEnd.toISOString(),
   ]
 
   // startDate format MMMM DD, YYYY
@@ -141,7 +100,7 @@ function useEventTime() {
   // new Date("November 11, 2021") at Bangkok will get 2021-11-10 00:00 GMT+7
   const availableTimePickerRange = getAvailableTimePickerRange(
     new Date(startDate),
-    new Date(endDate),
+    new Date(endDate)
   )
 
   // the first time user is about to register, we will pre-select
@@ -167,7 +126,9 @@ function useEventTime() {
       )
 
       if (isBetweenDefault && isBetweenEvent) {
-        accTime.push(datetime.timezoneParser(`${date} ${time}`, timezone).toISOString())
+        accTime.push(
+          datetime.timezoneParser(`${date} ${time}`, timezone).toISOString()
+        )
       }
     })
 
@@ -176,24 +137,8 @@ function useEventTime() {
       time: accTime,
     }
   })
-  // ---- ENDFOR AvailableTimePicker
-
-  /**
-   * TODO: TO BE REMOVED
-   * @description this is always ISO strings. It is used to tell start and end time
-   * of the latest conference.
-   */
-   const mainConfTimeBoundary = [
-    datetime.timezoneParser(`${startDate} 07:00`, mainTimezone).toISOString(),
-    datetime.timezoneParser(`${endDate} 21:00`, mainTimezone).toISOString(),
-  ]
 
   return {
-    startDate: startDate,
-    endDate: endDate,
-    mainConfTimeBoundary,
-    currentEdition,
-    currentEditionName,
     availableTimePickerRange,
     availableTimePickerBoundary,
     defaultAvailableTime,
@@ -201,4 +146,4 @@ function useEventTime() {
 }
 
 export { timeOptions }
-export default useEventTime
+export default usePrepareAvailableTimeData

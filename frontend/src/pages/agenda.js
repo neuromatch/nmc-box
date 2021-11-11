@@ -1,10 +1,11 @@
+import { Link } from "gatsby"
 import momentLocalize from "moment"
 import moment from "moment-timezone"
-import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { Calendar, momentLocalizer, Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import styled from "styled-components"
+import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 import CommonPageStyles from "../components/BaseComponents/CommonPageStyles"
 import HeadingWithButtonContainer from "../components/BaseComponents/HeadingWithButtonContainer"
 import Layout from "../components/layout"
@@ -13,12 +14,11 @@ import useAPI from "../hooks/useAPI"
 import useDisplayEdition, {
   talkFormatLabelColors,
 } from "../hooks/useDisplayEdition"
-import useEventTime from "../hooks/useEventTime"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
-import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize)
@@ -184,7 +184,7 @@ export default () => {
   const { getAgenda } = useAPI()
   // -- edition related
   const { timezone } = useTimezone()
-  const { currentEdition, currentEditionName } = useEventTime()
+  const { currentEdition, currentEditionName } = useSiteMetadata()
   const [displayEdition, setDisplayEdition] = useState({
     label: currentEditionName,
     value: currentEdition,

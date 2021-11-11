@@ -2,9 +2,9 @@ import moment from "moment-timezone"
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
-import { timeOptions } from "../../hooks/useEventTime"
 import { media } from "../../styles"
 import { color, datetime } from "../../utils"
+import { timeOptions } from "./usePrepareAvailableTimeData"
 
 // -- COMPONENTS
 const GridContainer = styled.div`

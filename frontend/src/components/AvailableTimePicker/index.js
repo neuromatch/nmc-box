@@ -1,10 +1,10 @@
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import useEventTime from "../../hooks/useEventTime"
 import useTimezone from "../../hooks/useTimezone"
 import { Fa } from "../../utils"
 import EachDateBlock from "./EachDateBlock"
+import usePrepareAvailableTimeData from "./usePrepareAvailableTimeData"
 
 // -- COMPONENTS
 const Container = styled.div`
@@ -21,7 +21,7 @@ const AvailableTimePicker = ({ value, onChange }) => {
   const {
     availableTimePickerRange,
     availableTimePickerBoundary,
-  } = useEventTime()
+  } = usePrepareAvailableTimeData()
 
   useEffect(() => {
     // if value from origin changes, update here too

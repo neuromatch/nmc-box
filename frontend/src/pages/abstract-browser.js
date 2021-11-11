@@ -21,7 +21,7 @@ import LoadingView from "../components/BaseComponents/LoadingView"
 import Layout from "../components/layout"
 import TimezoneEditionModal from "../components/TimezoneEditionModal"
 import useAPI from "../hooks/useAPI"
-import useEventTime from "../hooks/useEventTime"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useTimezone from "../hooks/useTimezone"
 import useValidateRegistration from "../hooks/useValidateRegistration"
@@ -330,7 +330,7 @@ export default () => {
   const searchInputRef = useRef(null)
 
   // -- refactor
-  const { currentEdition, currentEditionName } = useEventTime()
+  const { edition: currentEdition, editionName: currentEditionName } = useSiteMetadata()
   const [displayEdition, setDisplayEdition] = useState({
     label: currentEditionName,
     value: currentEdition,
