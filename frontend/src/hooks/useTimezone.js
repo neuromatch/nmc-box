@@ -1,3 +1,4 @@
+import moment from "moment-timezone"
 import { useCookies } from "react-cookie"
 
 // -- CONSTANTS
@@ -12,7 +13,7 @@ const useTimezone = () => {
 
   return {
     timezone: cookies[timezoneCookieKey] || defaultGuessZone,
-    setTimezone: (tz) => setCookie(timezoneCookieKey, tz),
+    setTimezone: tz => setCookie(timezoneCookieKey, tz),
   }
 }
 

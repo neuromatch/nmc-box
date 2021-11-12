@@ -66,9 +66,9 @@ function useSiteMetadata() {
     page_title: title,
     edition,
     edition_name: editionName,
-    main_conference: { text: mainConfDate },
-    registration_date: { text: registrationDate },
-    submission_date: { text: submissionDate },
+    main_conference: { text: mainConfDateText },
+    registration_date: { text: registrationDateText },
+    submission_date: { text: submissionDateText, end: endSubmissionDate },
     twitter_hashtag: twitterHashtag,
   } = editions.find(x => x.edition === currentEdition)
 

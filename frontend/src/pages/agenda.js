@@ -28,9 +28,9 @@ const localizer = momentLocalizer(momentLocalize)
 const getColorOfTalkFormat = talkFormat => talkFormatLabelColors[talkFormat]
 
 // -- COMPONENTS
-// const BoldText = styled.span`
-//   font-weight: bold;
-// `
+const BoldText = styled.span`
+  font-weight: bold;
+`
 
 const NoticeBox = styled.p`
   text-align: center;
@@ -195,9 +195,12 @@ export default () => {
     label: currentEditionName,
     value: currentEdition,
   })
-  const { eventTimeBoundary, resourceMap, mainTimezone } = useDisplayEdition(
-    displayEdition.value
-  )
+  const {
+    eventTimeBoundary,
+    resourceMap,
+    mainTimezone,
+    mainConfDateText,
+  } = useDisplayEdition(displayEdition.value)
   // -- local states
   const [isLoading, setIsLoading] = useState(true)
   const [agendaData, setAgendaData] = useState([])

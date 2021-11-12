@@ -18,7 +18,7 @@ const talkFormatLabelColors = {
  * @typedef {Object} DisplayEditionData
  * @property {String} edition - the edition of current data
  * @property {String} mainTimezone - main timezone that organizers decide
- * @property {String} text - text of organized date for main conference
+ * @property {String} mainConfDateText - text of organized date for main conference
  * @property {String[]} eventTimeBoundary - lower and upper boundary of the specified edition as ISOString
  * @property {Object[]} resourceMap - resources mapping for each edition
  *
@@ -79,9 +79,10 @@ function useDisplayEdition(edition) {
       editions,
       main_timezone: mainTimezone,
     } = sitedata
-    const { tracks } = editions.find(
-      x => x.edition === (edition || currentEdition)
-    )
+    const {
+      tracks,
+      main_conference: { mainConfDateText },
+    } = editions.find(x => x.edition === (edition || currentEdition))
 
     const { starttime, endtime } = startEndTime
 
@@ -102,6 +103,7 @@ function useDisplayEdition(edition) {
     setDisplayEditionData({
       edition: edition || currentEdition,
       mainTimezone,
+      mainConfDateText,
       eventTimeBoundary,
       resourceMap,
     })
