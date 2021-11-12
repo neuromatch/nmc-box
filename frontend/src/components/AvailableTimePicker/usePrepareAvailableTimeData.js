@@ -56,6 +56,7 @@ function usePrepareAvailableTimeData() {
             current_edition
             main_timezone
             editions {
+              edition
               main_conference {
                 start
                 end
@@ -76,6 +77,7 @@ function usePrepareAvailableTimeData() {
     // data of all edition
     editions,
   } = sitedata
+
   // get data of current edition
   // for AvailableTimePicker we need start and end dates of the main conference
   const {
