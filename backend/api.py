@@ -353,8 +353,8 @@ def get_startend_event(edition: str = "2021-1"):
     """
     es_search = Search(using=es, index=f"agenda-{edition}")
     try:
-        first_event = es_search.sort('starttime', {"starttime" : {"order" : "asc"}})
-        last_event = es_search.sort('-starttime', {"endtime" : {"order" : "asc"}})
+        first_event = es_search.sort("starttime", {"starttime": {"order": "asc"}})
+        last_event = es_search.sort("-starttime", {"endtime": {"order": "asc"}})
         first_event = first_event[0].execute().to_dict()
         last_event = last_event[0].execute().to_dict()
         return {
