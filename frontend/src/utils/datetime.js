@@ -6,7 +6,7 @@ import moment from "moment-timezone"
  * @param {String} dtStr - datetime string in the format of "MMMM DD, YYYY HH:mm"
  * @param {String} tz - a timezone string from a list of timezones in moment.js
  * https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a
- * @returns {import("moment").MomentTimezone}
+ * @returns {import("moment-timezone").Moment}
  */
 const timezoneParser = (dtStr, tz) =>
   moment.tz(dtStr, "MMMM DD, YYYY HH:mm", tz)
@@ -27,7 +27,7 @@ const timezoneParser = (dtStr, tz) =>
  * @param {Date} dateObject -
  * @param {String} tz - a timezone string from a list of timezones in moment.js
  * https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a
- * @returns {import("moment").MomentTimezone}
+ * @returns {import("moment-timezone").Moment}
  */
 const dateToMomentOfTimezone = (dateObject, tz) => {
   const dateStringWithNoTimezone = moment(dateObject).format(
