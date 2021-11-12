@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { ErrorMessage, useForm } from "react-hook-form"
 import useAPI from "../../hooks/useAPI"
-import usePrepareAvailableTimeData from "../AvailableTimePicker/usePrepareAvailableTimeData"
+// import usePrepareAvailableTimeData from "../AvailableTimePicker/usePrepareAvailableTimeData"
 import useFirebaseWrapper from "../../hooks/useFirebaseWrapper"
 // import MindMatchingModule, {
 //   defaultOptionalFields,
@@ -70,7 +70,7 @@ const RegisterForm = ({ prevUserData, origin }) => {
     getAffiliation,
   } = useAPI()
   // timeBoundary
-  const { defaultAvailableTime } = usePrepareAvailableTimeData()
+  // const { defaultAvailableTime } = usePrepareAvailableTimeData()
   // ref
   const toastControl = useRef(null)
   // module states
