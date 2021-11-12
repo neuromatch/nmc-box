@@ -1,8 +1,9 @@
 import { graphql, useStaticQuery } from "gatsby"
 import { useEffect, useState } from "react"
-import { datetime } from "../utils"
+import useAPI from "./useAPI"
 
 // -- CONSTANTS
+// move all the colors of theme and stuffs here?
 const talkFormatLabelColors = {
   'Contributed talks': '#d0f0fd',
   'Interactive talk': '#d0f0fd',
@@ -51,7 +52,23 @@ function useDisplayEdition(edition) {
     }
   `)
 
+  const { getStartEndOfAbstracts } = useAPI()
+  const [startEndTime, setStartEnd] = useState({})
   const [mainConfMetadata, setMainConferenceMetadata] = useState({})
+
+  useEffect(() => {
+    const getTimePromise = getStartEndOfAbstracts({ edition })
+
+    if (!getTimePromise) {
+      return
+    }
+
+    getTimePromise
+    .then(res => res.json())
+    .then(resJson => {
+      setStartEnd(resJson)
+    })
+  }, [edition, getStartEndOfAbstracts])
 
   useEffect(() => {
     const sitedata = data.allSitedataYaml.edges[0].node
@@ -65,39 +82,32 @@ function useDisplayEdition(edition) {
       tracks,
     } = editions.find(x => x.edition === (edition || currentEdition))
 
-    /**
-     * TODO: TO BE REMOVED
-     * @description this one is almost identical with mainConfTimeBoundary in useEventTime. There are 2 main differences:
-     * 1) the time to be parsed here is dynamic based on selected edition
-     * 2) this is an instance of Date() because it is only used in agenda (for big calendar component)
-     */
+    const { starttime, endtime } = startEndTime
+
+    if (!starttime || !endtime) {
+      return;
+    }
+
     const eventTimeBoundary = [
-      new Date(
-        datetime.timezoneParser(
-          `${mainConference.start} 07:00`,
-          mainTimezone
-        ).toISOString()
-      ),
-      new Date(
-        datetime.timezoneParser(
-          `${mainConference.end} 21:00`,
-          mainTimezone
-        ).toISOString()
-      ),
+      new Date(starttime).toISOString(),
+      new Date(endtime).toISOString(),
     ]
 
-    const resourceMap = tracks.map(x => ({
-      track: x,
-      resourceTitle: `${x.charAt(0).toUpperCase()}${x.slice(1)}`,
+    const resourceMap = tracks.map(track => ({
+      track,
+      resourceTitle: `${track.charAt(0).toUpperCase()}${track.slice(1)}`,
     }))
 
+    // TODO: refactor return object structure
+    // probably split eventTimeBoundary out of this side effect too
     setMainConferenceMetadata({
       edition: edition || currentEdition,
+      mainTimezone,
       ...mainConference,
       eventTimeBoundary,
       resourceMap,
     })
-  }, [data.allSitedataYaml.edges, edition])
+  }, [data.allSitedataYaml.edges, edition, startEndTime])
 
   return { mainConfMetadata }
 }

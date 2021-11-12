@@ -55,9 +55,9 @@ function useSiteMetadata() {
     }
   `);
 
-  const [siteMetadata, setSiteMetadata] = useState({})
+  // const [siteMetadata, setSiteMetadata] = useState({})
 
-  useEffect(() => {
+  // useEffect(() => {
     const sitedata = data.allSitedataYaml.edges[0].node
     const {
       current_edition: currentEdition,
@@ -76,22 +76,34 @@ function useSiteMetadata() {
       twitter_hashtag: twitterHashtag,
     } = editions.find(x => x.edition === currentEdition)
 
-    setSiteMetadata({
-      name,
-      title,
-      subtitle,
-      description,
-      edition,
-      editionName,
-      mainConfDateText,
-      registrationDateText,
-      submissionDateText,
-      endSubmissionDate,
-      twitterHashtag,
-    })
-  }, [data.allSitedataYaml.edges])
+  //   setSiteMetadata({
+  //     name,
+  //     title,
+  //     subtitle,
+  //     description,
+  //     edition,
+  //     editionName,
+  //     mainConfDateText,
+  //     registrationDateText,
+  //     submissionDateText,
+  //     endSubmissionDate
+  //     twitterHashtag,
+  //   })
+  // }, [data.allSitedataYaml.edges])
 
-  return siteMetadata;
+  return {
+    name,
+    title,
+    subtitle,
+    description,
+    edition,
+    editionName,
+    mainConfDateText,
+    registrationDateText,
+    submissionDateText,
+    endSubmissionDate,
+    twitterHashtag,
+  };
 }
 
 export default useSiteMetadata;

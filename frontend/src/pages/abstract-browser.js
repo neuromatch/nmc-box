@@ -45,6 +45,7 @@ import BasedFa from "../utils/fontawesome"
  */
 
 // -- FUNCTIONS
+// TODO: use datetime
 const selectedDatetimeToISO = (dtStr, tz) => {
   // remove timezone from new Date()
   const pureDt = dtStr.toString().split(" GMT")?.[0]
@@ -565,6 +566,7 @@ export default () => {
                   isClearable
                   withPortal
                   selected={startDateTime}
+                  // refactor props below
                   onChange={date => setStartDateTime(date)}
                   minDate={
                     new Date(

@@ -17,6 +17,7 @@ import useDisplayEdition, {
 import useSiteMetadata from "../hooks/useSiteMetadata"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
+import { datetime } from "../utils"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
 
@@ -139,21 +140,33 @@ const handleConvertDatetime = (data, tz) => {
 }
 
 // need to make this a curry function to pass eventTimeBoundary in
-const CustomBar = eventTimeBoundary => ({
+const CustomBar = (eventTimeBoundary, timezone) => ({
   /* eslint-disable react/prop-types */
   onNavigate,
   label,
   date,
   /* eslint-enable react/prop-types */
 }) => {
-  if (!eventTimeBoundary) {
+  if (!eventTimeBoundary[0] || !eventTimeBoundary[1] || !timezone) {
     return null
   }
 
+  // const toBeParsedString = moment(date).format('MMMM DD, YYYY HH:mm')
+  // const toBeFetched = datetime.timezoneParser(toBeParsedString, timezone)
+  // console.log('date', toBeParsedString)
+  // console.log('parsed', toBeFetched)
+  // console.log('parsed ISO', toBeFetched.toISOString())
+  const momentOfTimezone = datetime.dateToMomentOfTimezone(date, timezone)
+
   // eslint-disable-next-line react/prop-types
-  const current = new Date(date.toDateString())
-  const lowerBound = new Date(eventTimeBoundary[0].toDateString())
-  const upperBound = new Date(eventTimeBoundary[1].toDateString())
+  const current = momentOfTimezone
+  const lowerBound = moment(eventTimeBoundary[0])
+  // current is at 00:00 of calendar of current timezone
+  // so this checks for overlapping of a day
+  const upperBound = moment(eventTimeBoundary[1]).subtract("24", "hours")
+
+  console.log("------ current", current)
+  console.log("------ upperBound", upperBound)
 
   // console.log('in CustomBar bound0/date/bound1', lowerBound, current, upperBound)
 
@@ -184,12 +197,18 @@ export default () => {
   const { getAgenda } = useAPI()
   // -- edition related
   const { timezone } = useTimezone()
-  const { currentEdition, currentEditionName } = useSiteMetadata()
+  const {
+    edition: currentEdition,
+    editionName: currentEditionName,
+  } = useSiteMetadata()
+
   const [displayEdition, setDisplayEdition] = useState({
     label: currentEditionName,
     value: currentEdition,
   })
-  const { mainConfMetadata } = useDisplayEdition(displayEdition.value)
+  const { mainConfMetadata, mainTimezone } = useDisplayEdition(
+    displayEdition.value
+  )
   const {
     text: mainConfDateText,
     start: mainConfStartDate,
@@ -213,19 +232,29 @@ export default () => {
   const [detailModalVisible, setDetailModalVisible] = useState(false)
   const [pressedItemData, setPressedItemData] = useState(null)
 
+  useEffect(() => {
+    console.log("[agenda] displayEdition", displayEdition)
+    console.log("[agenda] currentEdition", currentEdition)
+    console.log("[agenda] currentEditionName", currentEditionName)
+  }, [currentEdition, currentEditionName, displayEdition])
+
   // initiate date for both calendar and fetcher
   useEffect(() => {
+    console.log("eventTimeBoundary", eventTimeBoundary)
+
     if (!eventTimeBoundary) {
       return
     }
+    const mainTzStartDate = moment.tz(eventTimeBoundary[0], mainTimezone)
+    const myTzStartDate = mainTzStartDate.clone().tz(timezone)
+    myTzStartDate.set("h", 0)
+    myTzStartDate.set("m", 0)
+    const dateToFecth = myTzStartDate
+    const dateToDisplay = new Date(myTzStartDate.format("MMMM DD, YYYY"))
 
-    const tzStartDate = moment.tz(mainConfStartDate, "MMMM DD, YYYY", timezone)
-    tzStartDate.set("h", 0)
-    tzStartDate.set("m", 0)
-
-    setCurrentDateForCalendar(new Date(tzStartDate.toISOString()))
-    setCurrentDateToFetch(tzStartDate)
-  }, [eventTimeBoundary, mainConfStartDate, timezone])
+    setCurrentDateForCalendar(dateToDisplay)
+    setCurrentDateToFetch(dateToFecth)
+  }, [eventTimeBoundary, mainConfStartDate, mainTimezone, timezone])
 
   // fetch data in this effect
   useEffect(() => {
@@ -360,15 +389,28 @@ export default () => {
                 },
               })}
               onNavigate={date => {
-                const tzDate = moment.tz(date, timezone)
-                tzDate.set("h", 0)
-                tzDate.set("m", 0)
+                // const tzDate = moment.tz(date, timezone)
+                // const tzDate = moment(date)
+                // tzDate.set("h", 0)
+                // tzDate.set("m", 0)
+
+                // need 00:00 of the selected timezone from date object
+                // const toBeParsedString = moment(date).format('MMMM DD, YYYY HH:mm')
+                // const toBeFetched = datetime.timezoneParser(toBeParsedString, timezone)
+                // console.log('date', toBeParsedString)
+                // console.log('parsed', toBeFetched)
+                // console.log('parsed ISO', toBeFetched.toISOString())
+
+                const momentOfTimezone = datetime.dateToMomentOfTimezone(
+                  date,
+                  timezone
+                )
 
                 setCurrentDateForCalendar(date)
-                setCurrentDateToFetch(tzDate)
+                setCurrentDateToFetch(momentOfTimezone)
               }}
               components={{
-                toolbar: CustomBar(eventTimeBoundary),
+                toolbar: CustomBar(eventTimeBoundary, timezone),
               }}
               min={minTime}
               max={maxTime}
