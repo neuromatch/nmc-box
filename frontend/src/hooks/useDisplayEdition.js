@@ -15,19 +15,20 @@ const talkFormatLabelColors = {
 };
 
 /**
- * @typedef {Object} MainConfMetadata
+ * @typedef {Object} DisplayEditionData
  * @property {String} edition - the edition of current data
- * @property {String} start - end date for main conference
- * @property {String} end - end date for main conference
+ * @property {String} mainTimezone - main timezone that organizers decide
  * @property {String} text - text of organized date for main conference
- * @property {String[]} eventTimeBoundary - lower and upper boundary of main conference event time based on timezone
+ * @property {String[]} eventTimeBoundary - lower and upper boundary of the specified edition as ISOString
  * @property {Object[]} resourceMap - resources mapping for each edition
  *
  * useDisplayEdition - a function to get data depended on display edition
  * @param {String} edition
- * @returns {{ mainConfMetadata: MainConfMetadata }}
+ * @returns {DisplayEditionData}
  */
 function useDisplayEdition(edition) {
+  const { getStartEndOfAbstracts } = useAPI()
+
   const data = useStaticQuery(graphql`
     query displayEdition {
       allSitedataYaml {
@@ -52,10 +53,10 @@ function useDisplayEdition(edition) {
     }
   `)
 
-  const { getStartEndOfAbstracts } = useAPI()
   const [startEndTime, setStartEnd] = useState({})
-  const [mainConfMetadata, setMainConferenceMetadata] = useState({})
+  const [displayEditionData, setDisplayEditionData] = useState({})
 
+  // side effect to get startend time from an endpoint
   useEffect(() => {
     const getTimePromise = getStartEndOfAbstracts({ edition })
 
@@ -64,12 +65,13 @@ function useDisplayEdition(edition) {
     }
 
     getTimePromise
-    .then(res => res.json())
-    .then(resJson => {
-      setStartEnd(resJson)
-    })
+      .then(res => res.json())
+      .then(resJson => {
+        setStartEnd(resJson)
+      })
   }, [edition, getStartEndOfAbstracts])
 
+  // side effect to get sitedata from config.yml
   useEffect(() => {
     const sitedata = data.allSitedataYaml.edges[0].node
     const {
@@ -77,15 +79,14 @@ function useDisplayEdition(edition) {
       editions,
       main_timezone: mainTimezone,
     } = sitedata
-    const {
-      main_conference: mainConference,
-      tracks,
-    } = editions.find(x => x.edition === (edition || currentEdition))
+    const { tracks } = editions.find(
+      x => x.edition === (edition || currentEdition)
+    )
 
     const { starttime, endtime } = startEndTime
 
     if (!starttime || !endtime) {
-      return;
+      return
     }
 
     const eventTimeBoundary = [
@@ -98,18 +99,15 @@ function useDisplayEdition(edition) {
       resourceTitle: `${track.charAt(0).toUpperCase()}${track.slice(1)}`,
     }))
 
-    // TODO: refactor return object structure
-    // probably split eventTimeBoundary out of this side effect too
-    setMainConferenceMetadata({
+    setDisplayEditionData({
       edition: edition || currentEdition,
       mainTimezone,
-      ...mainConference,
       eventTimeBoundary,
       resourceMap,
     })
   }, [data.allSitedataYaml.edges, edition, startEndTime])
 
-  return { mainConfMetadata }
+  return displayEditionData
 }
 
 export { talkFormatLabelColors }
