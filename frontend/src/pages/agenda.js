@@ -1,10 +1,11 @@
+import { Link } from "gatsby"
 import momentLocalize from "moment"
 import moment from "moment-timezone"
-import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { Calendar, momentLocalizer, Views } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import styled from "styled-components"
+import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 import CommonPageStyles from "../components/BaseComponents/CommonPageStyles"
 import HeadingWithButtonContainer from "../components/BaseComponents/HeadingWithButtonContainer"
 import Layout from "../components/layout"
@@ -14,11 +15,11 @@ import useDisplayEdition, {
   talkFormatLabelColors,
 } from "../hooks/useDisplayEdition"
 import useEventTime from "../hooks/useEventTime"
+import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
-import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 
 // -- CONSTANTS
 const localizer = momentLocalizer(momentLocalize)
@@ -197,6 +198,7 @@ export default () => {
     eventTimeBoundary,
     resourceMap,
   } = mainConfMetadata
+  const { isLoggedIn } = useFirebaseWrapper()
   // -- local states
   const [isLoading, setIsLoading] = useState(true)
   const [agendaData, setAgendaData] = useState([])
@@ -324,10 +326,20 @@ export default () => {
             <Link to="/abstract-browser">Abstract Browser page</Link>.
           </li>
         </ul>
-        {isLoading ? (
+        {isLoading && isLoggedIn !== false ? (
           <NoticeBox>
             Now loading... <Fa icon="sync" spin />
           </NoticeBox>
+        ) : isLoggedIn === false ? (
+          <p
+            css={`
+              text-align: center;
+              border: 2px solid rgb(248, 42, 96);
+              padding: 12px 0;
+            `}
+          >
+            Please register and log-in to view the agenda
+          </p>
         ) : null}
         {tzAgendaData.length === 0 && !isLoading ? (
           <>
