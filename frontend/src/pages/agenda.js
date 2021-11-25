@@ -14,9 +14,10 @@ import useAPI from "../hooks/useAPI"
 import useDisplayEdition, {
   talkFormatLabelColors,
 } from "../hooks/useDisplayEdition"
+import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
 import useSiteMetadata from "../hooks/useSiteMetadata"
 import useTimezone from "../hooks/useTimezone"
-import { basedStyles, growOverParentPadding, media } from "../styles"
+import { growOverParentPadding, media } from "../styles"
 import { datetime } from "../utils"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
@@ -201,6 +202,7 @@ export default () => {
     mainTimezone,
     mainConfDateText,
   } = useDisplayEdition(displayEdition.value)
+  const { isLoggedIn } = useFirebaseWrapper()
   // -- local states
   const [isLoading, setIsLoading] = useState(true)
   const [agendaData, setAgendaData] = useState([])
@@ -322,10 +324,20 @@ export default () => {
             <Link to="/abstract-browser">Abstract Browser page</Link>.
           </li>
         </ul>
-        {isLoading ? (
+        {isLoading && isLoggedIn !== false ? (
           <NoticeBox>
             Now loading... <Fa icon="sync" spin />
           </NoticeBox>
+        ) : isLoggedIn === false ? (
+          <p
+            css={`
+              text-align: center;
+              border: 2px solid rgb(248, 42, 96);
+              padding: 12px 0;
+            `}
+          >
+            Please register and log-in to view the agenda
+          </p>
         ) : null}
         {tzAgendaData.length === 0 && !isLoading ? (
           <>

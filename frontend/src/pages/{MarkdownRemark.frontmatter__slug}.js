@@ -1,9 +1,10 @@
-import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../components/layout"
+import React from "react"
+import { Helmet } from "react-helmet"
 import styled, { createGlobalStyle } from "styled-components"
-import { basedStyles } from "../styles"
+import Layout from "../components/layout"
 import RequiredAuthView from "../components/RequiredAuthView"
+import { basedStyles } from "../styles"
 
 const GlobalStyles = createGlobalStyle`
   ${basedStyles.simpleTableStyle}
@@ -12,6 +13,11 @@ const GlobalStyles = createGlobalStyle`
   table {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  div.twitter-tweet.twitter-tweet-rendered {
+    margin-left: auto;
+    margin-right: auto;
   }
 `
 
@@ -26,6 +32,16 @@ const MarkdownContainer = styled.div`
   }
 `
 
+const TwitterEmbedLoader = () => (
+  <Helmet>
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+  </Helmet>
+)
+
 export default function Template({
   data, // this prop will be injected by the GraphQL query below.
 }) {
@@ -37,10 +53,9 @@ export default function Template({
       <Layout>
         <GlobalStyles />
         <h2>{frontmatter.title}</h2>
-        <MarkdownContainer
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <MarkdownContainer dangerouslySetInnerHTML={{ __html: html }} />
       </Layout>
+      <TwitterEmbedLoader />
     </RequiredAuthView>
   )
 }

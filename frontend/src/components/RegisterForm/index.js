@@ -229,9 +229,10 @@ const RegisterForm = ({ prevUserData, origin }) => {
           common.scrollTo()
 
           if (res.ok) {
-            const message = origin === originEnum.register
-              ? "Your profile has been registered."
-              : "Your profile has been updated."
+            const message =
+              origin === originEnum.register
+                ? "Your profile has been registered."
+                : "Your profile has been updated."
 
             toastControl.current.show(toastTypes.success, message)
           } else {
@@ -351,13 +352,17 @@ const RegisterForm = ({ prevUserData, origin }) => {
             <UncontrolledCheckbox
               name="public"
               register={register()}
-              onChangeCallback={checked => {
+              onChangeCallback={(checked, setIsChecked) => {
                 if (checked) {
                   confirmPromise(
                     "Your pre-filled values below will be gone. Are you sure you do not wish to register as a scientist?"
                   )
                     .then(() => setIsPublic(checked))
-                    .catch(() => setValue("public", false))
+                    .catch(() => {
+                      setValue("public", false)
+                      // revert checked status back
+                      setIsChecked(false)
+                    })
                 } else {
                   setIsPublic(checked)
                 }

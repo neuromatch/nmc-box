@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { color, Fa } from "../../utils"
 
-const StyledSpan = styled(Fa).attrs(() => ({
-  icon: "check-square",
+const StyledSpan = styled(Fa).attrs(p => ({
+  icon: p.checked ? "check-square" : ["far", "square"],
 }))`
   position: absolute;
   top: 0;
@@ -75,7 +75,7 @@ const ControlledCheckbox = ({
         checked={isChecked}
         ref={register}
       />
-      <StyledSpan />
+      <StyledSpan checked={isChecked} />
     </Wrapper>
   )
 }
@@ -93,17 +93,24 @@ ControlledCheckbox.defaultProps = {
   register: () => {},
 }
 
-const UncontrolledCheckbox = ({ name, register, onChangeCallback }) => (
-  <Wrapper>
-    <input
-      name={name}
-      type="checkbox"
-      ref={register}
-      onChange={e => onChangeCallback(e.target.checked)}
-    />
-    <StyledSpan />
-  </Wrapper>
-)
+const UncontrolledCheckbox = ({ name, register, onChangeCallback }) => {
+  const [isChecked, setIsChecked] = useState(false)
+
+  return (
+    <Wrapper>
+      <input
+        name={name}
+        type="checkbox"
+        ref={register}
+        onChange={e => {
+          setIsChecked(prev => !prev)
+          onChangeCallback(e.target.checked, setIsChecked)
+        }}
+      />
+      <StyledSpan checked={isChecked} />
+    </Wrapper>
+  )
+}
 
 UncontrolledCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
