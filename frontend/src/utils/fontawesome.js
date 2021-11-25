@@ -1,4 +1,4 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library } from "@fortawesome/fontawesome-svg-core"
 import {
   faAsterisk,
   faMinusSquare,
@@ -29,10 +29,19 @@ import {
   faSun,
   faMoon,
   faCog,
-} from '@fortawesome/free-solid-svg-icons';
-import { faCalendarPlus, faClock, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faGoogle, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon as Fa } from '@fortawesome/react-fontawesome';
+} from "@fortawesome/free-solid-svg-icons"
+import {
+  faCalendarPlus,
+  faClock,
+  faUser,
+  faSquare,
+} from "@fortawesome/free-regular-svg-icons"
+import {
+  faGoogle,
+  faTwitter,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons"
+import { FontAwesomeIcon as Fa } from "@fortawesome/react-fontawesome"
 
 function initFontAwesome() {
   const icons = [
@@ -71,10 +80,11 @@ function initFontAwesome() {
     faSun,
     faMoon,
     faCog,
-  ];
+    faSquare,
+  ]
 
-  library.add(...icons);
+  library.add(...icons)
 }
 
-export { initFontAwesome };
-export default Fa;
+export { initFontAwesome }
+export default Fa
