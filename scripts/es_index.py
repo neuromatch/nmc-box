@@ -41,6 +41,7 @@ keys_airtable = [
     "url",
     "track",
     "arxiv",
+    "edition",
 ]  # keys that we are interested from Airtable
 
 # all keys related to URL
