@@ -1,7 +1,7 @@
 {
-  "name": "neuromatch",
+  "name": "nmc-box",
   "private": true,
-  "description": "An machine learning based un-conference for neuroscientists. We use machine learning based technique to arrange the online meeting.",
+  "description": "NMC Box: almost ready to deploy virtual conference setup. Use this repo as a template for your conference..",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -95,9 +95,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/neuromatch/acml-2021"
+    "url": "https://github.com/neuromatch/nmc-box"
   },
   "bugs": {
-    "url": "https://github.com/neuromatch/acml-2021/issues"
+    "url": "https://github.com/neuromatch/nmc-box/issues"
   }
 }
