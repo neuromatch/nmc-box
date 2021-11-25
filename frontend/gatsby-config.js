@@ -4,7 +4,7 @@ require("dotenv").config({ path: "../.env" })
 module.exports = {
   proxy: {
     prefix: "/api",
-    url: "http://localhost:8000",
+    url: "http://127.0.0.1:8000",
   },
   siteMetadata: {
     title: "NMC Box",
