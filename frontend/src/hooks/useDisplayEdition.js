@@ -86,14 +86,21 @@ function useDisplayEdition(edition) {
 
     const { starttime, endtime } = startEndTime
 
-    if (!starttime || !endtime) {
+    if (starttime === undefined || endtime === undefined) {
       return
     }
 
-    const eventTimeBoundary = [
-      new Date(starttime).toISOString(),
-      new Date(endtime).toISOString(),
-    ]
+    let eventTimeBoundary
+
+    if (starttime === null && endtime === null) {
+      // no scheduled abstracts on backend yet
+      eventTimeBoundary = [null, null]
+    } else {
+      eventTimeBoundary = [
+        new Date(starttime).toISOString(),
+        new Date(endtime).toISOString(),
+      ]
+    }
 
     const resourceMap = tracks.map(track => ({
       track,

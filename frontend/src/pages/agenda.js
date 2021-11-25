@@ -225,6 +225,11 @@ export default () => {
       return
     }
 
+    if (eventTimeBoundary[0] === null && eventTimeBoundary[1] === null) {
+      setIsLoading(false)
+      return
+    }
+
     const mainTzStartDate = moment.tz(eventTimeBoundary[0], mainTimezone)
     const myTzStartDate = mainTzStartDate.clone().tz(timezone)
     myTzStartDate.set("h", 0)
