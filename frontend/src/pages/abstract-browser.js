@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import { debounce } from "lodash/function"
-import moment from "moment-timezone"
 import PropTypes from "prop-types"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import Select from "react-select"
 import { AutoSizer } from "react-virtualized"
-import styled, { createGlobalStyle } from "styled-components"
+import styled, { createGlobalStyle, css } from "styled-components"
 import AbstractModal from "../components/AbstractBrowser/AbstractModal"
 import AbstractVirtualizedList from "../components/AbstractBrowser/AbstractVirtualizedList"
 import {
@@ -21,11 +20,13 @@ import LoadingView from "../components/BaseComponents/LoadingView"
 import Layout from "../components/layout"
 import TimezoneEditionModal from "../components/TimezoneEditionModal"
 import useAPI from "../hooks/useAPI"
-import useEventTime from "../hooks/useEventTime"
+import useDisplayEdition from "../hooks/useDisplayEdition"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
-import useTimezone, { timezoneParser } from "../hooks/useTimezone"
+import useSiteMetadata from "../hooks/useSiteMetadata"
+import useTimezone from "../hooks/useTimezone"
 import useValidateRegistration from "../hooks/useValidateRegistration"
 import { basedStyles, growOverParentPadding, media } from "../styles"
+import { color, datetime } from "../utils"
 import BasedFa from "../utils/fontawesome"
 
 // -- TYPES
@@ -44,14 +45,6 @@ import BasedFa from "../utils/fontawesome"
  */
 
 // -- FUNCTIONS
-const selectedDatetimeToISO = (dtStr, tz) => {
-  // remove timezone from new Date()
-  const pureDt = dtStr.toString().split(" GMT")?.[0]
-  const momentObj = moment.tz(pureDt, "ddd MMM DD YYYY HH:mm:ss", tz)
-
-  return momentObj.toISOString()
-}
-
 const addParam = (current, newParam) =>
   current.includes("?") ? `${current}&${newParam}` : `?${newParam}`
 
@@ -92,16 +85,6 @@ const fetchWrapper = ({
       setIsFlushing(false)
     })
 }
-
-// -- CONSTANTS
-// TODO: replace with that in useEventTime
-const timeBoundary = [
-  timezoneParser("October 26, 2020 00:00", "UTC").toISOString(),
-  timezoneParser("October 31, 2020 12:00", "UTC").toISOString(),
-]
-
-const utcStartTime = moment.utc(timeBoundary[0])
-const utcEndTime = moment.utc(timeBoundary[1])
 
 // -- COMPONENTS
 // TODO: remove this
@@ -207,6 +190,11 @@ const CustomDatetimePickerInput = React.forwardRef(
       css={`
         font-size: 0.8rem;
         padding: 3px 6px;
+
+        ${value &&
+          css`
+            padding-right: 1.75em;
+          `}
       `}
       onClick={onClick}
     >
@@ -287,6 +275,9 @@ const DatePickersContainer = styled.div`
   .react-datepicker__time-list {
     padding: 0 !important;
   }
+  .react-datepicker__time-list-item {
+    color: ${p => color.scale(p.theme.colors.grey, -50)};
+  }
 `
 
 // -- MAIN
@@ -298,6 +289,15 @@ export default () => {
     getPaginatedAbstractsForBrowser,
   } = useAPI()
   const { isLoggedIn } = useFirebaseWrapper()
+  const {
+    edition: currentEdition,
+    editionName: currentEditionName,
+  } = useSiteMetadata()
+  const [displayEdition, setDisplayEdition] = useState({
+    label: currentEditionName,
+    value: currentEdition,
+  })
+  const { eventTimeBoundary } = useDisplayEdition(displayEdition.value)
 
   // state for holding current view 'default', 'your-votes', 'recommendations', 'personalized'
   const [currentView, setCurrentView] = useState("default")
@@ -327,13 +327,6 @@ export default () => {
   // -- query string
   const [queryString, setQueryString] = useState("")
   const searchInputRef = useRef(null)
-
-  // -- refactor
-  const { currentEdition, currentEditionName } = useEventTime()
-  const [displayEdition, setDisplayEdition] = useState({
-    label: currentEditionName,
-    value: currentEdition,
-  })
 
   // -- debounce fetch for search
   const debounceInputQuery = useCallback(
@@ -385,11 +378,15 @@ export default () => {
     if (startDateTime && endDateTime) {
       params.set(
         "starttime",
-        encodeURIComponent(selectedDatetimeToISO(startDateTime, timezone))
+        encodeURIComponent(
+          datetime.dateToMomentOfTimezone(startDateTime, timezone).toISOString()
+        )
       )
       params.set(
         "endtime",
-        encodeURIComponent(selectedDatetimeToISO(endDateTime, timezone))
+        encodeURIComponent(
+          datetime.dateToMomentOfTimezone(endDateTime, timezone).toISOString()
+        )
       )
     }
 
@@ -495,7 +492,7 @@ export default () => {
             {" located behind the title."}
           </li>
         </ul>
-        {isLoggedIn ? (
+        {isLoggedIn && eventTimeBoundary ? (
           <>
             <TableControlContainer>
               <SearchBoxContainer>
@@ -564,27 +561,14 @@ export default () => {
                   isClearable
                   withPortal
                   selected={startDateTime}
+                  // refactor props below
                   onChange={date => setStartDateTime(date)}
-                  minDate={
-                    new Date(
-                      utcStartTime
-                        .clone()
-                        .tz(timezone)
-                        .format("MMM-DD-yyyy HH:mm")
-                    )
-                  }
-                  maxDate={
-                    new Date(
-                      utcEndTime
-                        .clone()
-                        .tz(timezone)
-                        .format("MMM-DD-yyyy HH:mm")
-                    )
-                  }
+                  minDate={new Date(eventTimeBoundary[0])}
+                  maxDate={new Date(eventTimeBoundary[1])}
                   showTimeSelect
                   dateFormat="MMMM d, yyyy h:mm aa"
                   customInput={<CustomDatetimePickerInput />}
-                  placeholderText="start date time"
+                  placeholderText="start datetime"
                 />
                 &nbsp;
                 <span>To:&nbsp;</span>
@@ -593,26 +577,12 @@ export default () => {
                   withPortal
                   selected={endDateTime}
                   onChange={date => setEndDateTime(date)}
-                  minDate={
-                    new Date(
-                      utcStartTime
-                        .clone()
-                        .tz(timezone)
-                        .format("MMM-DD-yyyy HH:mm")
-                    )
-                  }
-                  maxDate={
-                    new Date(
-                      utcEndTime
-                        .clone()
-                        .tz(timezone)
-                        .format("MMM-DD-yyyy HH:mm")
-                    )
-                  }
+                  minDate={new Date(eventTimeBoundary[0])}
+                  maxDate={new Date(eventTimeBoundary[1])}
                   showTimeSelect
                   dateFormat="MMMM d, yyyy h:mm aa"
                   customInput={<CustomDatetimePickerInput />}
-                  placeholderText="end date time"
+                  placeholderText="end datetime"
                 />
                 &nbsp;
               </DatePickersContainer>

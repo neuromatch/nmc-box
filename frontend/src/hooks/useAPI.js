@@ -206,6 +206,18 @@ function useAPI() {
           })
         : null
     }, [idToken]),
+    getStartEndOfAbstracts: useCallback(
+      ({ edition }) => {
+        return idToken
+          ? fetch(`${endpoints.abstract}/${edition}/startend`, {
+              headers: {
+                ...authHeader(idToken),
+              },
+            })
+          : null
+      },
+      [idToken]
+    ),
   }
 }
 

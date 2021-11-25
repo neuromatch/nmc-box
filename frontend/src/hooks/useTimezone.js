@@ -6,10 +6,6 @@ const timezoneCookieKey = "timezone"
 // guess user timezone
 const defaultGuessZone = moment.tz.guess()
 
-// -- FUNCTION
-const timezoneParser = (dtStr, tz) =>
-  moment.tz(dtStr, "MMMM DD, YYYY HH:mm", tz)
-
 // -- MAIN
 const useTimezone = () => {
   // timezone and cookies
@@ -17,9 +13,8 @@ const useTimezone = () => {
 
   return {
     timezone: cookies[timezoneCookieKey] || defaultGuessZone,
-    setTimezone: (tz) => setCookie(timezoneCookieKey, tz),
+    setTimezone: tz => setCookie(timezoneCookieKey, tz),
   }
 }
 
-export { timezoneParser }
 export default useTimezone

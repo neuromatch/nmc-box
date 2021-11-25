@@ -1,8 +1,9 @@
 import { graphql, useStaticQuery } from "gatsby"
 import { useEffect, useState } from "react"
-import { timezoneParser } from "./useTimezone"
+import useAPI from "./useAPI"
 
 // -- CONSTANTS
+// move all the colors of theme and stuffs here?
 const talkFormatLabelColors = {
   'Contributed talks': '#d0f0fd',
   'Interactive talk': '#d0f0fd',
@@ -14,19 +15,20 @@ const talkFormatLabelColors = {
 };
 
 /**
- * @typedef {Object} MainConfMetadata
+ * @typedef {Object} DisplayEditionData
  * @property {String} edition - the edition of current data
- * @property {String} start - end date for main conference
- * @property {String} end - end date for main conference
- * @property {String} text - text of organized date for main conference
- * @property {String[]} eventTimeBoundary - lower and upper boundary of main conference event time based on timezone
+ * @property {String} mainTimezone - main timezone that organizers decide
+ * @property {String} mainConfDateText - text of organized date for main conference
+ * @property {String[]} eventTimeBoundary - lower and upper boundary of the specified edition as ISOString
  * @property {Object[]} resourceMap - resources mapping for each edition
  *
  * useDisplayEdition - a function to get data depended on display edition
  * @param {String} edition
- * @returns {{ mainConfMetadata: MainConfMetadata }}
+ * @returns {DisplayEditionData}
  */
 function useDisplayEdition(edition) {
+  const { getStartEndOfAbstracts } = useAPI()
+
   const data = useStaticQuery(graphql`
     query displayEdition {
       allSitedataYaml {
@@ -43,10 +45,6 @@ function useDisplayEdition(edition) {
                 end
                 text
               }
-              event_time {
-                start
-                end
-              }
               tracks
             }
           }
@@ -55,8 +53,25 @@ function useDisplayEdition(edition) {
     }
   `)
 
-  const [mainConfMetadata, setMainConferenceMetadata] = useState({})
+  const [startEndTime, setStartEnd] = useState({})
+  const [displayEditionData, setDisplayEditionData] = useState({})
 
+  // side effect to get startend time from an endpoint
+  useEffect(() => {
+    const getTimePromise = getStartEndOfAbstracts({ edition })
+
+    if (!getTimePromise) {
+      return
+    }
+
+    getTimePromise
+      .then(res => res.json())
+      .then(resJson => {
+        setStartEnd(resJson)
+      })
+  }, [edition, getStartEndOfAbstracts])
+
+  // side effect to get sitedata from config.yml
   useEffect(() => {
     const sitedata = data.allSitedataYaml.edges[0].node
     const {
@@ -65,45 +80,43 @@ function useDisplayEdition(edition) {
       main_timezone: mainTimezone,
     } = sitedata
     const {
-      main_conference: mainConference,
-      event_time: eventTime,
       tracks,
+      main_conference: { mainConfDateText },
     } = editions.find(x => x.edition === (edition || currentEdition))
 
-    /**
-     * @description this one is almost identical with mainConfTimeBoundary in useEventTime. There are 2 main differences:
-     * 1) the time to be parsed here is dynamic based on selected edition
-     * 2) this is an instance of Date() because it is only used in agenda (for big calendar component)
-     */
-    const eventTimeBoundary = [
-      new Date(
-        timezoneParser(
-          `${mainConference.start} ${eventTime.start}`,
-          mainTimezone
-        ).toISOString()
-      ),
-      new Date(
-        timezoneParser(
-          `${mainConference.end} ${eventTime.end}`,
-          mainTimezone
-        ).toISOString()
-      ),
-    ]
+    const { starttime, endtime } = startEndTime
 
-    const resourceMap = tracks.map(x => ({
-      track: x,
-      resourceTitle: `${x.charAt(0).toUpperCase()}${x.slice(1)}`,
+    if (starttime === undefined || endtime === undefined) {
+      return
+    }
+
+    let eventTimeBoundary
+
+    if (starttime === null && endtime === null) {
+      // no scheduled abstracts on backend yet
+      eventTimeBoundary = [null, null]
+    } else {
+      eventTimeBoundary = [
+        new Date(starttime).toISOString(),
+        new Date(endtime).toISOString(),
+      ]
+    }
+
+    const resourceMap = tracks.map(track => ({
+      track,
+      resourceTitle: `${track.charAt(0).toUpperCase()}${track.slice(1)}`,
     }))
 
-    setMainConferenceMetadata({
+    setDisplayEditionData({
       edition: edition || currentEdition,
-      ...mainConference,
+      mainTimezone,
+      mainConfDateText,
       eventTimeBoundary,
       resourceMap,
     })
-  }, [data.allSitedataYaml.edges, edition])
+  }, [data.allSitedataYaml.edges, edition, startEndTime])
 
-  return { mainConfMetadata }
+  return displayEditionData
 }
 
 export { talkFormatLabelColors }

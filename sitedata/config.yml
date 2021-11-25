@@ -28,19 +28,18 @@ editions:
     page_title: neuromatch 1.0
     registration_date:
       text: Anytime before March 30, 2020
-      start: null
-      end: March 30, 2020
     submission_date:
       text: March 25, 2020
-      start: null
+      # the only date we need to parse is the end of submission date
+      # this will be used to disable submission form
       end: March 25, 2020
     main_conference:
       text: March 30 - April 1, 2020
+      # these date will be used for AvailableTimePicker
+      # meaning that if no AvailableTimePicker, this is useless
+      # and can be omitted
       start: March 30, 2020
       end: April 1, 2020
-    event_time:
-      start: "08:00"
-      end: "20:00"
     twitter_hashtag: neuromatch2020
     tracks:
       - main
@@ -56,19 +55,13 @@ editions:
     page_title: neuromatch 2.0
     registration_date:
       text: Anytime before May 20, 2020
-      start: null
-      end: May 20, 2020
     submission_date:
       text: April 20 to May 20, 2020
-      start: April 20, 2020
       end: May 20, 2020
     main_conference:
       text: May 25 - 27, 2020
       start: May 25, 2020
       end: May 27, 2020
-    event_time:
-      start: "08:00"
-      end: "20:00"
     twitter_hashtag: neuromatch2020
     tracks:
       - main
@@ -82,19 +75,13 @@ editions:
     page_title: neuromatch 3.0
     registration_date:
       text: Anytime before October 30, 2020
-      start: null
-      end: October 30, 2020
     submission_date:
       text: October 7, 2020 | We welcome all abstracts in any topic area within neuroscience!
-      start: null
       end: October 7, 2020
     main_conference:
       text: October 26 - 30, 2020
       start: October 26, 2020
       end: October 30, 2020
-    event_time:
-      start: "08:00"
-      end: "20:00"
     twitter_hashtag: nmc3
     tracks:
       - stage
@@ -112,19 +99,13 @@ editions:
     page_title: neuromatch box
     registration_date:
       text: Anytime since this is a demo website
-      start: null
-      end: null
     submission_date:
       text: Anytime, try submitting abstract below your profile
-      start: null
       end: null
     main_conference:
       text: Put main conference text in config file
       start: null
       end: null
-    event_time:
-      start: "07:00"
-      end: "21:00"
     twitter_hashtag: nmcbox
     tracks:
       - main

@@ -9,6 +9,7 @@ import logger from './logger';
 import reactSelectHelpers from './reactSelectHelpers';
 import timePickerHelpers from './timePickerHelpers';
 import typography, { rhythm } from './typography';
+import datetime from './datetime';
 
 export {
   check,
@@ -24,4 +25,5 @@ export {
   timePickerHelpers,
   typography,
   rhythm,
+  datetime,
 };

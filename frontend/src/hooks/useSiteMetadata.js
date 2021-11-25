@@ -1,5 +1,4 @@
-import { graphql, useStaticQuery } from 'gatsby';
-import { useEffect, useState } from 'react';
+import { graphql, useStaticQuery } from "gatsby"
 
 /**
  * @typedef siteMetadataObj
@@ -53,45 +52,39 @@ function useSiteMetadata() {
         }
       }
     }
-  `);
+  `)
 
-  const [siteMetadata, setSiteMetadata] = useState({})
+  const sitedata = data.allSitedataYaml.edges[0].node
+  const {
+    current_edition: currentEdition,
+    subtitle,
+    description,
+    name,
+    editions,
+  } = sitedata
+  const {
+    page_title: title,
+    edition,
+    edition_name: editionName,
+    main_conference: { text: mainConfDateText },
+    registration_date: { text: registrationDateText },
+    submission_date: { text: submissionDateText, end: endSubmissionDate },
+    twitter_hashtag: twitterHashtag,
+  } = editions.find(x => x.edition === currentEdition)
 
-  useEffect(() => {
-    const sitedata = data.allSitedataYaml.edges[0].node
-    const {
-      current_edition: currentEdition,
-      subtitle,
-      description,
-      name,
-      editions,
-    } = sitedata
-    const {
-      page_title: title,
-      edition,
-      edition_name: editionName,
-      main_conference: { text: mainConfDateText },
-      registration_date: { text: registrationDateText },
-      submission_date: { text: submissionDateText, end: endSubmissionDate },
-      twitter_hashtag: twitterHashtag,
-    } = editions.find(x => x.edition === currentEdition)
-
-    setSiteMetadata({
-      name,
-      title,
-      subtitle,
-      description,
-      edition,
-      editionName,
-      mainConfDateText,
-      registrationDateText,
-      submissionDateText,
-      endSubmissionDate,
-      twitterHashtag,
-    })
-  }, [data.allSitedataYaml.edges])
-
-  return siteMetadata;
+  return {
+    name,
+    title,
+    subtitle,
+    description,
+    edition,
+    editionName,
+    mainConfDateText,
+    registrationDateText,
+    submissionDateText,
+    endSubmissionDate,
+    twitterHashtag,
+  }
 }
 
-export default useSiteMetadata;
+export default useSiteMetadata

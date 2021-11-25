@@ -14,10 +14,11 @@ import useAPI from "../hooks/useAPI"
 import useDisplayEdition, {
   talkFormatLabelColors,
 } from "../hooks/useDisplayEdition"
-import useEventTime from "../hooks/useEventTime"
 import useFirebaseWrapper from "../hooks/useFirebaseWrapper"
+import useSiteMetadata from "../hooks/useSiteMetadata"
 import useTimezone from "../hooks/useTimezone"
 import { growOverParentPadding, media } from "../styles"
+import { datetime } from "../utils"
 // import useValidateRegistration from '../hooks/useValidateRegistration';
 import Fa from "../utils/fontawesome"
 
@@ -140,23 +141,25 @@ const handleConvertDatetime = (data, tz) => {
 }
 
 // need to make this a curry function to pass eventTimeBoundary in
-const CustomBar = eventTimeBoundary => ({
+const CustomBar = (eventTimeBoundary, timezone) => ({
   /* eslint-disable react/prop-types */
   onNavigate,
   label,
   date,
   /* eslint-enable react/prop-types */
 }) => {
-  if (!eventTimeBoundary) {
+  if (!eventTimeBoundary[0] || !eventTimeBoundary[1] || !timezone) {
     return null
   }
 
-  // eslint-disable-next-line react/prop-types
-  const current = new Date(date.toDateString())
-  const lowerBound = new Date(eventTimeBoundary[0].toDateString())
-  const upperBound = new Date(eventTimeBoundary[1].toDateString())
+  const momentOfTimezone = datetime.dateToMomentOfTimezone(date, timezone)
 
-  // console.log('in CustomBar bound0/date/bound1', lowerBound, current, upperBound)
+  // eslint-disable-next-line react/prop-types
+  const current = momentOfTimezone
+  const lowerBound = moment(eventTimeBoundary[0])
+  // current is at 00:00 of calendar of current timezone
+  // so this checks for overlapping of a day
+  const upperBound = moment(eventTimeBoundary[1]).subtract("24", "hours")
 
   return (
     <div className="rbc-toolbar">
@@ -185,19 +188,20 @@ export default () => {
   const { getAgenda } = useAPI()
   // -- edition related
   const { timezone } = useTimezone()
-  const { currentEdition, currentEditionName } = useEventTime()
+  const {
+    edition: currentEdition,
+    editionName: currentEditionName,
+  } = useSiteMetadata()
   const [displayEdition, setDisplayEdition] = useState({
     label: currentEditionName,
     value: currentEdition,
   })
-  const { mainConfMetadata } = useDisplayEdition(displayEdition.value)
   const {
-    text: mainConfDateText,
-    start: mainConfStartDate,
-    end: mainConfEndDate,
     eventTimeBoundary,
     resourceMap,
-  } = mainConfMetadata
+    mainTimezone,
+    mainConfDateText,
+  } = useDisplayEdition(displayEdition.value)
   const { isLoggedIn } = useFirebaseWrapper()
   // -- local states
   const [isLoading, setIsLoading] = useState(true)
@@ -221,13 +225,21 @@ export default () => {
       return
     }
 
-    const tzStartDate = moment.tz(mainConfStartDate, "MMMM DD, YYYY", timezone)
-    tzStartDate.set("h", 0)
-    tzStartDate.set("m", 0)
+    if (eventTimeBoundary[0] === null && eventTimeBoundary[1] === null) {
+      setIsLoading(false)
+      return
+    }
 
-    setCurrentDateForCalendar(new Date(tzStartDate.toISOString()))
-    setCurrentDateToFetch(tzStartDate)
-  }, [eventTimeBoundary, mainConfStartDate, timezone])
+    const mainTzStartDate = moment.tz(eventTimeBoundary[0], mainTimezone)
+    const myTzStartDate = mainTzStartDate.clone().tz(timezone)
+    myTzStartDate.set("h", 0)
+    myTzStartDate.set("m", 0)
+    const dateToFecth = myTzStartDate
+    const dateToDisplay = new Date(myTzStartDate.format("MMMM DD, YYYY"))
+
+    setCurrentDateForCalendar(dateToDisplay)
+    setCurrentDateToFetch(dateToFecth)
+  }, [eventTimeBoundary, mainTimezone, timezone])
 
   // fetch data in this effect
   useEffect(() => {
@@ -260,22 +272,13 @@ export default () => {
 
     setTzAgendaData(converted)
 
+    // set upper and lower time axis of the calendar
+    // so that it starts and ends when there are events
     if (minT || maxT) {
       setMinTime(minT)
       setMaxTime(maxT)
-    } else {
-      const tzEndDate = moment.tz(mainConfEndDate, "MMMM DD, YYYY", timezone)
-      tzEndDate.set("h", 0)
-      tzEndDate.set("m", 0)
-      setMinTime(new Date(tzEndDate.toISOString()))
-      tzEndDate.set("m", 1)
-      setMaxTime(new Date(tzEndDate.toISOString()))
     }
-  }, [agendaData, mainConfEndDate, timezone])
-
-  // useEffect(() => {
-  //   console.log("tzAgendaData", tzAgendaData)
-  // }, [tzAgendaData])
+  }, [agendaData, timezone])
 
   return (
     <Layout>
@@ -372,15 +375,16 @@ export default () => {
                 },
               })}
               onNavigate={date => {
-                const tzDate = moment.tz(date, timezone)
-                tzDate.set("h", 0)
-                tzDate.set("m", 0)
+                const momentOfTimezone = datetime.dateToMomentOfTimezone(
+                  date,
+                  timezone
+                )
 
                 setCurrentDateForCalendar(date)
-                setCurrentDateToFetch(tzDate)
+                setCurrentDateToFetch(momentOfTimezone)
               }}
               components={{
-                toolbar: CustomBar(eventTimeBoundary),
+                toolbar: CustomBar(eventTimeBoundary, timezone),
               }}
               min={minTime}
               max={maxTime}
