@@ -14,7 +14,7 @@ We hope that our efforts will give a sustainable way to increase the openness, t
 
 ### The team
 
-**Organizers ·** Dan Goodman (Imperial), Konrad Kording (UPenn), Brad Wyble (Penn State), Titipat Achakulvisut (Mahidol U), Chris Rozell (Georgia Tech), Yiota Poirazi (IMBB/FORTH), Megan Peters (UC Irvine), Bing Brunton (U Wash Seattle), Anne Urai (Leiden University), Jennifer Bizley (UCL)<br>
+**Organizers ·** Dan Goodman (Imperial), Konrad Kording (UPenn), Brad Wyble (Penn State), Titipat Achakulvisut (Mahidol U), Chris Rozell (Georgia Tech), Yiota Poirazi (IMBB/FORTH), Megan Peters (UC Irvine), Bing Brunton (U Wash Seattle), Anne Urai (Leiden University), Jennifer Bizley (UCL), Alberto Antonietti (EPFL), Jeremy Forest (New York U and Columbia U)<br>
 **Co-Organizers ·** John Butler (TU Dublin), Melvin Selim (Middle East Technical University), Sarvenaz Sarabipour (John Hopkins U)<br>
 **Tech ·** Tulakan Ruangrong (Mahidol U), Titipat Achakulvisut (Mahidol U)
 
