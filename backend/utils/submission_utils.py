@@ -143,8 +143,8 @@ def get_agenda(
 
 def filter_startend_time(
     responses: list,
-    starttime: str = None,
-    endtime: str = None,
+    starttime: Optional[pd.Timestamp] = None,
+    endtime: Optional[pd.Timestamp] = None,
 ):
     """
     Filter a list by starttime and endtime
@@ -153,8 +153,6 @@ def filter_startend_time(
         return responses
     else:
         # assuming UTC for all given timezones if tzinfo is None, localize by UTC
-        starttime = pd.to_datetime(starttime)
-        endtime = pd.to_datetime(endtime)
         if starttime.tzinfo is None:
             starttime = utc.localize(starttime)
         if endtime.tzinfo is None:
@@ -163,9 +161,11 @@ def filter_startend_time(
         # filtering
         submissions = []
         for hit in responses:
-            if (
-                convert_utc(hit["starttime"]) >= starttime
-                and convert_utc(hit["endtime"]) <= endtime
-            ):
-                submissions.append(hit)
+            # check that starttime and endtime are both available in hit keys
+            if "starttime" in hit.keys() and "endtime" in hit.keys():
+                if (
+                    convert_utc(hit["starttime"]) >= starttime
+                    and convert_utc(hit["endtime"]) <= endtime
+                ):
+                    submissions.append(hit)
         return submissions

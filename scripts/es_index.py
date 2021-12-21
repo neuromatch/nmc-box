@@ -114,6 +114,7 @@ settings_submission = {
                 "abstract": {"type": "text", "analyzer": "edge_ngram_analyzer"},
                 "fullname": {"type": "text", "analyzer": "edge_ngram_analyzer"},
                 "talk_format": {"type": "text", "analyzer": "edge_ngram_analyzer"},
+                "institution": {"type": "text", "analyzer": "edge_ngram_analyzer"},
             }
         }
     },

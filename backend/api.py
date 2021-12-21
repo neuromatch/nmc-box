@@ -483,10 +483,11 @@ async def get_abstracts(
     elif view == "your-votes":
         # Get preference from Firebase and return to frontend
         submission_ids = user_preference
-        submissions = [
-            utils.get_abstract(index=f"agenda-{edition}", id=idx)
-            for idx in submission_ids
-        ]
+        submissions = []
+        for idx in submission_ids:
+            submission = utils.get_abstract(index=f"agenda-{edition}", id=idx)
+            if submission is not None:
+                submissions.append(submission)
         return JSONResponse(
             content={
                 "meta": {
